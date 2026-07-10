@@ -1,0 +1,9 @@
+@use 'sass:math';
+
+@function mpa-rem($pixels, $base: 16) {
+  @return math.div($pixels, $base) * 1rem;
+}
+
+@function mpa-spacing($multiplier) {
+  @return calc(var(--mpa-spacing-unit) * #{$multiplier});
+}

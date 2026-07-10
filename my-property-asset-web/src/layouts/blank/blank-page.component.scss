@@ -1,0 +1,28 @@
+.blank-page {
+  width: min(100%, 28rem);
+  padding: var(--mpa-spacing-2xl);
+  border: 1px solid var(--mpa-color-border);
+  border-radius: var(--mpa-radius-xl);
+  background: var(--mpa-color-surface-elevated);
+  box-shadow: var(--mpa-shadow-md);
+}
+
+.blank-page__code {
+  font-size: clamp(3rem, 8vw, 4.5rem);
+  font-weight: var(--mpa-font-weight-bold);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--mpa-color-primary);
+}
+
+.blank-page__title {
+  font-size: var(--mpa-font-size-xl);
+  font-weight: var(--mpa-font-weight-semibold);
+  color: var(--mpa-color-text);
+}
+
+.blank-page__description {
+  max-width: 24rem;
+  font-size: var(--mpa-font-size-md);
+  line-height: var(--mpa-line-height-relaxed);
+}

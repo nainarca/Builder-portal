@@ -1,0 +1,8 @@
+.layout-page-section {
+  display: block;
+  width: 100%;
+}
+
+.layout-page-section + .layout-page-section {
+  margin-top: calc(var(--mpa-spacing-unit, 0.25rem) * 6);
+}

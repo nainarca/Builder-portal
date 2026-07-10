@@ -1,0 +1,60 @@
+.public-pricing__grid {
+  display: grid;
+  gap: var(--mpa-spacing-lg);
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}
+
+.public-pricing__card {
+  display: grid;
+  gap: var(--mpa-spacing-md);
+  padding: var(--mpa-spacing-xl);
+  border-radius: var(--mpa-radius-xl);
+  border: 1px solid var(--mpa-color-border);
+  background: var(--mpa-color-surface);
+  box-shadow: var(--mpa-shadow-sm);
+}
+
+.public-pricing__card--highlighted {
+  border-color: color-mix(in srgb, var(--mpa-color-primary) 45%, var(--mpa-color-border));
+  box-shadow: var(--mpa-shadow-lg);
+  transform: translateY(-0.15rem);
+}
+
+.public-pricing__name {
+  margin: 0;
+  font-size: var(--mpa-font-size-lg);
+  font-weight: var(--mpa-font-weight-semibold);
+}
+
+.public-pricing__price {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: var(--mpa-spacing-sm);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: var(--mpa-font-weight-bold);
+}
+
+.public-pricing__price small {
+  font-size: var(--mpa-font-size-sm);
+  font-weight: var(--mpa-font-weight-regular);
+  color: var(--mpa-color-text-muted);
+}
+
+.public-pricing__description {
+  margin: 0;
+  color: var(--mpa-color-text-muted);
+}
+
+.public-pricing__features {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--mpa-color-text);
+  display: grid;
+  gap: 0.35rem;
+}
+
+.public-pricing__card a {
+  text-decoration: none;
+  margin-top: auto;
+}

@@ -1,0 +1,34 @@
+@if (dialogState().warningVisible) {
+  <app-modal-shell
+    [title]="dialogTitle()"
+    [visible]="true"
+    [width]="'30rem'"
+    (visibleChange)="onVisibleChange($event)"
+  >
+    <div class="session-expiry" role="alertdialog" aria-live="assertive" aria-modal="true">
+      <div class="session-expiry__ring" [style.--progress]="progressPercent() + '%'">
+        <span class="session-expiry__countdown">{{ formattedRemaining() }}</span>
+      </div>
+
+      <p class="session-expiry__message mpa-body-md">{{ dialogState().message }}</p>
+
+      <p class="session-expiry__hint mpa-body-md">
+        @if (dialogState().expiryReason === 'idle') {
+          Continue interacting with the app to remain signed in.
+        } @else {
+          Extend your session to keep working without interruption.
+        }
+      </p>
+    </div>
+
+    <div modalActions>
+      <app-button
+        [label]="dialogState().expiryReason === 'idle' ? 'Stay signed in' : 'Extend session'"
+        icon="refresh"
+        [loading]="refreshing()"
+        (clicked)="continueSession()"
+      />
+      <app-button label="Dismiss" [text]="true" (clicked)="dismiss()" />
+    </div>
+  </app-modal-shell>
+}

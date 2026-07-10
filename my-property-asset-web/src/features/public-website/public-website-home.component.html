@@ -1,0 +1,78 @@
+<main class="public-home">
+  <app-public-hero-section
+    [eyebrow]="hero.eyebrow"
+    [title]="hero.title"
+    [subtitle]="hero.subtitle"
+    [highlights]="hero.highlights"
+    [primaryCta]="hero.primaryCta"
+    [secondaryCta]="hero.secondaryCta"
+    [logoSrc]="logoSrc()"
+    [logoAlt]="brand.name"
+  />
+
+  <app-public-features-section
+    [sectionId]="sectionIds.features"
+    title="Everything you need to run property operations with confidence"
+    [description]="brand.description"
+    [features]="features"
+  />
+
+  <app-public-benefits-section
+    [sectionId]="sectionIds.benefits"
+    title="Designed for teams who expect more"
+    description="A premium foundation for builders, investors, and operators who need clarity without compromise."
+    [benefits]="benefits"
+  />
+
+  <app-public-statistics-section
+    [sectionId]="sectionIds.statistics"
+    title="Built for scale from day one"
+    [statistics]="statistics"
+  />
+
+  <app-public-how-it-works-section
+    [sectionId]="sectionIds.howItWorks"
+    title="From onboarding to operations in three steps"
+    description="A streamlined path to enterprise-ready property management."
+    [steps]="steps"
+  />
+
+  <app-public-testimonials-section
+    [sectionId]="sectionIds.testimonials"
+    title="Trusted by forward-thinking property teams"
+    [testimonials]="testimonials"
+  />
+
+  <app-public-pricing-preview-section
+    [sectionId]="sectionIds.pricing"
+    title="Flexible plans for every stage of growth"
+    description="Pricing is tailored to your organization. Preview tiers below — full pricing arrives in PUBLIC-002."
+    [tiers]="pricing"
+  />
+
+  <app-public-faq-section
+    [sectionId]="sectionIds.faq"
+    title="Frequently asked questions"
+    [items]="faq"
+  />
+
+  <section class="public-home__contact public-section" [id]="sectionIds.contact" aria-labelledby="public-contact-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center">
+        <span class="public-section__eyebrow">Contact</span>
+        <h2 id="public-contact-title" class="public-section__title">Let us show you the platform</h2>
+        <p class="public-section__description">
+          Share your goals and we will help you evaluate MyPropertyAsset for your organization.
+        </p>
+      </header>
+      <app-public-contact-form />
+    </div>
+  </section>
+
+  <app-public-cta-section
+    [title]="finalCta.title"
+    [description]="finalCta.description"
+    [primaryCta]="finalCta.primaryCta"
+    [secondaryCta]="finalCta.secondaryCta"
+  />
+</main>

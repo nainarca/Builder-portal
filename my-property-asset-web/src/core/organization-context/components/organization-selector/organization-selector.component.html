@@ -1,0 +1,51 @@
+<div class="organization-selector">
+  <button
+    type="button"
+    class="organization-selector__trigger"
+    [class.organization-selector__trigger--static]="!canSwitch()"
+    [attr.aria-expanded]="panelOpen()"
+    [attr.aria-haspopup]="canSwitch() ? 'listbox' : null"
+    [disabled]="switching()"
+    (click)="togglePanel()"
+  >
+    <span class="organization-selector__avatar" aria-hidden="true">{{ initials() }}</span>
+    <span class="organization-selector__copy">
+      <span class="organization-selector__label">Organization</span>
+      <span class="organization-selector__name">{{ displayName() }}</span>
+    </span>
+    @if (canSwitch()) {
+      <app-icon name="chevron-down" size="sm" />
+    }
+  </button>
+
+  @if (panelOpen() && canSwitch()) {
+    <div class="organization-selector__panel" role="listbox" aria-label="Select organization">
+      <p class="organization-selector__panel-title">Switch organization</p>
+      <ul class="organization-selector__list">
+        @for (membership of memberships(); track membership.organizationId) {
+          <li>
+            <button
+              type="button"
+              class="organization-selector__option"
+              [class.organization-selector__option--active]="isActive(membership.organizationId)"
+              role="option"
+              [attr.aria-selected]="isActive(membership.organizationId)"
+              (click)="selectOrganization(membership.organizationId)"
+            >
+              <span class="organization-selector__option-avatar" aria-hidden="true">
+                {{ membership.organizationName.slice(0, 1) }}
+              </span>
+              <span class="organization-selector__option-copy">
+                <strong>{{ membership.organizationName }}</strong>
+                <span>{{ membership.organizationType }}</span>
+              </span>
+              @if (isActive(membership.organizationId)) {
+                <app-icon name="check" size="sm" />
+              }
+            </button>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</div>

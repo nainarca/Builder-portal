@@ -1,0 +1,53 @@
+.session-expiry {
+  display: grid;
+  gap: var(--mpa-spacing-lg);
+  justify-items: center;
+  text-align: center;
+  animation: session-expiry-enter 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.session-expiry__ring {
+  --progress: 100%;
+  position: relative;
+  width: 6.5rem;
+  height: 6.5rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at center, var(--mpa-color-surface) 58%, transparent 59%),
+    conic-gradient(
+      var(--mpa-color-primary) var(--progress),
+      color-mix(in srgb, var(--mpa-color-border) 70%, transparent) 0
+    );
+  box-shadow: 0 12px 30px color-mix(in srgb, var(--mpa-color-primary) 18%, transparent);
+}
+
+.session-expiry__countdown {
+  font-size: var(--mpa-font-size-xl);
+  font-weight: var(--mpa-font-weight-semibold);
+  letter-spacing: 0.04em;
+  color: var(--mpa-color-text);
+}
+
+.session-expiry__message {
+  margin: 0;
+  max-width: 22rem;
+}
+
+.session-expiry__hint {
+  margin: 0;
+  color: var(--mpa-color-text-muted);
+}
+
+@keyframes session-expiry-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

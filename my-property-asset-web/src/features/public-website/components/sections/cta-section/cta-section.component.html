@@ -1,0 +1,24 @@
+<section class="public-cta public-animate-in" aria-labelledby="public-cta-title">
+  <div class="public-cta__container">
+    <h2 id="public-cta-title" class="public-cta__title">{{ title() }}</h2>
+    <p class="public-cta__description">{{ description() }}</p>
+    <div class="public-cta__actions">
+      <a
+        [routerLink]="primaryCta().route"
+        [fragment]="primaryCta().fragment"
+        (click)="trackCta(primaryCta())"
+      >
+        <app-button [label]="primaryCta().label" />
+      </a>
+      @if (secondaryCta(); as secondary) {
+        <a
+          [routerLink]="secondary.route"
+          [fragment]="secondary.fragment"
+          (click)="trackCta(secondary)"
+        >
+          <app-button [label]="secondary.label" [outlined]="true" severity="secondary" />
+        </a>
+      }
+    </div>
+  </div>
+</section>

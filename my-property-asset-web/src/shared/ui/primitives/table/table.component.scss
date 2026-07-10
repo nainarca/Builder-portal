@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+:host ::ng-deep .p-datatable {
+  border: 1px solid var(--mpa-color-border);
+  border-radius: var(--mpa-radius-lg);
+  overflow: hidden;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th {
+  background: var(--mpa-color-surface-muted);
+  color: var(--mpa-color-text-muted);
+  font-size: var(--mpa-font-size-sm);
+  font-weight: var(--mpa-font-weight-semibold);
+}

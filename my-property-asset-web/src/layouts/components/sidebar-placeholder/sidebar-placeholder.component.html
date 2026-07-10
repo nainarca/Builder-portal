@@ -1,0 +1,27 @@
+<aside
+  class="layout-sidebar layout-sidebar-collapsible layout-surface"
+  [class.layout-sidebar-collapsible--collapsed]="collapsed() || sidebarCollapsed()"
+  role="navigation"
+  [attr.aria-label]="ariaLabel()"
+>
+  <div class="layout-sidebar__inner p-3">
+    <div class="layout-sidebar__header flex align-items-center justify-content-between mb-3">
+      <span class="layout-brand">{{ brand() }}</span>
+      <button
+        type="button"
+        class="layout-sidebar__collapse-button"
+        aria-label="Toggle sidebar collapse"
+        [attr.aria-expanded]="!(collapsed() || sidebarCollapsed())"
+        (click)="toggleSidebar()"
+      >
+        <i class="pi pi-angle-left" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    @if (showNavigation()) {
+      <app-sidebar-navigation />
+      <app-favorites-navigation />
+      <app-recent-items-navigation />
+    }
+  </div>
+</aside>

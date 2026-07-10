@@ -1,0 +1,42 @@
+:root {
+  --mpa-breakpoint-mobile: 640px;
+  --mpa-breakpoint-tablet: 1024px;
+  --mpa-breakpoint-desktop: 1280px;
+  --mpa-breakpoint-wide: 1536px;
+}
+
+@mixin mpa-mobile {
+  @media (max-width: 639px) {
+    @content;
+  }
+}
+
+@mixin mpa-tablet {
+  @media (min-width: 640px) and (max-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin mpa-desktop {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin mpa-wide {
+  @media (min-width: 1536px) {
+    @content;
+  }
+}
+
+@mixin mpa-retina {
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    @content;
+  }
+}
+
+@mixin mpa-print {
+  @media print {
+    @content;
+  }
+}

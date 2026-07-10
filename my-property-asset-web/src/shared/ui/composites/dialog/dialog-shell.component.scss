@@ -1,0 +1,25 @@
+:host {
+  display: contents;
+}
+
+:host ::ng-deep .p-dialog {
+  border-radius: var(--mpa-radius-xl);
+  box-shadow: var(--mpa-shadow-xl);
+}
+
+:host ::ng-deep .p-dialog-header {
+  padding: var(--mpa-spacing-lg);
+  border-bottom: 1px solid var(--mpa-color-border);
+}
+
+:host ::ng-deep .p-dialog-content {
+  padding: var(--mpa-spacing-lg);
+}
+
+:host ::ng-deep .p-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--mpa-spacing-sm);
+  padding: var(--mpa-spacing-lg);
+  border-top: 1px solid var(--mpa-color-border);
+}

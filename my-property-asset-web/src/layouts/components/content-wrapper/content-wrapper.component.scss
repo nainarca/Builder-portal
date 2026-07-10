@@ -1,0 +1,14 @@
+.layout-content-wrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--mpa-color-background);
+}
+
+.layout-content-wrapper-host {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}

@@ -1,0 +1,21 @@
+<section class="public-section public-animate-in" [id]="sectionId()" aria-labelledby="public-steps-title">
+  <div class="public-section__container">
+    <header class="public-section__header public-section__header--center">
+      <span class="public-section__eyebrow">{{ eyebrow() }}</span>
+      <h2 id="public-steps-title" class="public-section__title">{{ title() }}</h2>
+      <p class="public-section__description">{{ description() }}</p>
+    </header>
+
+    <ol class="public-steps">
+      @for (step of steps(); track step.id) {
+        <li class="public-steps__item">
+          <span class="public-steps__number" aria-hidden="true">{{ step.step }}</span>
+          <div>
+            <h3 class="public-steps__title">{{ step.title }}</h3>
+            <p class="public-steps__description">{{ step.description }}</p>
+          </div>
+        </li>
+      }
+    </ol>
+  </div>
+</section>

@@ -1,0 +1,30 @@
+<section class="public-section public-animate-in" [id]="sectionId()" aria-labelledby="public-pricing-title">
+  <div class="public-section__container">
+    <header class="public-section__header public-section__header--center">
+      <span class="public-section__eyebrow">{{ eyebrow() }}</span>
+      <h2 id="public-pricing-title" class="public-section__title">{{ title() }}</h2>
+      <p class="public-section__description">{{ description() }}</p>
+    </header>
+
+    <div class="public-pricing__grid">
+      @for (tier of tiers(); track tier.id) {
+        <article class="public-pricing__card" [class.public-pricing__card--highlighted]="tier.highlighted">
+          <h3 class="public-pricing__name">{{ tier.name }}</h3>
+          <p class="public-pricing__price">
+            <span>{{ tier.price }}</span>
+            <small>{{ tier.period }}</small>
+          </p>
+          <p class="public-pricing__description">{{ tier.description }}</p>
+          <ul class="public-pricing__features">
+            @for (feature of tier.features; track feature) {
+              <li>{{ feature }}</li>
+            }
+          </ul>
+          <a routerLink="/auth/login" (click)="trackTier(tier)">
+            <app-button [label]="tier.ctaLabel" [outlined]="!tier.highlighted" />
+          </a>
+        </article>
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,21 @@
+<footer class="public-footer layout-footer layout-surface" role="contentinfo">
+  <div class="public-footer__container">
+    <div class="public-footer__top">
+      <div class="public-footer__brand">
+        <span class="public-footer__name">{{ brand.name }}</span>
+        <p class="public-footer__tagline">{{ tagline }}</p>
+      </div>
+
+      <app-public-newsletter-form />
+
+      <nav class="public-footer__nav" aria-label="Footer navigation">
+        <app-footer-navigation />
+      </nav>
+    </div>
+
+    <div class="public-footer__bottom">
+      <span>&copy; {{ year }} {{ brand.name }}. All rights reserved.</span>
+      <span class="public-footer__note">Built for enterprise property operations.</span>
+    </div>
+  </div>
+</footer>

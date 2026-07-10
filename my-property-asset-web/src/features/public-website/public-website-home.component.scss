@@ -1,0 +1,12 @@
+:host {
+  display: block;
+}
+
+.public-home {
+  display: grid;
+  gap: 0;
+}
+
+.public-home__contact {
+  background: var(--mpa-color-surface-muted);
+}

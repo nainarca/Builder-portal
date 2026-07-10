@@ -1,0 +1,39 @@
+.public-testimonials {
+  background: var(--mpa-color-surface-muted);
+}
+
+.public-testimonials__grid {
+  display: grid;
+  gap: var(--mpa-spacing-lg);
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+}
+
+.public-testimonials__card {
+  margin: 0;
+  padding: var(--mpa-spacing-xl);
+  border-radius: var(--mpa-radius-xl);
+  border: 1px solid var(--mpa-color-border);
+  background: var(--mpa-color-surface);
+  box-shadow: var(--mpa-shadow-sm);
+}
+
+.public-testimonials__quote {
+  margin: 0 0 var(--mpa-spacing-lg);
+  font-size: var(--mpa-font-size-lg);
+  line-height: var(--mpa-line-height-relaxed);
+  color: var(--mpa-color-text);
+}
+
+.public-testimonials__author {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.public-testimonials__name {
+  font-weight: var(--mpa-font-weight-semibold);
+}
+
+.public-testimonials__meta {
+  color: var(--mpa-color-text-muted);
+  font-size: var(--mpa-font-size-sm);
+}

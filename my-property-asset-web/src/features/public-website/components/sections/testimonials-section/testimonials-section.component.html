@@ -1,0 +1,20 @@
+<section class="public-section public-testimonials public-animate-in" [id]="sectionId()" aria-labelledby="public-testimonials-title">
+  <div class="public-section__container">
+    <header class="public-section__header public-section__header--center">
+      <span class="public-section__eyebrow">{{ eyebrow() }}</span>
+      <h2 id="public-testimonials-title" class="public-section__title">{{ title() }}</h2>
+    </header>
+
+    <div class="public-testimonials__grid">
+      @for (item of testimonials(); track item.id) {
+        <figure class="public-testimonials__card">
+          <blockquote class="public-testimonials__quote">“{{ item.quote }}”</blockquote>
+          <figcaption class="public-testimonials__author">
+            <span class="public-testimonials__name">{{ item.author }}</span>
+            <span class="public-testimonials__meta">{{ item.role }}, {{ item.organization }}</span>
+          </figcaption>
+        </figure>
+      }
+    </div>
+  </div>
+</section>

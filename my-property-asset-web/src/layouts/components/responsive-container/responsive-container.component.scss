@@ -1,0 +1,32 @@
+@use '../../../theme/scss/tokens/breakpoints' as bp;
+
+.layout-responsive-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.layout-responsive-container--public {
+  flex-direction: column;
+}
+
+.layout-responsive-container--authenticated {
+  flex-direction: row;
+}
+
+.layout-responsive-container--blank {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.layout-responsive-container--authenticated.layout-responsive-container--sidebar-collapsed {
+  .layout-sidebar {
+    width: var(--mpa-layout-sidebar-width-collapsed);
+  }
+}
+
+@include bp.mpa-mobile {
+  .layout-responsive-container--authenticated {
+    flex-direction: column;
+  }
+}

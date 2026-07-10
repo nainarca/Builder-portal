@@ -1,0 +1,99 @@
+.public-section {
+  position: relative;
+  padding-block: clamp(3rem, 8vw, 6rem);
+}
+
+.public-section__container {
+  width: min(100%, var(--mpa-layout-content-max-width));
+  margin-inline: auto;
+  padding-inline: var(--mpa-layout-page-padding);
+}
+
+.public-section__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mpa-spacing-sm);
+  margin-bottom: var(--mpa-spacing-md);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--mpa-radius-full);
+  background: var(--mpa-color-primary-subtle);
+  color: var(--mpa-color-primary);
+  font-size: var(--mpa-font-size-sm);
+  font-weight: var(--mpa-font-weight-medium);
+  letter-spacing: 0.02em;
+}
+
+.public-section__title {
+  margin: 0 0 var(--mpa-spacing-md);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: var(--mpa-font-weight-semibold);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--mpa-color-text);
+}
+
+.public-section__description {
+  margin: 0;
+  max-width: 42rem;
+  font-size: var(--mpa-font-size-lg);
+  line-height: var(--mpa-line-height-relaxed);
+  color: var(--mpa-color-text-muted);
+}
+
+.public-section__header {
+  display: grid;
+  gap: var(--mpa-spacing-md);
+  margin-bottom: clamp(2rem, 5vw, 3rem);
+}
+
+.public-section__header--center {
+  text-align: center;
+  justify-items: center;
+}
+
+.public-grid {
+  display: grid;
+  gap: var(--mpa-spacing-lg);
+}
+
+.public-grid--2 {
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}
+
+.public-grid--3 {
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+}
+
+.public-grid--4 {
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .public-animate-in {
+    animation: public-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .public-animate-in--delay-1 {
+    animation-delay: 0.08s;
+  }
+
+  .public-animate-in--delay-2 {
+    animation-delay: 0.16s;
+  }
+
+  .public-animate-in--delay-3 {
+    animation-delay: 0.24s;
+  }
+}
+
+@keyframes public-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

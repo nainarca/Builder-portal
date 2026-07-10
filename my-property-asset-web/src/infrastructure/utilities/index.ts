@@ -1,0 +1,11 @@
+export { createUuid } from './uuid.utils';
+export { BrowserDetectionService } from './services/browser-detection.service';
+export { ClipboardService } from './services/clipboard.service';
+export { ConnectivityService } from './services/connectivity.service';
+export { DeviceDetectionService } from './services/device-detection.service';
+export { DocumentTitleService } from './services/document-title.service';
+export { DownloadManagerService } from './services/download-manager.service';
+export { IdGeneratorService } from './services/id-generator.service';
+export { MetaTagService } from './services/meta-tag.service';
+export { PrintService } from './services/print.service';
+export { WindowResizeService } from './services/window-resize.service';

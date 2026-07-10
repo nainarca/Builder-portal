@@ -1,0 +1,25 @@
+<app-page-section [ariaLabel]="routeTitle() ?? title()">
+  @if (pageVariant() === 'maintenance') {
+    <app-maintenance-state
+      [title]="routeTitle() ?? title()"
+      [description]="routeDescription() ?? description()"
+    />
+  } @else if ((routeCode() ?? code()) === 500) {
+    <app-friendly-error
+      [title]="routeTitle() ?? title()"
+      [message]="routeDescription() ?? description()"
+      actionLabel="Try again"
+      (action)="reload()"
+    />
+  } @else {
+    <div class="blank-page flex flex-column align-items-center gap-3 text-center">
+      @if (routeCode() ?? code(); as statusCode) {
+        <p class="blank-page__code m-0">{{ statusCode }}</p>
+      }
+      <h1 class="blank-page__title m-0">{{ routeTitle() ?? title() }}</h1>
+      <p class="blank-page__description m-0 text-color-secondary">
+        {{ routeDescription() ?? description() }}
+      </p>
+    </div>
+  }
+</app-page-section>

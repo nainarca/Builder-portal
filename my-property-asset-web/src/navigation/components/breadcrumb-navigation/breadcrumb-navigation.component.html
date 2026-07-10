@@ -1,0 +1,28 @@
+@if (items().length > 0) {
+  <nav class="breadcrumb-navigation" role="navigation" aria-label="Breadcrumb">
+    <ol class="breadcrumb-navigation__list">
+      @for (item of items(); track item.id) {
+        <li class="breadcrumb-navigation__item">
+          @if (item.isActive || !item.route) {
+            <span
+              class="breadcrumb-navigation__current"
+              [attr.aria-current]="item.isActive ? 'page' : null"
+            >
+              @if (item.icon) {
+                <i [class]="item.icon" aria-hidden="true"></i>
+              }
+              {{ item.label }}
+            </span>
+          } @else {
+            <a class="breadcrumb-navigation__link" [routerLink]="item.route">
+              @if (item.icon) {
+                <i [class]="item.icon" aria-hidden="true"></i>
+              }
+              {{ item.label }}
+            </a>
+          }
+        </li>
+      }
+    </ol>
+  </nav>
+}

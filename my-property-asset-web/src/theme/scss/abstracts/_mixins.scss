@@ -1,0 +1,22 @@
+@use 'variables' as *;
+
+@mixin mpa-focus-ring {
+  outline: 2px solid var(#{$css-var-prefix}-color-focus);
+  outline-offset: 2px;
+}
+
+@mixin mpa-theme-surface {
+  background-color: var(#{$css-var-prefix}-color-surface);
+  color: var(#{$css-var-prefix}-color-text);
+}
+
+@mixin mpa-sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: var(#{$css-var-prefix}-z-index-sticky);
+}
+
+@mixin mpa-scrollable {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}

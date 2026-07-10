@@ -1,0 +1,23 @@
+<div class="auth-form-field">
+  <label class="auth-form-field__label" [for]="inputId()">{{ label() }}</label>
+
+  <app-input-text
+    [inputId]="inputId()"
+    [name]="inputId()"
+    [type]="type()"
+    [placeholder]="placeholder()"
+    [invalid]="showError()"
+    [value]="control().value"
+    [autocomplete]="autocomplete()"
+    (valueChange)="control().setValue($event)"
+    (valueChange)="control().markAsTouched()"
+  />
+
+  @if (hint() && !showError()) {
+    <p class="auth-form-field__hint">{{ hint() }}</p>
+  }
+
+  @if (showError()) {
+    <p class="auth-form-field__error" role="alert">{{ errorMessage() }}</p>
+  }
+</div>

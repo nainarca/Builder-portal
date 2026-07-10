@@ -1,0 +1,18 @@
+:root {
+  --mpa-z-index-base: 0;
+  --mpa-z-index-dropdown: 100;
+  --mpa-z-index-sticky: 200;
+  --mpa-z-index-overlay: 900;
+  --mpa-z-index-drawer: 950;
+  --mpa-z-index-modal: 1000;
+  --mpa-z-index-toast: 1100;
+  --mpa-z-index-tooltip: 1200;
+  --mpa-icon-size-sm: 1rem;
+  --mpa-icon-size-md: 1.25rem;
+  --mpa-icon-size-lg: 1.5rem;
+  --mpa-icon-size-xl: 2rem;
+  --mpa-opacity-disabled: 0.45;
+  --mpa-opacity-muted: 0.72;
+  --mpa-opacity-overlay: 0.45;
+  --mpa-opacity-hover: 0.08;
+}

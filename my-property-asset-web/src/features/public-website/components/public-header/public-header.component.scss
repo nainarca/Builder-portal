@@ -1,0 +1,93 @@
+.public-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--mpa-z-index-header, 40);
+  transition:
+    box-shadow var(--mpa-transition-fast),
+    backdrop-filter var(--mpa-transition-fast),
+    background-color var(--mpa-transition-fast);
+}
+
+.public-header--scrolled {
+  backdrop-filter: blur(14px);
+  background: color-mix(in srgb, var(--mpa-layout-header-bg) 88%, transparent);
+  box-shadow: var(--mpa-shadow-header);
+}
+
+.public-header__inner {
+  min-height: var(--mpa-layout-header-height);
+}
+
+.public-header__brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.public-header__logo {
+  width: auto;
+  height: 2rem;
+}
+
+.public-header__menu-button,
+.public-header__theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mpa-spacing-sm);
+  min-height: 2.25rem;
+  padding-inline: 0.65rem;
+  border: 0;
+  border-radius: var(--mpa-radius-md);
+  background: transparent;
+  color: var(--mpa-color-text-muted);
+  cursor: pointer;
+  transition:
+    background-color var(--mpa-transition-fast),
+    color var(--mpa-transition-fast);
+}
+
+.public-header__menu-button:hover,
+.public-header__theme-toggle:hover {
+  background: var(--mpa-color-surface-muted);
+  color: var(--mpa-color-text);
+}
+
+.public-header__theme-label {
+  font-size: var(--mpa-font-size-sm);
+}
+
+.public-header__sign-in {
+  text-decoration: none;
+}
+
+.public-header__mobile-panel {
+  display: grid;
+  gap: var(--mpa-spacing-md);
+  padding: var(--mpa-spacing-md) var(--mpa-spacing-lg) var(--mpa-spacing-lg);
+  border-top: 1px solid var(--mpa-color-border);
+  background: var(--mpa-color-surface);
+}
+
+.public-header__mobile-sign-in {
+  text-decoration: none;
+}
+
+@media (min-width: 1024px) {
+  .public-header__menu-button {
+    display: none;
+  }
+
+  .public-header__mobile-panel {
+    display: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .public-header__navigation app-top-navigation,
+  .public-header__navigation app-quick-actions,
+  .public-header__navigation .public-header__sign-in,
+  .public-header__theme-label {
+    display: none;
+  }
+}

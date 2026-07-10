@@ -1,0 +1,10 @@
+.mpa-high-contrast {
+  --mpa-color-border: #000000;
+  --mpa-color-border-strong: #000000;
+  --mpa-color-text-muted: var(--mpa-color-text);
+}
+
+[data-theme-resolved='dark'].mpa-high-contrast {
+  --mpa-color-border: #ffffff;
+  --mpa-color-border-strong: #ffffff;
+}

@@ -1,0 +1,46 @@
+<div class="auth-hero">
+  <div class="auth-hero__backdrop"></div>
+  <div class="auth-hero__grid"></div>
+
+  <div class="auth-hero__content">
+    <img
+      class="auth-hero__logo"
+      [src]="logoSrc()"
+      [alt]="logoAlt"
+      [width]="logoWidth"
+      [height]="logoHeight"
+    />
+
+    <p class="mpa-eyebrow">Enterprise Property Platform</p>
+
+    <h1 class="auth-hero__title">
+      Manage property assets with clarity and confidence
+    </h1>
+
+    <p class="auth-hero__subtitle mpa-body-lg">
+      MyPropertyAsset brings portfolio visibility, operational control, and investor-ready reporting into one premium workspace.
+    </p>
+
+    <ul class="auth-hero__highlights">
+      @for (item of highlights; track item) {
+        <li>
+          <span class="auth-hero__bullet" aria-hidden="true"></span>
+          <span>{{ item }}</span>
+        </li>
+      }
+    </ul>
+
+    <div class="auth-hero__illustration" aria-hidden="true">
+      <div class="auth-hero__orb auth-hero__orb--primary"></div>
+      <div class="auth-hero__orb auth-hero__orb--accent"></div>
+      <div class="auth-hero__panel">
+        <div class="auth-hero__panel-line auth-hero__panel-line--wide"></div>
+        <div class="auth-hero__panel-line"></div>
+        <div class="auth-hero__panel-line"></div>
+        <div class="auth-hero__panel-chart">
+          <span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

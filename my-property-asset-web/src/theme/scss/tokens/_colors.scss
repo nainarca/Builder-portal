@@ -1,0 +1,33 @@
+:root {
+  --mpa-color-primary: #1a56db;
+  --mpa-color-primary-hover: #1648b8;
+  --mpa-color-primary-contrast: #ffffff;
+  --mpa-color-primary-subtle: #eff6ff;
+  --mpa-color-secondary: #475569;
+  --mpa-color-secondary-hover: #334155;
+  --mpa-color-secondary-contrast: #ffffff;
+  --mpa-color-accent: #0ea5e9;
+  --mpa-color-accent-hover: #0284c7;
+  --mpa-color-accent-contrast: #ffffff;
+  --mpa-color-success: #059669;
+  --mpa-color-success-contrast: #ffffff;
+  --mpa-color-warning: #d97706;
+  --mpa-color-warning-contrast: #ffffff;
+  --mpa-color-danger: #dc2626;
+  --mpa-color-danger-contrast: #ffffff;
+  --mpa-color-info: #2563eb;
+  --mpa-color-info-contrast: #ffffff;
+  --mpa-color-surface: #ffffff;
+  --mpa-color-surface-elevated: #ffffff;
+  --mpa-color-surface-muted: #f8fafc;
+  --mpa-color-background: #f4f6f9;
+  --mpa-color-text: #0f172a;
+  --mpa-color-text-muted: #64748b;
+  --mpa-color-border: #e8edf3;
+  --mpa-color-border-strong: #d5dde8;
+  --mpa-color-focus: #1a56db;
+  --mpa-layout-header-bg: var(--mpa-color-surface);
+  --mpa-layout-sidebar-bg: var(--mpa-color-surface);
+  --mpa-layout-footer-bg: var(--mpa-color-surface);
+  --mpa-layout-chrome-border: var(--mpa-color-border);
+}

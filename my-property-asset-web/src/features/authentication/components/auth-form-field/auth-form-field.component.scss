@@ -1,0 +1,26 @@
+.auth-form-field {
+  display: grid;
+  gap: var(--mpa-spacing-xs);
+}
+
+.auth-form-field__label {
+  font-size: var(--mpa-font-size-sm);
+  font-weight: var(--mpa-font-weight-medium);
+  color: var(--mpa-color-text);
+}
+
+.auth-form-field__hint {
+  margin: 0;
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-text-muted);
+}
+
+.auth-form-field__error {
+  margin: 0;
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-danger);
+}
+
+:host ::ng-deep .p-inputtext {
+  width: 100%;
+}

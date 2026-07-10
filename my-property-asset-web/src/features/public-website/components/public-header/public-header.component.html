@@ -1,0 +1,56 @@
+<header
+  class="public-header layout-header layout-surface"
+  [class.public-header--scrolled]="scrolled()"
+  role="banner"
+>
+  <div class="public-header__inner flex align-items-center justify-content-between px-4 gap-3">
+    <div class="public-header__brand-group flex align-items-center gap-3">
+      <button
+        type="button"
+        class="public-header__menu-button mpa-focus-visible"
+        aria-label="Open navigation menu"
+        [attr.aria-expanded]="mobileMenuOpen()"
+        (click)="toggleMobileNavigation()"
+      >
+        <i class="pi pi-bars" aria-hidden="true"></i>
+      </button>
+
+      <a routerLink="/" class="public-header__brand mpa-focus-visible" aria-label="MyPropertyAsset home">
+        <img
+          class="public-header__logo"
+          [src]="logoSrc()"
+          [alt]="brand.logo?.alt ?? brand.name"
+          width="160"
+          height="40"
+        />
+      </a>
+    </div>
+
+    <div class="public-header__navigation flex align-items-center gap-3 flex-1 justify-content-end">
+      <app-top-navigation />
+      <app-quick-actions />
+      <button
+        type="button"
+        class="public-header__theme-toggle mpa-focus-visible"
+        [attr.aria-label]="'Theme: ' + themeModeLabel()"
+        (click)="cycleThemeMode()"
+      >
+        <i class="pi pi-sun" aria-hidden="true"></i>
+        <span class="public-header__theme-label">{{ themeModeLabel() }}</span>
+      </button>
+      <a routerLink="/auth/login" class="public-header__sign-in">
+        <app-button label="Sign in" [outlined]="true" severity="secondary" />
+      </a>
+    </div>
+  </div>
+
+  @if (mobileMenuOpen()) {
+    <div class="public-header__mobile-panel" role="dialog" aria-label="Mobile navigation">
+      <app-top-navigation />
+      <app-quick-actions />
+      <a routerLink="/auth/login" class="public-header__mobile-sign-in">
+        <app-button label="Sign in" />
+      </a>
+    </div>
+  }
+</header>

@@ -1,0 +1,8 @@
+<footer class="layout-footer layout-surface" role="contentinfo">
+  <div class="layout-footer__inner px-4 py-3 flex flex-column gap-3">
+    @if (showNavigation()) {
+      <app-footer-navigation />
+    }
+    <span>&copy; {{ brand() }}</span>
+  </div>
+</footer>

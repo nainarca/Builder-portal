@@ -1,0 +1,70 @@
+<div class="public-contact-form">
+  <h3 class="public-contact-form__title">Contact our team</h3>
+  <p class="public-contact-form__description">
+    Tell us about your organization. This form validates locally and is ready for backend integration.
+  </p>
+
+  @if (state().submitted) {
+    <p class="public-contact-form__success" role="status">
+      Thank you for reaching out. A member of our team will respond when contact delivery is enabled.
+    </p>
+  } @else {
+    <app-form-container>
+      <div class="public-contact-form__grid">
+        <label for="contact-name">
+          <span>Name</span>
+          <app-input-text
+            inputId="contact-name"
+            name="contact-name"
+            autocomplete="name"
+            [value]="state().name"
+            (valueChange)="updateField('name', $event)"
+          />
+        </label>
+        <label for="contact-email">
+          <span>Email</span>
+          <app-input-text
+            inputId="contact-email"
+            type="email"
+            name="contact-email"
+            autocomplete="email"
+            [value]="state().email"
+            (valueChange)="updateField('email', $event)"
+          />
+        </label>
+        <label for="contact-company">
+          <span>Company</span>
+          <app-input-text
+            inputId="contact-company"
+            name="contact-company"
+            autocomplete="organization"
+            [value]="state().company"
+            (valueChange)="updateField('company', $event)"
+          />
+        </label>
+        <label class="public-contact-form__message" for="contact-message">
+          <span>Message</span>
+          <textarea
+            id="contact-message"
+            class="public-contact-form__textarea mpa-focus-visible"
+            name="contact-message"
+            rows="4"
+            [value]="state().message"
+            (input)="updateField('message', $any($event.target).value)"
+          ></textarea>
+        </label>
+      </div>
+
+      @if (state().error) {
+        <p class="public-contact-form__error" role="alert">{{ state().error }}</p>
+      }
+
+      <app-button
+        label="Send message"
+        [loading]="state().submitting"
+        [disabled]="state().submitting"
+        (clicked)="submit()"
+      />
+    </app-form-container>
+  }
+</div>

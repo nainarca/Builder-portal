@@ -1,0 +1,18 @@
+.auth-remember-me {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mpa-spacing-sm);
+  cursor: pointer;
+  user-select: none;
+}
+
+.auth-remember-me__input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--mpa-color-primary);
+}
+
+.auth-remember-me__label {
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-text-muted);
+}

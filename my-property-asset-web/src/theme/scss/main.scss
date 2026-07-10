@@ -1,0 +1,25 @@
+@use 'abstracts';
+@use 'tokens';
+@use 'themes';
+@use 'utilities';
+@use 'layouts/responsive';
+@use 'components/theme-overrides';
+@use 'accessibility';
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: var(--mpa-font-family);
+  color: var(--mpa-color-text);
+  background-color: var(--mpa-color-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}

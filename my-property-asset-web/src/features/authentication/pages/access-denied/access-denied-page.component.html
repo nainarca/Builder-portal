@@ -1,0 +1,8 @@
+<app-auth-form-card title="Access denied" [subtitle]="subtitle()">
+  <app-error-state
+    title="Insufficient access"
+    [description]="description()"
+    actionLabel="Return to sign in"
+    (action)="goToLogin()"
+  />
+</app-auth-form-card>

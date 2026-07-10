@@ -1,0 +1,10 @@
+:root {
+  --mpa-animation-duration-fast: 150ms;
+  --mpa-animation-duration-normal: 250ms;
+  --mpa-animation-duration-slow: 400ms;
+  --mpa-animation-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --mpa-animation-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --mpa-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --mpa-transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --mpa-transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}

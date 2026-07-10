@@ -1,0 +1,11 @@
+.layout-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--mpa-layout-chrome-border);
+  background-color: var(--mpa-layout-footer-bg);
+  color: var(--mpa-color-text-muted);
+  font-size: var(--mpa-font-size-sm);
+}
+
+.layout-footer__inner {
+  min-height: 3.25rem;
+}

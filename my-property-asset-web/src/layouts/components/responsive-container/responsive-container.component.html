@@ -1,0 +1,8 @@
+<div
+  class="layout-responsive-container"
+  [class.layout-responsive-container--public]="variant() === 'public'"
+  [class.layout-responsive-container--authenticated]="variant() === 'authenticated'"
+  [class.layout-responsive-container--blank]="variant() === 'blank'"
+>
+  <ng-content />
+</div>

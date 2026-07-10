@@ -1,0 +1,22 @@
+@use '../tokens/breakpoints' as bp;
+
+html,
+body {
+  min-height: 100%;
+}
+
+@include bp.mpa-mobile {
+  .layout-responsive-container--authenticated {
+    flex-direction: column;
+  }
+}
+
+@include bp.mpa-print {
+  .layout-header-host,
+  .layout-sidebar-host,
+  .layout-footer-host,
+  app-navigation-drawer,
+  app-navigation-overlay {
+    display: none !important;
+  }
+}

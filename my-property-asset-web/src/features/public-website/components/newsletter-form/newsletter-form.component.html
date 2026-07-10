@@ -1,0 +1,38 @@
+<div class="public-newsletter">
+  <h3 class="public-newsletter__title">Stay in the loop</h3>
+  <p class="public-newsletter__description">
+    Product updates and platform insights. No backend integration yet — submissions are validated client-side.
+  </p>
+
+  @if (state().submitted) {
+    <p class="public-newsletter__success" role="status">
+      Thank you. We will be in touch when newsletter delivery is enabled.
+    </p>
+  } @else {
+    <app-form-container layout="inline">
+      <label class="public-newsletter__field" for="newsletter-email">
+        <span class="sr-only">Email address</span>
+        <app-input-text
+          inputId="newsletter-email"
+          type="email"
+          name="newsletter-email"
+          placeholder="you@company.com"
+          autocomplete="email"
+          [value]="state().email"
+          [invalid]="!!state().error"
+          (valueChange)="updateEmail($event)"
+        />
+      </label>
+      <app-button
+        label="Subscribe"
+        [loading]="state().submitting"
+        [disabled]="state().submitting"
+        (clicked)="submit()"
+      />
+    </app-form-container>
+
+    @if (state().error) {
+      <p class="public-newsletter__error" role="alert">{{ state().error }}</p>
+    }
+  }
+</div>

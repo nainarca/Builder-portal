@@ -1,0 +1,16 @@
+<section class="auth-form-card" aria-labelledby="auth-card-title">
+  @if (eyebrow()) {
+    <p class="auth-form-card__eyebrow mpa-eyebrow">{{ eyebrow() }}</p>
+  }
+
+  <header class="auth-form-card__header">
+    <h1 id="auth-card-title" class="auth-form-card__title mpa-display-md">{{ title() }}</h1>
+    @if (subtitle()) {
+      <p class="auth-form-card__subtitle mpa-body-md">{{ subtitle() }}</p>
+    }
+  </header>
+
+  <div class="auth-form-card__body">
+    <ng-content />
+  </div>
+</section>

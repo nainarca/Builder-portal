@@ -1,0 +1,52 @@
+.session-refresh-indicator {
+  position: fixed;
+  right: var(--mpa-spacing-lg);
+  bottom: var(--mpa-spacing-lg);
+  z-index: calc(var(--mpa-z-index-overlay) + 5);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mpa-spacing-md);
+  padding: 0.85rem 1rem;
+  border-radius: var(--mpa-radius-full);
+  border: 1px solid color-mix(in srgb, var(--mpa-color-primary) 24%, transparent);
+  background: color-mix(in srgb, var(--mpa-color-surface-elevated, var(--mpa-color-surface)) 88%, transparent);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
+  animation: session-refresh-enter 0.35s ease;
+}
+
+.session-refresh-indicator__spinner {
+  display: inline-flex;
+  color: var(--mpa-color-primary);
+  animation: session-refresh-spin 1s linear infinite;
+}
+
+.session-refresh-indicator__copy {
+  display: grid;
+  gap: 0.15rem;
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-text-muted);
+}
+
+.session-refresh-indicator__copy strong {
+  color: var(--mpa-color-text);
+  font-weight: var(--mpa-font-weight-semibold);
+}
+
+@keyframes session-refresh-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes session-refresh-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

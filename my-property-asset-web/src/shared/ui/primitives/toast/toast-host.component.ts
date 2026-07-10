@@ -1,0 +1,10 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Toast } from 'primeng/toast';
+
+@Component({
+  selector: 'app-toast-host',
+  imports: [Toast],
+  template: `<p-toast position="top-right" />`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class ToastHostComponent {}

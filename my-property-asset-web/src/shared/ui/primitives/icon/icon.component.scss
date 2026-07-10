@@ -1,0 +1,28 @@
+:host {
+  display: contents;
+}
+
+.ui-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  color: inherit;
+  font-size: var(--ui-icon-size, var(--mpa-icon-size-md));
+}
+
+.ui-icon--sm {
+  --ui-icon-size: var(--mpa-icon-size-sm);
+}
+
+.ui-icon--md {
+  --ui-icon-size: var(--mpa-icon-size-md);
+}
+
+.ui-icon--lg {
+  --ui-icon-size: var(--mpa-icon-size-lg);
+}
+
+.ui-icon--xl {
+  --ui-icon-size: var(--mpa-icon-size-xl);
+}

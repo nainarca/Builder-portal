@@ -1,0 +1,20 @@
+.root-layout {
+  display: block;
+  min-height: 100vh;
+}
+
+.root-layout__skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 1000;
+  padding: 0.75rem 1rem;
+  background: var(--mpa-color-primary, #1e3a5f);
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 0.25rem;
+}
+
+.root-layout__skip-link:focus {
+  top: 1rem;
+}

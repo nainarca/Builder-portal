@@ -1,0 +1,11 @@
+@if (visible()) {
+  <div class="session-refresh-indicator" role="status" aria-live="polite">
+    <span class="session-refresh-indicator__spinner" aria-hidden="true">
+      <app-icon name="refresh" />
+    </span>
+    <div class="session-refresh-indicator__copy">
+      <strong>{{ label() }}</strong>
+      <span>{{ message() }}</span>
+    </div>
+  </div>
+}

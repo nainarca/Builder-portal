@@ -1,0 +1,242 @@
+flutter comments
+================
+flutter doctor
+flutter clean
+flutter pub get
+flutter devices
+flutter run -d chrome
+
+If you're using the devOwner flavor (recommended)
+flutter run --flavor devOwner
+or
+flutter run --flavor devOwner -t lib/main_dev_owner.dart
+
+Build Debug APK
+flutter build apk --debug --flavor devOwner
+
+build/app/outputs/flutter-apk/
+
+Build Release APK
+
+flutter build apk --release --flavor devOwner
+
+Build App Bundle (Google Play)
+
+flutter build appbundle --flavor devOwner
+
+If Build Fails
+
+flutter clean
+flutter pub get
+dart run build_runner build --delete-conflicting-outputs
+flutter run --flavor devOwner
+
+
+I Can Give You the Exact Commands
+
+If you paste your project's pubspec.yaml and android/app/build.gradle (or build.gradle.kts) and tell me:
+
+your Flutter version (flutter --version)
+your main entry files (for example lib/main_dev_owner.dart, lib/main.dart, etc.)
+
+I'll give you the exact run and APK build commands for your project, with no guesswork.
+
+
+The previous response was interrupted due to an API connection error.
+
+Please continue from exactly where you stopped.
+
+Important:
+
+- Do NOT restart the document.
+- Do NOT regenerate completed sections.
+- Preserve all previous architectural decisions.
+- Continue only from the first incomplete section.
+- Finish the remaining sections.
+- Keep all previously approved architecture LOCKED.
+
+
+
+
+Prompt 1 — Standard Flutter Cleanup Prompt
+===================================================
+
+You are acting as the Senior Flutter Technical Lead for this project.
+
+A feature implementation has completed successfully.
+
+Now perform a CLEANUP PASS only.
+
+Rules:
+
+1. Do NOT change business logic.
+2. Do NOT change database queries.
+3. Do NOT change Supabase RPC names.
+4. Do NOT change Riverpod architecture.
+5. Do NOT rename files.
+6. Do NOT redesign UI.
+7. Do NOT modify functionality.
+8. Do NOT add new features.
+9. Do NOT remove existing code.
+
+Only fix analyzer warnings and safe code-quality issues.
+
+Fix only:
+
+- unused imports
+- unnecessary casts
+- unnecessary non-null assertions
+- prefer_const_constructors
+- prefer_const_literals_to_create_immutables
+- prefer_const_declarations
+- prefer_final_locals
+- unnecessary braces in string interpolation
+- avoid_redundant_argument_values
+- require_trailing_commas
+- inference_failure_on_function_invocation
+- inference_failure_on_instance_creation
+- unused_result
+- unnecessary_import
+- unnecessary_parenthesis
+- redundant arguments
+- deprecated Flutter APIs where replacement is straightforward
+- formatting issues
+
+Do NOT suppress lints.
+
+Do NOT ignore warnings.
+
+Do NOT introduce breaking changes.
+
+Run flutter analyze mentally after each file.
+
+Provide:
+
+1. Files modified
+2. Warnings fixed
+3. Remaining warnings requiring manual review
+4. Confirmation that business logic is unchanged.
+
+
+
+Prompt 2 — Safe Deprecated API Upgrade
+========================================
+
+Upgrade deprecated Flutter APIs only.
+
+Examples:
+
+withOpacity() -> withValues()
+
+value: -> initialValue:
+
+activeColor -> activeThumbColor / activeTrackColor
+
+anonKey -> publishableKey
+
+cacheExtent -> scrollCacheExtent
+
+Replace only official Flutter deprecations.
+
+Do not modify any business logic.
+
+Do not modify UI behaviour.
+
+Do not redesign widgets.
+
+Provide a migration summary.
+
+
+Prompt 3 — Unused Code Cleanup
+==================================
+Perform a safe cleanup pass.
+
+Remove only:
+
+- unused imports
+- unused variables
+- unused private methods
+- unused local variables
+
+Do not remove any public APIs.
+
+Do not remove providers.
+
+Do not remove models.
+
+Do not remove repository interfaces.
+
+Do not remove RPC wrappers.
+
+Produce a report of removed code.
+
+
+Prompt 4 — Analyzer Fix Pass
+=============================
+
+Run a project-wide analyzer fix pass.
+
+Fix only warnings that can be corrected automatically.
+
+Do NOT change:
+
+- business logic
+- SQL
+- Supabase
+- Providers
+- Routing
+- Models
+- Database schema
+
+Focus only on analyzer recommendations.
+
+After completion provide:
+
+Errors fixed:
+Warnings fixed:
+Infos fixed:
+Remaining issues:
+Files modified:
+
+
+Prompt 5 — Final Quality Gate
+===============================
+
+You are the Lead Flutter Architect.
+
+Perform the final quality gate.
+
+Check:
+
+✅ flutter analyze
+
+✅ flutter test
+
+✅ build_runner conflicts
+
+✅ unused imports
+
+✅ deprecated APIs
+
+✅ Riverpod providers
+
+✅ provider disposal
+
+✅ async BuildContext
+
+✅ memory leaks
+
+✅ duplicate code
+
+✅ formatting
+
+✅ performance
+
+Do NOT modify business logic.
+
+Generate a report:
+
+Critical Issues
+Warnings
+Suggestions
+Ready for Merge?

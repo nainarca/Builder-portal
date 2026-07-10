@@ -1,0 +1,43 @@
+@use '../../theme/scss/tokens/breakpoints' as bp;
+
+.layout-surface {
+  background-color: var(--mpa-color-surface);
+  color: var(--mpa-color-text);
+}
+
+.layout-brand {
+  font-weight: var(--mpa-font-weight-semibold);
+  font-size: var(--mpa-font-size-lg);
+  letter-spacing: -0.01em;
+  color: var(--mpa-color-text);
+}
+
+.layout-scrollable {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.layout-sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--mpa-z-index-sticky);
+}
+
+.layout-sidebar-collapsible {
+  transition: width var(--mpa-transition-normal);
+
+  &.layout-sidebar-collapsible--collapsed {
+    width: var(--mpa-layout-sidebar-width-collapsed);
+  }
+}
+
+@include bp.mpa-mobile {
+  .layout-authenticated {
+    flex-direction: column;
+
+    .layout-authenticated__sidebar {
+      width: 100%;
+      min-height: auto;
+    }
+  }
+}

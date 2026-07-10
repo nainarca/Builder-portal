@@ -1,0 +1,21 @@
+<aside
+  class="navigation-drawer layout-surface"
+  role="dialog"
+  [attr.aria-label]="ariaLabel()"
+  [attr.aria-modal]="drawerOpen() || mobileMenuOpen() ? 'true' : null"
+>
+  <div class="navigation-drawer__header flex align-items-center justify-content-between p-3">
+    <span class="layout-brand">Navigation</span>
+    <button
+      type="button"
+      class="navigation-drawer__close"
+      aria-label="Close navigation drawer"
+      (click)="close()"
+    >
+      <i class="pi pi-times" aria-hidden="true"></i>
+    </button>
+  </div>
+  <div class="navigation-drawer__content p-3">
+    <app-sidebar-navigation />
+  </div>
+</aside>

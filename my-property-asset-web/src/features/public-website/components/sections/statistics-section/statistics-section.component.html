@@ -1,0 +1,14 @@
+<section class="public-section public-animate-in" [id]="sectionId()" aria-labelledby="public-stats-title">
+  <div class="public-section__container">
+    <header class="public-section__header public-section__header--center">
+      <span class="public-section__eyebrow">{{ eyebrow() }}</span>
+      <h2 id="public-stats-title" class="public-section__title">{{ title() }}</h2>
+    </header>
+
+    <div class="public-grid public-grid--4">
+      @for (stat of statistics(); track stat.id) {
+        <app-stat-card [data]="{ label: stat.label, value: stat.value, hint: stat.hint }" />
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,125 @@
+.platform-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mpa-spacing-md);
+  padding: var(--mpa-spacing-sm) var(--mpa-spacing-lg);
+  border-bottom: 1px solid var(--mpa-color-border);
+  font-size: var(--mpa-font-size-sm);
+  line-height: var(--mpa-line-height-normal);
+  animation: platform-slide-down var(--mpa-transition-normal) ease;
+}
+
+.platform-banner__content {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--mpa-spacing-sm);
+  min-width: 0;
+}
+
+.platform-banner__title {
+  font-weight: var(--mpa-font-weight-semibold);
+}
+
+.platform-banner__message {
+  color: var(--mpa-color-text-muted);
+}
+
+.platform-banner--offline {
+  background: color-mix(in srgb, var(--mpa-color-warning) 12%, var(--mpa-color-surface));
+  color: var(--mpa-color-text);
+}
+
+.platform-banner--maintenance {
+  background: color-mix(in srgb, var(--mpa-color-info) 10%, var(--mpa-color-surface));
+}
+
+.platform-banner--announcement-info {
+  background: var(--mpa-color-primary-subtle);
+}
+
+.platform-banner--announcement-warning {
+  background: color-mix(in srgb, var(--mpa-color-warning) 12%, var(--mpa-color-surface));
+}
+
+.platform-banner--announcement-critical {
+  background: color-mix(in srgb, var(--mpa-color-danger) 10%, var(--mpa-color-surface));
+}
+
+.platform-banner--error {
+  background: color-mix(in srgb, var(--mpa-color-danger) 10%, var(--mpa-color-surface));
+}
+
+.platform-global-loading {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--mpa-z-index-overlay) + 10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--mpa-color-surface) 70%, transparent);
+  backdrop-filter: blur(3px);
+  animation: platform-fade-in var(--mpa-transition-fast) ease;
+}
+
+.platform-page-loading {
+  position: sticky;
+  top: 0;
+  z-index: var(--mpa-z-index-sticky);
+  height: 3px;
+  overflow: hidden;
+  background: var(--mpa-color-border);
+}
+
+.platform-page-loading__bar {
+  width: 35%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--mpa-color-primary),
+    transparent
+  );
+  animation: platform-page-progress 1.2s ease-in-out infinite;
+}
+
+@keyframes platform-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes platform-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes platform-page-progress {
+  0% {
+    transform: translateX(-120%);
+  }
+
+  100% {
+    transform: translateX(320%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .platform-banner,
+  .platform-global-loading,
+  .platform-page-loading__bar {
+    animation: none;
+  }
+}

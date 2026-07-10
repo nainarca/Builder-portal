@@ -1,0 +1,173 @@
+.public-hero {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(4rem, 10vw, 7rem);
+  color: var(--mpa-color-text);
+}
+
+.public-hero__backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 20%, color-mix(in srgb, var(--mpa-color-primary) 18%, transparent), transparent 42%),
+    radial-gradient(circle at 85% 10%, color-mix(in srgb, var(--mpa-color-accent) 16%, transparent), transparent 38%),
+    linear-gradient(180deg, var(--mpa-color-surface-muted) 0%, var(--mpa-color-surface) 100%);
+}
+
+.public-hero__grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--mpa-color-border) 70%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--mpa-color-border) 70%, transparent) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.85), transparent 92%);
+}
+
+.public-hero__container {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+  width: min(100%, var(--mpa-layout-content-max-width));
+  margin-inline: auto;
+  padding-inline: var(--mpa-layout-page-padding);
+}
+
+@media (min-width: 960px) {
+  .public-hero__container {
+    grid-template-columns: 1.05fr 0.95fr;
+  }
+}
+
+.public-hero__content {
+  display: grid;
+  gap: var(--mpa-spacing-lg);
+}
+
+.public-hero__logo {
+  width: auto;
+  height: 2.75rem;
+}
+
+.public-hero__title {
+  margin: 0;
+  font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+  font-weight: var(--mpa-font-weight-semibold);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.public-hero__subtitle {
+  margin: 0;
+  max-width: 36rem;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: var(--mpa-line-height-relaxed);
+  color: var(--mpa-color-text-muted);
+}
+
+.public-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mpa-spacing-md);
+}
+
+.public-hero__actions a {
+  text-decoration: none;
+}
+
+.public-hero__highlights {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--mpa-spacing-sm);
+}
+
+.public-hero__highlights li {
+  display: flex;
+  align-items: center;
+  gap: var(--mpa-spacing-sm);
+  color: var(--mpa-color-text);
+}
+
+.public-hero__bullet {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--mpa-color-accent);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--mpa-color-accent) 20%, transparent);
+}
+
+.public-hero__visual {
+  position: relative;
+  min-height: 18rem;
+}
+
+.public-hero__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(2px);
+}
+
+.public-hero__orb--primary {
+  width: 12rem;
+  height: 12rem;
+  top: 1rem;
+  right: 2rem;
+  background: color-mix(in srgb, var(--mpa-color-primary) 35%, transparent);
+}
+
+.public-hero__orb--accent {
+  width: 8rem;
+  height: 8rem;
+  bottom: 0;
+  left: 1rem;
+  background: color-mix(in srgb, var(--mpa-color-accent) 35%, transparent);
+}
+
+.public-hero__panel {
+  position: absolute;
+  inset: auto 0 0 auto;
+  width: min(100%, 20rem);
+  padding: var(--mpa-spacing-lg);
+  border-radius: var(--mpa-radius-xl);
+  border: 1px solid var(--mpa-color-border);
+  background: color-mix(in srgb, var(--mpa-color-surface) 82%, transparent);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--mpa-shadow-xl);
+}
+
+.public-hero__panel-line {
+  height: 0.55rem;
+  border-radius: var(--mpa-radius-full);
+  background: color-mix(in srgb, var(--mpa-color-text) 12%, transparent);
+  margin-bottom: var(--mpa-spacing-sm);
+
+  &--wide {
+    width: 72%;
+    background: color-mix(in srgb, var(--mpa-color-primary) 28%, transparent);
+  }
+}
+
+.public-hero__panel-chart {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: end;
+  gap: var(--mpa-spacing-sm);
+  margin-top: var(--mpa-spacing-md);
+  height: 4.5rem;
+}
+
+.public-hero__panel-chart span {
+  display: block;
+  border-radius: var(--mpa-radius-sm) var(--mpa-radius-sm) 0 0;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--mpa-color-primary) 55%, white), var(--mpa-color-primary));
+}
+
+.public-hero__panel-chart span:nth-child(1) { height: 42%; }
+.public-hero__panel-chart span:nth-child(2) { height: 68%; }
+.public-hero__panel-chart span:nth-child(3) { height: 54%; }
+.public-hero__panel-chart span:nth-child(4) { height: 88%; }

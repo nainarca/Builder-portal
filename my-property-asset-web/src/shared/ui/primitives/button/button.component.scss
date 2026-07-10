@@ -1,0 +1,7 @@
+:host {
+  display: inline-flex;
+}
+
+:host ::ng-deep .p-button {
+  font-weight: var(--mpa-font-weight-medium);
+}

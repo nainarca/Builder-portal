@@ -1,0 +1,14 @@
+:root,
+[data-theme-resolved='light'] {
+  color-scheme: light;
+}
+
+[data-theme-resolved='light'] {
+  --mpa-color-surface: #ffffff;
+  --mpa-color-surface-muted: #f8fafc;
+  --mpa-color-background: #f1f5f9;
+  --mpa-color-text: #1a1a2e;
+  --mpa-color-text-muted: #64748b;
+  --mpa-color-border: #e2e8f0;
+  --mpa-color-border-strong: #cbd5e1;
+}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none" role="img" aria-label="MyPropertyAsset">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="55%" stop-color="#1a56db"/>
+      <stop offset="100%" stop-color="#0ea5e9"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <text x="80" y="300" fill="#ffffff" font-family="Segoe UI, system-ui, sans-serif" font-size="72" font-weight="600">MyPropertyAsset</text>
+  <text x="80" y="380" fill="rgba(255,255,255,0.82)" font-family="Segoe UI, system-ui, sans-serif" font-size="34">Enterprise property asset management</text>
+</svg>

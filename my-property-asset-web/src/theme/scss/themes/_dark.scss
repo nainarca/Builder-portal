@@ -1,0 +1,17 @@
+[data-theme-resolved='dark'] {
+  color-scheme: dark;
+  --mpa-color-surface: #0f172a;
+  --mpa-color-surface-elevated: #1e293b;
+  --mpa-color-surface-muted: #1e293b;
+  --mpa-color-background: #020617;
+  --mpa-color-text: #f8fafc;
+  --mpa-color-text-muted: #94a3b8;
+  --mpa-color-border: #334155;
+  --mpa-color-border-strong: #475569;
+  --mpa-color-primary-subtle: #172554;
+  --mpa-layout-header-bg: var(--mpa-color-surface);
+  --mpa-layout-sidebar-bg: var(--mpa-color-surface);
+  --mpa-layout-footer-bg: var(--mpa-color-surface);
+  --mpa-layout-chrome-border: var(--mpa-color-border);
+  --mpa-shadow-header: 0 1px 0 rgb(0 0 0 / 25%);
+}

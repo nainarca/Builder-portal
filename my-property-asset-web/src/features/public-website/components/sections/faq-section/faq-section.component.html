@@ -1,0 +1,17 @@
+<section class="public-section public-animate-in" [id]="sectionId()" aria-labelledby="public-faq-title">
+  <div class="public-section__container">
+    <header class="public-section__header public-section__header--center">
+      <span class="public-section__eyebrow">{{ eyebrow() }}</span>
+      <h2 id="public-faq-title" class="public-section__title">{{ title() }}</h2>
+    </header>
+
+    <div class="public-faq__list">
+      @for (item of items(); track item.id) {
+        <details class="public-faq__item">
+          <summary class="public-faq__question">{{ item.question }}</summary>
+          <p class="public-faq__answer">{{ item.answer }}</p>
+        </details>
+      }
+    </div>
+  </div>
+</section>

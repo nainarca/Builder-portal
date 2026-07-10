@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($env:PATH)",
+      "Read(//tmp/**)",
+      "Bash(awk '{print length\\($0\\), $0}')"
+    ]
+  }
+}
