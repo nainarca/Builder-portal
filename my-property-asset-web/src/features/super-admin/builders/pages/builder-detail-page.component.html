@@ -1,0 +1,24 @@
+<app-base-page>
+  @if (builder(); as b) {
+    <div class="bldr-page bldr-page--detail">
+      <app-bldr-header [builder]="b" />
+      <div class="bldr-detail-layout">
+        <div class="bldr-detail-layout__main">
+          <app-bldr-overview [builder]="b" />
+          <app-bldr-branding-summary [builder]="b" />
+          <app-bldr-contacts-panel [contacts]="contacts()" />
+          <app-bldr-activity-timeline [items]="activities()" />
+          <app-bldr-audit-summary [items]="audits()" />
+        </div>
+        <aside class="bldr-detail-layout__aside">
+          <app-bldr-status-panel [builder]="b" [history]="statusHistory()" (statusChange)="onStatusChange($event)" />
+        </aside>
+      </div>
+    </div>
+  } @else {
+    <div class="bldr-page bldr-page--empty">
+      <h1 class="ui-page-title">Builder not found</h1>
+      <p class="ui-page-subtitle">The requested builder does not exist or was removed.</p>
+    </div>
+  }
+</app-base-page>

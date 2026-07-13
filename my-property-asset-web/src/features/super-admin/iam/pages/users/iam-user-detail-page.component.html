@@ -1,0 +1,27 @@
+<app-base-page>
+  @if (user(); as u) {
+    <div class="iam-page iam-page--detail">
+      <app-iam-section-nav />
+      <app-iam-user-header [user]="u" />
+      <div class="iam-detail-layout">
+        <div class="iam-detail-layout__main">
+          <app-iam-user-overview [user]="u" />
+          <app-iam-user-permission-summary [user]="u" />
+          @if (security(); as sec) {
+            <app-iam-user-access-review [user]="u" [security]="sec" />
+          }
+          <app-iam-activity-timeline [items]="activities()" />
+          <app-iam-user-audit-summary [items]="audits()" />
+        </div>
+        <aside class="iam-detail-layout__aside">
+          <app-iam-user-status-panel [user]="u" [history]="statusHistory()" (statusChange)="onStatusChange($event)" />
+        </aside>
+      </div>
+    </div>
+  } @else {
+    <div class="iam-page iam-page--empty">
+      <h1 class="ui-page-title">User not found</h1>
+      <p class="ui-page-subtitle">The requested user does not exist or was removed.</p>
+    </div>
+  }
+</app-base-page>

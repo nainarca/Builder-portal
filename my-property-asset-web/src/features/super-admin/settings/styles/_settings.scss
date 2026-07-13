@@ -1,0 +1,47 @@
+// Platform Settings & Configuration
+
+.cfg-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-xl);
+  animation: ui-fade-in var(--mpa-transition-normal) ease;
+}
+
+.cfg-page--section {
+  gap: var(--mpa-spacing-lg);
+}
+
+.cfg-dashboard-toolbar {
+  max-width: 28rem;
+}
+
+.cfg-dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 18rem;
+  gap: var(--mpa-spacing-xl);
+  align-items: start;
+}
+
+.cfg-dashboard-grid__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-xl);
+}
+
+.cfg-dashboard-grid__aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-lg);
+  position: sticky;
+  top: var(--mpa-spacing-lg);
+}
+
+@media (max-width: 1024px) {
+  .cfg-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cfg-dashboard-grid__aside {
+    position: static;
+  }
+}

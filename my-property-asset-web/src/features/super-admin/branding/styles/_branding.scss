@@ -1,0 +1,109 @@
+// White-label & Branding Management
+
+.wl-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-xl);
+  animation: ui-fade-in var(--mpa-transition-normal) ease;
+}
+
+.wl-page--studio { gap: var(--mpa-spacing-lg); }
+
+.wl-section-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mpa-spacing-xs);
+  padding: var(--mpa-spacing-xs);
+  border: 1px solid var(--mpa-color-border);
+  border-radius: var(--mpa-radius-lg);
+  background: var(--mpa-color-surface-muted);
+}
+
+.wl-section-nav__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--mpa-radius-md);
+  color: var(--mpa-color-text-muted);
+  text-decoration: none;
+  font-size: var(--mpa-font-size-sm);
+  transition: all var(--mpa-transition-fast);
+  &:hover { color: var(--mpa-color-text); background: var(--mpa-color-surface); }
+  &--active { color: var(--mpa-color-primary); background: var(--mpa-color-primary-subtle); font-weight: var(--mpa-font-weight-medium); }
+}
+
+.wl-dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 18rem;
+  gap: var(--mpa-spacing-xl);
+  align-items: start;
+}
+
+.wl-dashboard-grid__main { display: flex; flex-direction: column; gap: var(--mpa-spacing-xl); }
+.wl-dashboard-grid__aside { display: flex; flex-direction: column; gap: var(--mpa-spacing-lg); position: sticky; top: var(--mpa-spacing-lg); }
+
+.wl-dashboard-brands__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: var(--mpa-spacing-md);
+  margin-top: var(--mpa-spacing-md);
+}
+
+.wl-studio-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mpa-spacing-xs);
+}
+
+.wl-studio-nav__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--mpa-color-border);
+  border-radius: var(--mpa-radius-full);
+  background: transparent;
+  color: var(--mpa-color-text-muted);
+  font-size: var(--mpa-font-size-sm);
+  cursor: pointer;
+  transition: all var(--mpa-transition-fast);
+  &:hover { border-color: var(--mpa-color-border-strong); color: var(--mpa-color-text); }
+  &--active { border-color: color-mix(in srgb, var(--mpa-color-primary) 40%, transparent); background: var(--mpa-color-primary-subtle); color: var(--mpa-color-primary); }
+}
+
+.wl-studio-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(20rem, 42%);
+  gap: var(--mpa-spacing-xl);
+  align-items: start;
+}
+
+.wl-studio-layout__editor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-lg);
+  padding: var(--mpa-spacing-lg);
+  border: 1px solid var(--mpa-color-border);
+  border-radius: var(--mpa-radius-xl);
+  background: var(--mpa-color-surface-elevated);
+}
+
+.wl-studio-layout__preview {
+  position: sticky;
+  top: var(--mpa-spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-md);
+}
+
+.wl-studio-preview-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-sm);
+}
+
+@media (max-width: 1200px) {
+  .wl-dashboard-grid, .wl-studio-layout { grid-template-columns: 1fr; }
+  .wl-dashboard-grid__aside, .wl-studio-layout__preview { position: static; }
+}

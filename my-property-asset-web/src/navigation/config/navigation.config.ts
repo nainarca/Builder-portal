@@ -181,7 +181,7 @@ export const SUPER_ADMIN_NAVIGATION: NavigationConfiguration = createConfigurati
   {
     id: 'sa-builders',
     label: 'Builders',
-    route: '/super-admin',
+    route: '/super-admin/builders',
     icon: 'pi pi-building',
     metadata: {
       permissions: ['id-02-builder-onboarding:read'],
@@ -189,13 +189,33 @@ export const SUPER_ADMIN_NAVIGATION: NavigationConfiguration = createConfigurati
     },
   },
   {
+    id: 'sa-iam',
+    label: 'Identity & Access',
+    route: '/super-admin/iam/users',
+    icon: 'pi pi-users',
+    metadata: {
+      permissions: ['id-14-user-identity-access:read'],
+      analyticsName: 'sa_iam_nav',
+    },
+  },
+  {
+    id: 'sa-branding',
+    label: 'Branding',
+    route: '/super-admin/branding',
+    icon: 'pi pi-palette',
+    metadata: {
+      permissions: ['id-04-white-label-branding:read'],
+      analyticsName: 'sa_branding_nav',
+    },
+  },
+  {
     id: 'sa-platform',
-    label: 'Platform Operations',
-    route: '/super-admin',
+    label: 'Platform Settings',
+    route: '/super-admin/settings',
     icon: 'pi pi-cog',
     metadata: {
-      permissions: ['id-06-platform-operations:full'],
-      analyticsName: 'sa_platform_nav',
+      permissions: ['id-06-platform-operations:read'],
+      analyticsName: 'sa_settings_nav',
     },
   },
 ]);

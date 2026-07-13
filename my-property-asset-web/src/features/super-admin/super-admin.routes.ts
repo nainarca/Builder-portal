@@ -27,6 +27,26 @@ export const SUPER_ADMIN_ROUTES: Routes = [
             (m) => m.ORGANIZATION_ADMIN_ROUTE_CHILDREN,
           ),
       },
+      {
+        path: 'builders',
+        loadChildren: () =>
+          import('./builders/builders.routes').then((m) => m.BUILDER_ADMIN_ROUTE_CHILDREN),
+      },
+      {
+        path: 'iam',
+        loadChildren: () =>
+          import('./iam/iam.routes').then((m) => m.IAM_ADMIN_ROUTE_CHILDREN),
+      },
+      {
+        path: 'branding',
+        loadChildren: () =>
+          import('./branding/branding.routes').then((m) => m.BRANDING_ADMIN_ROUTE_CHILDREN),
+      },
+      {
+        path: 'settings',
+        loadChildren: () =>
+          import('./settings/settings.routes').then((m) => m.SETTINGS_ADMIN_ROUTE_CHILDREN),
+      },
     ],
   },
 ];

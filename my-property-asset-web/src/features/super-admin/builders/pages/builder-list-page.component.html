@@ -1,0 +1,49 @@
+<app-base-page>
+  <div class="bldr-page">
+    <app-page-header eyebrow="Super Admin" title="Builders"
+      description="Manage builder organizations — onboarding, profiles, branding, and platform relationships.">
+      <app-authorized-button pageActions label="Create builder" icon="plus"
+        permission="id-02-builder-onboarding:operate" (clicked)="createBuilder()" />
+    </app-page-header>
+
+    <app-bldr-bulk-actions [count]="listState.selectedIds().length" (action)="onBulkAction($event)" (clear)="listState.clearSelection()" />
+    <app-bldr-quick-filters [selected]="listState.statusFilter()" (selectedChange)="listState.setStatusFilter($event)" />
+
+    <app-table-shell [value]="tableItems()" [loading]="listState.loading()">
+      <app-table-toolbar tableToolbar>
+        <app-search-field toolbarStart [value]="listState.search()" placeholder="Search builders…"
+          ariaLabel="Search builders" (valueChange)="onSearch($event)" />
+        <app-bldr-saved-views toolbarStart [views]="listState.savedViews()" [selectedId]="listState.savedViewId()"
+          (viewChange)="listState.applySavedView($event)" />
+        <app-sort-control toolbarEnd [options]="sortOptions" [value]="listState.sortValue()" (sortChange)="onSort($event)" />
+        <app-export-button toolbarEnd [loading]="listState.exportLoading()" (exportClick)="exportAll()" />
+        <app-button toolbarEnd label="Import" icon="pi pi-upload" [outlined]="true" (clicked)="openImport()" />
+        <app-button toolbarEnd [label]="listState.showAdvancedFilters() ? 'Hide filters' : 'Advanced filters'"
+          icon="pi pi-filter" [text]="true" (clicked)="listState.toggleAdvancedFilters()" />
+      </app-table-toolbar>
+
+      @if (listState.showAdvancedFilters()) {
+        <app-bldr-advanced-filters [regionFilter]="listState.regionFilter()" [planFilter]="listState.planFilter()"
+          [regions]="listState.regions()" [plans]="listState.plans()"
+          (regionFilterChange)="listState.setRegionFilter($event)" (planFilterChange)="listState.setPlanFilter($event)"
+          (filtersReset)="listState.resetFilters()" />
+      }
+
+      <app-bldr-column-selector [visibleColumns]="listState.visibleColumns()" (columnToggle)="listState.toggleColumn($event)" />
+
+      <app-bldr-data-grid [items]="listState.listResult().items" [loading]="listState.loading()"
+        [total]="listState.listResult().total" [pageSize]="listState.pageSize()"
+        [visibleColumns]="listState.visibleColumns()" (selectionChange)="onSelectionChange($event)" />
+    </app-table-shell>
+
+    @if (listState.importDialogVisible()) {
+      <div class="bldr-import-dialog" role="dialog" aria-label="Import builders">
+        <div class="bldr-import-dialog__panel">
+          <h2 class="mpa-heading-sm">Import builders</h2>
+          <p class="mpa-body-md">CSV import framework — no backend connected.</p>
+          <app-button label="Close" [outlined]="true" (clicked)="listState.closeImportDialog()" />
+        </div>
+      </div>
+    }
+  </div>
+</app-base-page>

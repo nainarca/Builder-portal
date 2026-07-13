@@ -1,0 +1,55 @@
+<app-base-page>
+  <div class="iam-page">
+    <app-page-header eyebrow="Super Admin" title="Identity & Access"
+      description="Manage users, roles, permissions, and invitations across the platform.">
+      <app-authorized-button pageActions label="Create user" icon="plus"
+        permission="id-14-user-identity-access:operate" (clicked)="createUser()" />
+    </app-page-header>
+
+    <app-iam-section-nav />
+
+    <app-iam-user-bulk-actions [count]="listState.selectedIds().length"
+      (action)="onBulkAction($event)" (clear)="listState.clearSelection()" />
+    <app-iam-user-quick-filters [selected]="listState.statusFilter()"
+      (selectedChange)="listState.setStatusFilter($event)" />
+
+    <app-table-shell [value]="tableItems()" [loading]="listState.loading()">
+      <app-table-toolbar tableToolbar>
+        <app-search-field toolbarStart [value]="listState.search()" placeholder="Search users…"
+          ariaLabel="Search users" (valueChange)="onSearch($event)" />
+        <app-iam-user-saved-views toolbarStart [views]="listState.savedViews()"
+          [selectedId]="listState.savedViewId()" (viewChange)="listState.applySavedView($event)" />
+        <app-sort-control toolbarEnd [options]="sortOptions" [value]="listState.sortValue()" (sortChange)="onSort($event)" />
+        <app-export-button toolbarEnd [loading]="listState.exportLoading()" (exportClick)="exportAll()" />
+        <app-button toolbarEnd label="Import" icon="pi pi-upload" [outlined]="true" (clicked)="openImport()" />
+        <app-button toolbarEnd [label]="listState.showAdvancedFilters() ? 'Hide filters' : 'Advanced filters'"
+          icon="pi pi-filter" [text]="true" (clicked)="listState.toggleAdvancedFilters()" />
+      </app-table-toolbar>
+
+      @if (listState.showAdvancedFilters()) {
+        <app-iam-user-advanced-filters [roleFilter]="listState.roleFilter()"
+          [organizationFilter]="listState.organizationFilter()" [organizations]="listState.organizations()"
+          (roleFilterChange)="listState.setRoleFilter($event)"
+          (organizationFilterChange)="listState.setOrganizationFilter($event)"
+          (filtersReset)="listState.resetFilters()" />
+      }
+
+      <app-iam-user-column-selector [visibleColumns]="listState.visibleColumns()"
+        (columnToggle)="listState.toggleColumn($event)" />
+
+      <app-iam-user-data-grid [items]="listState.listResult().items" [loading]="listState.loading()"
+        [total]="listState.listResult().total" [pageSize]="listState.pageSize()"
+        [visibleColumns]="listState.visibleColumns()" (selectionChange)="onSelectionChange($event)" />
+    </app-table-shell>
+
+    @if (listState.importDialogVisible()) {
+      <div class="iam-import-dialog" role="dialog" aria-label="Import users">
+        <div class="iam-import-dialog__panel">
+          <h2 class="mpa-heading-sm">Import users</h2>
+          <p class="mpa-body-md">CSV import framework — no backend connected.</p>
+          <app-button label="Close" [outlined]="true" (clicked)="listState.closeImportDialog()" />
+        </div>
+      </div>
+    }
+  </div>
+</app-base-page>

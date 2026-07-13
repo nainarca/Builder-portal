@@ -1,0 +1,26 @@
+@use '../styles/settings';
+
+.cfg-section-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mpa-spacing-md);
+}
+
+.cfg-section-layout {
+  display: grid;
+  grid-template-columns: 16rem minmax(0, 1fr);
+  gap: var(--mpa-spacing-xl);
+  align-items: start;
+}
+
+.cfg-section-layout__content {
+  min-width: 0;
+}
+
+@media (max-width: 960px) {
+  .cfg-section-layout {
+    grid-template-columns: 1fr;
+  }
+}

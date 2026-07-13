@@ -201,7 +201,7 @@ export const SUPER_ADMIN_DASHBOARD_QUICK_ACTIONS: readonly DashboardQuickActionI
     label: 'Review builders',
     description: 'Onboarding queue and approvals',
     icon: 'pi pi-building',
-    route: '/super-admin',
+    route: '/super-admin/builders',
     permission: 'id-02-builder-onboarding:decide',
     pinned: true,
     favorite: true,

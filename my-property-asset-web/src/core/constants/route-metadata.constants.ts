@@ -714,6 +714,187 @@ export const SUPER_ADMIN_ORGANIZATION_EDIT_METADATA: RouteMetadata = {
   analyticsName: 'super_admin_organization_edit',
 };
 
+export const SUPER_ADMIN_BUILDERS_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_METADATA,
+  title: 'Builders',
+  icon: 'pi pi-building',
+  description: 'Manage builder organizations, onboarding, and platform relationships',
+  breadcrumb: 'Builders',
+  permissions: ['portal:super-admin', 'id-02-builder-onboarding:read'],
+  analyticsName: 'super_admin_builders',
+};
+
+export const SUPER_ADMIN_BUILDER_DETAIL_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_BUILDERS_METADATA,
+  title: 'Builder details',
+  breadcrumb: 'Details',
+  analyticsName: 'super_admin_builder_detail',
+};
+
+export const SUPER_ADMIN_BUILDER_CREATE_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_BUILDERS_METADATA,
+  title: 'Create builder',
+  breadcrumb: 'Create',
+  permissions: ['portal:super-admin', 'id-02-builder-onboarding:operate'],
+  analyticsName: 'super_admin_builder_create',
+};
+
+export const SUPER_ADMIN_BUILDER_EDIT_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_BUILDERS_METADATA,
+  title: 'Edit builder',
+  breadcrumb: 'Edit',
+  permissions: ['portal:super-admin', 'id-02-builder-onboarding:operate'],
+  analyticsName: 'super_admin_builder_edit',
+};
+
+export const SUPER_ADMIN_IAM_USERS_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_METADATA,
+  title: 'Users',
+  icon: 'pi pi-users',
+  description: 'Manage platform users, access, and identity records',
+  breadcrumb: 'Users',
+  permissions: ['portal:super-admin', 'id-14-user-identity-access:read'],
+  analyticsName: 'super_admin_iam_users',
+};
+
+export const SUPER_ADMIN_IAM_USER_DETAIL_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_IAM_USERS_METADATA,
+  title: 'User details',
+  breadcrumb: 'Details',
+  analyticsName: 'super_admin_iam_user_detail',
+};
+
+export const SUPER_ADMIN_IAM_USER_CREATE_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_IAM_USERS_METADATA,
+  title: 'Create user',
+  breadcrumb: 'Create',
+  permissions: ['portal:super-admin', 'id-14-user-identity-access:operate'],
+  analyticsName: 'super_admin_iam_user_create',
+};
+
+export const SUPER_ADMIN_IAM_USER_EDIT_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_IAM_USERS_METADATA,
+  title: 'Edit user',
+  breadcrumb: 'Edit',
+  permissions: ['portal:super-admin', 'id-14-user-identity-access:operate'],
+  analyticsName: 'super_admin_iam_user_edit',
+};
+
+export const SUPER_ADMIN_IAM_ROLES_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_METADATA,
+  title: 'Roles',
+  icon: 'pi pi-shield',
+  description: 'System and organization role definitions',
+  breadcrumb: 'Roles',
+  permissions: ['portal:super-admin', 'id-14-user-identity-access:read'],
+  analyticsName: 'super_admin_iam_roles',
+};
+
+export const SUPER_ADMIN_IAM_ROLE_DETAIL_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_IAM_ROLES_METADATA,
+  title: 'Role details',
+  breadcrumb: 'Details',
+  analyticsName: 'super_admin_iam_role_detail',
+};
+
+export const SUPER_ADMIN_IAM_PERMISSIONS_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_METADATA,
+  title: 'Permissions',
+  icon: 'pi pi-lock',
+  description: 'Permission matrix and role comparison',
+  breadcrumb: 'Permissions',
+  permissions: ['portal:super-admin', 'id-14-user-identity-access:read'],
+  analyticsName: 'super_admin_iam_permissions',
+};
+
+export const SUPER_ADMIN_IAM_INVITATIONS_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_METADATA,
+  title: 'Invitations',
+  icon: 'pi pi-envelope',
+  description: 'User invitation management and tracking',
+  breadcrumb: 'Invitations',
+  permissions: ['portal:super-admin', 'id-14-user-identity-access:read'],
+  analyticsName: 'super_admin_iam_invitations',
+};
+
+export const SUPER_ADMIN_BRANDING_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_METADATA,
+  title: 'Branding',
+  icon: 'pi pi-palette',
+  description: 'White-label brand experience center for platform and tenant branding',
+  breadcrumb: 'Branding',
+  permissions: ['portal:super-admin', 'id-04-white-label-branding:read'],
+  analyticsName: 'super_admin_branding',
+};
+
+export const SUPER_ADMIN_BRANDING_STUDIO_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_BRANDING_METADATA,
+  title: 'Brand Studio',
+  breadcrumb: 'Studio',
+  permissions: ['portal:super-admin', 'id-04-white-label-branding:full'],
+  analyticsName: 'super_admin_branding_studio',
+};
+
+export const SUPER_ADMIN_SETTINGS_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_METADATA,
+  title: 'Settings',
+  icon: 'pi pi-cog',
+  description: 'Platform configuration center for global settings and preferences',
+  breadcrumb: 'Settings',
+  permissions: ['portal:super-admin', 'id-06-platform-operations:read'],
+  analyticsName: 'super_admin_settings',
+};
+
+export const SUPER_ADMIN_SETTINGS_GENERAL_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_SETTINGS_METADATA,
+  title: 'General Settings',
+  breadcrumb: 'General',
+  analyticsName: 'super_admin_settings_general',
+};
+
+export const SUPER_ADMIN_SETTINGS_SECURITY_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_SETTINGS_METADATA,
+  title: 'Security Settings',
+  breadcrumb: 'Security',
+  analyticsName: 'super_admin_settings_security',
+};
+
+export const SUPER_ADMIN_SETTINGS_PLATFORM_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_SETTINGS_METADATA,
+  title: 'Platform Configuration',
+  breadcrumb: 'Platform',
+  analyticsName: 'super_admin_settings_platform',
+};
+
+export const SUPER_ADMIN_SETTINGS_NOTIFICATIONS_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_SETTINGS_METADATA,
+  title: 'Notification Settings',
+  breadcrumb: 'Notifications',
+  analyticsName: 'super_admin_settings_notifications',
+};
+
+export const SUPER_ADMIN_SETTINGS_LOCALIZATION_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_SETTINGS_METADATA,
+  title: 'Localization',
+  breadcrumb: 'Localization',
+  analyticsName: 'super_admin_settings_localization',
+};
+
+export const SUPER_ADMIN_SETTINGS_INTEGRATIONS_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_SETTINGS_METADATA,
+  title: 'Integrations',
+  breadcrumb: 'Integrations',
+  analyticsName: 'super_admin_settings_integrations',
+};
+
+export const SUPER_ADMIN_SETTINGS_PREFERENCES_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_SETTINGS_METADATA,
+  title: 'System Preferences',
+  breadcrumb: 'Preferences',
+  permissions: ['portal:super-admin', 'id-06-platform-operations:full'],
+  analyticsName: 'super_admin_settings_preferences',
+};
+
 export const BUILDER_PORTAL_METADATA: RouteMetadata = {
   title: 'Builder Portal',
   icon: 'pi pi-building',

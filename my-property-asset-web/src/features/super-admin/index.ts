@@ -4,6 +4,10 @@ export { SUPER_ADMIN_ROUTES } from './super-admin.routes';
 export { SuperAdminShell } from './super-admin.shell';
 
 export * from './organizations';
+export * from './builders';
+export * from './iam';
+export * from './branding';
+export * from './settings';
 
 export * from './models/dashboard.model';
 export * from './config/super-admin-dashboard.config';

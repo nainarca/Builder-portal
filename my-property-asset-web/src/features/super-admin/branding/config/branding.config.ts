@@ -1,0 +1,132 @@
+import { BrandAdminRecord, BrandChangeRecord, BrandStudioSection } from '../models/brand-admin.model';
+
+export const BRAND_STUDIO_SECTIONS: readonly { id: BrandStudioSection; label: string; icon: string }[] = [
+  { id: 'identity', label: 'Identity', icon: 'pi pi-id-card' },
+  { id: 'logos', label: 'Logos', icon: 'pi pi-image' },
+  { id: 'colors', label: 'Colors', icon: 'pi pi-palette' },
+  { id: 'typography', label: 'Typography', icon: 'pi pi-align-left' },
+  { id: 'themes', label: 'Themes', icon: 'pi pi-sun' },
+  { id: 'assets', label: 'Assets', icon: 'pi pi-objects-column' },
+  { id: 'preferences', label: 'Preferences', icon: 'pi pi-cog' },
+];
+
+export const THEME_PACKAGE_OPTIONS = [
+  { id: 'platform-default', label: 'Platform Default' },
+  { id: 'platform-dark', label: 'Platform Dark' },
+  { id: 'organization', label: 'Organization Template' },
+  { id: 'builder', label: 'Builder Template' },
+  { id: 'partner', label: 'Partner Template' },
+  { id: 'marketplace', label: 'Marketplace Template' },
+];
+
+const DEFAULT_COLORS = {
+  primary: '#1B4D89',
+  secondary: '#475569',
+  accent: '#0EA5E9',
+  success: '#16A34A',
+  warning: '#D97706',
+  danger: '#DC2626',
+  info: '#2563EB',
+  surface: '#FFFFFF',
+  surfaceElevated: '#FFFFFF',
+  background: '#F4F6F9',
+  text: '#0F172A',
+  textMuted: '#64748B',
+  border: '#E8EDF3',
+};
+
+export const MOCK_BRANDS: readonly BrandAdminRecord[] = [
+  {
+    id: 'brand-platform',
+    type: 'platform',
+    status: 'active',
+    healthScore: 98,
+    identity: {
+      applicationName: 'MyPropertyAsset',
+      shortName: 'MPA',
+      companyName: 'MyPropertyAsset Inc.',
+      tagline: 'Enterprise property asset management',
+      description: 'Governed multi-tenant platform for builders, owners, and operators.',
+    },
+    logos: [
+      { key: 'primary', label: 'Primary logo', src: '/assets/branding/platform/logo.svg', alt: 'MyPropertyAsset' },
+      { key: 'dark', label: 'Dark logo', src: '/assets/branding/platform/logo.svg', alt: 'MyPropertyAsset dark' },
+      { key: 'light', label: 'Light logo', src: '/assets/branding/platform/logo.svg', alt: 'MyPropertyAsset light' },
+      { key: 'square', label: 'Square logo', src: '/assets/branding/platform/logo.svg', alt: 'MPA square' },
+      { key: 'favicon', label: 'Favicon', src: '/assets/branding/platform/favicon.ico', alt: 'Favicon' },
+      { key: 'app-icon', label: 'App icon', src: '/assets/branding/platform/logo.svg', alt: 'App icon' },
+    ],
+    colors: { ...DEFAULT_COLORS },
+    typography: { fontFamily: 'Inter, system-ui, sans-serif', headingWeight: '600', bodyWeight: '400' },
+    theme: { mode: 'system', themePackage: 'platform-default', inheritFrom: 'platform-default' },
+    preferences: { defaultLanguage: 'en', defaultTimezone: 'UTC', defaultCurrency: 'USD' },
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2026-07-10T00:00:00Z',
+  },
+  {
+    id: 'brand-horizon',
+    type: 'builder',
+    status: 'active',
+    healthScore: 86,
+    linkedBuilderId: 'bld-001',
+    linkedBuilderName: 'Horizon Builders',
+    linkedOrganizationId: 'org-001',
+    linkedOrganizationName: 'Horizon Builders',
+    identity: {
+      applicationName: 'Horizon Portal',
+      shortName: 'Horizon',
+      companyName: 'Horizon Builders',
+      tagline: 'Building excellence',
+      description: 'White-label builder portal for Horizon Builders.',
+    },
+    logos: [
+      { key: 'primary', label: 'Primary logo', src: '', alt: 'Horizon Builders' },
+      { key: 'dark', label: 'Dark logo', src: '', alt: 'Horizon dark' },
+      { key: 'light', label: 'Light logo', src: '', alt: 'Horizon light' },
+      { key: 'square', label: 'Square logo', src: '', alt: 'Horizon square' },
+      { key: 'favicon', label: 'Favicon', src: '', alt: 'Favicon' },
+      { key: 'app-icon', label: 'App icon', src: '', alt: 'App icon' },
+    ],
+    colors: { ...DEFAULT_COLORS, primary: '#0D4F8B', secondary: '#1E6BB8', accent: '#38BDF8' },
+    typography: { fontFamily: 'DM Sans, system-ui, sans-serif', headingWeight: '600', bodyWeight: '400' },
+    theme: { mode: 'light', themePackage: 'builder', inheritFrom: 'platform-default' },
+    preferences: { defaultLanguage: 'en', defaultTimezone: 'America/New_York', defaultCurrency: 'USD' },
+    createdAt: '2024-03-20T00:00:00Z',
+    updatedAt: '2026-07-08T00:00:00Z',
+  },
+  {
+    id: 'brand-skyline',
+    type: 'organization',
+    status: 'draft',
+    healthScore: 62,
+    linkedOrganizationId: 'org-002',
+    linkedOrganizationName: 'Skyline Developments',
+    identity: {
+      applicationName: 'Skyline Assets',
+      shortName: 'Skyline',
+      companyName: 'Skyline Developments',
+      tagline: 'Elevating property portfolios',
+      description: 'Organization branding draft for Skyline Developments.',
+    },
+    logos: [
+      { key: 'primary', label: 'Primary logo', src: '', alt: 'Skyline' },
+      { key: 'dark', label: 'Dark logo', src: '', alt: 'Skyline dark' },
+      { key: 'light', label: 'Light logo', src: '', alt: 'Skyline light' },
+      { key: 'square', label: 'Square logo', src: '', alt: 'Skyline square' },
+      { key: 'favicon', label: 'Favicon', src: '', alt: 'Favicon' },
+      { key: 'app-icon', label: 'App icon', src: '', alt: 'App icon' },
+    ],
+    colors: { ...DEFAULT_COLORS, primary: '#7C3AED', secondary: '#5B21B6', accent: '#A78BFA' },
+    typography: { fontFamily: 'Plus Jakarta Sans, system-ui, sans-serif', headingWeight: '700', bodyWeight: '400' },
+    theme: { mode: 'auto', themePackage: 'organization', inheritFrom: 'platform-default' },
+    preferences: { defaultLanguage: 'en', defaultTimezone: 'Europe/London', defaultCurrency: 'GBP' },
+    createdAt: '2026-06-01T00:00:00Z',
+    updatedAt: '2026-07-01T00:00:00Z',
+  },
+];
+
+export const MOCK_BRAND_CHANGES: readonly BrandChangeRecord[] = [
+  { id: 'bc-1', brandId: 'brand-platform', title: 'Primary color updated', description: 'Adjusted primary to #1B4D89', timestamp: '2026-07-10T10:00:00Z', actor: 'Sarah Chen' },
+  { id: 'bc-2', brandId: 'brand-horizon', title: 'Logo slot configured', description: 'Primary logo placeholder added', timestamp: '2026-07-08T14:30:00Z', actor: 'Marcus Rivera' },
+  { id: 'bc-3', brandId: 'brand-skyline', title: 'Brand draft created', description: 'Organization brand profile initialized', timestamp: '2026-06-01T09:00:00Z', actor: 'Sarah Chen' },
+];
