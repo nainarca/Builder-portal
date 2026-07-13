@@ -1,0 +1,22 @@
+<section class="public-section pricing-plans" [id]="sectionId()" aria-labelledby="pricing-plans-title">
+  <div class="public-section__container">
+    <header class="public-section__header public-section__header--center" appRevealOnScroll>
+      <h2 id="pricing-plans-title" class="public-section__title">Choose your plan</h2>
+      <p class="public-section__description">
+        Flexible plans for every stage — from evaluation to enterprise portfolio scale.
+      </p>
+      <app-pricing-toggle />
+    </header>
+
+    <div class="pricing-plans__grid">
+      @for (plan of plans(); track plan.id; let i = $index) {
+        <app-pricing-card
+          appRevealOnScroll
+          [appRevealOnScrollDelay]="i * 80"
+          [plan]="plan"
+          (ctaClick)="trackPlan($event)"
+        />
+      }
+    </div>
+  </div>
+</section>

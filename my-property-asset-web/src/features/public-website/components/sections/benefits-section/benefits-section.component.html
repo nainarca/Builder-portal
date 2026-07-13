@@ -1,19 +1,31 @@
-<section class="public-section public-benefits public-animate-in" [id]="sectionId()" aria-labelledby="public-benefits-title">
+<section class="public-section public-benefits" [id]="sectionId()" aria-labelledby="public-benefits-title">
   <div class="public-section__container">
-    <header class="public-section__header">
+    <header class="public-section__header public-section__header--center" appRevealOnScroll>
       <span class="public-section__eyebrow">{{ eyebrow() }}</span>
       <h2 id="public-benefits-title" class="public-section__title">{{ title() }}</h2>
       <p class="public-section__description">{{ description() }}</p>
     </header>
 
     <div class="public-benefits__grid">
-      @for (benefit of benefits(); track benefit.id) {
-        <article class="public-benefits__card">
-          <div class="public-benefits__icon" aria-hidden="true">
-            <i [class]="benefit.icon"></i>
+      @for (benefit of benefits(); track benefit.id; let i = $index) {
+        <article
+          class="public-benefits__card"
+          appRevealOnScroll
+          [appRevealOnScrollDelay]="i * 90"
+        >
+          <div class="public-benefits__header">
+            <div class="public-benefits__icon" aria-hidden="true">
+              <i [class]="benefit.icon"></i>
+            </div>
+            <span class="public-benefits__audience">{{ benefit.audience }}</span>
           </div>
           <h3 class="public-benefits__title">{{ benefit.title }}</h3>
           <p class="public-benefits__description">{{ benefit.description }}</p>
+          <ul class="public-benefits__outcomes">
+            @for (outcome of benefit.outcomes; track outcome) {
+              <li>{{ outcome }}</li>
+            }
+          </ul>
         </article>
       }
     </div>

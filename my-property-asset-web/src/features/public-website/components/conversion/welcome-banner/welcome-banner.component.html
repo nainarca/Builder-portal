@@ -1,0 +1,26 @@
+<div class="welcome-banner" role="tablist" aria-label="Authentication entry options">
+  <button
+    type="button"
+    class="welcome-banner__tab"
+    [class.welcome-banner__tab--active]="activeIntent() === 'get-started'"
+    role="tab"
+    [attr.aria-selected]="activeIntent() === 'get-started'"
+    (click)="selectIntent('get-started')"
+  >
+  <i class="pi pi-sparkles" aria-hidden="true"></i>
+    <span class="welcome-banner__tab-label">Get started</span>
+    <span class="welcome-banner__tab-hint">New to MyPropertyAsset</span>
+  </button>
+  <button
+    type="button"
+    class="welcome-banner__tab"
+    [class.welcome-banner__tab--active]="activeIntent() === 'signin'"
+    role="tab"
+    [attr.aria-selected]="activeIntent() === 'signin'"
+    (click)="selectIntent('signin')"
+  >
+    <i class="pi pi-sign-in" aria-hidden="true"></i>
+    <span class="welcome-banner__tab-label">Welcome back</span>
+    <span class="welcome-banner__tab-hint">Returning users</span>
+  </button>
+</div>

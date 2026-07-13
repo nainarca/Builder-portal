@@ -1,0 +1,39 @@
+.conversion-feature-card {
+  display: grid;
+  gap: var(--mpa-spacing-md);
+  padding: var(--mpa-spacing-xl);
+  border-radius: var(--mpa-radius-xl);
+  border: 1px solid var(--mpa-color-border);
+  background: var(--mpa-color-surface);
+  height: 100%;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.conversion-feature-card:hover {
+  border-color: color-mix(in srgb, var(--mpa-color-primary) 30%, var(--mpa-color-border));
+  box-shadow: var(--mpa-shadow-sm);
+}
+
+.conversion-feature-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--mpa-radius-lg);
+  background: var(--mpa-color-primary-subtle);
+  color: var(--mpa-color-primary);
+}
+
+.conversion-feature-card__title {
+  margin: 0;
+  font-size: var(--mpa-font-size-lg);
+  font-weight: var(--mpa-font-weight-semibold);
+}
+
+.conversion-feature-card__description {
+  margin: 0;
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-text-muted);
+  line-height: var(--mpa-line-height-relaxed);
+}

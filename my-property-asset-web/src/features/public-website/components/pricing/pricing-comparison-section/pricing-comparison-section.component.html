@@ -1,0 +1,90 @@
+<section class="public-section pricing-comparison" [id]="sectionId()" aria-labelledby="pricing-comparison-title">
+  <div class="public-section__container">
+    <header class="public-section__header public-section__header--center" appRevealOnScroll>
+      <span class="public-section__eyebrow">Compare</span>
+      <h2 id="pricing-comparison-title" class="public-section__title">{{ title() }}</h2>
+      <p class="public-section__description">{{ description() }}</p>
+    </header>
+
+  <!-- Desktop table -->
+  <div class="pricing-comparison__table-wrap pricing-comparison__table-wrap--desktop" appRevealOnScroll>
+    <table class="pricing-comparison__table">
+      <caption class="sr-only">Feature comparison across pricing plans</caption>
+      <thead>
+        <tr>
+          <th scope="col">Feature</th>
+          @for (planId of planIds(); track planId) {
+            <th scope="col">{{ planLabels[planId] }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (category of categories(); track category) {
+          <tr class="pricing-comparison__category-row">
+            <th scope="rowgroup" [attr.colspan]="planIds().length + 1">{{ category }}</th>
+          </tr>
+          @for (feature of featuresByCategory(category); track feature.id) {
+            <tr>
+              <th scope="row">{{ feature.name }}</th>
+              @for (planId of planIds(); track planId) {
+                <td>
+                  @if (isIncluded(feature.availability[planId])) {
+                    @if (feature.availability[planId] === true) {
+                      <i class="pi pi-check pricing-comparison__check" aria-hidden="true"></i>
+                      <span class="sr-only">Included</span>
+                    } @else {
+                      <span>{{ formatAvailability(feature.availability[planId]) }}</span>
+                    }
+                  } @else {
+                    <span class="pricing-comparison__dash" aria-hidden="true">—</span>
+                    <span class="sr-only">Not included</span>
+                  }
+                </td>
+              }
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Mobile accordion -->
+  <div class="pricing-comparison__mobile" appRevealOnScroll>
+    <button
+      type="button"
+      class="pricing-comparison__mobile-toggle mpa-focus-visible"
+      [attr.aria-expanded]="expandedMobile()"
+      aria-controls="pricing-comparison-mobile-panel"
+      (click)="toggleMobile()"
+    >
+      <span>{{ expandedMobile() ? 'Hide' : 'Show' }} full comparison</span>
+      <i class="pi" [class.pi-chevron-up]="expandedMobile()" [class.pi-chevron-down]="!expandedMobile()" aria-hidden="true"></i>
+    </button>
+
+    @if (expandedMobile()) {
+      <div id="pricing-comparison-mobile-panel" class="pricing-comparison__mobile-panel">
+        @for (category of categories(); track category) {
+          <details class="pricing-comparison__mobile-category" open>
+            <summary>{{ category }}</summary>
+            <ul>
+              @for (feature of featuresByCategory(category); track feature.id) {
+                <li>
+                  <span class="pricing-comparison__mobile-feature">{{ feature.name }}</span>
+                  <div class="pricing-comparison__mobile-values">
+                    @for (planId of planIds(); track planId) {
+                      <span>
+                        <strong>{{ planLabels[planId] }}:</strong>
+                        {{ formatAvailability(feature.availability[planId]) }}
+                      </span>
+                    }
+                  </div>
+                </li>
+              }
+            </ul>
+          </details>
+        }
+      </div>
+    }
+  </div>
+  </div>
+</section>

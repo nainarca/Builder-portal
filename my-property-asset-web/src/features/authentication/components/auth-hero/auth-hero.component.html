@@ -11,18 +11,18 @@
       [height]="logoHeight"
     />
 
-    <p class="mpa-eyebrow">Enterprise Property Platform</p>
+    <p class="mpa-eyebrow">{{ experience().eyebrow }}</p>
 
     <h1 class="auth-hero__title">
-      Manage property assets with clarity and confidence
+      {{ experience().heroTitle }}
     </h1>
 
     <p class="auth-hero__subtitle mpa-body-lg">
-      MyPropertyAsset brings portfolio visibility, operational control, and investor-ready reporting into one premium workspace.
+      {{ experience().heroSubtitle }}
     </p>
 
     <ul class="auth-hero__highlights">
-      @for (item of highlights; track item) {
+      @for (item of experience().highlights; track item) {
         <li>
           <span class="auth-hero__bullet" aria-hidden="true"></span>
           <span>{{ item }}</span>

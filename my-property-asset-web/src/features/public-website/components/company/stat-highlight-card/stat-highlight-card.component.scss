@@ -1,0 +1,43 @@
+.stat-highlight-card {
+  display: grid;
+  gap: var(--mpa-spacing-xs);
+  padding: var(--mpa-spacing-xl);
+  border-radius: var(--mpa-radius-xl);
+  border: 1px solid var(--mpa-color-border);
+  background: var(--mpa-color-surface);
+  text-align: center;
+}
+
+.stat-highlight-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0 auto var(--mpa-spacing-sm);
+  border-radius: var(--mpa-radius-lg);
+  background: var(--mpa-color-primary-subtle);
+  color: var(--mpa-color-primary);
+}
+
+.stat-highlight-card__value {
+  margin: 0;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: var(--mpa-font-weight-bold);
+  color: var(--mpa-color-text);
+  line-height: 1.1;
+}
+
+.stat-highlight-card__label {
+  margin: 0;
+  font-size: var(--mpa-font-size-sm);
+  font-weight: var(--mpa-font-weight-semibold);
+  color: var(--mpa-color-text);
+}
+
+.stat-highlight-card__description {
+  margin: var(--mpa-spacing-xs) 0 0;
+  font-size: var(--mpa-font-size-xs);
+  color: var(--mpa-color-text-muted);
+  line-height: var(--mpa-line-height-relaxed);
+}

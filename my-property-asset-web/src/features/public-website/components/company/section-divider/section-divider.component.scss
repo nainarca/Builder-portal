@@ -1,0 +1,16 @@
+.section-divider {
+  border: 0;
+  height: 1px;
+  margin: 0;
+  background: var(--mpa-color-border);
+}
+
+.section-divider--gradient {
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--mpa-color-primary) 40%, transparent),
+    transparent
+  );
+}

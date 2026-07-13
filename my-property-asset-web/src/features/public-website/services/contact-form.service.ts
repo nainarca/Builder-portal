@@ -4,6 +4,8 @@ export interface ContactFormValue {
   name: string;
   email: string;
   company: string;
+  phone: string;
+  subject: string;
   message: string;
 }
 
@@ -17,6 +19,8 @@ const INITIAL_STATE: ContactFormState = {
   name: '',
   email: '',
   company: '',
+  phone: '',
+  subject: '',
   message: '',
   submitting: false,
   submitted: false,
@@ -35,8 +39,8 @@ export class ContactFormService {
 
   async submit(): Promise<boolean> {
     const state = this.stateSignal();
-
     const validationError = this.validate(state);
+
     if (validationError) {
       this.stateSignal.update((current) => ({ ...current, error: validationError }));
       return false;
@@ -66,8 +70,16 @@ export class ContactFormService {
       return 'Enter a valid email address.';
     }
 
+    if (!state.subject.trim()) {
+      return 'Subject is required.';
+    }
+
     if (!state.message.trim()) {
       return 'Message is required.';
+    }
+
+    if (state.phone.trim() && !/^[\d\s+().-]{7,}$/.test(state.phone.trim())) {
+      return 'Enter a valid phone number.';
     }
 
     return null;
@@ -75,7 +87,7 @@ export class ContactFormService {
 
   private simulateRequest(): Promise<void> {
     return new Promise((resolve) => {
-      window.setTimeout(resolve, 700);
+      window.setTimeout(resolve, 800);
     });
   }
 }

@@ -38,9 +38,14 @@
         <i class="pi pi-sun" aria-hidden="true"></i>
         <span class="public-header__theme-label">{{ themeModeLabel() }}</span>
       </button>
-      <a routerLink="/auth/login" class="public-header__sign-in">
-        <app-button label="Sign in" [outlined]="true" severity="secondary" />
-      </a>
+      <app-conversion-cta-link
+        label="Sign in"
+        route="/auth/login"
+        intent="signin"
+        analyticsName="public_header_signin"
+        [outlined]="true"
+        severity="secondary"
+      />
     </div>
   </div>
 
@@ -48,9 +53,13 @@
     <div class="public-header__mobile-panel" role="dialog" aria-label="Mobile navigation">
       <app-top-navigation />
       <app-quick-actions />
-      <a routerLink="/auth/login" class="public-header__mobile-sign-in">
-        <app-button label="Sign in" />
-      </a>
+      <app-conversion-cta-link
+        class="public-header__mobile-sign-in"
+        label="Sign in"
+        route="/auth/login"
+        intent="signin"
+        analyticsName="public_header_mobile_signin"
+      />
     </div>
   }
 </header>

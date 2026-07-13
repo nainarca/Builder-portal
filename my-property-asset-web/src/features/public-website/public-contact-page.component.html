@@ -1,0 +1,120 @@
+<main class="contact-page">
+  <app-page-hero-banner [content]="hero" [compact]="true" />
+
+  <section class="public-section" aria-labelledby="contact-form-title">
+    <div class="public-section__container">
+      <header class="public-section__header" appRevealOnScroll>
+        <h2 id="contact-form-title" class="public-section__title">Send us a message</h2>
+        <p class="public-section__description">
+          Complete the form and our team will respond when contact delivery is enabled.
+        </p>
+      </header>
+      <div class="contact-page__layout">
+        <div id="contact-form" class="contact-page__form" appRevealOnScroll>
+          <app-public-contact-form />
+        </div>
+
+        <aside class="contact-page__sidebar" aria-label="Contact information">
+          <div class="contact-page__channels">
+            @for (channel of channels; track channel.id; let i = $index) {
+              <app-contact-channel-card
+                [channel]="channel"
+                appRevealOnScroll
+                [appRevealOnScrollDelay]="i * 70"
+              />
+            }
+          </div>
+
+          <div class="contact-page__hours" appRevealOnScroll [appRevealOnScrollDelay]="200">
+            <h3 class="contact-page__hours-title">Business hours</h3>
+            <dl class="contact-page__hours-list">
+              <div>
+                <dt>Weekdays</dt>
+                <dd>{{ businessHours.weekdays }}</dd>
+              </div>
+              <div>
+                <dt>Weekends</dt>
+                <dd>{{ businessHours.weekends }}</dd>
+              </div>
+              <div>
+                <dt>Timezone</dt>
+                <dd>{{ businessHours.timezone }}</dd>
+              </div>
+            </dl>
+          </div>
+
+          <app-social-links-row [links]="socialLinks" appRevealOnScroll [appRevealOnScrollDelay]="250" />
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <hr class="public-section-divider" aria-hidden="true" />
+
+  <section class="public-section public-section--surface" aria-labelledby="contact-departments-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="contact-departments-title" class="public-section__title">Talk to the right team</h2>
+        <p class="public-section__description">
+          Reach sales for evaluations and demos, or support for account and onboarding questions.
+        </p>
+      </header>
+      <div class="public-grid public-grid--2">
+        @for (dept of departments; track dept.id; let i = $index) {
+          <app-contact-info-card [department]="dept" appRevealOnScroll [appRevealOnScrollDelay]="i * 90" />
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section" aria-labelledby="contact-offices-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="contact-offices-title" class="public-section__title">{{ mapPlaceholder.title }}</h2>
+        <p class="public-section__description">{{ mapPlaceholder.description }}</p>
+      </header>
+
+      <div class="contact-page__map-section">
+        <app-location-placeholder
+          [label]="'Interactive map — ' + mapPlaceholder.title"
+          appRevealOnScroll
+        />
+        <div class="public-grid public-grid--3 contact-page__offices">
+          @for (office of offices; track office.id; let i = $index) {
+            <app-office-card [office]="office" appRevealOnScroll [appRevealOnScrollDelay]="i * 80" />
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section public-section--compact" aria-labelledby="contact-faq-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="contact-faq-title" class="public-section__title">Quick answers</h2>
+        <p class="public-section__description">Common questions before you reach out.</p>
+      </header>
+      <ul class="contact-page__faq-links">
+        @for (item of faqLinks; track item.id; let i = $index) {
+          <li appRevealOnScroll [appRevealOnScrollDelay]="i * 70">
+            <a
+              class="contact-page__faq-link"
+              [routerLink]="item.route"
+              [fragment]="item.fragment"
+            >
+              <span class="contact-page__faq-question">{{ item.question }}</span>
+              <span class="contact-page__faq-answer">{{ item.answer }}</span>
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <app-public-cta-section
+    [title]="finalCta.title"
+    [description]="finalCta.description"
+    [primaryCta]="finalCta.primaryCta"
+    [secondaryCta]="finalCta.secondaryCta"
+  />
+</main>

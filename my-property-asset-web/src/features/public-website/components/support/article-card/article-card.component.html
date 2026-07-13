@@ -1,0 +1,15 @@
+<a
+  class="article-card"
+  [class.article-card--compact]="compact()"
+  [routerLink]="['/help/articles', article().slug]"
+>
+  <div class="article-card__meta">
+  @if (article().featured) {
+    <span class="article-card__badge">Featured</span>
+  }
+    <span class="article-card__read-time">{{ article().readTime }}</span>
+  </div>
+  <h3 class="article-card__title">{{ article().title }}</h3>
+  <p class="article-card__excerpt">{{ article().excerpt }}</p>
+  <span class="article-card__link">Read article <i class="pi pi-arrow-right" aria-hidden="true"></i></span>
+</a>

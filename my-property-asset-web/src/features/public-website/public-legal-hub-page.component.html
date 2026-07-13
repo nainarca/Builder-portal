@@ -1,0 +1,64 @@
+<main class="legal-hub-page">
+  <app-page-hero-banner [content]="hero" [compact]="true" />
+
+  <section class="public-section" aria-labelledby="legal-documents-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="legal-documents-title" class="public-section__title">Legal documents</h2>
+        <p class="public-section__description">
+          Review our policies governing platform use, data protection, and compliance commitments.
+        </p>
+      </header>
+
+      <div class="public-grid public-grid--2">
+        @for (doc of documents; track doc.id; let i = $index) {
+          <a
+            class="legal-hub-page__card"
+            [routerLink]="['/legal', doc.slug]"
+            appRevealOnScroll
+            [appRevealOnScrollDelay]="i * 70"
+          >
+            <h3 class="legal-hub-page__card-title">{{ doc.title }}</h3>
+            <p class="legal-hub-page__card-description">{{ doc.description }}</p>
+            <span class="legal-hub-page__card-meta">Updated {{ doc.lastUpdated }}</span>
+            <span class="legal-hub-page__card-link">Read document <i class="pi pi-arrow-right" aria-hidden="true"></i></span>
+          </a>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section public-section--surface" aria-labelledby="legal-compliance-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="legal-compliance-title" class="public-section__title">Compliance commitment</h2>
+        <p class="public-section__description">
+          MyPropertyAsset is designed for enterprise trust — GDPR-aware architecture, SOC 2 readiness framework, and customizable SLAs.
+        </p>
+      </header>
+      <div class="legal-hub-page__trust-grid">
+        <article class="legal-hub-page__trust-item" appRevealOnScroll>
+          <i class="pi pi-shield" aria-hidden="true"></i>
+          <h3>Security by design</h3>
+          <p>Multi-tenant isolation, RBAC, and authentication foundations before business data access.</p>
+        </article>
+        <article class="legal-hub-page__trust-item" appRevealOnScroll [appRevealOnScrollDelay]="80">
+          <i class="pi pi-globe" aria-hidden="true"></i>
+          <h3>Privacy aware</h3>
+          <p>Data handling practices aligned with GDPR and enterprise privacy expectations.</p>
+        </article>
+        <article class="legal-hub-page__trust-item" appRevealOnScroll [appRevealOnScrollDelay]="160">
+          <i class="pi pi-file-check" aria-hidden="true"></i>
+          <h3>Audit ready</h3>
+          <p>Governance workflows and documentation designed for compliance reviews.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <app-public-cta-section
+    [title]="supportCta.title"
+    [description]="supportCta.description"
+    [primaryCta]="supportCta.primaryCta"
+  />
+</main>

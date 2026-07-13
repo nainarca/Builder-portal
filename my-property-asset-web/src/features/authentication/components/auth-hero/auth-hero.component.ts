@@ -1,7 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter, map, startWith } from 'rxjs';
 
 import { PLATFORM_BRAND } from '@theme/config';
 import { ThemeService } from '@theme/services/theme.service';
+import { AUTH_ENTRY_EXPERIENCES } from '../../../public-website/config/conversion-entry.config';
+import { AuthEntryIntent } from '../../../public-website/models/conversion.model';
 
 @Component({
   selector: 'app-auth-hero',
@@ -11,8 +16,20 @@ import { ThemeService } from '@theme/services/theme.service';
 })
 export class AuthHeroComponent {
   private readonly theme = inject(ThemeService);
+  private readonly router = inject(Router);
 
   readonly brand = PLATFORM_BRAND;
+
+  private readonly intent = toSignal(
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      startWith(null),
+      map(() => this.readIntent()),
+    ),
+    { initialValue: 'signin' as AuthEntryIntent },
+  );
+
+  readonly experience = computed(() => AUTH_ENTRY_EXPERIENCES[this.intent()]);
 
   readonly logoSrc = computed(() => {
     const mode = this.theme.resolvedMode();
@@ -26,9 +43,8 @@ export class AuthHeroComponent {
   readonly logoWidth = this.brand.logo?.width ?? 160;
   readonly logoHeight = this.brand.logo?.height ?? 40;
 
-  readonly highlights = [
-  'Unified property asset visibility',
-  'Enterprise-grade security and compliance',
-  'Built for builders, investors, and operators',
-  ];
+  private readIntent(): AuthEntryIntent {
+    const value = this.router.parseUrl(this.router.url).queryParams['intent'];
+    return value === 'get-started' ? 'get-started' : 'signin';
+  }
 }

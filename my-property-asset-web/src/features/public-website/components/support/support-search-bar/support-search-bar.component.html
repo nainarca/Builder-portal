@@ -1,0 +1,24 @@
+<div class="support-search-bar" role="search">
+  <label class="support-search-bar__label" for="support-search-input">
+    <i class="pi pi-search support-search-bar__icon" aria-hidden="true"></i>
+    <app-input-text
+      inputId="support-search-input"
+      name="support-search"
+      type="search"
+      [placeholder]="placeholder()"
+      [value]="query()"
+      (valueChange)="query.set($event)"
+      [attr.aria-label]="ariaLabel()"
+    />
+  </label>
+  @if (query()) {
+    <button
+      type="button"
+      class="support-search-bar__clear mpa-focus-visible"
+      aria-label="Clear search"
+      (click)="query.set('')"
+    >
+      <i class="pi pi-times" aria-hidden="true"></i>
+    </button>
+  }
+</div>

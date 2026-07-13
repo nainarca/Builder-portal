@@ -1,0 +1,30 @@
+<section class="public-section" [id]="sectionId()" aria-labelledby="pricing-enterprise-title">
+  <div class="public-section__container">
+    <article class="pricing-enterprise" appRevealOnScroll>
+      <div class="pricing-enterprise__content">
+        <span class="public-section__eyebrow">Enterprise</span>
+        <h2 id="pricing-enterprise-title" class="pricing-enterprise__title">{{ offer().title }}</h2>
+        <p class="pricing-enterprise__description">{{ offer().description }}</p>
+        <ul class="pricing-enterprise__highlights">
+          @for (item of offer().highlights; track item) {
+            <li>
+              <i class="pi pi-check" aria-hidden="true"></i>
+              <span>{{ item }}</span>
+            </li>
+          }
+        </ul>
+        <a [routerLink]="offer().ctaRoute" (click)="trackCta()">
+          <app-button [label]="offer().ctaLabel" [outlined]="true" />
+        </a>
+      </div>
+      <div class="pricing-enterprise__visual" aria-hidden="true">
+        <div class="pricing-enterprise__orb"></div>
+        <div class="pricing-enterprise__card">
+          <span class="pricing-enterprise__label">Dedicated partnership</span>
+          <strong>Custom rollout</strong>
+          <span class="pricing-enterprise__meta">Security · Scale · Success</span>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>

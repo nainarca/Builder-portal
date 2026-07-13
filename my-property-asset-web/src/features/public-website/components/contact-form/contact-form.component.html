@@ -42,6 +42,25 @@
             (valueChange)="updateField('company', $event)"
           />
         </label>
+        <label for="contact-phone">
+          <span>Phone <span class="public-contact-form__optional">(optional)</span></span>
+          <app-input-text
+            inputId="contact-phone"
+            name="contact-phone"
+            autocomplete="tel"
+            [value]="state().phone"
+            (valueChange)="updateField('phone', $event)"
+          />
+        </label>
+        <label for="contact-subject">
+          <span>Subject</span>
+          <app-input-text
+            inputId="contact-subject"
+            name="contact-subject"
+            [value]="state().subject"
+            (valueChange)="updateField('subject', $event)"
+          />
+        </label>
         <label class="public-contact-form__message" for="contact-message">
           <span>Message</span>
           <textarea

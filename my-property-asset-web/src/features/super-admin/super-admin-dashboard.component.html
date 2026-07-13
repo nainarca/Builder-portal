@@ -1,0 +1,120 @@
+<app-base-page>
+  <div class="sa-dashboard">
+    <app-sa-dashboard-header
+      [eyebrow]="header.eyebrow"
+      [title]="header.title"
+      [description]="header.description"
+      [refreshing]="refreshingAll()"
+      (refresh)="onRefreshAll()"
+    />
+
+    <app-sa-dashboard-toolbar>
+      <app-sa-dashboard-filters
+        toolbarStart
+        [options]="filters"
+        [selected]="selectedFilter()"
+        (selectedChange)="onFilterChange($event)"
+      />
+      <span toolbarEnd class="sa-dashboard__filter-hint">
+        Framework filters — data wiring in future modules
+      </span>
+    </app-sa-dashboard-toolbar>
+
+    <section class="sa-dashboard__kpi-row" aria-label="Key performance indicators">
+      @for (kpi of kpis; track kpi.id) {
+        <app-sa-kpi-card [item]="kpi" />
+      }
+    </section>
+
+    <section class="sa-dashboard__trend-row" aria-label="Trend metrics">
+      @for (trend of trends; track trend.id) {
+        <app-sa-trend-card [item]="trend" />
+      }
+    </section>
+
+    <app-sa-dashboard-grid>
+      @for (widget of visibleWidgets(); track widget.id) {
+        <app-sa-dashboard-grid-item [colspan]="widget.colspan" [rowspan]="widget.rowspan ?? 1">
+          @switch (widget.id) {
+            @case ('quick-actions') {
+              <app-sa-quick-actions-widget
+                [actions]="quickActions"
+                [pinnedIds]="pinnedActionIds()"
+                [favoriteIds]="favoriteActionIds()"
+                (actionSelected)="onQuickActionSelected($event)"
+              />
+            }
+            @case ('usage-chart') {
+              <app-sa-usage-chart-widget
+                [chart]="usageChart"
+                [loading]="isLoading('usage-chart')"
+                (refresh)="onRefreshWidget('usage-chart')"
+              />
+            }
+            @case ('organizations-chart') {
+              <app-sa-organizations-chart-widget
+                [chart]="orgChart"
+                [loading]="isLoading('organizations-chart')"
+                (refresh)="onRefreshWidget('organizations-chart')"
+              />
+            }
+            @case ('platform-status') {
+              <app-sa-platform-status-widget
+                [items]="statuses"
+                [loading]="isLoading('platform-status')"
+                (refresh)="onRefreshWidget('platform-status')"
+              />
+            }
+            @case ('system-health') {
+              <app-sa-system-health-widget
+                [items]="statuses"
+                [loading]="isLoading('system-health')"
+                (refresh)="onRefreshWidget('system-health')"
+              />
+            }
+            @case ('recent-activity') {
+              <app-sa-recent-activity-widget
+                [items]="activities"
+                [loading]="isLoading('recent-activity')"
+                (refresh)="onRefreshWidget('recent-activity')"
+              />
+            }
+            @case ('announcements') {
+              <app-sa-announcements-widget [items]="announcements" />
+            }
+            @case ('organization-summary') {
+              <app-sa-organization-summary-widget
+                [item]="orgSummary()"
+                [loading]="isLoading('organization-summary')"
+                (refresh)="onRefreshWidget('organization-summary')"
+              />
+            }
+            @case ('builder-summary') {
+              <app-sa-builder-summary-widget
+                [item]="builderSummary()"
+                [loading]="isLoading('builder-summary')"
+                (refresh)="onRefreshWidget('builder-summary')"
+              />
+            }
+            @case ('user-summary') {
+              <app-sa-user-summary-widget
+                [item]="userSummary()"
+                [loading]="isLoading('user-summary')"
+                (refresh)="onRefreshWidget('user-summary')"
+              />
+            }
+            @case ('usage-overview') {
+              <app-sa-usage-overview-widget
+                [chart]="usageDonutChart"
+                [loading]="isLoading('usage-overview')"
+                (refresh)="onRefreshWidget('usage-overview')"
+              />
+            }
+          }
+        </app-sa-dashboard-grid-item>
+      }
+    </app-sa-dashboard-grid>
+
+    <app-sa-dashboard-footer [lastRefreshed]="lastRefreshedLabel()" />
+  </div>
+</app-base-page>

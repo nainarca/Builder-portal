@@ -1,0 +1,8 @@
+<a class="category-card" [routerLink]="['/help']" [fragment]="'category-' + category().id">
+  <div class="category-card__icon" aria-hidden="true">
+    <i [class]="category().icon"></i>
+  </div>
+  <h3 class="category-card__title">{{ category().title }}</h3>
+  <p class="category-card__description">{{ category().description }}</p>
+  <span class="category-card__count">{{ category().articleCount }} articles</span>
+</a>

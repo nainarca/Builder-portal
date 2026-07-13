@@ -1,0 +1,155 @@
+<main class="about-page">
+  <app-page-hero-banner [content]="hero" />
+
+  <section class="public-section" aria-labelledby="about-story-title">
+    <div class="public-section__container">
+      <header class="public-section__header" appRevealOnScroll>
+        <h2 id="about-story-title" class="public-section__title">{{ story.title }}</h2>
+      </header>
+      <div class="about-page__story">
+        @for (paragraph of story.paragraphs; track $index; let i = $index) {
+          <p class="about-page__paragraph" appRevealOnScroll [appRevealOnScrollDelay]="i * 80">
+            {{ paragraph }}
+          </p>
+        }
+      </div>
+    </div>
+  </section>
+
+  <hr class="public-section-divider" aria-hidden="true" />
+
+  <section class="public-section" aria-labelledby="about-mission-title">
+    <div class="public-section__container">
+      <h2 id="about-mission-title" class="sr-only">Mission and vision</h2>
+      <div class="public-grid public-grid--2">
+        @for (item of missionVision; track item.id; let i = $index) {
+          <article class="about-page__mission-card" appRevealOnScroll [appRevealOnScrollDelay]="i * 100">
+            <div class="about-page__mission-icon" aria-hidden="true">
+              <i [class]="item.icon"></i>
+            </div>
+            <span class="public-section__eyebrow">{{ item.label }}</span>
+            <h3 class="about-page__mission-title">{{ item.title }}</h3>
+            <p class="about-page__mission-description">{{ item.description }}</p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section public-section--surface" aria-labelledby="about-values-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="about-values-title" class="public-section__title">Core values</h2>
+        <p class="public-section__description">
+          Principles that guide how we build, partner, and deliver for property enterprises.
+        </p>
+      </header>
+      <div class="public-grid public-grid--2">
+        @for (value of coreValues; track value.id; let i = $index) {
+          <app-value-card [value]="value" appRevealOnScroll [appRevealOnScrollDelay]="i * 80" />
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section" aria-labelledby="about-why-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="about-why-title" class="public-section__title">Why MyPropertyAsset</h2>
+        <p class="public-section__description">
+          Built for organizations that need enterprise governance without sacrificing experience quality.
+        </p>
+      </header>
+      <div class="public-grid public-grid--3">
+        @for (item of whyUs; track item.id; let i = $index) {
+          <article class="about-page__why-card" appRevealOnScroll [appRevealOnScrollDelay]="i * 90">
+            <h3 class="about-page__why-title">{{ item.title }}</h3>
+            <p class="about-page__why-description">{{ item.description }}</p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section public-section--surface" aria-labelledby="about-journey-title">
+    <div class="public-section__container">
+      <app-company-timeline
+        title="Our journey"
+        description="From insight to enterprise-ready platform — the milestones that shaped MyPropertyAsset."
+        [events]="journey"
+      />
+    </div>
+  </section>
+
+  <section class="public-section" aria-labelledby="about-platform-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="about-platform-title" class="public-section__title">Platform highlights</h2>
+        <p class="public-section__description">
+          Foundation capabilities already in place for governed, white-label property operations.
+        </p>
+      </header>
+      <div class="public-grid public-grid--2">
+        @for (item of platformHighlights; track item.id; let i = $index) {
+          <article class="about-page__highlight-card" appRevealOnScroll [appRevealOnScrollDelay]="i * 80">
+            <div class="about-page__highlight-icon" aria-hidden="true">
+              <i [class]="item.icon"></i>
+            </div>
+            <h3 class="about-page__highlight-title">{{ item.title }}</h3>
+            <p class="about-page__highlight-description">{{ item.description }}</p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section public-section--compact" aria-labelledby="about-tech-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="about-tech-title" class="public-section__title">Technology stack</h2>
+        <p class="public-section__description">
+          Modern, maintainable architecture chosen for performance, security, and long-term scale.
+        </p>
+      </header>
+      <ul class="about-page__tech-list">
+        @for (item of techStack; track item.id; let i = $index) {
+          <li class="about-page__tech-item" appRevealOnScroll [appRevealOnScrollDelay]="i * 60">
+            <span class="about-page__tech-category">{{ item.category }}</span>
+            <span class="about-page__tech-name">{{ item.name }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="public-section public-section--surface" aria-labelledby="about-roadmap-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="about-roadmap-title" class="public-section__title">Future roadmap</h2>
+        <p class="public-section__description">
+          A transparent view of what we are building next — subject to partner feedback and enterprise priorities.
+        </p>
+      </header>
+      <ol class="about-page__roadmap">
+        @for (item of roadmap; track item.id; let i = $index) {
+          <li class="about-page__roadmap-item" appRevealOnScroll [appRevealOnScrollDelay]="i * 80">
+            <span class="about-page__roadmap-quarter">{{ item.quarter }}</span>
+            <div class="about-page__roadmap-content">
+              <h3 class="about-page__roadmap-title">{{ item.title }}</h3>
+              <span class="about-page__roadmap-status about-page__roadmap-status--{{ item.status }}">
+                {{ item.status === 'in-progress' ? 'In progress' : item.status === 'completed' ? 'Completed' : 'Planned' }}
+              </span>
+            </div>
+          </li>
+        }
+      </ol>
+    </div>
+  </section>
+
+  <app-public-cta-section
+    [title]="finalCta.title"
+    [description]="finalCta.description"
+    [primaryCta]="finalCta.primaryCta"
+    [secondaryCta]="finalCta.secondaryCta"
+  />
+</main>

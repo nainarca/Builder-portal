@@ -1,0 +1,35 @@
+<section
+  class="page-hero public-animate-in"
+  [class.page-hero--compact]="compact()"
+  aria-labelledby="page-hero-title"
+>
+  <div class="page-hero__backdrop" aria-hidden="true"></div>
+  <div class="public-section__container page-hero__container">
+    <span class="public-section__eyebrow">{{ content().eyebrow }}</span>
+    <h1 id="page-hero-title" class="page-hero__title">{{ content().title }}</h1>
+    <p class="page-hero__subtitle">{{ content().subtitle }}</p>
+
+    @if (content().primaryCta || content().secondaryCta) {
+      <div class="page-hero__actions">
+        @if (content().primaryCta; as primary) {
+          <a
+            [routerLink]="primary.route"
+            [fragment]="primary.fragment"
+            (click)="trackCta(primary.analyticsName)"
+          >
+            <app-button [label]="primary.label" />
+          </a>
+        }
+        @if (content().secondaryCta; as secondary) {
+          <a
+            [routerLink]="secondary.route"
+            [fragment]="secondary.fragment"
+            (click)="trackCta(secondary.analyticsName)"
+          >
+            <app-button [label]="secondary.label" [outlined]="true" severity="secondary" />
+          </a>
+        }
+      </div>
+    }
+  </div>
+</section>

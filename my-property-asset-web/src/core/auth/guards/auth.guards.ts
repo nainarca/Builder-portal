@@ -22,10 +22,11 @@ export const authenticatedGuard: CanActivateFn = async (_route, state) => {
   return inject(Router).parseUrl(authRedirect.buildLoginUrl(state.url));
 };
 
-export const guestGuard: CanActivateFn = async () => {
+export const guestGuard: CanActivateFn = async (route) => {
   const authContext = inject(AuthContextService);
   const supabaseAuth = inject(SupabaseAuthService);
   const router = inject(Router);
+  const authRedirect = inject(AuthRedirectService);
 
   if (!authContext.isInitialized()) {
     await supabaseAuth.restoreSession();
@@ -33,6 +34,11 @@ export const guestGuard: CanActivateFn = async () => {
 
   if (!authContext.isAuthenticated()) {
     return true;
+  }
+
+  const returnUrl = route.queryParamMap.get('returnUrl');
+  if (returnUrl) {
+    return router.parseUrl(authRedirect.getSanitizedReturnUrl(returnUrl));
   }
 
   return router.parseUrl(AUTH_DEFAULT_REDIRECT);

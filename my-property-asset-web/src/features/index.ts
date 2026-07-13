@@ -10,4 +10,9 @@ export {
   BuilderPortalShell,
 } from './builder-portal';
 export { PUBLIC_WEBSITE_ROUTES, PublicWebsiteHome, PublicWebsiteShell } from './public-website';
-export { SUPER_ADMIN_ROUTES, SuperAdminPlaceholder, SuperAdminShell } from './super-admin';
+export {
+  SUPER_ADMIN_ROUTES,
+  SuperAdminDashboardComponent,
+  SuperAdminPlaceholder,
+  SuperAdminShell,
+} from './super-admin';

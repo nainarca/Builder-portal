@@ -15,6 +15,7 @@ export const AUTH_QUERY_PARAMS = {
   error: 'error',
   errorDescription: 'error_description',
   deniedReason: 'deniedReason',
+  intent: 'intent',
 } as const;
 
 export const AUTH_STORAGE_KEYS = {

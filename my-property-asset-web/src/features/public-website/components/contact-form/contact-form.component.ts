@@ -15,7 +15,7 @@ export class PublicContactFormComponent {
 
   readonly state = this.form.state;
 
-  updateField(field: 'name' | 'email' | 'company' | 'message', value: string): void {
+  updateField(field: 'name' | 'email' | 'company' | 'phone' | 'subject' | 'message', value: string): void {
     this.form.updateField(field, value);
   }
 

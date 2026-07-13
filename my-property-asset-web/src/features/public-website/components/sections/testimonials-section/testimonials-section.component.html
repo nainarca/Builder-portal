@@ -1,17 +1,31 @@
-<section class="public-section public-testimonials public-animate-in" [id]="sectionId()" aria-labelledby="public-testimonials-title">
+<section class="public-section public-testimonials" [id]="sectionId()" aria-labelledby="public-testimonials-title">
   <div class="public-section__container">
-    <header class="public-section__header public-section__header--center">
+    <header class="public-section__header public-section__header--center" appRevealOnScroll>
       <span class="public-section__eyebrow">{{ eyebrow() }}</span>
       <h2 id="public-testimonials-title" class="public-section__title">{{ title() }}</h2>
     </header>
 
     <div class="public-testimonials__grid">
-      @for (item of testimonials(); track item.id) {
-        <figure class="public-testimonials__card">
-          <blockquote class="public-testimonials__quote">“{{ item.quote }}”</blockquote>
+      @for (item of testimonials(); track item.id; let i = $index) {
+        <figure
+          class="public-testimonials__card"
+          appRevealOnScroll
+          [appRevealOnScrollDelay]="i * 100"
+        >
+          <div class="public-testimonials__stars" aria-hidden="true">
+            @for (star of [1, 2, 3, 4, 5]; track star) {
+              <i class="pi pi-star-fill"></i>
+            }
+          </div>
+          <blockquote class="public-testimonials__quote">
+            <p>“{{ item.quote }}”</p>
+          </blockquote>
           <figcaption class="public-testimonials__author">
-            <span class="public-testimonials__name">{{ item.author }}</span>
-            <span class="public-testimonials__meta">{{ item.role }}, {{ item.organization }}</span>
+            <span class="public-testimonials__avatar" aria-hidden="true">{{ initials(item) }}</span>
+            <span class="public-testimonials__meta">
+              <span class="public-testimonials__name">{{ item.author }}</span>
+              <span class="public-testimonials__role">{{ item.role }}, {{ item.organization }}</span>
+            </span>
           </figcaption>
         </figure>
       }

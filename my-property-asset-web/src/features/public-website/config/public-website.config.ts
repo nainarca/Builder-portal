@@ -1,135 +1,201 @@
 import {
-  PublicBenefitItem,
+  PublicAudienceBenefit,
   PublicCtaAction,
-  PublicFaqItem,
   PublicFeatureItem,
-  PublicPricingTier,
   PublicStatisticItem,
   PublicStepItem,
   PublicTestimonialItem,
+  PublicTrustBadge,
+  PublicTrustedLogo,
 } from '../models/public-section.model';
 
 export const PUBLIC_WEBSITE_BRAND = {
   name: 'MyPropertyAsset',
-  tagline: 'Property intelligence for modern enterprises',
+  tagline: 'The operating system for modern property enterprises',
   description:
-    'Unify portfolios, projects, and stakeholders in one premium platform built for builders, investors, and operators.',
+    'MyPropertyAsset unifies portfolios, projects, and stakeholders in one premium platform — giving builders, owners, managers, and investors the clarity to move with confidence.',
 } as const;
 
 export const PUBLIC_HERO_CONTENT = {
-  eyebrow: 'Enterprise property platform',
-  title: 'Clarity and control across every property asset',
+  eyebrow: 'Enterprise property intelligence',
+  title: 'Every property asset. One source of truth.',
   subtitle:
-    'MyPropertyAsset brings portfolio visibility, governance, and white-label experiences together — so your teams move faster with confidence.',
+    'Replace fragmented spreadsheets and disconnected tools with a platform built for governance, visibility, and white-label scale — from first project to full portfolio.',
   primaryCta: {
     label: 'Request a demo',
     route: '/auth/login',
     analyticsName: 'public_hero_demo_cta',
   } satisfies PublicCtaAction,
   secondaryCta: {
-    label: 'Explore features',
+    label: 'See how it works',
     route: '/',
-    fragment: 'features',
-    analyticsName: 'public_hero_features_cta',
+    fragment: 'how-it-works',
+    analyticsName: 'public_hero_how_it_works_cta',
   },
   highlights: [
-    'Unified asset and project visibility',
-    'Enterprise-grade security and RBAC',
-    'White-label ready for every organization',
+    'Portfolio-wide visibility in real time',
+    'Enterprise security with organization isolation',
+    'White-label portals for every stakeholder',
   ],
 } as const;
+
+export const PUBLIC_TRUSTED_LOGOS: readonly PublicTrustedLogo[] = [
+  { id: 'summit', name: 'Summit Developments', category: 'builder', initials: 'SD' },
+  { id: 'northline', name: 'Northline Builders', category: 'builder', initials: 'NB' },
+  { id: 'atlas', name: 'Atlas Property Group', category: 'client', initials: 'AP' },
+  { id: 'harbor', name: 'Harbor Estates', category: 'client', initials: 'HE' },
+  { id: 'vertex', name: 'Vertex Capital', category: 'partner', initials: 'VC' },
+  { id: 'crest', name: 'Crest Holdings', category: 'partner', initials: 'CH' },
+];
 
 export const PUBLIC_FEATURES: readonly PublicFeatureItem[] = [
   {
     id: 'portfolio',
-    icon: 'pi pi-chart-line',
-    title: 'Portfolio intelligence',
+    icon: 'chart-line',
+    title: 'Portfolio command center',
+    highlight: 'Visibility',
     description:
-      'Executive dashboards and operational views across assets, projects, and stakeholders in one place.',
+      'Executive dashboards and operational views across assets, developments, and stakeholders — always current, always aligned.',
   },
   {
     id: 'governance',
-    icon: 'pi pi-shield',
-    title: 'Governance by design',
+    icon: 'shield',
+    title: 'Governance & compliance',
+    highlight: 'Trust',
     description:
-      'Role-aware access, audit-ready workflows, and organization context that scales with your enterprise.',
+      'Role-aware access, audit-ready workflows, and organization context designed for enterprise accountability.',
   },
   {
     id: 'whitelabel',
-    icon: 'pi pi-palette',
+    icon: 'palette',
     title: 'White-label experiences',
+    highlight: 'Brand',
     description:
-      'Brand every portal with your identity — logos, colors, and themes that feel native to your organization.',
+      'Launch branded portals with your identity — logos, themes, and navigation that feel native to every organization.',
   },
   {
     id: 'collaboration',
-    icon: 'pi pi-users',
+    icon: 'users',
     title: 'Stakeholder collaboration',
+    highlight: 'Alignment',
     description:
-      'Connect builders, owners, partners, and operators with context-aware navigation and permissions.',
+      'Connect builders, owners, managers, and investors with permissions that match how your business actually operates.',
   },
   {
     id: 'insights',
-    icon: 'pi pi-sparkles',
-    title: 'Operational insights',
+    icon: 'sparkles',
+    title: 'Operational intelligence',
+    highlight: 'Insight',
     description:
-      'Surface the metrics that matter with premium cards, statistics, and reporting foundations.',
+      'Surface the metrics that drive decisions with premium reporting foundations built for leadership and field teams alike.',
   },
   {
     id: 'scale',
-    icon: 'pi pi-sitemap',
-    title: 'Built to scale',
+    icon: 'sitemap',
+    title: 'Enterprise scale',
+    highlight: 'Scale',
     description:
-      'Multi-organization architecture, lazy-loaded modules, and performance-first engineering.',
+      'Multi-organization architecture, lazy-loaded modules, and performance-first engineering that grows with your portfolio.',
   },
 ];
 
-export const PUBLIC_BENEFITS: readonly PublicBenefitItem[] = [
+export const PUBLIC_AUDIENCE_BENEFITS: readonly PublicAudienceBenefit[] = [
   {
-    id: 'speed',
-    icon: 'pi pi-bolt',
-    title: 'Move faster',
-    description: 'Reduce time spent reconciling spreadsheets and disconnected tools.',
+    id: 'owners',
+    audience: 'Property Owners',
+    icon: 'pi pi-home',
+    title: 'Portfolio clarity at every level',
+    description: 'See performance, risk, and opportunity across your entire asset base without chasing updates.',
+    outcomes: ['Unified asset registers', 'Investor-ready reporting', 'Stakeholder transparency'],
   },
   {
-    id: 'trust',
-    icon: 'pi pi-verified',
-    title: 'Earn trust',
-    description: 'Deliver polished, consistent experiences to customers and investors.',
+    id: 'builders',
+    audience: 'Builders',
+    icon: 'pi pi-building',
+    title: 'Deliver projects with confidence',
+    description: 'Coordinate developments, units, and customer experiences from one governed workspace.',
+    outcomes: ['Project-to-unit traceability', 'Branded buyer portals', 'Operational handover'],
   },
   {
-    id: 'control',
-    icon: 'pi pi-sliders-h',
-    title: 'Stay in control',
-    description: 'Configure organizations, roles, and branding without engineering cycles.',
+    id: 'managers',
+    audience: 'Property Managers',
+    icon: 'pi pi-briefcase',
+    title: 'Run operations without friction',
+    description: 'Standardize workflows, permissions, and communications across properties and teams.',
+    outcomes: ['Role-based task visibility', 'Consistent service delivery', 'Audit-ready history'],
+  },
+  {
+    id: 'investors',
+    audience: 'Investors',
+    icon: 'pi pi-chart-bar',
+    title: 'Decisions backed by live data',
+    description: 'Access the metrics and narratives that matter — structured, current, and presentation-ready.',
+    outcomes: ['KPI dashboards', 'Portfolio benchmarking', 'Secure data rooms'],
   },
 ];
 
 export const PUBLIC_STATISTICS: readonly PublicStatisticItem[] = [
-  { id: 'orgs', value: '50+', label: 'Organizations supported', hint: 'Multi-tenant ready' },
-  { id: 'uptime', value: '99.9%', label: 'Platform availability target', hint: 'Enterprise SLA' },
-  { id: 'time', value: '40%', label: 'Faster operational reporting', hint: 'Customer benchmark' },
-  { id: 'satisfaction', value: '4.9/5', label: 'Experience satisfaction', hint: 'Pilot programs' },
+  {
+    id: 'assets',
+    value: '12K+',
+    numericValue: 12,
+    suffix: 'K+',
+    label: 'Assets under management',
+    hint: 'Platform capacity',
+  },
+  {
+    id: 'uptime',
+    value: '99.9%',
+    numericValue: 99.9,
+    suffix: '%',
+    label: 'Target platform availability',
+    hint: 'Enterprise SLA',
+  },
+  {
+    id: 'time',
+    value: '40%',
+    numericValue: 40,
+    suffix: '%',
+    label: 'Faster operational reporting',
+    hint: 'Customer benchmark',
+  },
+  {
+    id: 'satisfaction',
+    value: '4.9',
+    numericValue: 4.9,
+    label: 'Experience satisfaction',
+    hint: 'Pilot program average',
+  },
 ];
 
 export const PUBLIC_STEPS: readonly PublicStepItem[] = [
   {
-    id: 'connect',
+    id: 'discover',
     step: 1,
-    title: 'Connect your organization',
-    description: 'Onboard teams with secure authentication and organization context.',
+    icon: 'pi pi-compass',
+    title: 'Discover your operating model',
+    description: 'Map organizations, roles, and portfolios to the platform’s multi-tenant foundation.',
   },
   {
     id: 'configure',
     step: 2,
-    title: 'Configure your workspace',
-    description: 'Apply branding, roles, and navigation tailored to your operating model.',
+    icon: 'pi pi-sliders-h',
+    title: 'Configure branded workspaces',
+    description: 'Apply themes, permissions, and navigation tailored to each stakeholder group.',
   },
   {
-    id: 'operate',
+    id: 'launch',
     step: 3,
-    title: 'Operate with clarity',
-    description: 'Manage assets and projects with premium tools designed for enterprise scale.',
+    icon: 'pi pi-send',
+    title: 'Launch with confidence',
+    description: 'Onboard teams and go live with enterprise security, governance, and support built in.',
+  },
+  {
+    id: 'scale',
+    step: 4,
+    icon: 'pi pi-arrow-up-right',
+    title: 'Scale across portfolios',
+    description: 'Expand to new developments, partners, and markets without rebuilding your stack.',
   },
 ];
 
@@ -137,108 +203,60 @@ export const PUBLIC_TESTIMONIALS: readonly PublicTestimonialItem[] = [
   {
     id: 't1',
     quote:
-      'MyPropertyAsset gave our leadership team a single source of truth across developments — the experience feels world-class.',
+      'MyPropertyAsset gave our leadership team a single source of truth across developments. The experience feels world-class — our investors noticed immediately.',
     author: 'Priya Sharma',
-    role: 'COO',
+    role: 'Chief Operating Officer',
     organization: 'Summit Developments',
+    initials: 'PS',
   },
   {
     id: 't2',
     quote:
-      'The platform’s governance and white-label capabilities let us launch branded portals without a custom build.',
+      'Governance and white-label capabilities let us launch branded portals without a custom build. We went from concept to demo-ready in weeks.',
     author: 'Marcus Chen',
     role: 'Head of Digital',
     organization: 'Northline Builders',
+    initials: 'MC',
+  },
+  {
+    id: 't3',
+    quote:
+      'For the first time, our property managers and investors are looking at the same numbers. That alignment alone transformed how we operate.',
+    author: 'Elena Vasquez',
+    role: 'Managing Director',
+    organization: 'Atlas Property Group',
+    initials: 'EV',
   },
 ];
 
-export const PUBLIC_PRICING_PREVIEW: readonly PublicPricingTier[] = [
-  {
-    id: 'starter',
-    name: 'Starter',
-    price: 'Custom',
-    period: 'per organization',
-    description: 'For growing builders establishing operational excellence.',
-    features: ['Core portfolio views', 'Organization branding', 'Role-based access'],
-    ctaLabel: 'Talk to sales',
-  },
-  {
-    id: 'enterprise',
-    name: 'Enterprise',
-    price: 'Custom',
-    period: 'annual',
-    description: 'For enterprises requiring scale, governance, and premium support.',
-    features: [
-      'Everything in Starter',
-      'Multi-organization support',
-      'Advanced governance',
-      'Dedicated success',
-    ],
-    highlighted: true,
-    ctaLabel: 'Request pricing',
-  },
-  {
-    id: 'platform',
-    name: 'Platform',
-    price: 'Custom',
-    period: 'partnership',
-    description: 'For partners and marketplace operators extending the ecosystem.',
-    features: ['Partner branding', 'Marketplace foundations', 'API readiness'],
-    ctaLabel: 'Partner with us',
-  },
-];
-
-export const PUBLIC_FAQ: readonly PublicFaqItem[] = [
-  {
-    id: 'faq-1',
-    question: 'Who is MyPropertyAsset built for?',
-    answer:
-      'MyPropertyAsset serves property builders, asset operators, investors, and enterprise teams that need unified visibility, governance, and branded experiences.',
-  },
-  {
-    id: 'faq-2',
-    question: 'Does the platform support multiple organizations?',
-    answer:
-      'Yes. The foundation includes multi-organization context, switching, and white-label branding designed for enterprise SaaS scale.',
-  },
-  {
-    id: 'faq-3',
-    question: 'Can we use our own branding?',
-    answer:
-      'Absolutely. Organization branding, theme resolution, and logo support are built into the platform theme engine.',
-  },
-  {
-    id: 'faq-4',
-    question: 'Is MyPropertyAsset secure?',
-    answer:
-      'Security is foundational — authentication, session management, RBAC, and organization isolation are implemented before business modules.',
-  },
+export const PUBLIC_TRUST_BADGES: readonly PublicTrustBadge[] = [
+  { id: 'security', icon: 'pi pi-shield', label: 'Enterprise-grade security' },
+  { id: 'compliance', icon: 'pi pi-verified', label: 'Audit-ready governance' },
+  { id: 'support', icon: 'pi pi-headphones', label: 'Dedicated success team' },
 ];
 
 export const PUBLIC_FINAL_CTA = {
-  title: 'Ready to elevate your property operations?',
+  title: 'See why property leaders choose MyPropertyAsset',
   description:
-    'Join forward-thinking builders and operators who demand clarity, control, and a premium experience.',
+    'Join builders, owners, and operators who demand a platform as polished as the properties they deliver.',
   primaryCta: {
-    label: 'Get started',
+    label: 'Book a demo',
     route: '/auth/login',
     analyticsName: 'public_footer_cta',
   } satisfies PublicCtaAction,
   secondaryCta: {
-    label: 'Contact sales',
+    label: 'Explore features',
     route: '/',
-    fragment: 'contact',
-    analyticsName: 'public_contact_cta',
+    fragment: 'features',
+    analyticsName: 'public_features_cta',
   },
 } as const;
 
 export const PUBLIC_SECTION_IDS = {
+  trustedBy: 'trusted-by',
   features: 'features',
   benefits: 'benefits',
   statistics: 'statistics',
   howItWorks: 'how-it-works',
   testimonials: 'testimonials',
-  pricing: 'pricing',
-  faq: 'faq',
-  contact: 'contact',
 } as const;

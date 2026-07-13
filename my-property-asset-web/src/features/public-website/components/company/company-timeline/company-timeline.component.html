@@ -1,0 +1,31 @@
+@if (title()) {
+  <header class="public-section__header public-section__header--center" appRevealOnScroll>
+    @if (title(); as t) {
+      <h2 class="public-section__title">{{ t }}</h2>
+    }
+    @if (description(); as d) {
+      <p class="public-section__description">{{ d }}</p>
+    }
+  </header>
+}
+
+<ol class="company-timeline" [class.company-timeline--horizontal]="variant() === 'horizontal'">
+  @for (event of events(); track event.id; let i = $index; let last = $last) {
+    <li
+      class="company-timeline__item"
+      appRevealOnScroll
+      [appRevealOnScrollDelay]="i * 90"
+    >
+      <div class="company-timeline__marker">
+        <span class="company-timeline__year">{{ event.year }}</span>
+        @if (!last && variant() === 'vertical') {
+          <span class="company-timeline__line" aria-hidden="true"></span>
+        }
+      </div>
+      <div class="company-timeline__content">
+        <h3 class="company-timeline__title">{{ event.title }}</h3>
+        <p class="company-timeline__description">{{ event.description }}</p>
+      </div>
+    </li>
+  }
+</ol>

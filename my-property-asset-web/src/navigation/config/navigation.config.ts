@@ -1,10 +1,12 @@
 import { NavigationConfiguration, NavigationMetadata, NavigationSection } from '../models';
 
 const PUBLIC_SECTIONS = {
+  trustedBy: 'trusted-by',
   features: 'features',
-  pricing: 'pricing',
-  faq: 'faq',
-  contact: 'contact',
+  benefits: 'benefits',
+  howItWorks: 'how-it-works',
+  statistics: 'statistics',
+  testimonials: 'testimonials',
 } as const;
 
 const emptySection = (id: string, ariaLabel: string): NavigationSection => ({
@@ -59,20 +61,56 @@ export const PUBLIC_WEBSITE_NAVIGATION: NavigationConfiguration = {
     {
       id: 'pub-pricing',
       label: 'Pricing',
-      route: '/',
-      metadata: { fragment: PUBLIC_SECTIONS.pricing, analyticsName: 'public_nav_pricing' },
+      route: '/pricing',
+      metadata: { analyticsName: 'public_nav_pricing' },
     },
     {
-      id: 'pub-faq',
-      label: 'FAQ',
-      route: '/',
-      metadata: { fragment: PUBLIC_SECTIONS.faq, analyticsName: 'public_nav_faq' },
+      id: 'pub-about',
+      label: 'About',
+      route: '/about',
+      metadata: { analyticsName: 'public_nav_about' },
+    },
+    {
+      id: 'pub-company',
+      label: 'Company',
+      route: '/company',
+      metadata: { analyticsName: 'public_nav_company' },
     },
     {
       id: 'pub-contact',
       label: 'Contact',
+      route: '/contact',
+      metadata: { analyticsName: 'public_nav_contact' },
+    },
+    {
+      id: 'pub-help',
+      label: 'Help',
+      route: '/help',
+      metadata: { analyticsName: 'public_nav_help' },
+    },
+    {
+      id: 'pub-faq',
+      label: 'FAQ',
+      route: '/faq',
+      metadata: { analyticsName: 'public_nav_faq' },
+    },
+    {
+      id: 'pub-benefits',
+      label: 'Solutions',
       route: '/',
-      metadata: { fragment: PUBLIC_SECTIONS.contact, analyticsName: 'public_nav_contact' },
+      metadata: { fragment: PUBLIC_SECTIONS.benefits, analyticsName: 'public_nav_benefits' },
+    },
+    {
+      id: 'pub-how-it-works',
+      label: 'How it works',
+      route: '/',
+      metadata: { fragment: PUBLIC_SECTIONS.howItWorks, analyticsName: 'public_nav_how_it_works' },
+    },
+    {
+      id: 'pub-testimonials',
+      label: 'Stories',
+      route: '/',
+      metadata: { fragment: PUBLIC_SECTIONS.testimonials, analyticsName: 'public_nav_testimonials' },
     },
   ]),
   sidebarNav: emptySection('public-website-sidebar', 'Sidebar navigation'),
@@ -88,30 +126,28 @@ export const PUBLIC_WEBSITE_NAVIGATION: NavigationConfiguration = {
     {
       id: 'pub-footer-pricing',
       label: 'Pricing',
-      route: '/',
-      metadata: { fragment: PUBLIC_SECTIONS.pricing },
+      route: '/pricing',
     },
     {
-      id: 'pub-footer-faq',
-      label: 'FAQ',
+      id: 'pub-footer-benefits',
+      label: 'Solutions',
       route: '/',
-      metadata: { fragment: PUBLIC_SECTIONS.faq },
+      metadata: { fragment: PUBLIC_SECTIONS.benefits },
     },
-    {
-      id: 'pub-footer-contact',
-      label: 'Contact',
-      route: '/',
-      metadata: { fragment: PUBLIC_SECTIONS.contact },
-    },
-    { id: 'pub-footer-sign-in', label: 'Sign in', route: '/auth/login' },
   ]),
   userNav: emptySection('public-website-user', 'User navigation'),
   quickActions: section('public-website-quick-actions', 'Quick actions', [
     {
       id: 'pub-demo',
-      label: 'Request demo',
+      label: 'Get started',
+      route: '/get-started',
+      metadata: { analyticsName: 'public_nav_get_started' },
+    },
+    {
+      id: 'pub-signin',
+      label: 'Sign in',
       route: '/auth/login',
-      metadata: { analyticsName: 'public_nav_demo' },
+      metadata: { analyticsName: 'public_nav_signin' },
     },
   ]),
   favorites: emptySection('public-website-favorites', 'Favorites'),
@@ -130,6 +166,16 @@ export const SUPER_ADMIN_NAVIGATION: NavigationConfiguration = createConfigurati
     metadata: {
       permissions: ['portal:super-admin', 'id-06-platform-operations:read'],
       analyticsName: 'sa_dashboard_nav',
+    },
+  },
+  {
+    id: 'sa-organizations',
+    label: 'Organizations',
+    route: '/super-admin/organizations',
+    icon: 'pi pi-sitemap',
+    metadata: {
+      permissions: ['id-03-organization-tenancy:read'],
+      analyticsName: 'sa_organizations_nav',
     },
   },
   {

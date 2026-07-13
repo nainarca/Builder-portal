@@ -1,5 +1,8 @@
 <section class="public-hero public-animate-in" aria-labelledby="public-hero-title">
-  <div class="public-hero__backdrop" aria-hidden="true"></div>
+  <div class="public-hero__backdrop" aria-hidden="true">
+    <div class="public-hero__glow public-hero__glow--one"></div>
+    <div class="public-hero__glow public-hero__glow--two"></div>
+  </div>
   <div class="public-hero__grid" aria-hidden="true"></div>
 
   <div class="public-hero__container">
@@ -9,26 +12,36 @@
       }
 
       <span class="public-section__eyebrow">{{ eyebrow() }}</span>
-      <h1 id="public-hero-title" class="public-hero__title">{{ title() }}</h1>
+      <h1 id="public-hero-title" class="public-hero__title">
+        @for (word of titleWords(); track $index) {
+          <span class="public-hero__title-word" [style.--word-index]="$index">{{ word }} </span>
+        }
+      </h1>
       <p class="public-hero__subtitle">{{ subtitle() }}</p>
 
       <div class="public-hero__actions">
-        <a
-          [routerLink]="primaryCta().route"
+        <app-conversion-cta-link
+          class="public-hero__cta public-hero__cta--primary"
+          [label]="primaryCta().label"
+          [route]="primaryCta().route"
           [fragment]="primaryCta().fragment"
-          (click)="trackCta(primaryCta())"
-        >
-          <app-button [label]="primaryCta().label" severity="primary" />
-        </a>
+          [intent]="primaryCta().intent"
+          [returnUrl]="primaryCta().returnUrl"
+          [analyticsName]="primaryCta().analyticsName"
+        />
 
         @if (secondaryCta(); as secondary) {
-          <a
-            [routerLink]="secondary.route"
+          <app-conversion-cta-link
+            class="public-hero__cta"
+            [label]="secondary.label"
+            [route]="secondary.route"
             [fragment]="secondary.fragment"
-            (click)="trackCta(secondary)"
-          >
-            <app-button [label]="secondary.label" [outlined]="true" severity="secondary" />
-          </a>
+            [intent]="secondary.intent"
+            [returnUrl]="secondary.returnUrl"
+            [analyticsName]="secondary.analyticsName"
+            [outlined]="true"
+            severity="secondary"
+          />
         }
       </div>
 
@@ -36,7 +49,9 @@
         <ul class="public-hero__highlights">
           @for (item of highlights(); track item) {
             <li>
-              <span class="public-hero__bullet" aria-hidden="true"></span>
+              <span class="public-hero__check" aria-hidden="true">
+                <i class="pi pi-check"></i>
+              </span>
               <span>{{ item }}</span>
             </li>
           }
@@ -45,14 +60,25 @@
     </div>
 
     <div class="public-hero__visual public-animate-in public-animate-in--delay-2" aria-hidden="true">
-      <div class="public-hero__orb public-hero__orb--primary"></div>
-      <div class="public-hero__orb public-hero__orb--accent"></div>
-      <div class="public-hero__panel">
-        <div class="public-hero__panel-line public-hero__panel-line--wide"></div>
-        <div class="public-hero__panel-line"></div>
-        <div class="public-hero__panel-line"></div>
-        <div class="public-hero__panel-chart">
-          <span></span><span></span><span></span><span></span>
+      <div class="public-hero__illustration">
+        <div class="public-hero__orb public-hero__orb--primary"></div>
+        <div class="public-hero__orb public-hero__orb--accent"></div>
+
+        <div class="public-hero__panel public-hero__panel--main">
+          <div class="public-hero__panel-header">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="public-hero__panel-line public-hero__panel-line--wide"></div>
+          <div class="public-hero__panel-line"></div>
+          <div class="public-hero__panel-chart">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <div class="public-hero__panel public-hero__panel--floating">
+          <span class="public-hero__metric-label">Portfolio value</span>
+          <strong class="public-hero__metric-value">$2.4B</strong>
+          <span class="public-hero__metric-trend">+12.4% YoY</span>
         </div>
       </div>
     </div>

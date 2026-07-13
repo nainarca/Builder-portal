@@ -1,0 +1,16 @@
+.conversion-trust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mpa-spacing-xs);
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--mpa-radius-full);
+  border: 1px solid var(--mpa-color-border);
+  background: var(--mpa-color-surface);
+  font-size: var(--mpa-font-size-xs);
+  font-weight: var(--mpa-font-weight-medium);
+  color: var(--mpa-color-text-muted);
+}
+
+.conversion-trust-badge i {
+  color: var(--mpa-color-primary);
+}

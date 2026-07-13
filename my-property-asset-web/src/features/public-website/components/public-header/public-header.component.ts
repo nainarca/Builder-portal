@@ -1,19 +1,19 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { ButtonComponent } from '@shared/ui';
-import { PLATFORM_BRAND } from '@theme/config';
-import { ThemeService } from '@theme/services/theme.service';
-import { ThemeModePreference } from '@theme/models';
 import {
   QuickActionsComponent,
   TopNavigationComponent,
 } from '@navigation/components';
 import { NavigationStateService } from '@navigation/services';
+import { PLATFORM_BRAND } from '@theme/config';
+import { ThemeModePreference } from '@theme/models';
+import { ThemeService } from '@theme/services/theme.service';
+import { ConversionCtaLinkComponent } from '../conversion/conversion-cta-link/conversion-cta-link.component';
 
 @Component({
   selector: 'app-public-header',
-  imports: [RouterLink, ButtonComponent, TopNavigationComponent, QuickActionsComponent],
+  imports: [RouterLink, ConversionCtaLinkComponent, TopNavigationComponent, QuickActionsComponent],
   templateUrl: './public-header.component.html',
   styleUrl: './public-header.component.scss',
   host: {

@@ -1,0 +1,23 @@
+<div class="pricing-toggle" role="group" aria-label="Billing period">
+  <button
+    type="button"
+    class="pricing-toggle__option mpa-focus-visible"
+    [class.pricing-toggle__option--active]="isActive('monthly')"
+    [attr.aria-pressed]="isActive('monthly')"
+    (click)="select('monthly')"
+  >
+    Monthly
+  </button>
+  <button
+    type="button"
+    class="pricing-toggle__option mpa-focus-visible"
+    [class.pricing-toggle__option--active]="isActive('annual')"
+    [attr.aria-pressed]="isActive('annual')"
+    (click)="select('annual')"
+  >
+    Annual
+    @if (discountLabel(); as discount) {
+      <span class="pricing-toggle__badge">{{ discount }}</span>
+    }
+  </button>
+</div>

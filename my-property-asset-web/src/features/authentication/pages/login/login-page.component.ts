@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { map } from 'rxjs';
 
 import {
   AUTH_CONFIG,
@@ -11,6 +13,8 @@ import {
   RememberMeService,
 } from '@core/auth';
 import { APP_ROUTES } from '@core/constants/app.constants';
+import { AUTH_ENTRY_EXPERIENCES } from '../../../public-website/config/conversion-entry.config';
+import { AuthEntryIntent } from '../../../public-website/models/conversion.model';
 import {
   ButtonComponent,
   FormActionsComponent,
@@ -47,6 +51,18 @@ export class LoginPageComponent implements OnInit {
 
   readonly authRoutes = AUTH_ROUTE_SEGMENTS;
   readonly appRoutes = APP_ROUTES;
+
+  private readonly intent = toSignal(
+    this.route.queryParamMap.pipe(
+      map((params) => {
+        const value = params.get('intent');
+        return value === 'get-started' ? 'get-started' : 'signin';
+      }),
+    ),
+    { initialValue: 'signin' as AuthEntryIntent },
+  );
+
+  readonly experience = computed(() => AUTH_ENTRY_EXPERIENCES[this.intent()]);
 
   readonly submitting = signal(false);
   readonly submitError = signal<string | null>(null);

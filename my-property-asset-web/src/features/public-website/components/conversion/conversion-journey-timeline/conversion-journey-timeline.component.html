@@ -1,0 +1,16 @@
+<ol class="conversion-journey">
+  @for (step of steps(); track step.id; let i = $index; let last = $last) {
+    <li class="conversion-journey__item" appRevealOnScroll [appRevealOnScrollDelay]="i * 90">
+      <div class="conversion-journey__marker">
+        <span class="conversion-journey__step">{{ step.step }}</span>
+        @if (!last) {
+          <span class="conversion-journey__line" aria-hidden="true"></span>
+        }
+      </div>
+      <div class="conversion-journey__content">
+        <h3 class="conversion-journey__title">{{ step.title }}</h3>
+        <p class="conversion-journey__description">{{ step.description }}</p>
+      </div>
+    </li>
+  }
+</ol>

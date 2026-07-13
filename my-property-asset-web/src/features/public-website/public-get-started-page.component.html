@@ -1,0 +1,123 @@
+<main class="get-started-page">
+  <app-page-hero-banner [content]="hero" />
+
+  <section class="public-section public-section--compact" aria-labelledby="get-started-intent-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="get-started-intent-title" class="public-section__title">How would you like to continue?</h2>
+        <p class="public-section__description">Choose your path — we will guide you to the right authentication experience.</p>
+      </header>
+      <app-welcome-banner
+        [activeIntent]="activeIntent()"
+        (intentSelected)="setIntent($event)"
+      />
+      <div class="get-started-page__intent-panel" appRevealOnScroll>
+        <h3 class="get-started-page__intent-title">{{ activeExperience().title }}</h3>
+        <p class="get-started-page__intent-description">{{ activeExperience().subtitle }}</p>
+        <app-conversion-cta-link
+          [label]="activeExperience().ctaLabel"
+          route="/auth/login"
+          [intent]="activeIntent()"
+          analyticsName="get_started_intent_cta"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section public-section--surface" aria-labelledby="get-started-trust-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="get-started-trust-title" class="public-section__title">Enterprise trust indicators</h2>
+      </header>
+      <ul class="get-started-page__trust-list">
+        @for (badge of trustBadges; track badge.id; let i = $index) {
+          <li appRevealOnScroll [appRevealOnScrollDelay]="i * 60">
+            <app-conversion-trust-badge [badge]="badge" />
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="public-section" aria-labelledby="get-started-features-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="get-started-features-title" class="public-section__title">Why teams choose MyPropertyAsset</h2>
+      </header>
+      <div class="public-grid public-grid--2">
+        @for (feature of features; track feature.id; let i = $index) {
+          <app-conversion-feature-card [feature]="feature" appRevealOnScroll [appRevealOnScrollDelay]="i * 70" />
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section public-section--surface" aria-labelledby="get-started-success-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="get-started-success-title" class="public-section__title">Customer success highlights</h2>
+      </header>
+      <div class="get-started-page__success-grid">
+        @for (item of successHighlights; track item.id; let i = $index) {
+          <article class="get-started-page__success-card" appRevealOnScroll [appRevealOnScrollDelay]="i * 80">
+            <p class="get-started-page__success-metric">{{ item.metric }}</p>
+            <p class="get-started-page__success-label">{{ item.label }}</p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section" aria-labelledby="get-started-journey-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="get-started-journey-title" class="public-section__title">Your journey</h2>
+        <p class="public-section__description">A frictionless path from exploration to your governed workspace.</p>
+      </header>
+      <app-conversion-journey-timeline [steps]="journeySteps" />
+    </div>
+  </section>
+
+  <section class="public-section public-section--compact" aria-labelledby="get-started-security-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="get-started-security-title" class="public-section__title">Security messaging</h2>
+      </header>
+      <div class="public-grid public-grid--3">
+        @for (item of securityMessages; track item.id; let i = $index) {
+          <article class="get-started-page__security-card" appRevealOnScroll [appRevealOnScrollDelay]="i * 70">
+            <i [class]="item.icon" aria-hidden="true"></i>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.description }}</p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section" aria-labelledby="get-started-placeholders-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="get-started-placeholders-title" class="public-section__title">Coming soon</h2>
+        <p class="public-section__description">Framework placeholders for invitation and trial entry flows.</p>
+      </header>
+      <div class="public-grid public-grid--2">
+        @for (entry of placeholders; track entry.id; let i = $index) {
+          <article class="get-started-page__placeholder-card" appRevealOnScroll [appRevealOnScrollDelay]="i * 80">
+            <i [class]="entry.icon" aria-hidden="true"></i>
+            <h3>{{ entry.title }}</h3>
+            <p>{{ entry.description }}</p>
+            <span class="get-started-page__placeholder-badge">{{ entry.status === 'coming-soon' ? 'Coming soon' : 'Available' }}</span>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <app-public-cta-section
+    [title]="finalCta.title"
+    [description]="finalCta.description"
+    [primaryCta]="finalCta.primaryCta"
+    [secondaryCta]="finalCta.secondaryCta"
+  />
+</main>

@@ -1,21 +1,71 @@
 <footer class="public-footer layout-footer layout-surface" role="contentinfo">
   <div class="public-footer__container">
-    <div class="public-footer__top">
-      <div class="public-footer__brand">
-        <span class="public-footer__name">{{ brand.name }}</span>
+    <div class="public-footer__main">
+      <div class="public-footer__brand-block">
+        <a routerLink="/" class="public-footer__brand" aria-label="MyPropertyAsset home">
+          <img
+            class="public-footer__logo"
+            [src]="logoSrc()"
+            [alt]="brand.logo?.alt ?? brand.name"
+            width="160"
+            height="40"
+          />
+        </a>
         <p class="public-footer__tagline">{{ tagline }}</p>
+        <div class="public-footer__social" aria-label="Social media">
+          @for (social of socialLinks; track social.id) {
+            <a
+              class="public-footer__social-link mpa-focus-visible"
+              [href]="social.href"
+              target="_blank"
+              rel="noopener noreferrer"
+              [attr.aria-label]="social.label"
+            >
+              <i [class]="social.icon" aria-hidden="true"></i>
+            </a>
+          }
+        </div>
       </div>
 
-      <app-public-newsletter-form />
+      <div class="public-footer__columns">
+        @for (column of columns; track column.id) {
+          <nav class="public-footer__column" [attr.aria-label]="column.title">
+            <h3 class="public-footer__column-title">{{ column.title }}</h3>
+            <ul class="public-footer__links">
+              @for (link of column.links; track link.id) {
+                <li>
+                  @if (link.external) {
+                    <a
+                      class="public-footer__link"
+                      href="#"
+                      [attr.aria-label]="link.label + ' (placeholder)'"
+                    >
+                      {{ link.label }}
+                    </a>
+                  } @else {
+                    <a
+                      class="public-footer__link"
+                      [routerLink]="link.route"
+                      [fragment]="link.fragment"
+                    >
+                      {{ link.label }}
+                    </a>
+                  }
+                </li>
+              }
+            </ul>
+          </nav>
+        }
+      </div>
 
-      <nav class="public-footer__nav" aria-label="Footer navigation">
-        <app-footer-navigation />
-      </nav>
+      <div class="public-footer__newsletter">
+        <app-public-newsletter-form />
+      </div>
     </div>
 
     <div class="public-footer__bottom">
       <span>&copy; {{ year }} {{ brand.name }}. All rights reserved.</span>
-      <span class="public-footer__note">Built for enterprise property operations.</span>
+      <span class="public-footer__note">Enterprise property operations, built for scale.</span>
     </div>
   </div>
 </footer>

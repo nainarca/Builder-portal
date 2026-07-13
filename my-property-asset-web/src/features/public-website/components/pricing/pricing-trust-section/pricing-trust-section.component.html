@@ -1,0 +1,24 @@
+<section class="public-section pricing-trust" [id]="sectionId()" aria-labelledby="pricing-trust-title">
+  <div class="public-section__container">
+    <header class="public-section__header public-section__header--center" appRevealOnScroll>
+      <span class="public-section__eyebrow">Trust</span>
+      <h2 id="pricing-trust-title" class="public-section__title">{{ title() }}</h2>
+    </header>
+
+    <div class="pricing-trust__grid">
+      @for (item of highlights(); track item.id; let i = $index) {
+        <article
+          class="pricing-trust__card"
+          appRevealOnScroll
+          [appRevealOnScrollDelay]="i * 90"
+        >
+          <div class="pricing-trust__icon" aria-hidden="true">
+            <i [class]="item.icon"></i>
+          </div>
+          <h3 class="pricing-trust__card-title">{{ item.title }}</h3>
+          <p class="pricing-trust__card-description">{{ item.description }}</p>
+        </article>
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,11 @@
+.floating-conversion-cta {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 5.5rem;
+  z-index: 898;
+}
+
+.floating-conversion-cta app-conversion-cta-link ::ng-deep app-button button,
+.floating-conversion-cta app-conversion-cta-link ::ng-deep .p-button {
+  box-shadow: var(--mpa-shadow-md);
+}

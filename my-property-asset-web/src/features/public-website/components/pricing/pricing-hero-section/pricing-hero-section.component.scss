@@ -1,0 +1,44 @@
+.pricing-hero {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(3.5rem, 8vw, 5.5rem);
+  text-align: center;
+}
+
+.pricing-hero__backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--mpa-color-primary) 12%, transparent), transparent 55%),
+    linear-gradient(180deg, var(--mpa-color-surface-muted), var(--mpa-color-surface));
+}
+
+.pricing-hero__container {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--mpa-spacing-lg);
+  justify-items: center;
+}
+
+.pricing-hero__title {
+  margin: 0;
+  max-width: 16ch;
+  font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+  font-weight: var(--mpa-font-weight-semibold);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.pricing-hero__subtitle {
+  margin: 0;
+  max-width: 42rem;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  line-height: 1.7;
+  color: var(--mpa-color-text-muted);
+}
+
+.pricing-hero__cta {
+  text-decoration: none;
+  margin-top: var(--mpa-spacing-sm);
+}

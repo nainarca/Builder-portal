@@ -1,0 +1,46 @@
+.contact-channel-card {
+  display: grid;
+  gap: var(--mpa-spacing-sm);
+  padding: var(--mpa-spacing-xl);
+  border-radius: var(--mpa-radius-xl);
+  border: 1px solid var(--mpa-color-border);
+  background: var(--mpa-color-surface);
+  height: 100%;
+}
+
+.contact-channel-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--mpa-radius-lg);
+  background: var(--mpa-color-primary-subtle);
+  color: var(--mpa-color-primary);
+}
+
+.contact-channel-card__label {
+  margin: 0;
+  font-size: var(--mpa-font-size-sm);
+  font-weight: var(--mpa-font-weight-semibold);
+  color: var(--mpa-color-text-muted);
+}
+
+.contact-channel-card__value {
+  margin: 0;
+  font-size: var(--mpa-font-size-base);
+  font-weight: var(--mpa-font-weight-medium);
+  color: var(--mpa-color-text);
+  text-decoration: none;
+}
+
+a.contact-channel-card__value:hover {
+  color: var(--mpa-color-primary);
+  text-decoration: underline;
+}
+
+.contact-channel-card__hint {
+  margin: 0;
+  font-size: var(--mpa-font-size-xs);
+  color: var(--mpa-color-text-muted);
+}

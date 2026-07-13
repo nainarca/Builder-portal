@@ -1,0 +1,7 @@
+<article class="stat-highlight-card">
+  <p class="stat-highlight-card__value">{{ stat().value }}</p>
+  <p class="stat-highlight-card__label">{{ stat().label }}</p>
+  @if (stat().hint) {
+    <p class="stat-highlight-card__description">{{ stat().hint }}</p>
+  }
+</article>

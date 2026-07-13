@@ -1,0 +1,55 @@
+.page-hero {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(3.5rem, 8vw, 6rem);
+  text-align: center;
+}
+
+.page-hero--compact {
+  padding-block: clamp(2.5rem, 6vw, 4rem);
+}
+
+.page-hero__backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 0%, color-mix(in srgb, var(--mpa-color-primary) 10%, transparent), transparent 50%),
+    linear-gradient(180deg, var(--mpa-color-surface-muted), var(--mpa-color-surface));
+}
+
+.page-hero__container {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--mpa-spacing-lg);
+  justify-items: center;
+}
+
+.page-hero__title {
+  margin: 0;
+  max-width: 20ch;
+  font-size: clamp(2.1rem, 4.2vw, 3.25rem);
+  font-weight: var(--mpa-font-weight-semibold);
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+}
+
+.page-hero__subtitle {
+  margin: 0;
+  max-width: 44rem;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  line-height: 1.7;
+  color: var(--mpa-color-text-muted);
+}
+
+.page-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mpa-spacing-md);
+  justify-content: center;
+  margin-top: var(--mpa-spacing-sm);
+}
+
+.page-hero__actions a {
+  text-decoration: none;
+}

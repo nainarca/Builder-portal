@@ -10,69 +10,51 @@
     [logoAlt]="brand.name"
   />
 
+  <app-public-trusted-by-section
+    [sectionId]="sectionIds.trustedBy"
+    [logos]="trustedLogos"
+  />
+
+  <hr class="public-section-divider" aria-hidden="true" />
+
   <app-public-features-section
     [sectionId]="sectionIds.features"
-    title="Everything you need to run property operations with confidence"
+    title="The platform property enterprises run on"
     [description]="brand.description"
     [features]="features"
   />
 
   <app-public-benefits-section
     [sectionId]="sectionIds.benefits"
-    title="Designed for teams who expect more"
-    description="A premium foundation for builders, investors, and operators who need clarity without compromise."
-    [benefits]="benefits"
-  />
-
-  <app-public-statistics-section
-    [sectionId]="sectionIds.statistics"
-    title="Built for scale from day one"
-    [statistics]="statistics"
+    title="Purpose-built for every stakeholder in your ecosystem"
+    description="Whether you develop, own, manage, or invest — MyPropertyAsset delivers the clarity and control your role demands."
+    [benefits]="audienceBenefits"
   />
 
   <app-public-how-it-works-section
     [sectionId]="sectionIds.howItWorks"
-    title="From onboarding to operations in three steps"
-    description="A streamlined path to enterprise-ready property management."
+    title="From first conversation to full portfolio scale"
+    description="A proven path to enterprise-ready property operations — without rebuilding your technology stack."
     [steps]="steps"
+  />
+
+  <app-public-statistics-section
+    [sectionId]="sectionIds.statistics"
+    title="Impact you can measure"
+    [statistics]="statistics"
   />
 
   <app-public-testimonials-section
     [sectionId]="sectionIds.testimonials"
-    title="Trusted by forward-thinking property teams"
+    title="Trusted by teams who raise the bar"
     [testimonials]="testimonials"
   />
-
-  <app-public-pricing-preview-section
-    [sectionId]="sectionIds.pricing"
-    title="Flexible plans for every stage of growth"
-    description="Pricing is tailored to your organization. Preview tiers below — full pricing arrives in PUBLIC-002."
-    [tiers]="pricing"
-  />
-
-  <app-public-faq-section
-    [sectionId]="sectionIds.faq"
-    title="Frequently asked questions"
-    [items]="faq"
-  />
-
-  <section class="public-home__contact public-section" [id]="sectionIds.contact" aria-labelledby="public-contact-title">
-    <div class="public-section__container">
-      <header class="public-section__header public-section__header--center">
-        <span class="public-section__eyebrow">Contact</span>
-        <h2 id="public-contact-title" class="public-section__title">Let us show you the platform</h2>
-        <p class="public-section__description">
-          Share your goals and we will help you evaluate MyPropertyAsset for your organization.
-        </p>
-      </header>
-      <app-public-contact-form />
-    </div>
-  </section>
 
   <app-public-cta-section
     [title]="finalCta.title"
     [description]="finalCta.description"
     [primaryCta]="finalCta.primaryCta"
     [secondaryCta]="finalCta.secondaryCta"
+    [trustBadges]="trustBadges"
   />
 </main>

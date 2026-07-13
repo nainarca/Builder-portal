@@ -1,0 +1,95 @@
+.public-section--surface {
+  background: color-mix(in srgb, var(--mpa-color-primary-subtle) 35%, var(--mpa-color-background));
+}
+
+.company-page__award-card {
+  display: grid;
+  gap: var(--mpa-spacing-sm);
+  padding: var(--mpa-spacing-xl);
+  border-radius: var(--mpa-radius-xl);
+  border: 1px solid var(--mpa-color-border);
+  background: var(--mpa-color-surface);
+  text-align: center;
+}
+
+.company-page__award-year {
+  font-size: var(--mpa-font-size-sm);
+  font-weight: var(--mpa-font-weight-bold);
+  color: var(--mpa-color-primary);
+}
+
+.company-page__award-title {
+  margin: 0;
+  font-size: var(--mpa-font-size-lg);
+  font-weight: var(--mpa-font-weight-semibold);
+}
+
+.company-page__award-org {
+  margin: 0;
+  color: var(--mpa-color-text-muted);
+  font-size: var(--mpa-font-size-sm);
+}
+
+.company-page__success-card {
+  display: grid;
+  gap: var(--mpa-spacing-sm);
+  padding: var(--mpa-spacing-xl);
+  border-radius: var(--mpa-radius-xl);
+  border: 1px solid var(--mpa-color-border);
+  background: var(--mpa-color-surface);
+  text-align: center;
+}
+
+.company-page__success-metric {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: var(--mpa-font-weight-bold);
+  color: var(--mpa-color-primary);
+  line-height: 1;
+}
+
+.company-page__success-label {
+  margin: 0;
+  font-size: var(--mpa-font-size-base);
+  font-weight: var(--mpa-font-weight-semibold);
+}
+
+.company-page__success-description {
+  margin: 0;
+  color: var(--mpa-color-text-muted);
+  font-size: var(--mpa-font-size-sm);
+  line-height: var(--mpa-line-height-relaxed);
+}
+
+.company-page__security-card {
+  display: grid;
+  gap: var(--mpa-spacing-md);
+  padding: var(--mpa-spacing-xl);
+  border-radius: var(--mpa-radius-xl);
+  border: 1px solid var(--mpa-color-border);
+  background: var(--mpa-color-surface);
+}
+
+.company-page__security-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--mpa-radius-lg);
+  background: var(--mpa-color-primary-subtle);
+  color: var(--mpa-color-primary);
+}
+
+.company-page__security-title {
+  margin: 0;
+  font-size: var(--mpa-font-size-lg);
+  font-weight: var(--mpa-font-weight-semibold);
+}
+
+.company-page__security-description {
+  margin: 0;
+  color: var(--mpa-color-text-muted);
+  font-size: var(--mpa-font-size-sm);
+  line-height: var(--mpa-line-height-relaxed);
+}

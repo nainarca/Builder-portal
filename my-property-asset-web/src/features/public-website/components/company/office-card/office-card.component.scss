@@ -1,0 +1,58 @@
+.office-card {
+  display: grid;
+  gap: var(--mpa-spacing-md);
+  padding: var(--mpa-spacing-xl);
+  border-radius: var(--mpa-radius-xl);
+  border: 1px solid var(--mpa-color-border);
+  background: var(--mpa-color-surface);
+  height: 100%;
+}
+
+.office-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--mpa-spacing-md);
+}
+
+.office-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--mpa-radius-lg);
+  background: var(--mpa-color-primary-subtle);
+  color: var(--mpa-color-primary);
+}
+
+.office-card__city {
+  margin: 0;
+  font-size: var(--mpa-font-size-lg);
+  font-weight: var(--mpa-font-weight-semibold);
+}
+
+.office-card__country {
+  margin: 0;
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-text-muted);
+}
+
+.office-card__address {
+  margin: 0;
+  font-style: normal;
+  color: var(--mpa-color-text-muted);
+  font-size: var(--mpa-font-size-sm);
+  line-height: var(--mpa-line-height-relaxed);
+  white-space: pre-line;
+}
+
+.office-card__badge {
+  display: inline-flex;
+  align-self: start;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--mpa-radius-full);
+  background: var(--mpa-color-primary-subtle);
+  color: var(--mpa-color-primary);
+  font-size: var(--mpa-font-size-xs);
+  font-weight: var(--mpa-font-weight-semibold);
+}

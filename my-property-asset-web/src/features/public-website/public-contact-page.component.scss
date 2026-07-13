@@ -1,0 +1,107 @@
+.contact-page__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 3.5rem);
+  align-items: start;
+}
+
+.contact-page__channels {
+  display: grid;
+  gap: var(--mpa-spacing-md);
+  margin-bottom: var(--mpa-spacing-xl);
+}
+
+.contact-page__hours {
+  padding: var(--mpa-spacing-xl);
+  border-radius: var(--mpa-radius-xl);
+  border: 1px solid var(--mpa-color-border);
+  background: var(--mpa-color-surface);
+  margin-bottom: var(--mpa-spacing-xl);
+}
+
+.contact-page__hours-title {
+  margin: 0 0 var(--mpa-spacing-md);
+  font-size: var(--mpa-font-size-lg);
+  font-weight: var(--mpa-font-weight-semibold);
+}
+
+.contact-page__hours-list {
+  display: grid;
+  gap: var(--mpa-spacing-md);
+  margin: 0;
+}
+
+.contact-page__hours-list dt {
+  font-size: var(--mpa-font-size-xs);
+  font-weight: var(--mpa-font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--mpa-color-text-muted);
+}
+
+.contact-page__hours-list dd {
+  margin: var(--mpa-spacing-xs) 0 0;
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-text);
+}
+
+.public-section--surface {
+  background: color-mix(in srgb, var(--mpa-color-primary-subtle) 35%, var(--mpa-color-background));
+}
+
+.contact-page__map-section {
+  display: grid;
+  gap: var(--mpa-spacing-xl);
+}
+
+.contact-page__offices {
+  margin-top: var(--mpa-spacing-md);
+}
+
+.contact-page__faq-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--mpa-spacing-md);
+  max-width: 44rem;
+  margin-inline: auto;
+}
+
+.contact-page__faq-link {
+  display: grid;
+  gap: var(--mpa-spacing-xs);
+  padding: var(--mpa-spacing-lg);
+  border-radius: var(--mpa-radius-xl);
+  border: 1px solid var(--mpa-color-border);
+  background: var(--mpa-color-surface);
+  text-decoration: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-page__faq-link:hover {
+  border-color: color-mix(in srgb, var(--mpa-color-primary) 35%, var(--mpa-color-border));
+  box-shadow: var(--mpa-shadow-sm);
+}
+
+.contact-page__faq-question {
+  font-size: var(--mpa-font-size-base);
+  font-weight: var(--mpa-font-weight-semibold);
+  color: var(--mpa-color-text);
+}
+
+.contact-page__faq-answer {
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-text-muted);
+  line-height: var(--mpa-line-height-relaxed);
+}
+
+@media (max-width: 900px) {
+  .contact-page__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-page__sidebar {
+    order: -1;
+  }
+}

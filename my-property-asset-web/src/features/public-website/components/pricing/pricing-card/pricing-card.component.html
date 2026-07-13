@@ -1,0 +1,41 @@
+<article
+  class="pricing-card"
+  [class.pricing-card--popular]="plan().popular"
+  [class.pricing-card--recommended]="plan().recommended"
+  [attr.aria-label]="plan().name + ' plan'"
+>
+  @if (plan().badge) {
+    <span class="pricing-card__badge">{{ plan().badge }}</span>
+  }
+
+  <header class="pricing-card__header">
+    <h3 class="pricing-card__name">{{ plan().name }}</h3>
+    <p class="pricing-card__description">{{ plan().description }}</p>
+  </header>
+
+  <div class="pricing-card__price-block">
+    <p class="pricing-card__price">
+      <span class="pricing-card__amount">{{ displayPrice() }}</span>
+    </p>
+    <p class="pricing-card__period">{{ displayPeriod() }}</p>
+  </div>
+
+  <ul class="pricing-card__features">
+    @for (feature of plan().features; track feature) {
+      <li>
+        <i class="pi pi-check pricing-card__check" aria-hidden="true"></i>
+        <span>{{ feature }}</span>
+      </li>
+    }
+  </ul>
+
+  <footer class="pricing-card__footer">
+    <a [routerLink]="plan().ctaRoute" (click)="onCtaClick()">
+      <app-button
+        [label]="plan().ctaLabel"
+        [outlined]="!plan().recommended && !plan().popular"
+        [severity]="plan().recommended || plan().popular ? 'primary' : 'secondary'"
+      />
+    </a>
+  </footer>
+</article>

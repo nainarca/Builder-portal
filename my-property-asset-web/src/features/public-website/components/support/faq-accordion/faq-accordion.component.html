@@ -1,0 +1,26 @@
+@if (groupLabel(); as label) {
+  <h3 class="faq-accordion__group-title" [id]="'faq-group-' + label">{{ label }}</h3>
+}
+
+@if (items().length) {
+  <div class="faq-accordion__list" role="list">
+    @for (item of items(); track item.id; let i = $index) {
+      <details
+        class="faq-accordion__item"
+        role="listitem"
+        appRevealOnScroll
+        [appRevealOnScrollDelay]="i * 50"
+      >
+        <summary class="faq-accordion__question">
+          <span>{{ item.question }}</span>
+          <i class="pi pi-chevron-down faq-accordion__chevron" aria-hidden="true"></i>
+        </summary>
+        <div class="faq-accordion__answer">
+          <p>{{ item.answer }}</p>
+        </div>
+      </details>
+    }
+  </div>
+} @else {
+  <p class="faq-accordion__empty" role="status">No questions match your search.</p>
+}

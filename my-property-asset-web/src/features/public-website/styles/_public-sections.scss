@@ -1,6 +1,10 @@
 .public-section {
   position: relative;
-  padding-block: clamp(3rem, 8vw, 6rem);
+  padding-block: clamp(4rem, 9vw, 7rem);
+}
+
+.public-section--compact {
+  padding-block: clamp(2.5rem, 6vw, 4rem);
 }
 
 .public-section__container {
@@ -14,28 +18,30 @@
   align-items: center;
   gap: var(--mpa-spacing-sm);
   margin-bottom: var(--mpa-spacing-md);
-  padding: 0.35rem 0.75rem;
+  padding: 0.4rem 0.85rem;
   border-radius: var(--mpa-radius-full);
-  background: var(--mpa-color-primary-subtle);
+  border: 1px solid color-mix(in srgb, var(--mpa-color-primary) 22%, transparent);
+  background: color-mix(in srgb, var(--mpa-color-primary-subtle) 80%, transparent);
   color: var(--mpa-color-primary);
   font-size: var(--mpa-font-size-sm);
   font-weight: var(--mpa-font-weight-medium);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .public-section__title {
   margin: 0 0 var(--mpa-spacing-md);
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-size: clamp(1.85rem, 3.2vw, 2.75rem);
   font-weight: var(--mpa-font-weight-semibold);
-  line-height: 1.15;
-  letter-spacing: -0.03em;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
   color: var(--mpa-color-text);
 }
 
 .public-section__description {
   margin: 0;
-  max-width: 42rem;
-  font-size: var(--mpa-font-size-lg);
+  max-width: 44rem;
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
   line-height: var(--mpa-line-height-relaxed);
   color: var(--mpa-color-text-muted);
 }
@@ -43,12 +49,16 @@
 .public-section__header {
   display: grid;
   gap: var(--mpa-spacing-md);
-  margin-bottom: clamp(2rem, 5vw, 3rem);
+  margin-bottom: clamp(2.25rem, 5vw, 3.5rem);
 }
 
 .public-section__header--center {
   text-align: center;
   justify-items: center;
+}
+
+.public-section__header--center .public-section__description {
+  margin-inline: auto;
 }
 
 .public-grid {
@@ -57,43 +67,86 @@
 }
 
 .public-grid--2 {
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
 }
 
 .public-grid--3 {
-  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
 }
 
 .public-grid--4 {
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+}
+
+.public-section-divider {
+  height: 1px;
+  margin-block: 0;
+  border: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--mpa-color-border) 90%, transparent) 20%,
+    color-mix(in srgb, var(--mpa-color-border) 90%, transparent) 80%,
+    transparent
+  );
+}
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal-on-scroll.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .public-animate-in {
-    animation: public-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: public-fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
-  .public-animate-in--delay-1 {
-    animation-delay: 0.08s;
-  }
-
-  .public-animate-in--delay-2 {
-    animation-delay: 0.16s;
-  }
-
-  .public-animate-in--delay-3 {
-    animation-delay: 0.24s;
-  }
+  .public-animate-in--delay-1 { animation-delay: 0.1s; }
+  .public-animate-in--delay-2 { animation-delay: 0.2s; }
+  .public-animate-in--delay-3 { animation-delay: 0.3s; }
+  .public-animate-in--delay-4 { animation-delay: 0.4s; }
 }
 
 @keyframes public-fade-up {
   from {
     opacity: 0;
-    transform: translateY(1.25rem);
+    transform: translateY(1.5rem);
   }
 
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes public-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-0.65rem); }
+}
+
+@keyframes public-pulse-glow {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.75; }
+}
+
+@keyframes public-shimmer {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
 }

@@ -1,0 +1,27 @@
+.legal-document-page__breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--mpa-spacing-sm);
+  padding-top: clamp(1.5rem, 4vw, 2.5rem);
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-text-muted);
+}
+
+.legal-document-page__breadcrumb a {
+  color: var(--mpa-color-primary);
+  text-decoration: none;
+}
+
+.legal-document-page__breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.legal-document-page--not-found {
+  text-align: center;
+  padding-block: 4rem;
+}
+
+.legal-document-page--not-found a {
+  color: var(--mpa-color-primary);
+}

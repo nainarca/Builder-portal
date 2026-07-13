@@ -1,7 +1,7 @@
 <app-auth-form-card
-  eyebrow="Welcome back"
-  title="Sign in to MyPropertyAsset"
-  subtitle="Access your portfolio, projects, and operational insights in one secure workspace."
+  [eyebrow]="experience().eyebrow"
+  [title]="experience().title"
+  [subtitle]="experience().subtitle"
 >
   <app-validation-summary [issues]="validationIssues()" />
 
@@ -40,7 +40,7 @@
 
     <app-form-actions>
       <app-button
-        label="Sign in"
+        [label]="experience().ctaLabel"
         type="submit"
         icon="sign-in"
         [loading]="submitting()"

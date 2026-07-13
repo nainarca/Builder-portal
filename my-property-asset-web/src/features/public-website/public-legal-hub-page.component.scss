@@ -1,0 +1,90 @@
+.legal-hub-page__card {
+  display: grid;
+  gap: var(--mpa-spacing-sm);
+  padding: var(--mpa-spacing-xl);
+  border-radius: var(--mpa-radius-xl);
+  border: 1px solid var(--mpa-color-border);
+  background: var(--mpa-color-surface);
+  text-decoration: none;
+  height: 100%;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.legal-hub-page__card:hover {
+  border-color: color-mix(in srgb, var(--mpa-color-primary) 35%, var(--mpa-color-border));
+  box-shadow: var(--mpa-shadow-sm);
+}
+
+.legal-hub-page__card-title {
+  margin: 0;
+  font-size: var(--mpa-font-size-lg);
+  font-weight: var(--mpa-font-weight-semibold);
+  color: var(--mpa-color-text);
+}
+
+.legal-hub-page__card-description {
+  margin: 0;
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-text-muted);
+  line-height: var(--mpa-line-height-relaxed);
+}
+
+.legal-hub-page__card-meta {
+  font-size: var(--mpa-font-size-xs);
+  color: var(--mpa-color-text-muted);
+}
+
+.legal-hub-page__card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mpa-spacing-xs);
+  margin-top: var(--mpa-spacing-xs);
+  font-size: var(--mpa-font-size-sm);
+  font-weight: var(--mpa-font-weight-semibold);
+  color: var(--mpa-color-primary);
+}
+
+.public-section--surface {
+  background: color-mix(in srgb, var(--mpa-color-primary-subtle) 35%, var(--mpa-color-background));
+}
+
+.legal-hub-page__trust-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--mpa-spacing-lg);
+}
+
+.legal-hub-page__trust-item {
+  display: grid;
+  gap: var(--mpa-spacing-sm);
+  padding: var(--mpa-spacing-xl);
+  border-radius: var(--mpa-radius-xl);
+  border: 1px solid var(--mpa-color-border);
+  background: var(--mpa-color-surface);
+  text-align: center;
+}
+
+.legal-hub-page__trust-item i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0 auto;
+  border-radius: var(--mpa-radius-lg);
+  background: var(--mpa-color-primary-subtle);
+  color: var(--mpa-color-primary);
+}
+
+.legal-hub-page__trust-item h3 {
+  margin: 0;
+  font-size: var(--mpa-font-size-base);
+  font-weight: var(--mpa-font-weight-semibold);
+}
+
+.legal-hub-page__trust-item p {
+  margin: 0;
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-text-muted);
+  line-height: var(--mpa-line-height-relaxed);
+}

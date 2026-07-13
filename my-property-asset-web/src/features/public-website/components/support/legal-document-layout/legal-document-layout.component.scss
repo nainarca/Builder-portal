@@ -1,0 +1,95 @@
+.legal-document {
+  padding-block: clamp(2rem, 5vw, 3.5rem);
+}
+
+.legal-document__header {
+  max-width: 44rem;
+  margin-bottom: clamp(2rem, 5vw, 3rem);
+}
+
+.legal-document__title {
+  margin: 0 0 var(--mpa-spacing-md);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: var(--mpa-font-weight-semibold);
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.legal-document__description {
+  margin: 0 0 var(--mpa-spacing-sm);
+  font-size: var(--mpa-font-size-lg);
+  color: var(--mpa-color-text-muted);
+  line-height: var(--mpa-line-height-relaxed);
+}
+
+.legal-document__updated {
+  margin: 0;
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-text-muted);
+}
+
+.legal-document__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 16rem;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.legal-document__content {
+  max-width: 44rem;
+}
+
+.legal-document__section {
+  margin-bottom: var(--mpa-spacing-xl);
+  scroll-margin-top: 5rem;
+}
+
+.legal-document__heading {
+  margin: 0 0 var(--mpa-spacing-md);
+  font-size: var(--mpa-font-size-xl);
+  font-weight: var(--mpa-font-weight-semibold);
+}
+
+.legal-document__heading--sub {
+  font-size: var(--mpa-font-size-lg);
+}
+
+.legal-document__paragraph {
+  margin: 0 0 var(--mpa-spacing-md);
+  color: var(--mpa-color-text-muted);
+  line-height: var(--mpa-line-height-relaxed);
+}
+
+.legal-document__list {
+  margin: 0 0 var(--mpa-spacing-md);
+  padding-left: 1.25rem;
+  color: var(--mpa-color-text-muted);
+  line-height: var(--mpa-line-height-relaxed);
+}
+
+.legal-document__list li + li {
+  margin-top: var(--mpa-spacing-xs);
+}
+
+.legal-document__sidebar-sticky {
+  position: sticky;
+  top: 5rem;
+  padding: var(--mpa-spacing-lg);
+  border-radius: var(--mpa-radius-xl);
+  border: 1px solid var(--mpa-color-border);
+  background: var(--mpa-color-surface);
+}
+
+@media (max-width: 900px) {
+  .legal-document__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .legal-document__sidebar {
+    order: -1;
+  }
+
+  .legal-document__sidebar-sticky {
+    position: static;
+  }
+}

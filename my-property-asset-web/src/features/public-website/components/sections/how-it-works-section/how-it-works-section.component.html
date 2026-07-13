@@ -1,16 +1,28 @@
-<section class="public-section public-animate-in" [id]="sectionId()" aria-labelledby="public-steps-title">
+<section class="public-section public-steps-section" [id]="sectionId()" aria-labelledby="public-steps-title">
   <div class="public-section__container">
-    <header class="public-section__header public-section__header--center">
+    <header class="public-section__header public-section__header--center" appRevealOnScroll>
       <span class="public-section__eyebrow">{{ eyebrow() }}</span>
       <h2 id="public-steps-title" class="public-section__title">{{ title() }}</h2>
       <p class="public-section__description">{{ description() }}</p>
     </header>
 
     <ol class="public-steps">
-      @for (step of steps(); track step.id) {
-        <li class="public-steps__item">
-          <span class="public-steps__number" aria-hidden="true">{{ step.step }}</span>
-          <div>
+      @for (step of steps(); track step.id; let i = $index; let last = $last) {
+        <li
+          class="public-steps__item"
+          appRevealOnScroll
+          [appRevealOnScrollDelay]="i * 120"
+        >
+          <div class="public-steps__marker" aria-hidden="true">
+            <span class="public-steps__number">{{ step.step }}</span>
+            @if (!last) {
+              <span class="public-steps__connector"></span>
+            }
+          </div>
+          <div class="public-steps__content">
+            @if (step.icon) {
+              <i [class]="step.icon + ' public-steps__icon'" aria-hidden="true"></i>
+            }
             <h3 class="public-steps__title">{{ step.title }}</h3>
             <p class="public-steps__description">{{ step.description }}</p>
           </div>

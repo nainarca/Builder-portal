@@ -1,28 +1,20 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { ButtonComponent } from '@shared/ui';
-import { PublicCtaAction } from '../../../models/public-section.model';
-import { PublicAnalyticsService } from '../../../services/public-analytics.service';
+import { RevealOnScrollDirective } from '../../../directives/reveal-on-scroll.directive';
+import { PublicCtaAction, PublicTrustBadge } from '../../../models/public-section.model';
+import { ConversionCtaLinkComponent } from '../../conversion/conversion-cta-link/conversion-cta-link.component';
 
 @Component({
   selector: 'app-public-cta-section',
-  imports: [RouterLink, ButtonComponent],
+  imports: [ConversionCtaLinkComponent, RevealOnScrollDirective],
   templateUrl: './cta-section.component.html',
   styleUrl: './cta-section.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PublicCtaSectionComponent {
-  private readonly analytics = inject(PublicAnalyticsService);
-
   readonly title = input.required<string>();
   readonly description = input.required<string>();
   readonly primaryCta = input.required<PublicCtaAction>();
   readonly secondaryCta = input<PublicCtaAction | undefined>(undefined);
-
-  trackCta(action: PublicCtaAction): void {
-    if (action.analyticsName) {
-      this.analytics.trackCta(action.analyticsName);
-    }
-  }
+  readonly trustBadges = input<readonly PublicTrustBadge[]>([]);
 }

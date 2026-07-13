@@ -1,0 +1,63 @@
+<section
+  class="public-section public-section--compact public-trusted-by"
+  [id]="sectionId()"
+  aria-labelledby="public-trusted-title"
+  appRevealOnScroll
+>
+  <div class="public-section__container">
+    <header class="public-section__header public-section__header--center">
+      <span class="public-section__eyebrow">{{ eyebrow() }}</span>
+      <h2 id="public-trusted-title" class="public-section__title">{{ title() }}</h2>
+    </header>
+
+    <div class="public-trusted-by__groups" role="list" aria-label="Trusted organizations">
+      <div class="public-trusted-by__group" role="listitem">
+        <span class="public-trusted-by__label">Builders</span>
+        <ul class="public-trusted-by__logos">
+          @for (logo of logos(); track logo.id) {
+            @if (logo.category === 'builder') {
+              <li>
+                <span class="public-trusted-by__logo" [attr.aria-label]="logo.name">
+                  <span class="public-trusted-by__mark" aria-hidden="true">{{ logo.initials }}</span>
+                  <span class="public-trusted-by__name">{{ logo.name }}</span>
+                </span>
+              </li>
+            }
+          }
+        </ul>
+      </div>
+
+      <div class="public-trusted-by__group" role="listitem">
+        <span class="public-trusted-by__label">Partners</span>
+        <ul class="public-trusted-by__logos">
+          @for (logo of logos(); track logo.id) {
+            @if (logo.category === 'partner') {
+              <li>
+                <span class="public-trusted-by__logo" [attr.aria-label]="logo.name">
+                  <span class="public-trusted-by__mark" aria-hidden="true">{{ logo.initials }}</span>
+                  <span class="public-trusted-by__name">{{ logo.name }}</span>
+                </span>
+              </li>
+            }
+          }
+        </ul>
+      </div>
+
+      <div class="public-trusted-by__group" role="listitem">
+        <span class="public-trusted-by__label">Clients</span>
+        <ul class="public-trusted-by__logos">
+          @for (logo of logos(); track logo.id) {
+            @if (logo.category === 'client') {
+              <li>
+                <span class="public-trusted-by__logo" [attr.aria-label]="logo.name">
+                  <span class="public-trusted-by__mark" aria-hidden="true">{{ logo.initials }}</span>
+                  <span class="public-trusted-by__name">{{ logo.name }}</span>
+                </span>
+              </li>
+            }
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

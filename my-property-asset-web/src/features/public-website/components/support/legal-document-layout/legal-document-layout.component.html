@@ -1,0 +1,50 @@
+<app-reading-progress-bar />
+<app-back-to-top-button />
+
+<article class="legal-document">
+  <header class="legal-document__header">
+    <h1 class="legal-document__title">{{ title() }}</h1>
+    <p class="legal-document__description">{{ description() }}</p>
+    <p class="legal-document__updated">Last updated: <time>{{ lastUpdated() }}</time></p>
+  </header>
+
+  <div class="legal-document__layout">
+    <div class="legal-document__content">
+      @for (section of sections(); track section.id) {
+        <section
+          class="legal-document__section"
+          [id]="section.id"
+          [attr.aria-labelledby]="'heading-' + section.id"
+        >
+          @if (section.level === 2) {
+            <h2 [id]="'heading-' + section.id" class="legal-document__heading">
+              {{ section.heading }}
+            </h2>
+          } @else {
+            <h3 [id]="'heading-' + section.id" class="legal-document__heading legal-document__heading--sub">
+              {{ section.heading }}
+            </h3>
+          }
+
+          @for (paragraph of section.paragraphs; track $index) {
+            <p class="legal-document__paragraph">{{ paragraph }}</p>
+          }
+
+          @if (section.listItems?.length) {
+            <ul class="legal-document__list">
+              @for (item of section.listItems; track $index) {
+                <li>{{ item }}</li>
+              }
+            </ul>
+          }
+        </section>
+      }
+    </div>
+
+    <aside class="legal-document__sidebar" aria-label="Document navigation">
+      <div class="legal-document__sidebar-sticky">
+        <app-table-of-contents [items]="tocItems()" [activeId]="activeSectionId()" />
+      </div>
+    </aside>
+  </div>
+</article>

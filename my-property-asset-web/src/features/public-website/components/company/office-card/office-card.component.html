@@ -1,0 +1,17 @@
+<article class="office-card">
+  <div class="office-card__header">
+    <div class="office-card__icon" aria-hidden="true">
+      <i class="pi pi-map-marker"></i>
+    </div>
+    <div>
+      <h3 class="office-card__city">{{ office().city }}</h3>
+      <p class="office-card__country">{{ office().region }}</p>
+    </div>
+  </div>
+  <address class="office-card__address">
+  {{ office().address }}
+  </address>
+  @if (office().isPrimary) {
+    <span class="office-card__badge">Headquarters</span>
+  }
+</article>

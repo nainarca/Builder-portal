@@ -1,0 +1,18 @@
+.pricing-plans__grid {
+  display: grid;
+  gap: var(--mpa-spacing-lg);
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  align-items: stretch;
+}
+
+@media (min-width: 1100px) {
+  .pricing-plans__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1099px) {
+  .pricing-plans__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

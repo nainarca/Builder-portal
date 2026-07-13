@@ -1,0 +1,44 @@
+<main class="pricing-page">
+  <app-pricing-hero-section
+    [eyebrow]="hero.eyebrow"
+    [title]="hero.title"
+    [subtitle]="hero.subtitle"
+    [primaryCta]="hero.primaryCta"
+  />
+
+  <app-pricing-plans-section
+    [sectionId]="sectionIds.plans"
+    [plans]="plans"
+  />
+
+  <hr class="public-section-divider" aria-hidden="true" />
+
+  <app-pricing-comparison-section
+    [sectionId]="sectionIds.comparison"
+    [features]="comparison"
+  />
+
+  <app-pricing-enterprise-section
+    [sectionId]="sectionIds.enterprise"
+    [offer]="enterprise"
+  />
+
+  <app-pricing-trust-section
+    [sectionId]="sectionIds.trust"
+    [highlights]="trust"
+  />
+
+  <app-public-faq-section
+    [sectionId]="sectionIds.faq"
+    eyebrow="Pricing FAQ"
+    title="Questions about pricing"
+    [items]="faq"
+  />
+
+  <app-public-cta-section
+    [title]="finalCta.title"
+    [description]="finalCta.description"
+    [primaryCta]="finalCta.primaryCta"
+    [secondaryCta]="finalCta.secondaryCta"
+  />
+</main>

@@ -1,0 +1,45 @@
+.welcome-banner {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--mpa-spacing-md);
+}
+
+.welcome-banner__tab {
+  display: grid;
+  gap: var(--mpa-spacing-xs);
+  padding: var(--mpa-spacing-lg);
+  border: 1px solid var(--mpa-color-border);
+  border-radius: var(--mpa-radius-xl);
+  background: var(--mpa-color-surface);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.welcome-banner__tab i {
+  color: var(--mpa-color-primary);
+  font-size: 1.1rem;
+}
+
+.welcome-banner__tab--active {
+  border-color: color-mix(in srgb, var(--mpa-color-primary) 45%, var(--mpa-color-border));
+  background: var(--mpa-color-primary-subtle);
+  box-shadow: var(--mpa-shadow-sm);
+}
+
+.welcome-banner__tab-label {
+  font-size: var(--mpa-font-size-base);
+  font-weight: var(--mpa-font-weight-semibold);
+  color: var(--mpa-color-text);
+}
+
+.welcome-banner__tab-hint {
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-text-muted);
+}
+
+@media (max-width: 640px) {
+  .welcome-banner {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 
-import { SUPER_ADMIN_METADATA } from '../../core/constants/route-metadata.constants';
+import { SUPER_ADMIN_DASHBOARD_METADATA } from '../../core/constants/route-metadata.constants';
 import { SuperAdminLayoutComponent } from '../../layouts/super-admin/super-admin-layout.component';
 import { navigationResolver } from '../../navigation/resolvers';
-import { SuperAdminPlaceholder } from './super-admin-placeholder.component';
+import { SuperAdminDashboardComponent } from './super-admin-dashboard.component';
 
 export const SUPER_ADMIN_ROUTES: Routes = [
   {
@@ -17,8 +17,15 @@ export const SUPER_ADMIN_ROUTES: Routes = [
     children: [
       {
         path: '',
-        component: SuperAdminPlaceholder,
-        data: SUPER_ADMIN_METADATA,
+        component: SuperAdminDashboardComponent,
+        data: SUPER_ADMIN_DASHBOARD_METADATA,
+      },
+      {
+        path: 'organizations',
+        loadChildren: () =>
+          import('./organizations/organizations.routes').then(
+            (m) => m.ORGANIZATION_ADMIN_ROUTE_CHILDREN,
+          ),
       },
     ],
   },

@@ -1,24 +1,49 @@
-<section class="public-cta public-animate-in" aria-labelledby="public-cta-title">
-  <div class="public-cta__container">
-    <h2 id="public-cta-title" class="public-cta__title">{{ title() }}</h2>
-    <p class="public-cta__description">{{ description() }}</p>
-    <div class="public-cta__actions">
-      <a
-        [routerLink]="primaryCta().route"
-        [fragment]="primaryCta().fragment"
-        (click)="trackCta(primaryCta())"
-      >
-        <app-button [label]="primaryCta().label" />
-      </a>
-      @if (secondaryCta(); as secondary) {
-        <a
-          [routerLink]="secondary.route"
-          [fragment]="secondary.fragment"
-          (click)="trackCta(secondary)"
-        >
-          <app-button [label]="secondary.label" [outlined]="true" severity="secondary" />
-        </a>
-      }
+<section class="public-cta" aria-labelledby="public-cta-title">
+  <div class="public-section__container">
+    <div class="public-cta__card" appRevealOnScroll>
+      <div class="public-cta__content">
+        <h2 id="public-cta-title" class="public-cta__title">{{ title() }}</h2>
+        <p class="public-cta__description">{{ description() }}</p>
+
+        @if (trustBadges().length) {
+          <ul class="public-cta__trust" aria-label="Trust indicators">
+            @for (badge of trustBadges(); track badge.id) {
+              <li>
+                <i [class]="badge.icon" aria-hidden="true"></i>
+                <span>{{ badge.label }}</span>
+              </li>
+            }
+          </ul>
+        }
+
+        <div class="public-cta__actions">
+          <app-conversion-cta-link
+            [label]="primaryCta().label"
+            [route]="primaryCta().route"
+            [fragment]="primaryCta().fragment"
+            [intent]="primaryCta().intent"
+            [returnUrl]="primaryCta().returnUrl"
+            [analyticsName]="primaryCta().analyticsName"
+          />
+          @if (secondaryCta(); as secondary) {
+            <app-conversion-cta-link
+              [label]="secondary.label"
+              [route]="secondary.route"
+              [fragment]="secondary.fragment"
+              [intent]="secondary.intent"
+              [returnUrl]="secondary.returnUrl"
+              [analyticsName]="secondary.analyticsName"
+              [outlined]="true"
+              severity="contrast"
+            />
+          }
+        </div>
+      </div>
+
+      <div class="public-cta__visual" aria-hidden="true">
+        <div class="public-cta__orb"></div>
+        <div class="public-cta__rings"></div>
+      </div>
     </div>
   </div>
 </section>

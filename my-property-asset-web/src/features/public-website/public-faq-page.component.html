@@ -1,0 +1,95 @@
+<main class="faq-page">
+  <app-page-hero-banner [content]="hero" [compact]="true" />
+
+  <section class="public-section public-section--compact" aria-labelledby="faq-search-title">
+    <div class="public-section__container faq-page__search-container">
+      <h2 id="faq-search-title" class="sr-only">Search FAQ</h2>
+      <app-support-search-bar
+        placeholder="Search questions and answers…"
+        [(query)]="searchQuery"
+      />
+    </div>
+  </section>
+
+  <section class="public-section public-section--compact" aria-label="FAQ categories">
+    <div class="public-section__container">
+      <div class="faq-page__category-nav" role="tablist">
+        <button
+          type="button"
+          class="faq-page__category-btn"
+          [class.faq-page__category-btn--active]="activeCategory() === 'all'"
+          role="tab"
+          [attr.aria-selected]="activeCategory() === 'all'"
+          (click)="showAllCategories()"
+        >
+          All
+        </button>
+        @for (category of categories; track category.id) {
+          <button
+            type="button"
+            class="faq-page__category-btn"
+            [class.faq-page__category-btn--active]="activeCategory() === category.id"
+            role="tab"
+            [attr.aria-selected]="activeCategory() === category.id"
+            (click)="setCategory(category.id)"
+          >
+            <i [class]="category.icon" aria-hidden="true"></i>
+            {{ category.title }}
+          </button>
+        }
+      </div>
+    </div>
+  </section>
+
+  @if (!searchQuery() && activeCategory() === 'all') {
+    <section class="public-section public-section--surface" aria-labelledby="faq-featured-title">
+      <div class="public-section__container">
+        <header class="public-section__header public-section__header--center" appRevealOnScroll>
+          <h2 id="faq-featured-title" class="public-section__title">Featured questions</h2>
+        </header>
+        <app-faq-accordion [items]="featuredQuestions" />
+      </div>
+    </section>
+  }
+
+  <section class="public-section" aria-labelledby="faq-categories-title">
+    <div class="public-section__container">
+      @if (searchQuery()) {
+        <header class="public-section__header" appRevealOnScroll>
+          <h2 id="faq-categories-title" class="public-section__title">Search results</h2>
+          <p class="public-section__description">
+            {{ totalResults() }} question{{ totalResults() === 1 ? '' : 's' }} found
+          </p>
+        </header>
+      } @else {
+        <h2 id="faq-categories-title" class="sr-only">FAQ by category</h2>
+      }
+
+      <div class="faq-page__categories">
+        @for (category of filteredCategories(); track category.id; let i = $index) {
+          <div class="faq-page__category-block" appRevealOnScroll [appRevealOnScrollDelay]="i * 80">
+            <div class="faq-page__category-header">
+              <i [class]="category.icon" aria-hidden="true"></i>
+              <div>
+                <h3 class="faq-page__category-title">{{ category.title }}</h3>
+                <p class="faq-page__category-description">{{ category.description }}</p>
+              </div>
+            </div>
+            <app-faq-accordion [items]="category.items" />
+          </div>
+        }
+      </div>
+
+      @if (!totalResults()) {
+        <p class="faq-page__empty" role="status">No questions match your search. Try different keywords or browse all categories.</p>
+      }
+    </div>
+  </section>
+
+  <app-public-cta-section
+    [title]="supportCta.title"
+    [description]="supportCta.description"
+    [primaryCta]="supportCta.primaryCta"
+    [secondaryCta]="supportCta.secondaryCta"
+  />
+</main>

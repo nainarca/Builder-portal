@@ -1,0 +1,51 @@
+.pricing-trust {
+  background: var(--mpa-color-surface);
+}
+
+.pricing-trust__grid {
+  display: grid;
+  gap: var(--mpa-spacing-lg);
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+
+.pricing-trust__card {
+  padding: var(--mpa-spacing-xl);
+  border-radius: var(--mpa-radius-xl);
+  border: 1px solid var(--mpa-color-border);
+  background: var(--mpa-color-surface-muted);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pricing-trust__card:hover {
+    transform: translateY(-0.2rem);
+    box-shadow: var(--mpa-shadow-sm);
+  }
+}
+
+.pricing-trust__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: var(--mpa-spacing-md);
+  border-radius: var(--mpa-radius-lg);
+  background: var(--mpa-color-primary-subtle);
+  color: var(--mpa-color-primary);
+  font-size: 1.15rem;
+}
+
+.pricing-trust__card-title {
+  margin: 0 0 var(--mpa-spacing-sm);
+  font-size: var(--mpa-font-size-lg);
+  font-weight: var(--mpa-font-weight-semibold);
+}
+
+.pricing-trust__card-description {
+  margin: 0;
+  color: var(--mpa-color-text-muted);
+  font-size: var(--mpa-font-size-sm);
+  line-height: var(--mpa-line-height-relaxed);
+}

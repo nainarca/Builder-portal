@@ -1,0 +1,29 @@
+<app-base-page>
+  @if (org(); as organization) {
+    <div class="org-page org-page--detail">
+      <app-org-header [org]="organization" />
+
+      <div class="org-detail-layout">
+        <div class="org-detail-layout__main">
+          <app-org-overview [org]="organization" />
+          <app-org-branding-summary [org]="organization" />
+          <app-org-members-list [members]="members()" />
+          <app-org-activity-timeline [items]="activities()" />
+          <app-org-audit-summary [items]="audits()" />
+        </div>
+        <aside class="org-detail-layout__aside">
+          <app-org-status-panel
+            [org]="organization"
+            [history]="statusHistory()"
+            (statusChange)="onStatusChange($event)"
+          />
+        </aside>
+      </div>
+    </div>
+  } @else {
+    <div class="org-page org-page--empty">
+      <h1 class="ui-page-title">Organization not found</h1>
+      <p class="ui-page-subtitle">The requested organization does not exist or was removed.</p>
+    </div>
+  }
+</app-base-page>

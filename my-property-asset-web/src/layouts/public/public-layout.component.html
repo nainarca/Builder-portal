@@ -7,4 +7,21 @@
   </app-content-wrapper>
   <app-public-footer />
   <app-cookie-consent-banner />
+
+  @if (showConversionPrompts()) {
+    <app-sticky-conversion-cta
+      [title]="stickyCta.title"
+      [description]="stickyCta.description"
+      [ctaLabel]="stickyCta.cta.label"
+      [ctaRoute]="stickyCta.cta.route"
+      [ctaIntent]="stickyCta.cta.intent"
+      [analyticsName]="stickyCta.cta.analyticsName"
+    />
+    <app-floating-conversion-cta
+      [label]="floatingCta.label"
+      [route]="floatingCta.route"
+      [intent]="floatingCta.intent"
+      [analyticsName]="floatingCta.analyticsName"
+    />
+  }
 </app-responsive-container>

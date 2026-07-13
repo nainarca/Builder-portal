@@ -1,0 +1,9 @@
+<a
+  class="conversion-cta-link"
+  [routerLink]="link().route"
+  [queryParams]="link().queryParams"
+  [fragment]="fragment()"
+  (click)="onClick()"
+>
+  <app-button [label]="label()" [outlined]="outlined()" [severity]="severity()" />
+</a>

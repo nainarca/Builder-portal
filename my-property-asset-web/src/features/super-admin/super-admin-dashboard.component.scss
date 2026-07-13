@@ -1,0 +1,6 @@
+@use './styles/dashboard';
+
+.sa-dashboard__filter-hint {
+  font-size: var(--mpa-font-size-xs);
+  color: var(--mpa-color-text-muted);
+}

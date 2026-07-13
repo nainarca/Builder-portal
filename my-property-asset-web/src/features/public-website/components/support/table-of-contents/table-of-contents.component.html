@@ -1,0 +1,14 @@
+<nav class="table-of-contents" aria-label="Table of contents">
+  <h2 class="table-of-contents__title">{{ title() }}</h2>
+  <ol class="table-of-contents__list">
+    @for (item of items(); track item.id) {
+      <li
+        class="table-of-contents__item"
+        [class.table-of-contents__item--level-3]="item.level === 3"
+        [class.table-of-contents__item--active]="activeId() === item.id"
+      >
+        <a class="table-of-contents__link" [href]="'#' + item.id">{{ item.label }}</a>
+      </li>
+    }
+  </ol>
+</nav>

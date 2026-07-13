@@ -1,0 +1,23 @@
+.back-to-top-button {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 999;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--mpa-color-border);
+  border-radius: var(--mpa-radius-full);
+  background: var(--mpa-color-surface);
+  color: var(--mpa-color-primary);
+  box-shadow: var(--mpa-shadow-md);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.back-to-top-button:hover {
+  transform: translateY(-0.15rem);
+  box-shadow: var(--mpa-shadow-lg);
+}

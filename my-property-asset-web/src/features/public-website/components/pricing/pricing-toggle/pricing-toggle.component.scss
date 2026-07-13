@@ -1,0 +1,42 @@
+.pricing-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.3rem;
+  border-radius: var(--mpa-radius-full);
+  border: 1px solid var(--mpa-color-border);
+  background: var(--mpa-color-surface-muted);
+}
+
+.pricing-toggle__option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1rem;
+  border: 0;
+  border-radius: var(--mpa-radius-full);
+  background: transparent;
+  color: var(--mpa-color-text-muted);
+  font-size: var(--mpa-font-size-sm);
+  font-weight: var(--mpa-font-weight-medium);
+  cursor: pointer;
+  transition:
+    background-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pricing-toggle__option--active {
+  background: var(--mpa-color-surface);
+  color: var(--mpa-color-text);
+  box-shadow: var(--mpa-shadow-sm);
+}
+
+.pricing-toggle__badge {
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--mpa-radius-full);
+  background: color-mix(in srgb, var(--mpa-color-success) 16%, transparent);
+  color: var(--mpa-color-success);
+  font-size: var(--mpa-font-size-xs);
+  font-weight: var(--mpa-font-weight-semibold);
+}

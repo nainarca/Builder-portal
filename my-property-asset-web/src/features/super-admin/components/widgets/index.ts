@@ -1,0 +1,11 @@
+export { RecentActivityWidgetComponent } from './recent-activity-widget.component';
+export { PlatformStatusWidgetComponent } from './platform-status-widget.component';
+export { SystemHealthWidgetComponent } from './system-health-widget.component';
+export { QuickActionsWidgetComponent } from './quick-actions-widget.component';
+export { AnnouncementsWidgetComponent } from './announcements-widget.component';
+export { UsageOverviewWidgetComponent } from './usage-overview-widget.component';
+export { OrganizationSummaryWidgetComponent } from './organization-summary-widget.component';
+export { BuilderSummaryWidgetComponent } from './builder-summary-widget.component';
+export { UserSummaryWidgetComponent } from './user-summary-widget.component';
+export { UsageChartWidgetComponent } from './usage-chart-widget.component';
+export { OrganizationsChartWidgetComponent } from './organizations-chart-widget.component';

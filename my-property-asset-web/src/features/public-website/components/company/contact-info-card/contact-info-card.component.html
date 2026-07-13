@@ -1,0 +1,15 @@
+<article class="contact-info-card">
+  <div class="contact-info-card__icon" aria-hidden="true">
+    <i [class]="department().id === 'sales' ? 'pi pi-briefcase' : 'pi pi-headphones'"></i>
+  </div>
+  <h3 class="contact-info-card__title">{{ department().title }}</h3>
+  <p class="contact-info-card__description">{{ department().description }}</p>
+  <a class="contact-info-card__link" [href]="'mailto:' + department().email">
+    {{ department().email }}
+  </a>
+  @if (department().phone) {
+    <a class="contact-info-card__link" [href]="'tel:' + department().phone">
+      {{ department().phone }}
+    </a>
+  }
+</article>

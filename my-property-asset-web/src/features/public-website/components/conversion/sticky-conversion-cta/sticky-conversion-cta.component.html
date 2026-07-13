@@ -1,0 +1,12 @@
+<aside class="sticky-conversion-cta" aria-label="Sign in prompt">
+  <div class="sticky-conversion-cta__content">
+    <p class="sticky-conversion-cta__title">{{ title() }}</p>
+    <p class="sticky-conversion-cta__description">{{ description() }}</p>
+  </div>
+  <app-conversion-cta-link
+    [label]="ctaLabel()"
+    [route]="ctaRoute()"
+    [intent]="ctaIntent()"
+    [analyticsName]="analyticsName()"
+  />
+</aside>

@@ -1,0 +1,49 @@
+.location-placeholder {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 16rem;
+  border-radius: var(--mpa-radius-xl);
+  border: 1px dashed var(--mpa-color-border);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--mpa-color-primary) 6%, var(--mpa-color-surface)),
+    var(--mpa-color-surface)
+  );
+  overflow: hidden;
+}
+
+.location-placeholder__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--mpa-color-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mpa-color-border) 1px, transparent 1px);
+  background-size: 2rem 2rem;
+  opacity: 0.35;
+}
+
+.location-placeholder__pin {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--mpa-color-primary);
+  color: white;
+  font-size: 1.25rem;
+  box-shadow: var(--mpa-shadow-md);
+}
+
+.location-placeholder__label {
+  position: relative;
+  z-index: 1;
+  margin: var(--mpa-spacing-md) 0 0;
+  padding: 0 var(--mpa-spacing-lg);
+  text-align: center;
+  color: var(--mpa-color-text-muted);
+  font-size: var(--mpa-font-size-sm);
+}

@@ -1,13 +1,23 @@
-<section class="public-section public-animate-in" [id]="sectionId()" aria-labelledby="public-stats-title">
+<section class="public-section public-statistics" [id]="sectionId()" aria-labelledby="public-stats-title">
   <div class="public-section__container">
-    <header class="public-section__header public-section__header--center">
+    <header class="public-section__header public-section__header--center" appRevealOnScroll>
       <span class="public-section__eyebrow">{{ eyebrow() }}</span>
       <h2 id="public-stats-title" class="public-section__title">{{ title() }}</h2>
     </header>
 
-    <div class="public-grid public-grid--4">
-      @for (stat of statistics(); track stat.id) {
-        <app-stat-card [data]="{ label: stat.label, value: stat.value, hint: stat.hint }" />
+    <div class="public-statistics__grid">
+      @for (stat of statistics(); track stat.id; let i = $index) {
+        <article
+          class="public-statistics__card"
+          appRevealOnScroll
+          [appRevealOnScrollDelay]="i * 100"
+        >
+          <p class="public-statistics__value" aria-live="polite">{{ displayValue(stat) }}</p>
+          <h3 class="public-statistics__label">{{ stat.label }}</h3>
+          @if (stat.hint) {
+            <p class="public-statistics__hint">{{ stat.hint }}</p>
+          }
+        </article>
       }
     </div>
   </div>

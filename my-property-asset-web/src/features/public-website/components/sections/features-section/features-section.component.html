@@ -1,17 +1,29 @@
-<section class="public-section public-animate-in" [id]="sectionId()" aria-labelledby="public-features-title">
+<section class="public-section public-features" [id]="sectionId()" aria-labelledby="public-features-title">
   <div class="public-section__container">
-    <header class="public-section__header public-section__header--center">
+    <header class="public-section__header public-section__header--center" appRevealOnScroll>
       <span class="public-section__eyebrow">{{ eyebrow() }}</span>
       <h2 id="public-features-title" class="public-section__title">{{ title() }}</h2>
       <p class="public-section__description">{{ description() }}</p>
     </header>
 
-    <div class="public-grid public-grid--3">
-      @for (feature of features(); track feature.id) {
-        <app-content-card [icon]="feature.icon">
-          <h3 class="mpa-heading-sm m-0">{{ feature.title }}</h3>
-          <p class="mpa-body-md m-0 public-features__copy">{{ feature.description }}</p>
-        </app-content-card>
+    <div class="public-features__grid">
+      @for (feature of features(); track feature.id; let i = $index) {
+        <article
+          class="public-features__card"
+          appRevealOnScroll
+          [appRevealOnScrollDelay]="i * 80"
+        >
+          <div class="public-features__card-top">
+            <span class="public-features__icon" aria-hidden="true">
+              <app-icon [name]="feature.icon" size="md" />
+            </span>
+            @if (feature.highlight) {
+              <span class="public-features__tag">{{ feature.highlight }}</span>
+            }
+          </div>
+          <h3 class="public-features__title">{{ feature.title }}</h3>
+          <p class="public-features__copy">{{ feature.description }}</p>
+        </article>
       }
     </div>
   </div>

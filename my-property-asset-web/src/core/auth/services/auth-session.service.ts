@@ -56,9 +56,18 @@ export class AuthRedirectService {
     return typeof returnUrl === 'string' ? returnUrl : AUTH_DEFAULT_REDIRECT;
   }
 
-  buildLoginUrl(returnUrl?: string): string {
+  buildLoginUrl(returnUrl?: string, extraParams?: Record<string, string>): string {
     const target = returnUrl ?? this.router.url;
-    return `/${APP_ROUTES.authentication}/${AUTH_ROUTE_SEGMENTS.login}?${AUTH_QUERY_PARAMS.returnUrl}=${encodeURIComponent(target)}`;
+    const params = new URLSearchParams({
+      [AUTH_QUERY_PARAMS.returnUrl]: target,
+      ...extraParams,
+    });
+
+    return `/${APP_ROUTES.authentication}/${AUTH_ROUTE_SEGMENTS.login}?${params.toString()}`;
+  }
+
+  getSanitizedReturnUrl(returnUrl?: string | null): string {
+    return this.sanitizeReturnUrl(returnUrl ?? undefined);
   }
 
   async navigateAfterLogin(returnUrl?: string): Promise<void> {

@@ -1,0 +1,10 @@
+<div
+  class="reading-progress-bar"
+  role="progressbar"
+  [attr.aria-valuenow]="progress()"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  aria-label="Reading progress"
+>
+  <span class="reading-progress-bar__fill" [style.width.%]="progress()"></span>
+</div>

@@ -1,0 +1,16 @@
+<section class="pricing-hero public-animate-in" aria-labelledby="pricing-hero-title">
+  <div class="pricing-hero__backdrop" aria-hidden="true"></div>
+  <div class="public-section__container pricing-hero__container">
+    <span class="public-section__eyebrow">{{ eyebrow() }}</span>
+    <h1 id="pricing-hero-title" class="pricing-hero__title">{{ title() }}</h1>
+    <p class="pricing-hero__subtitle">{{ subtitle() }}</p>
+    <a
+      class="pricing-hero__cta"
+      [routerLink]="primaryCta().route"
+      [fragment]="primaryCta().fragment"
+      (click)="trackCta(primaryCta())"
+    >
+      <app-button [label]="primaryCta().label" />
+    </a>
+  </div>
+</section>

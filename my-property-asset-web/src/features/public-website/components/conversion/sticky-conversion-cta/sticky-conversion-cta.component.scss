@@ -1,0 +1,39 @@
+.sticky-conversion-cta {
+  position: fixed;
+  left: 50%;
+  bottom: 1rem;
+  z-index: 900;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mpa-spacing-md);
+  width: min(calc(100% - 2rem), 42rem);
+  padding: var(--mpa-spacing-md) var(--mpa-spacing-lg);
+  border-radius: var(--mpa-radius-xl);
+  border: 1px solid var(--mpa-color-border);
+  background: color-mix(in srgb, var(--mpa-color-surface) 92%, transparent);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--mpa-shadow-lg);
+  transform: translateX(-50%);
+}
+
+.sticky-conversion-cta__title {
+  margin: 0;
+  font-size: var(--mpa-font-size-sm);
+  font-weight: var(--mpa-font-weight-semibold);
+}
+
+.sticky-conversion-cta__description {
+  margin: 0;
+  font-size: var(--mpa-font-size-xs);
+  color: var(--mpa-color-text-muted);
+}
+
+@media (max-width: 640px) {
+  .sticky-conversion-cta {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+}

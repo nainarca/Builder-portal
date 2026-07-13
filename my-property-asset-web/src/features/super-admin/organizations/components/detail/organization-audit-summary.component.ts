@@ -1,0 +1,36 @@
+import { DatePipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+
+import { ContentSectionComponent, SectionHeaderComponent } from '@shared/ui';
+
+import { OrganizationAuditRecord } from '../../models/organization-admin.model';
+
+@Component({
+  selector: 'app-org-audit-summary',
+  imports: [DatePipe, ContentSectionComponent, SectionHeaderComponent],
+  template: `
+    <app-content-section>
+      <app-section-header title="Audit summary" description="Administrative actions (framework)" />
+      <ul class="org-audit-list">
+        @for (item of items(); track item.id) {
+          <li class="org-audit-list__item">
+            <div>
+              <strong>{{ item.action }}</strong>
+              <p>{{ item.detail }}</p>
+            </div>
+            <div class="org-audit-list__meta">
+              <span>{{ item.actor }}</span>
+              <time>{{ item.timestamp | date: 'short' }}</time>
+            </div>
+          </li>
+        } @empty {
+          <li class="org-audit-list__empty">No audit entries.</li>
+        }
+      </ul>
+    </app-content-section>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class OrganizationAuditSummaryComponent {
+  readonly items = input.required<readonly OrganizationAuditRecord[]>();
+}

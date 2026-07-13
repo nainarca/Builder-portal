@@ -1,0 +1,18 @@
+<div class="social-links-row">
+  <span class="social-links-row__label">{{ label() }}</span>
+  <ul class="social-links-row__list">
+    @for (link of links(); track link.id) {
+      <li>
+        <a
+          class="social-links-row__link"
+          [href]="link.href"
+          target="_blank"
+          rel="noopener noreferrer"
+          [attr.aria-label]="link.label"
+        >
+          <i [class]="link.icon" aria-hidden="true"></i>
+        </a>
+      </li>
+    }
+  </ul>
+</div>

@@ -1,0 +1,14 @@
+<article class="contact-channel-card">
+  <div class="contact-channel-card__icon" aria-hidden="true">
+    <i [class]="channel().icon"></i>
+  </div>
+  <h3 class="contact-channel-card__label">{{ channel().label }}</h3>
+  @if (channel().href) {
+    <a class="contact-channel-card__value" [href]="channel().href">{{ channel().value }}</a>
+  } @else {
+    <p class="contact-channel-card__value">{{ channel().value }}</p>
+  }
+  @if (channel().hint) {
+    <p class="contact-channel-card__hint">{{ channel().hint }}</p>
+  }
+</article>

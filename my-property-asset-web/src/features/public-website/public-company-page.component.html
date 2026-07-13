@@ -1,0 +1,121 @@
+<main class="company-page">
+  <app-page-hero-banner [content]="hero" />
+
+  <section class="public-section" aria-labelledby="company-overview-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="company-overview-title" class="public-section__title">{{ overview.title }}</h2>
+        <p class="public-section__description">{{ overview.description }}</p>
+      </header>
+    </div>
+  </section>
+
+  <section class="public-section public-section--surface" aria-labelledby="company-leadership-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="company-leadership-title" class="public-section__title">Leadership</h2>
+        <p class="public-section__description">
+          Experienced leaders across product, engineering, and security — placeholders for future profiles.
+        </p>
+      </header>
+      <div class="public-grid public-grid--2">
+        @for (member of leadership; track member.id; let i = $index) {
+          <app-team-card [member]="member" appRevealOnScroll [appRevealOnScrollDelay]="i * 90" />
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section" aria-labelledby="company-stats-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="company-stats-title" class="public-section__title">Company at a glance</h2>
+      </header>
+      <div class="public-grid public-grid--4">
+        @for (stat of statistics; track stat.id; let i = $index) {
+          <app-stat-highlight-card [stat]="stat" appRevealOnScroll [appRevealOnScrollDelay]="i * 70" />
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section public-section--surface" aria-labelledby="company-milestones-title">
+    <div class="public-section__container">
+      <app-company-timeline
+        title="Milestones"
+        description="Key moments in our growth as an enterprise property technology company."
+        [events]="milestones"
+        variant="horizontal"
+      />
+    </div>
+  </section>
+
+  <section class="public-section" aria-labelledby="company-awards-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="company-awards-title" class="public-section__title">Awards & recognition</h2>
+        <p class="public-section__description">
+          Framework for industry recognition — representative placeholders for marketing and trust sections.
+        </p>
+      </header>
+      <div class="public-grid public-grid--3">
+        @for (award of awards; track award.id; let i = $index) {
+          <article class="company-page__award-card" appRevealOnScroll [appRevealOnScrollDelay]="i * 80">
+            <span class="company-page__award-year">{{ award.year }}</span>
+            <h3 class="company-page__award-title">{{ award.title }}</h3>
+            <p class="company-page__award-org">{{ award.organization }}</p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section public-section--surface" aria-labelledby="company-success-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="company-success-title" class="public-section__title">Customer success highlights</h2>
+        <p class="public-section__description">
+          Outcomes from early enterprise pilots — metrics that demonstrate platform impact.
+        </p>
+      </header>
+      <div class="public-grid public-grid--3">
+        @for (item of customerSuccess; track item.id; let i = $index) {
+          <article class="company-page__success-card" appRevealOnScroll [appRevealOnScrollDelay]="i * 90">
+            <p class="company-page__success-metric">{{ item.metric }}</p>
+            <h3 class="company-page__success-label">{{ item.label }}</h3>
+            <p class="company-page__success-description">{{ item.description }}</p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section" aria-labelledby="company-security-title">
+    <div class="public-section__container">
+      <header class="public-section__header public-section__header--center" appRevealOnScroll>
+        <h2 id="company-security-title" class="public-section__title">Security & privacy</h2>
+        <p class="public-section__description">
+          Enterprise trust starts with architecture — isolation, authentication, and governance by design.
+        </p>
+      </header>
+      <div class="public-grid public-grid--2">
+        @for (item of security; track item.id; let i = $index) {
+          <article class="company-page__security-card" appRevealOnScroll [appRevealOnScrollDelay]="i * 80">
+            <div class="company-page__security-icon" aria-hidden="true">
+              <i [class]="item.icon"></i>
+            </div>
+            <h3 class="company-page__security-title">{{ item.title }}</h3>
+            <p class="company-page__security-description">{{ item.description }}</p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <app-public-cta-section
+    [title]="finalCta.title"
+    [description]="finalCta.description"
+    [primaryCta]="finalCta.primaryCta"
+    [trustBadges]="trustBadges"
+  />
+</main>
