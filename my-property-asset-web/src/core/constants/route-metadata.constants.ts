@@ -895,6 +895,59 @@ export const SUPER_ADMIN_SETTINGS_PREFERENCES_METADATA: RouteMetadata = {
   analyticsName: 'super_admin_settings_preferences',
 };
 
+export const SUPER_ADMIN_OPERATIONS_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_METADATA,
+  title: 'Operations',
+  icon: 'pi pi-chart-line',
+  description: 'Platform monitoring, audit logs, and system health',
+  breadcrumb: 'Operations',
+  permissions: ['portal:super-admin', 'id-06-platform-operations:read'],
+  analyticsName: 'super_admin_operations',
+};
+
+export const SUPER_ADMIN_OPERATIONS_HEALTH_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_OPERATIONS_METADATA,
+  title: 'Platform Health',
+  breadcrumb: 'Health',
+  analyticsName: 'super_admin_operations_health',
+};
+
+export const SUPER_ADMIN_OPERATIONS_AUDIT_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_OPERATIONS_METADATA,
+  title: 'Audit Logs',
+  breadcrumb: 'Audit Logs',
+  analyticsName: 'super_admin_operations_audit',
+};
+
+export const SUPER_ADMIN_OPERATIONS_AUDIT_DETAIL_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_OPERATIONS_AUDIT_METADATA,
+  title: 'Audit Detail',
+  breadcrumb: 'Detail',
+  analyticsName: 'super_admin_operations_audit_detail',
+};
+
+export const SUPER_ADMIN_OPERATIONS_ACTIVITY_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_OPERATIONS_METADATA,
+  title: 'User Activity',
+  breadcrumb: 'Activity',
+  analyticsName: 'super_admin_operations_activity',
+};
+
+export const SUPER_ADMIN_OPERATIONS_MONITORING_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_OPERATIONS_METADATA,
+  title: 'System Monitoring',
+  breadcrumb: 'Monitoring',
+  analyticsName: 'super_admin_operations_monitoring',
+};
+
+export const SUPER_ADMIN_OPERATIONS_ALERTS_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_OPERATIONS_METADATA,
+  title: 'Alerts',
+  breadcrumb: 'Alerts',
+  permissions: ['portal:super-admin', 'id-06-platform-operations:full'],
+  analyticsName: 'super_admin_operations_alerts',
+};
+
 export const BUILDER_PORTAL_METADATA: RouteMetadata = {
   title: 'Builder Portal',
   icon: 'pi pi-building',

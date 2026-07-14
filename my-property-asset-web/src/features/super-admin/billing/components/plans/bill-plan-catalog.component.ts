@@ -269,6 +269,7 @@ export class BillPlanCatalogComponent {
   }
 
   onSelectPlan(_plan: SubscriptionPlan | string): void {
+    void _plan;
     // Selection is reserved for upgrade flows; compare toggles handle multi-select.
   }
 

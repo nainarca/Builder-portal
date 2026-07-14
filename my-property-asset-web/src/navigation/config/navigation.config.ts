@@ -218,6 +218,16 @@ export const SUPER_ADMIN_NAVIGATION: NavigationConfiguration = createConfigurati
       analyticsName: 'sa_settings_nav',
     },
   },
+  {
+    id: 'sa-operations',
+    label: 'Operations',
+    route: '/super-admin/operations',
+    icon: 'pi pi-chart-line',
+    metadata: {
+      permissions: ['id-06-platform-operations:read'],
+      analyticsName: 'sa_operations_nav',
+    },
+  },
 ]);
 
 export const BUILDER_PORTAL_NAVIGATION: NavigationConfiguration = createConfiguration(

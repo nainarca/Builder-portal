@@ -8,6 +8,7 @@ export * from './builders';
 export * from './iam';
 export * from './branding';
 export * from './settings';
+export * from './operations';
 
 export * from './models/dashboard.model';
 export * from './config/super-admin-dashboard.config';

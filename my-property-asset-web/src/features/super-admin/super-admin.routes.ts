@@ -47,6 +47,11 @@ export const SUPER_ADMIN_ROUTES: Routes = [
         loadChildren: () =>
           import('./settings/settings.routes').then((m) => m.SETTINGS_ADMIN_ROUTE_CHILDREN),
       },
+      {
+        path: 'operations',
+        loadChildren: () =>
+          import('./operations/operations.routes').then((m) => m.OPERATIONS_ADMIN_ROUTE_CHILDREN),
+      },
     ],
   },
 ];
