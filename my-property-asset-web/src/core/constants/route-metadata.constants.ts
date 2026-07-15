@@ -1043,3 +1043,36 @@ export const BUILDER_PORTAL_UNIT_EDIT_METADATA: RouteMetadata = {
   permissions: ['portal:builder-portal', 'id-07-project-unit:contribute'],
   analyticsName: 'builder_portal_unit_edit',
 };
+
+export const BUILDER_PORTAL_OWNERS_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_METADATA,
+  title: 'Owners',
+  icon: 'pi pi-users',
+  description: 'Owner assignments, invitations, and customer profiles across every project',
+  breadcrumb: 'Owners',
+  permissions: ['portal:builder-portal', 'id-08-owner-assignment-prospect:read'],
+  analyticsName: 'builder_portal_owners_workspace',
+};
+
+export const BUILDER_PORTAL_OWNER_ASSIGN_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_OWNERS_METADATA,
+  title: 'Assign owner',
+  breadcrumb: 'Assign',
+  permissions: ['portal:builder-portal', 'id-08-owner-assignment-prospect:contribute'],
+  analyticsName: 'builder_portal_owner_assign',
+};
+
+export const BUILDER_PORTAL_OWNER_DETAIL_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_OWNERS_METADATA,
+  title: 'Owner profile',
+  breadcrumb: 'Profile',
+  analyticsName: 'builder_portal_owner_detail',
+};
+
+export const BUILDER_PORTAL_OWNER_EDIT_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_OWNERS_METADATA,
+  title: 'Edit owner',
+  breadcrumb: 'Edit',
+  permissions: ['portal:builder-portal', 'id-08-owner-assignment-prospect:contribute'],
+  analyticsName: 'builder_portal_owner_edit',
+};

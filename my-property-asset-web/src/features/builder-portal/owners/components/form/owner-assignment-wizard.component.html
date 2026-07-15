@@ -1,0 +1,145 @@
+@if (formState.model(); as model) {
+  <app-form-container>
+    @if (formState.lastAutosavedAt()) {
+      <app-message severity="info" text="Draft autosaved" />
+    }
+
+    <app-stepper
+      [steps]="steps"
+      [activeIndex]="activeIndex()"
+      (next)="nextStep()"
+      (back)="backStep()"
+      (stepChange)="goToStep($event)"
+    >
+      @switch (activeIndex()) {
+        @case (0) {
+          <app-form-section title="Owner" description="Assign an existing prospect or create a new customer profile">
+            <div class="owner-form__mode-toggle">
+              <button
+                type="button"
+                class="owner-form__mode-btn"
+                [class.owner-form__mode-btn--active]="model.ownerMode === 'existing'"
+                (click)="setOwnerMode('existing')"
+              >
+                Existing owner
+              </button>
+              <button
+                type="button"
+                class="owner-form__mode-btn"
+                [class.owner-form__mode-btn--active]="model.ownerMode === 'new'"
+                (click)="setOwnerMode('new')"
+              >
+                New owner
+              </button>
+            </div>
+
+            @if (model.ownerMode === 'existing') {
+              <div class="owner-form__field">
+                <span class="owner-form__label">Select owner *</span>
+                <app-select [options]="ownerOptions()" [value]="model.existingOwnerId" (valueChange)="onExistingOwnerChange($event)" />
+                @if (formState.errors()['existingOwnerId']) {
+                  <small class="owner-form__error">{{ formState.errors()['existingOwnerId'] }}</small>
+                }
+              </div>
+            } @else {
+              <div class="owner-form__field">
+                <span class="owner-form__label">First name *</span>
+                <app-input-text
+                  [value]="model.newOwner.firstName"
+                  [invalid]="!!formState.errors()['newOwner.firstName']"
+                  (valueChange)="onNewOwnerFieldChange('firstName', $event)"
+                />
+                @if (formState.errors()['newOwner.firstName']) {
+                  <small class="owner-form__error">{{ formState.errors()['newOwner.firstName'] }}</small>
+                }
+              </div>
+              <div class="owner-form__field">
+                <span class="owner-form__label">Last name *</span>
+                <app-input-text
+                  [value]="model.newOwner.lastName"
+                  [invalid]="!!formState.errors()['newOwner.lastName']"
+                  (valueChange)="onNewOwnerFieldChange('lastName', $event)"
+                />
+                @if (formState.errors()['newOwner.lastName']) {
+                  <small class="owner-form__error">{{ formState.errors()['newOwner.lastName'] }}</small>
+                }
+              </div>
+              <div class="owner-form__field">
+                <span class="owner-form__label">Email *</span>
+                <app-input-text
+                  [value]="model.newOwner.email"
+                  [invalid]="!!formState.errors()['newOwner.email']"
+                  (valueChange)="onNewOwnerFieldChange('email', $event)"
+                />
+                @if (formState.errors()['newOwner.email']) {
+                  <small class="owner-form__error">{{ formState.errors()['newOwner.email'] }}</small>
+                }
+              </div>
+              <div class="owner-form__field">
+                <span class="owner-form__label">Phone *</span>
+                <app-input-text
+                  [value]="model.newOwner.phone"
+                  [invalid]="!!formState.errors()['newOwner.phone']"
+                  (valueChange)="onNewOwnerFieldChange('phone', $event)"
+                />
+                @if (formState.errors()['newOwner.phone']) {
+                  <small class="owner-form__error">{{ formState.errors()['newOwner.phone'] }}</small>
+                }
+              </div>
+            }
+          </app-form-section>
+        }
+        @case (1) {
+          <app-form-section title="Unit" description="Select the project and an available unit">
+            <div class="owner-form__field">
+              <span class="owner-form__label">Project *</span>
+              <app-select [options]="projectOptions()" [value]="model.projectId" (valueChange)="onProjectChange($event)" />
+              @if (formState.errors()['projectId']) {
+                <small class="owner-form__error">{{ formState.errors()['projectId'] }}</small>
+              }
+            </div>
+            <div class="owner-form__field">
+              <span class="owner-form__label">Available unit *</span>
+              <app-select [options]="unitOptions()" [value]="model.unitId" (valueChange)="onUnitChange($event)" />
+              @if (formState.errors()['unitId']) {
+                <small class="owner-form__error">{{ formState.errors()['unitId'] }}</small>
+              }
+            </div>
+            <div class="owner-form__field owner-form__field--full">
+              <span class="owner-form__label">Notes</span>
+              <app-input-text [value]="model.notes" (valueChange)="onNotesChange($event)" />
+            </div>
+          </app-form-section>
+        }
+        @case (2) {
+          <app-form-section title="Invitation preview" description="This is a framework preview — no email is sent">
+            <div class="invitation-center__preview">
+              <p class="invitation-center__preview-title">Invitation preview</p>
+              <p class="invitation-center__preview-body">
+                "Hi {{ previewName() }}, you've been assigned unit {{ selectedUnitNumber() }} at
+                {{ selectedProjectName() }}. Accept your invitation to access owner services once available."
+              </p>
+            </div>
+          </app-form-section>
+        }
+        @case (3) {
+          <app-form-section title="Review" description="Confirm details before saving">
+            <dl class="owner-form__review">
+              <div class="owner-form__review-row">
+                <dt>Owner</dt>
+                <dd>{{ model.ownerMode === 'new' ? model.newOwner.firstName + ' ' + model.newOwner.lastName : previewName() }}</dd>
+              </div>
+              <div class="owner-form__review-row"><dt>Project</dt><dd>{{ selectedProjectName() }}</dd></div>
+              <div class="owner-form__review-row"><dt>Unit</dt><dd>{{ selectedUnitNumber() }}</dd></div>
+              <div class="owner-form__review-row"><dt>Notes</dt><dd>{{ model.notes || '—' }}</dd></div>
+            </dl>
+          </app-form-section>
+        }
+      }
+    </app-stepper>
+
+    <app-form-actions>
+      <ng-content select="[formActions]" />
+    </app-form-actions>
+  </app-form-container>
+}

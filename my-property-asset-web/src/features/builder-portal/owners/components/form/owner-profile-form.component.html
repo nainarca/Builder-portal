@@ -1,0 +1,69 @@
+@if (formState.model(); as model) {
+  <app-form-container>
+    <app-form-section title="Identity" description="Customer's basic profile information">
+      <div class="owner-form__field">
+        <span class="owner-form__label">First name *</span>
+        <app-input-text
+          [value]="model.firstName"
+          [invalid]="!!formState.errors()['firstName']"
+          (valueChange)="onTextChange('firstName', $event)"
+        />
+        @if (formState.errors()['firstName']) {
+          <small class="owner-form__error">{{ formState.errors()['firstName'] }}</small>
+        }
+      </div>
+      <div class="owner-form__field">
+        <span class="owner-form__label">Last name *</span>
+        <app-input-text
+          [value]="model.lastName"
+          [invalid]="!!formState.errors()['lastName']"
+          (valueChange)="onTextChange('lastName', $event)"
+        />
+        @if (formState.errors()['lastName']) {
+          <small class="owner-form__error">{{ formState.errors()['lastName'] }}</small>
+        }
+      </div>
+    </app-form-section>
+
+    <app-form-section title="Contact information">
+      <div class="owner-form__field">
+        <span class="owner-form__label">Email *</span>
+        <app-input-text
+          [value]="model.email"
+          [invalid]="!!formState.errors()['email']"
+          (valueChange)="onTextChange('email', $event)"
+        />
+        @if (formState.errors()['email']) {
+          <small class="owner-form__error">{{ formState.errors()['email'] }}</small>
+        }
+      </div>
+      <div class="owner-form__field">
+        <span class="owner-form__label">Phone *</span>
+        <app-input-text
+          [value]="model.phone"
+          [invalid]="!!formState.errors()['phone']"
+          (valueChange)="onTextChange('phone', $event)"
+        />
+        @if (formState.errors()['phone']) {
+          <small class="owner-form__error">{{ formState.errors()['phone'] }}</small>
+        }
+      </div>
+      <div class="owner-form__field">
+        <span class="owner-form__label">City</span>
+        <app-input-text [value]="model.city" (valueChange)="onTextChange('city', $event)" />
+      </div>
+      <div class="owner-form__field">
+        <span class="owner-form__label">State</span>
+        <app-input-text [value]="model.state" (valueChange)="onTextChange('state', $event)" />
+      </div>
+      <div class="owner-form__field">
+        <span class="owner-form__label">Country</span>
+        <app-input-text [value]="model.country" (valueChange)="onTextChange('country', $event)" />
+      </div>
+    </app-form-section>
+
+    <app-form-actions>
+      <ng-content select="[formActions]" />
+    </app-form-actions>
+  </app-form-container>
+}

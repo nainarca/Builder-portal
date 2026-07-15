@@ -254,6 +254,16 @@ export const BUILDER_PORTAL_NAVIGATION: NavigationConfiguration = createConfigur
       },
     },
     {
+      id: 'ba-owners',
+      label: 'Owners',
+      route: '/builder-portal/owners',
+      icon: 'pi pi-users',
+      metadata: {
+        permissions: ['id-08-owner-assignment-prospect:read'],
+        analyticsName: 'ba_owners_nav',
+      },
+    },
+    {
       id: 'ba-settings',
       label: 'Settings',
       route: '/builder-portal',

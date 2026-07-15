@@ -13,7 +13,7 @@
         <div class="unit-detail-layout__main">
           <app-unit-overview [unit]="u" />
           <app-unit-timeline [milestones]="u.milestones" />
-          <app-unit-summary-row [summary]="u.summary" />
+          <app-unit-summary-row [summary]="u.summary" [ownerName]="assignedOwner()?.name" [ownerId]="assignedOwner()?.id" />
         </div>
         <aside class="unit-detail-layout__aside">
           <app-unit-gallery-placeholder />

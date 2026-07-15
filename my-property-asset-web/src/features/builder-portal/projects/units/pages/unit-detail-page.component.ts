@@ -14,6 +14,7 @@ import {
 } from '../components/detail';
 import { UnitHeaderComponent } from '../components/shared';
 import { UnitStoreService } from '../services/unit-store.service';
+import { OwnerStoreService } from '../../../owners/services/owner-store.service';
 
 @Component({
   selector: 'app-unit-detail-page',
@@ -34,6 +35,7 @@ import { UnitStoreService } from '../services/unit-store.service';
 export class UnitDetailPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly store = inject(UnitStoreService);
+  private readonly ownerStore = inject(OwnerStoreService);
   private readonly dialog = inject(UiDialogService);
   private readonly toast = inject(UiToastService);
 
@@ -46,6 +48,10 @@ export class UnitDetailPageComponent {
   });
 
   readonly unit = computed(() => this.store.getById(this.unitId()));
+  readonly assignedOwner = computed(() => {
+    const assignment = this.ownerStore.getAssignmentByUnitId(this.unitId());
+    return assignment ? { id: assignment.ownerId, name: assignment.ownerName } : undefined;
+  });
 
   async onArchive(): Promise<void> {
     const unit = this.unit();

@@ -273,8 +273,9 @@ export const BUILDER_DASHBOARD_QUICK_ACTIONS: readonly DashboardQuickActionItem[
   {
     id: 'qa3',
     label: 'Manage owners',
-    description: 'Directory and invitations (coming soon)',
+    description: 'Directory and invitations',
     icon: 'pi pi-users',
+    route: '/builder-portal/owners',
     permission: 'id-08-owner-assignment-prospect:read',
     favorite: true,
   },

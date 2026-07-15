@@ -670,6 +670,18 @@
   border: 1px solid var(--mpa-color-border);
   border-radius: var(--mpa-radius-lg);
   background: var(--mpa-color-surface-elevated);
+
+  &--link {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: border-color var(--mpa-transition-fast), box-shadow var(--mpa-transition-fast);
+
+    &:hover {
+      border-color: color-mix(in srgb, var(--mpa-color-primary) 35%, transparent);
+      box-shadow: var(--mpa-shadow-sm);
+    }
+  }
 }
 
 .unit-summary-widget__icon {

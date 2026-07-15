@@ -1,0 +1,64 @@
+<app-base-page>
+  @if (owner(); as o) {
+    <div class="owner-page owner-page--detail">
+      <app-customer-header [owner]="o" [assignment]="assignment()">
+        @if (!o.archived) {
+          <app-button label="Archive" icon="pi pi-archive" severity="danger" [outlined]="true" (clicked)="onArchive()" />
+        } @else {
+          <app-button label="Restore" icon="pi pi-replay" (clicked)="onRestore()" />
+        }
+      </app-customer-header>
+
+      <div class="owner-detail-layout">
+        <div class="owner-detail-layout__main">
+          <app-owner-overview [owner]="o" [assignment]="assignment()" />
+
+          @if (assignment(); as a) {
+            <app-invitation-center
+              [assignment]="a"
+              (resend)="onResendInvitation()"
+              (reminder)="onSendReminder()"
+              (cancelInvitation)="onCancelInvitation()"
+            />
+            <app-customer-timeline [items]="a.activity" />
+          } @else {
+            <app-customer-timeline [items]="[]" />
+          }
+        </div>
+        <aside class="owner-detail-layout__aside">
+          <div class="owner-info-panel">
+            <h3 class="owner-info-panel__title">Assignment actions</h3>
+            <div class="owner-header__actions">
+              <app-button label="Reassign" icon="pi pi-sync" [outlined]="true" (clicked)="openReassign()" />
+              @if (assignment()) {
+                <app-button label="Remove assignment" icon="pi pi-times" severity="danger" [outlined]="true" (clicked)="onRemoveAssignment()" />
+              }
+            </div>
+          </div>
+          <app-owner-document-placeholder />
+          <app-owner-handover-placeholder />
+        </aside>
+      </div>
+    </div>
+
+    <app-modal-shell title="Reassign owner" [visible]="reassignVisible()" (visibleChange)="reassignVisible.set($event)" (hidden)="closeReassign()">
+      <div class="owner-reassign-modal__field">
+        <span class="owner-form__label">Project</span>
+        <app-select [options]="projectOptions()" [value]="reassignProjectId()" (valueChange)="onReassignProjectChange($event)" />
+      </div>
+      <div class="owner-reassign-modal__field">
+        <span class="owner-form__label">Available unit</span>
+        <app-select [options]="reassignUnitOptions()" [value]="reassignUnitId()" (valueChange)="reassignUnitId.set($event)" />
+      </div>
+      <div modalActions>
+        <app-button label="Cancel" [outlined]="true" (clicked)="closeReassign()" />
+        <app-button label="Confirm reassignment" icon="pi pi-check" (clicked)="confirmReassign()" />
+      </div>
+    </app-modal-shell>
+  } @else {
+    <div class="owner-page owner-page--empty">
+      <h1 class="ui-page-title">Owner not found</h1>
+      <p class="ui-page-subtitle">The requested owner does not exist or was removed.</p>
+    </div>
+  }
+</app-base-page>
