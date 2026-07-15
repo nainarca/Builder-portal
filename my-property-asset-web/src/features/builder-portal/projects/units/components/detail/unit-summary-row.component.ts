@@ -56,7 +56,13 @@ export class UnitSummaryRowComponent {
         route: unit ? ['/builder-portal/documents'] : undefined,
         queryParams: unit ? { unitId: unit } : undefined,
       },
-      { label: 'Handover', value: this.handoverLabel(s.handoverStatus), icon: 'pi pi-key' },
+      {
+        label: 'Handover',
+        value: this.handoverLabel(s.handoverStatus),
+        icon: 'pi pi-key',
+        route: unit ? ['/builder-portal/handovers'] : undefined,
+        queryParams: unit ? { unitId: unit } : undefined,
+      },
       { label: 'Open snags', value: String(s.openSnags), icon: 'pi pi-exclamation-triangle' },
       { label: 'Upcoming appointments', value: String(s.upcomingAppointments), icon: 'pi pi-map-marker' },
     ];

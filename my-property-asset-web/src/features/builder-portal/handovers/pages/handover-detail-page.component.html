@@ -1,0 +1,41 @@
+<app-base-page>
+  @if (handover(); as h) {
+    <div class="handover-page handover-page--detail">
+      <header class="handover-header">
+        <div class="handover-header__main">
+          <span class="handover-icon handover-icon--lg"><i class="pi pi-flag" aria-hidden="true"></i></span>
+          <div>
+            <span class="mpa-eyebrow">{{ h.projectName }} · {{ h.towerName }}</span>
+            <h1 class="ui-page-title">Handover — {{ h.unitNumber }}</h1>
+            <p class="ui-page-subtitle">{{ h.ownerName }}</p>
+            <div class="handover-header__badges">
+              <app-handover-status-badge [status]="h.overallStatus" />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <app-milestone-tracker [stages]="h.stages" />
+
+      <app-handover-overview [handover]="h" />
+
+      <div class="handover-detail-layout">
+        <div class="handover-detail-layout__main">
+          <app-workflow-card title="Workflow timeline">
+            <app-workflow-timeline [stages]="h.stages" />
+          </app-workflow-card>
+          <app-timeline-card title="Audit timeline" [items]="h.activity" />
+        </div>
+        <aside class="handover-detail-layout__aside">
+          <app-progress-card [percent]="h.overallProgress" [delayed]="h.overallStatus === 'delayed'" />
+          <app-document-summary-panel [unitId]="h.unitId" />
+        </aside>
+      </div>
+    </div>
+  } @else {
+    <div class="handover-page handover-page--empty">
+      <h1 class="ui-page-title">Handover not found</h1>
+      <p class="ui-page-subtitle">The requested handover does not exist.</p>
+    </div>
+  }
+</app-base-page>

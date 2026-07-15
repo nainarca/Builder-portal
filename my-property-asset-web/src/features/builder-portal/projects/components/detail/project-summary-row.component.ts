@@ -53,7 +53,13 @@ export class ProjectSummaryRowComponent {
         route: id ? ['/builder-portal/documents'] : undefined,
         queryParams: id ? { projectId: id } : undefined,
       },
-      { label: 'Pending handovers', value: String(s.pendingHandovers), icon: 'pi pi-key' },
+      {
+        label: 'Pending handovers',
+        value: String(s.pendingHandovers),
+        icon: 'pi pi-key',
+        route: id ? ['/builder-portal/handovers'] : undefined,
+        queryParams: id ? { projectId: id } : undefined,
+      },
       { label: 'Open snags', value: String(s.openSnags), icon: 'pi pi-exclamation-triangle' },
       { label: 'Upcoming appointments', value: String(s.upcomingAppointments), icon: 'pi pi-map-marker' },
     ];

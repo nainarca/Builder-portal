@@ -274,6 +274,16 @@ export const BUILDER_PORTAL_NAVIGATION: NavigationConfiguration = createConfigur
       },
     },
     {
+      id: 'ba-handovers',
+      label: 'Handovers',
+      route: '/builder-portal/handovers',
+      icon: 'pi pi-flag',
+      metadata: {
+        permissions: ['id-09-handover-document:read'],
+        analyticsName: 'ba_handovers_nav',
+      },
+    },
+    {
       id: 'ba-settings',
       label: 'Settings',
       route: '/builder-portal',

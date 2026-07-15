@@ -32,6 +32,10 @@ export const BUILDER_PORTAL_ROUTES: Routes = [
         path: 'documents',
         loadChildren: () => import('./documents/documents.routes').then((m) => m.DOCUMENT_ROUTES),
       },
+      {
+        path: 'handovers',
+        loadChildren: () => import('./handovers/handovers.routes').then((m) => m.HANDOVER_ROUTES),
+      },
     ],
   },
 ];

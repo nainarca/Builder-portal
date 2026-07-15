@@ -1,0 +1,75 @@
+<app-base-page>
+  <div class="handover-page">
+    <app-page-header
+      [eyebrow]="header.eyebrow"
+      [title]="header.title"
+      [description]="header.description"
+    />
+
+    <section class="handover-quick-stats" aria-label="Handover quick statistics">
+      @for (kpi of kpis(); track kpi.id) {
+        <app-bp-kpi-card [item]="kpi" />
+      }
+    </section>
+
+    <div class="handover-overview__grid">
+      <div class="handover-info-panel">
+        <h3 class="handover-info-panel__title">Handover status</h3>
+        <app-bp-chart-wrapper [config]="statusChart()" />
+      </div>
+      <div class="handover-overview__grid-span-2">
+        <app-timeline-card title="Recent activity" [items]="recentActivity()" />
+      </div>
+    </div>
+
+    <app-handover-quick-filters
+      [selected]="listState.statusFilter()"
+      (selectedChange)="listState.setStatusFilter($event)"
+    />
+
+    <div class="handover-explorer-toolbar" role="toolbar" aria-label="Handover explorer toolbar">
+      <div class="handover-explorer-toolbar__start">
+        <app-search-field
+          [value]="listState.search()"
+          placeholder="Search handovers…"
+          ariaLabel="Search handovers"
+          (valueChange)="onSearch($event)"
+        />
+        <app-handover-saved-views
+          [views]="listState.savedViews()"
+          [selectedId]="listState.savedViewId()"
+          (viewChange)="listState.applySavedView($event)"
+        />
+      </div>
+      <div class="handover-explorer-toolbar__end">
+        <app-handover-view-toggle [mode]="listState.viewMode()" (modeChange)="listState.setViewMode($event)" />
+        <app-sort-control
+          [options]="sortOptions"
+          [value]="listState.sortValue()"
+          (sortChange)="onSort($event)"
+        />
+        <app-button
+          [label]="listState.showAdvancedFilters() ? 'Hide filters' : 'Advanced filters'"
+          icon="pi pi-filter"
+          [text]="true"
+          (clicked)="listState.toggleAdvancedFilters()"
+        />
+      </div>
+    </div>
+
+    @if (listState.showAdvancedFilters()) {
+      <app-handover-advanced-filters
+        [projectFilter]="listState.projectFilter()"
+        [projects]="projects()"
+        (projectFilterChange)="listState.setProjectFilter($event)"
+        (filtersReset)="listState.resetFilters()"
+      />
+    }
+
+    @if (listState.viewMode() === 'table') {
+      <app-handover-data-grid [items]="listState.listResult().items" />
+    } @else {
+      <app-handover-card-grid [items]="listState.listResult().items" />
+    }
+  </div>
+</app-base-page>

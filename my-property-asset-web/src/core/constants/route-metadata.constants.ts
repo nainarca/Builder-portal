@@ -1115,3 +1115,20 @@ export const BUILDER_PORTAL_DOCUMENT_HISTORY_METADATA: RouteMetadata = {
   breadcrumb: 'History',
   analyticsName: 'builder_portal_document_history',
 };
+
+export const BUILDER_PORTAL_HANDOVERS_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_METADATA,
+  title: 'Handovers',
+  icon: 'pi pi-flag',
+  description: 'The digital property handover workflow — stages, progress, and milestones for every unit',
+  breadcrumb: 'Handovers',
+  permissions: ['portal:builder-portal', 'id-09-handover-document:read'],
+  analyticsName: 'builder_portal_handovers_workspace',
+};
+
+export const BUILDER_PORTAL_HANDOVER_DETAIL_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_HANDOVERS_METADATA,
+  title: 'Handover details',
+  breadcrumb: 'Details',
+  analyticsName: 'builder_portal_handover_detail',
+};

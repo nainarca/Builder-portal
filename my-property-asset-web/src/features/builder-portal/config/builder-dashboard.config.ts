@@ -257,6 +257,7 @@ export const BUILDER_DASHBOARD_QUICK_ACTIONS: readonly DashboardQuickActionItem[
     label: 'Review handovers',
     description: 'Pending sign-offs queue',
     icon: 'pi pi-key',
+    route: '/builder-portal/handovers',
     permission: 'id-09-handover-document:read',
     pinned: true,
     favorite: true,
