@@ -1,0 +1,31 @@
+<app-base-page>
+  @if (project(); as proj) {
+    <div class="proj-page proj-page--detail">
+      <app-proj-header [project]="proj">
+        @if (!proj.archived) {
+          <app-button label="Archive" icon="pi pi-archive" severity="danger" [outlined]="true" (clicked)="onArchive()" />
+        } @else {
+          <app-button label="Restore" icon="pi pi-replay" (clicked)="onRestore()" />
+        }
+      </app-proj-header>
+
+      <div class="proj-detail-layout">
+        <div class="proj-detail-layout__main">
+          <app-proj-overview [project]="proj" />
+          <app-proj-location-card [location]="proj.location" />
+          <app-proj-timeline [milestones]="proj.milestones" />
+          <app-proj-summary-row [summary]="proj.summary" [projectId]="proj.id" />
+        </div>
+        <aside class="proj-detail-layout__aside">
+          <app-proj-map-placeholder />
+          <app-proj-gallery-placeholder />
+        </aside>
+      </div>
+    </div>
+  } @else {
+    <div class="proj-page proj-page--empty">
+      <h1 class="ui-page-title">Project not found</h1>
+      <p class="ui-page-subtitle">The requested project does not exist or was removed.</p>
+    </div>
+  }
+</app-base-page>

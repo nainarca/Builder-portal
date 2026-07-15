@@ -1,3 +1,6 @@
 @use 'theme/index';
 @use './shared/ui/styles';
 @use './features/public-website/styles/public-sections';
+@use './features/builder-portal/styles/dashboard';
+@use './features/builder-portal/projects/styles/projects';
+@use './features/builder-portal/projects/units/styles/units';

@@ -1,0 +1,89 @@
+<app-base-page>
+  <div class="bp-dashboard proj-workspace">
+    <app-bp-dashboard-header
+      [eyebrow]="header.eyebrow"
+      [title]="header.title"
+      [description]="header.description"
+      [showRefresh]="false"
+    />
+
+    <section class="bp-dashboard__kpi-row" aria-label="Project KPIs">
+      @for (kpi of kpis; track kpi.id) {
+        <app-bp-kpi-card [item]="kpi" />
+      }
+    </section>
+
+    <section class="bp-dashboard__summary-row" aria-label="Project health">
+      @for (item of healthSummary(); track item.id) {
+        <app-bp-summary-card [item]="item" />
+      }
+    </section>
+
+    <app-bp-dashboard-grid>
+      <app-bp-dashboard-grid-item [colspan]="4">
+        <app-bp-quick-actions-widget
+          [actions]="quickActions"
+          [pinnedIds]="pinnedActionIds"
+          [favoriteIds]="favoriteActionIds"
+          (actionSelected)="onQuickActionSelected($event)"
+        />
+      </app-bp-dashboard-grid-item>
+
+      <app-bp-dashboard-grid-item [colspan]="2" [rowspan]="2">
+        <app-bp-dashboard-widget-shell
+          title="Recent projects"
+          icon="pi pi-briefcase"
+          description="Latest activity across your portfolio"
+        >
+          <app-proj-card-grid
+            [items]="recentProjects()"
+            [favoriteIds]="listState.favoriteIds()"
+            (favoriteToggle)="onFavoriteToggle($event)"
+          />
+        </app-bp-dashboard-widget-shell>
+      </app-bp-dashboard-grid-item>
+
+      <app-bp-dashboard-grid-item [colspan]="2">
+        <app-bp-dashboard-widget-shell title="Favorite projects" icon="pi pi-star-fill" description="Pinned for quick access">
+          @if (favoriteProjects().length === 0) {
+            <p class="mpa-body-md m-0">Star a project from the list to pin it here.</p>
+          } @else {
+            <app-proj-card-grid
+              [items]="favoriteProjects()"
+              [favoriteIds]="listState.favoriteIds()"
+              (favoriteToggle)="onFavoriteToggle($event)"
+            />
+          }
+        </app-bp-dashboard-widget-shell>
+      </app-bp-dashboard-grid-item>
+
+      <app-bp-dashboard-grid-item [colspan]="2">
+        <app-bp-dashboard-widget-shell
+          [title]="constructionStatusChart().title"
+          icon="pi pi-chart-pie"
+          [description]="constructionStatusChart().subtitle"
+        >
+          <app-bp-chart-wrapper [config]="constructionStatusChart()" />
+        </app-bp-dashboard-widget-shell>
+      </app-bp-dashboard-grid-item>
+
+      <app-bp-dashboard-grid-item [colspan]="2">
+        <app-bp-dashboard-widget-shell title="Needs attention" icon="pi pi-gauge" description="Lowest progress active projects">
+          @for (item of lowestProgressProjects(); track item.id) {
+            <app-bp-progress-card [item]="item" />
+          }
+        </app-bp-dashboard-widget-shell>
+      </app-bp-dashboard-grid-item>
+
+      <app-bp-dashboard-grid-item [colspan]="2">
+        <app-bp-recent-activity-widget [items]="activities" />
+      </app-bp-dashboard-grid-item>
+
+      <app-bp-dashboard-grid-item [colspan]="1">
+        <app-bp-calendar-widget />
+      </app-bp-dashboard-grid-item>
+    </app-bp-dashboard-grid>
+
+    <app-bp-dashboard-footer leftText="MyPropertyAsset Project Workspace" />
+  </div>
+</app-base-page>

@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 
-import { BUILDER_PORTAL_METADATA } from '../../core/constants/route-metadata.constants';
+import { BUILDER_PORTAL_DASHBOARD_METADATA } from '../../core/constants/route-metadata.constants';
 import { BuilderPortalLayoutComponent } from '../../layouts/builder-portal/builder-portal-layout.component';
 import { navigationResolver } from '../../navigation/resolvers';
-import { BuilderPortalPlaceholder } from './builder-portal-placeholder.component';
+import { BuilderDashboardComponent } from './builder-dashboard.component';
 
 export const BUILDER_PORTAL_ROUTES: Routes = [
   {
@@ -17,8 +17,12 @@ export const BUILDER_PORTAL_ROUTES: Routes = [
     children: [
       {
         path: '',
-        component: BuilderPortalPlaceholder,
-        data: BUILDER_PORTAL_METADATA,
+        component: BuilderDashboardComponent,
+        data: BUILDER_PORTAL_DASHBOARD_METADATA,
+      },
+      {
+        path: 'projects',
+        loadChildren: () => import('./projects/projects.routes').then((m) => m.PROJECT_ROUTES),
       },
     ],
   },

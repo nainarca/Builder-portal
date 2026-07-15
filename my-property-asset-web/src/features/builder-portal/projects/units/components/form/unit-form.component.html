@@ -1,0 +1,135 @@
+@if (formState.model(); as model) {
+  <app-form-container>
+    @if (formState.lastAutosavedAt()) {
+      <app-message severity="info" text="Draft autosaved" />
+    }
+
+    <app-stepper
+      [steps]="steps"
+      [activeIndex]="activeIndex()"
+      (next)="nextStep()"
+      (back)="backStep()"
+      (stepChange)="goToStep($event)"
+    >
+      @switch (activeIndex()) {
+        @case (0) {
+          <app-form-section title="Basics" description="Core unit identity">
+            <div class="unit-form__field">
+              <span class="unit-form__label">Unit number *</span>
+              <app-input-text
+                [value]="model.unitNumber"
+                [invalid]="!!formState.errors()['unitNumber']"
+                (valueChange)="onTextChange('unitNumber', $event)"
+              />
+              @if (formState.errors()['unitNumber']) {
+                <small class="unit-form__error">{{ formState.errors()['unitNumber'] }}</small>
+              }
+            </div>
+            <div class="unit-form__field">
+              <span class="unit-form__label">Unit code</span>
+              <app-input-text [value]="model.code" (valueChange)="onTextChange('code', $event)" />
+            </div>
+            <div class="unit-form__field">
+              <span class="unit-form__label">Type</span>
+              <app-select [options]="typeOptions" [value]="model.unitType" (valueChange)="onTextChange('unitType', $event)" />
+            </div>
+            <div class="unit-form__field">
+              <span class="unit-form__label">Configuration *</span>
+              <app-input-text
+                [value]="model.configuration"
+                [invalid]="!!formState.errors()['configuration']"
+                (valueChange)="onTextChange('configuration', $event)"
+              />
+              @if (formState.errors()['configuration']) {
+                <small class="unit-form__error">{{ formState.errors()['configuration'] }}</small>
+              }
+            </div>
+            <div class="unit-form__field">
+              <span class="unit-form__label">Area (sqft) *</span>
+              <app-input-text
+                [value]="model.areaSqft + ''"
+                [invalid]="!!formState.errors()['areaSqft']"
+                (valueChange)="onNumberChange('areaSqft', $event)"
+              />
+              @if (formState.errors()['areaSqft']) {
+                <small class="unit-form__error">{{ formState.errors()['areaSqft'] }}</small>
+              }
+            </div>
+          </app-form-section>
+        }
+        @case (1) {
+          <app-form-section title="Tower & floor" description="Where this unit sits within the development">
+            <div class="unit-form__field">
+              <span class="unit-form__label">Tower / Block *</span>
+              <app-select
+                [options]="towerOptions()"
+                [value]="model.towerId"
+                (valueChange)="onTextChange('towerId', $event)"
+              />
+              @if (formState.errors()['towerId']) {
+                <small class="unit-form__error">{{ formState.errors()['towerId'] }}</small>
+              }
+            </div>
+            <div class="unit-form__field">
+              <span class="unit-form__label">Floor number *</span>
+              <app-input-text
+                [value]="model.floorNumber + ''"
+                [invalid]="!!formState.errors()['floorNumber']"
+                (valueChange)="onNumberChange('floorNumber', $event)"
+              />
+              @if (formState.errors()['floorNumber']) {
+                <small class="unit-form__error">{{ formState.errors()['floorNumber'] }}</small>
+              }
+            </div>
+          </app-form-section>
+        }
+        @case (2) {
+          <app-form-section title="Construction & status">
+            <div class="unit-form__field">
+              <span class="unit-form__label">Sales status</span>
+              <app-select [options]="statusOptions" [value]="model.status" (valueChange)="onTextChange('status', $event)" />
+            </div>
+            <div class="unit-form__field">
+              <span class="unit-form__label">Construction stage</span>
+              <app-select
+                [options]="stageOptions"
+                [value]="model.constructionStage"
+                (valueChange)="onTextChange('constructionStage', $event)"
+              />
+            </div>
+            <div class="unit-form__field">
+              <span class="unit-form__label">Progress (%)</span>
+              <app-input-text
+                [value]="model.progress + ''"
+                [invalid]="!!formState.errors()['progress']"
+                (valueChange)="onNumberChange('progress', $event)"
+              />
+              @if (formState.errors()['progress']) {
+                <small class="unit-form__error">{{ formState.errors()['progress'] }}</small>
+              }
+            </div>
+          </app-form-section>
+        }
+        @case (3) {
+          <app-form-section title="Review" description="Confirm details before saving">
+            <dl class="unit-form__review">
+              <div class="unit-form__review-row"><dt>Unit number</dt><dd>{{ model.unitNumber }}</dd></div>
+              <div class="unit-form__review-row"><dt>Code</dt><dd>{{ model.code || '—' }}</dd></div>
+              <div class="unit-form__review-row"><dt>Type</dt><dd>{{ model.unitType }}</dd></div>
+              <div class="unit-form__review-row"><dt>Configuration</dt><dd>{{ model.configuration }}</dd></div>
+              <div class="unit-form__review-row"><dt>Area</dt><dd>{{ model.areaSqft }} sqft</dd></div>
+              <div class="unit-form__review-row"><dt>Floor</dt><dd>{{ model.floorNumber }}</dd></div>
+              <div class="unit-form__review-row"><dt>Sales status</dt><dd>{{ model.status }}</dd></div>
+              <div class="unit-form__review-row"><dt>Construction stage</dt><dd>{{ model.constructionStage }}</dd></div>
+              <div class="unit-form__review-row"><dt>Progress</dt><dd>{{ model.progress }}%</dd></div>
+            </dl>
+          </app-form-section>
+        }
+      }
+    </app-stepper>
+
+    <app-form-actions>
+      <ng-content select="[formActions]" />
+    </app-form-actions>
+  </app-form-container>
+}

@@ -4,11 +4,7 @@ export {
   AuthLayoutComponent,
   LoginPageComponent,
 } from './authentication';
-export {
-  BUILDER_PORTAL_ROUTES,
-  BuilderPortalPlaceholder,
-  BuilderPortalShell,
-} from './builder-portal';
+export { BUILDER_PORTAL_ROUTES, BuilderDashboardComponent } from './builder-portal';
 export { PUBLIC_WEBSITE_ROUTES, PublicWebsiteHome, PublicWebsiteShell } from './public-website';
 export {
   SUPER_ADMIN_ROUTES,

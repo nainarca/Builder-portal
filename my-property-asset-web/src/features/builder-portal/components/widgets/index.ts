@@ -1,0 +1,10 @@
+export { QuickActionsWidgetComponent } from './quick-actions-widget.component';
+export { RecentProjectsWidgetComponent } from './recent-projects-widget.component';
+export { ProjectProgressWidgetComponent } from './project-progress-widget.component';
+export { ProjectStatusOverviewWidgetComponent } from './project-status-overview-widget.component';
+export { PerformanceSummaryWidgetComponent } from './performance-summary-widget.component';
+export { RecentActivityWidgetComponent } from './recent-activity-widget.component';
+export { TodaysActivitiesWidgetComponent } from './todays-activities-widget.component';
+export { UpcomingAppointmentsWidgetComponent } from './upcoming-appointments-widget.component';
+export { NotificationsWidgetComponent } from './notifications-widget.component';
+export { CalendarWidgetComponent } from './calendar-widget.component';

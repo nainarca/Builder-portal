@@ -1,0 +1,403 @@
+import {
+  DashboardActivityItem,
+  DashboardAnnouncementItem,
+  DashboardChartConfig,
+  DashboardFilterOption,
+  DashboardKpiItem,
+  DashboardProjectSummaryItem,
+  DashboardQuickActionItem,
+  DashboardSummaryItem,
+  DashboardTrendItem,
+  DashboardWidgetDefinition,
+} from '../models/dashboard.model';
+
+export const BUILDER_DASHBOARD_HEADER = {
+  eyebrow: 'Builder Portal',
+  title: 'Project delivery dashboard',
+  description:
+    'A daily operational view of your developments — progress, handovers, snags, and owner activity across every project.',
+};
+
+export const BUILDER_DASHBOARD_KPIS: readonly DashboardKpiItem[] = [
+  {
+    id: 'active-projects',
+    label: 'Active Projects',
+    value: '18',
+    hint: 'Across all sites',
+    icon: 'pi pi-briefcase',
+    tone: 'primary',
+    trend: 'up',
+    trendLabel: '+3 this quarter',
+  },
+  {
+    id: 'total-units',
+    label: 'Total Units',
+    value: '2,340',
+    hint: 'In active developments',
+    icon: 'pi pi-building',
+    tone: 'info',
+    trend: 'up',
+    trendLabel: '+120 this month',
+  },
+  {
+    id: 'pending-handovers',
+    label: 'Pending Handovers',
+    value: '46',
+    hint: 'Awaiting owner sign-off',
+    icon: 'pi pi-key',
+    tone: 'warning',
+    trend: 'down',
+    trendLabel: '-8 vs last month',
+  },
+  {
+    id: 'open-snags',
+    label: 'Open Snags',
+    value: '112',
+    hint: 'Unresolved items',
+    icon: 'pi pi-exclamation-triangle',
+    tone: 'danger',
+    trend: 'down',
+    trendLabel: '-15% this week',
+  },
+];
+
+export const BUILDER_DASHBOARD_TRENDS: readonly DashboardTrendItem[] = [
+  {
+    id: 'inquiries',
+    label: 'New inquiries',
+    value: '64',
+    change: '+22%',
+    trend: 'up',
+    period: 'Last 7 days',
+  },
+  {
+    id: 'units-booked',
+    label: 'Units booked',
+    value: '9',
+    change: '+12%',
+    trend: 'up',
+    period: 'Last 30 days',
+  },
+  {
+    id: 'handover-cycle',
+    label: 'Avg handover cycle',
+    value: '14 days',
+    change: '-3 days',
+    trend: 'down',
+    period: 'Last 30 days',
+  },
+];
+
+export const BUILDER_DASHBOARD_SUMMARIES: readonly DashboardSummaryItem[] = [
+  {
+    id: 'unit-summary',
+    title: 'Units',
+    value: '2,340',
+    subtitle: '186 available for handover',
+    icon: 'pi pi-building',
+  },
+  {
+    id: 'owner-summary',
+    title: 'Owners',
+    value: '1,894',
+    subtitle: '42 pending invitations',
+    icon: 'pi pi-users',
+  },
+  {
+    id: 'document-summary',
+    title: 'Documents',
+    value: '5,210',
+    subtitle: '38 pending owner acknowledgement',
+    icon: 'pi pi-file',
+  },
+  {
+    id: 'handover-summary',
+    title: 'Pending handovers',
+    value: '46',
+    subtitle: '12 scheduled this week',
+    icon: 'pi pi-key',
+  },
+  {
+    id: 'snag-summary',
+    title: 'Open snags',
+    value: '112',
+    subtitle: '27 flagged high priority',
+    icon: 'pi pi-exclamation-triangle',
+  },
+];
+
+export const BUILDER_DASHBOARD_ACTIVITIES: readonly DashboardActivityItem[] = [
+  {
+    id: 'a1',
+    title: 'Handover completed',
+    description: 'Unit A-204, Skyline Residences signed off by owner.',
+    timestamp: '18 minutes ago',
+    icon: 'pi pi-check-circle',
+    tone: 'success',
+  },
+  {
+    id: 'a2',
+    title: 'New snag reported',
+    description: 'Unit C-112, Meadow Heights flagged a plumbing issue.',
+    timestamp: '42 minutes ago',
+    icon: 'pi pi-exclamation-triangle',
+    tone: 'warning',
+  },
+  {
+    id: 'a3',
+    title: 'Owner invitation accepted',
+    description: 'Owner of Unit B-305, Horizon Towers joined the portal.',
+    timestamp: '1 hour ago',
+    icon: 'pi pi-user-plus',
+    tone: 'info',
+  },
+  {
+    id: 'a4',
+    title: 'Project milestone reached',
+    description: 'Foundation work completed at Horizon Towers.',
+    timestamp: '3 hours ago',
+    icon: 'pi pi-flag',
+    tone: 'primary',
+  },
+];
+
+export const BUILDER_DASHBOARD_NOTIFICATIONS: readonly DashboardAnnouncementItem[] = [
+  {
+    id: 'n1',
+    title: 'Document expiring soon',
+    message: 'Fire safety certificate for Horizon Towers expires in 5 days.',
+    date: 'Jul 14, 2026',
+    type: 'warning',
+  },
+  {
+    id: 'n2',
+    title: 'New owner message',
+    message: 'Owner of Unit B-305 requested a callback.',
+    date: 'Jul 13, 2026',
+    type: 'info',
+  },
+  {
+    id: 'n3',
+    title: 'Snag resolved',
+    message: 'Plumbing issue at Unit A-110 marked resolved.',
+    date: 'Jul 12, 2026',
+    type: 'success',
+  },
+];
+
+export const BUILDER_DASHBOARD_APPOINTMENTS: readonly DashboardActivityItem[] = [
+  {
+    id: 'ap1',
+    title: 'Site visit — Horizon Towers',
+    description: 'With owner Priya Sharma, Unit B-305',
+    timestamp: 'Tomorrow, 10:00 AM',
+    icon: 'pi pi-map-marker',
+    tone: 'primary',
+  },
+  {
+    id: 'ap2',
+    title: 'Handover walkthrough — Skyline Residences',
+    description: 'Unit A-204 final inspection',
+    timestamp: 'Jul 16, 2:00 PM',
+    icon: 'pi pi-key',
+    tone: 'success',
+  },
+  {
+    id: 'ap3',
+    title: 'Snag review call — Meadow Heights',
+    description: 'Contractor coordination for Block C',
+    timestamp: 'Jul 17, 11:30 AM',
+    icon: 'pi pi-phone',
+    tone: 'warning',
+  },
+];
+
+export const BUILDER_DASHBOARD_RECENT_PROJECTS: readonly DashboardProjectSummaryItem[] = [
+  {
+    id: 'proj-1',
+    name: 'Horizon Towers',
+    location: 'Sector 12, Gurugram',
+    status: 'in-progress',
+    progress: 62,
+    unitsTotal: 240,
+    unitsSold: 168,
+  },
+  {
+    id: 'proj-2',
+    name: 'Skyline Residences',
+    location: 'Baner, Pune',
+    status: 'handover',
+    progress: 88,
+    unitsTotal: 160,
+    unitsSold: 160,
+  },
+  {
+    id: 'proj-3',
+    name: 'Meadow Heights',
+    location: 'Whitefield, Bengaluru',
+    status: 'in-progress',
+    progress: 41,
+    unitsTotal: 320,
+    unitsSold: 210,
+  },
+  {
+    id: 'proj-4',
+    name: 'Emerald Court',
+    location: 'Kandivali, Mumbai',
+    status: 'planning',
+    progress: 8,
+    unitsTotal: 96,
+    unitsSold: 12,
+  },
+];
+
+export const BUILDER_DASHBOARD_QUICK_ACTIONS: readonly DashboardQuickActionItem[] = [
+  {
+    id: 'qa1',
+    label: 'Review handovers',
+    description: 'Pending sign-offs queue',
+    icon: 'pi pi-key',
+    permission: 'id-09-handover-document:read',
+    pinned: true,
+    favorite: true,
+  },
+  {
+    id: 'qa2',
+    label: 'View projects',
+    description: 'Portfolio overview',
+    icon: 'pi pi-briefcase',
+    route: '/builder-portal/projects',
+    permission: 'id-07-project-unit:read',
+    pinned: true,
+  },
+  {
+    id: 'qa3',
+    label: 'Manage owners',
+    description: 'Directory and invitations (coming soon)',
+    icon: 'pi pi-users',
+    permission: 'id-08-owner-assignment-prospect:read',
+    favorite: true,
+  },
+  {
+    id: 'qa4',
+    label: 'Organization settings',
+    description: 'Team and profile',
+    icon: 'pi pi-sliders-h',
+    route: '/builder-portal',
+    permission: 'id-03-organization-tenancy:operate',
+  },
+];
+
+export const BUILDER_DASHBOARD_FILTERS: readonly DashboardFilterOption[] = [
+  { id: '7d', label: 'Last 7 days', value: '7d' },
+  { id: '30d', label: 'Last 30 days', value: '30d' },
+  { id: '90d', label: 'Last 90 days', value: '90d' },
+  { id: 'ytd', label: 'Year to date', value: 'ytd' },
+];
+
+export const BUILDER_DASHBOARD_WIDGETS: readonly DashboardWidgetDefinition[] = [
+  {
+    id: 'quick-actions',
+    title: 'Quick actions',
+    description: 'Pinned and favorite builder actions',
+    icon: 'pi pi-bolt',
+    colspan: 4,
+    defaultVisible: true,
+    refreshable: false,
+    order: 1,
+  },
+  {
+    id: 'recent-projects',
+    title: 'Recent projects',
+    description: 'Latest activity across your portfolio',
+    icon: 'pi pi-briefcase',
+    colspan: 2,
+    rowspan: 2,
+    defaultVisible: true,
+    refreshable: true,
+    order: 2,
+  },
+  {
+    id: 'project-status-overview',
+    title: 'Project status overview',
+    description: 'Portfolio distribution by delivery stage',
+    icon: 'pi pi-chart-pie',
+    colspan: 2,
+    defaultVisible: true,
+    refreshable: true,
+    order: 3,
+  },
+  {
+    id: 'project-progress',
+    title: 'Project progress',
+    description: 'Completion tracking for active sites',
+    icon: 'pi pi-gauge',
+    colspan: 2,
+    defaultVisible: true,
+    refreshable: true,
+    order: 4,
+  },
+  {
+    id: 'performance-summary',
+    title: 'Performance summary',
+    icon: 'pi pi-chart-line',
+    colspan: 2,
+    defaultVisible: true,
+    refreshable: true,
+    order: 5,
+  },
+  {
+    id: 'recent-activity',
+    title: 'Recent activity',
+    icon: 'pi pi-history',
+    colspan: 2,
+    defaultVisible: true,
+    refreshable: true,
+    order: 6,
+  },
+  {
+    id: 'todays-activities',
+    title: "Today's activities",
+    icon: 'pi pi-calendar-plus',
+    colspan: 1,
+    defaultVisible: true,
+    refreshable: true,
+    order: 7,
+  },
+  {
+    id: 'upcoming-appointments',
+    title: 'Upcoming appointments',
+    icon: 'pi pi-map-marker',
+    colspan: 1,
+    defaultVisible: true,
+    refreshable: true,
+    order: 8,
+  },
+  {
+    id: 'notifications',
+    title: 'Notifications',
+    icon: 'pi pi-bell',
+    colspan: 1,
+    defaultVisible: true,
+    refreshable: true,
+    order: 9,
+  },
+  {
+    id: 'calendar',
+    title: 'Calendar',
+    icon: 'pi pi-calendar',
+    colspan: 1,
+    defaultVisible: true,
+    refreshable: false,
+    order: 10,
+  },
+];
+
+export const BUILDER_DASHBOARD_STATUS_CHART: DashboardChartConfig = {
+  id: 'project-status-overview',
+  type: 'donut',
+  title: 'Project status overview',
+  subtitle: 'Portfolio-wide status distribution (framework data)',
+  labels: ['Planning', 'In progress', 'Handover', 'Completed'],
+  series: [{ label: 'Projects', values: [3, 9, 4, 2] }],
+};

@@ -1,0 +1,115 @@
+<app-base-page>
+  <div class="proj-page">
+    <app-page-header
+      eyebrow="Builder Portal"
+      title="Projects"
+      description="Search, filter, and manage every development in your portfolio."
+    >
+      <app-authorized-button
+        pageActions
+        label="Create project"
+        icon="plus"
+        permission="id-07-project-unit:contribute"
+        (clicked)="createProject()"
+      />
+    </app-page-header>
+
+    <app-proj-bulk-actions
+      [count]="listState.selectedIds().length"
+      (action)="onBulkAction($event)"
+      (clear)="listState.clearSelection()"
+    />
+
+    <app-proj-quick-filters
+      [selected]="listState.statusFilter()"
+      (selectedChange)="listState.setStatusFilter($event)"
+    />
+
+    <app-table-shell [value]="tableItems()" [loading]="listState.loading()">
+      <app-table-toolbar tableToolbar>
+        <app-search-field
+          toolbarStart
+          [value]="listState.search()"
+          placeholder="Search projects…"
+          ariaLabel="Search projects"
+          (valueChange)="onSearch($event)"
+        />
+        <app-proj-saved-views
+          toolbarStart
+          [views]="listState.savedViews()"
+          [selectedId]="listState.savedViewId()"
+          (viewChange)="listState.applySavedView($event)"
+        />
+        <app-proj-view-toggle toolbarEnd [mode]="listState.viewMode()" (modeChange)="listState.setViewMode($event)" />
+        <app-sort-control
+          toolbarEnd
+          [options]="sortOptions"
+          [value]="listState.sortValue()"
+          (sortChange)="onSort($event)"
+        />
+        <app-export-button toolbarEnd [loading]="listState.exportLoading()" (exportClick)="exportAll()" />
+        <app-button toolbarEnd label="Import" icon="pi pi-upload" [outlined]="true" (clicked)="openImport()" />
+        <app-button
+          toolbarEnd
+          [label]="listState.showAdvancedFilters() ? 'Hide filters' : 'Advanced filters'"
+          icon="pi pi-filter"
+          [text]="true"
+          (clicked)="listState.toggleAdvancedFilters()"
+        />
+      </app-table-toolbar>
+
+      @if (listState.showAdvancedFilters()) {
+        <app-proj-advanced-filters
+          [stageFilter]="listState.stageFilter()"
+          [healthFilter]="listState.healthFilter()"
+          [cityFilter]="listState.cityFilter()"
+          [includeArchived]="listState.includeArchived()"
+          [cities]="listState.cities()"
+          (stageFilterChange)="listState.setStageFilter($event)"
+          (healthFilterChange)="listState.setHealthFilter($event)"
+          (cityFilterChange)="listState.setCityFilter($event)"
+          (includeArchivedChange)="listState.setIncludeArchived($event)"
+          (filtersReset)="listState.resetFilters()"
+        />
+      }
+
+      @if (listState.viewMode() === 'table') {
+        <app-proj-column-selector
+          [visibleColumns]="listState.visibleColumns()"
+          (columnToggle)="listState.toggleColumn($event)"
+        />
+
+        <app-proj-data-grid
+          [items]="listState.listResult().items"
+          [loading]="listState.loading()"
+          [total]="listState.listResult().total"
+          [pageSize]="listState.pageSize()"
+          [visibleColumns]="listState.visibleColumns()"
+          (selectionChange)="onSelectionChange($event)"
+        />
+      } @else {
+        <app-proj-card-grid
+          [items]="listState.listResult().items"
+          [favoriteIds]="listState.favoriteIds()"
+          (favoriteToggle)="listState.toggleFavorite($event)"
+        />
+        <app-pagination-wrapper
+          [rows]="listState.pageSize()"
+          [totalRecords]="listState.listResult().total"
+          [first]="(listState.page() - 1) * listState.pageSize()"
+          (pageChange)="onCardPageChange($event)"
+        />
+      }
+    </app-table-shell>
+
+    @if (listState.importDialogVisible()) {
+      <div class="proj-import-dialog" role="dialog" aria-label="Import projects">
+        <div class="proj-import-dialog__panel">
+          <h2 class="mpa-heading-sm">Import projects</h2>
+          <p class="mpa-body-md">CSV import framework — no backend connected.</p>
+          <app-button label="Close" [outlined]="true" (clicked)="listState.closeImportDialog()" />
+        </div>
+      </div>
+    }
+  </div>
+</app-base-page>

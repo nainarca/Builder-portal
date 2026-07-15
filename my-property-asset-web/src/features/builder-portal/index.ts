@@ -1,3 +1,2 @@
-export { BuilderPortalPlaceholder } from './builder-portal-placeholder.component';
+export { BuilderDashboardComponent } from './builder-dashboard.component';
 export { BUILDER_PORTAL_ROUTES } from './builder-portal.routes';
-export { BuilderPortalShell } from './builder-portal.shell';

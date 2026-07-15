@@ -1,0 +1,52 @@
+.proj-form__label {
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-text-muted);
+}
+
+.proj-form__error {
+  color: var(--mpa-color-danger);
+  font-size: var(--mpa-font-size-xs);
+}
+
+.proj-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: var(--mpa-spacing-md);
+}
+
+.proj-form__field--full {
+  grid-column: 1 / -1;
+}
+
+.proj-form__field textarea {
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--mpa-color-border);
+  border-radius: var(--mpa-radius-md);
+  background: var(--mpa-color-surface);
+  font-family: inherit;
+  font-size: var(--mpa-font-size-sm);
+}
+
+.proj-form__review {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--mpa-spacing-md);
+  margin: 0;
+}
+
+.proj-form__review-row {
+  dt {
+    margin: 0;
+    font-size: var(--mpa-font-size-xs);
+    color: var(--mpa-color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  dd {
+    margin: 0.15rem 0 0;
+    font-size: var(--mpa-font-size-sm);
+    color: var(--mpa-color-text);
+  }
+}

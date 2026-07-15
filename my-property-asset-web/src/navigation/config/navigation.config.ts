@@ -246,7 +246,7 @@ export const BUILDER_PORTAL_NAVIGATION: NavigationConfiguration = createConfigur
     {
       id: 'ba-projects',
       label: 'Projects',
-      route: '/builder-portal',
+      route: '/builder-portal/projects',
       icon: 'pi pi-briefcase',
       metadata: {
         permissions: ['id-07-project-unit:read'],

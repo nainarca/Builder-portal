@@ -1,12 +1,15 @@
 export { BadgeComponent } from './badge/badge.component';
 export { ButtonComponent } from './button/button.component';
+export { CheckboxComponent } from './checkbox/checkbox.component';
 export { ChipComponent } from './chip/chip.component';
+export { DatePickerComponent } from './date-picker/date-picker.component';
 export { DialogComponent } from './dialog/dialog.component';
 export { DrawerComponent } from './drawer/drawer.component';
 export { IconComponent } from './icon/icon.component';
 export { InputTextComponent } from './input-text/input-text.component';
 export { MessageComponent } from './message/message.component';
 export { PaginatorComponent } from './paginator/paginator.component';
+export { SelectComponent, type SelectOption } from './select/select.component';
 export { SkeletonComponent } from './skeleton/skeleton.component';
 export { SpinnerComponent } from './spinner/spinner.component';
 export { TableComponent } from './table/table.component';

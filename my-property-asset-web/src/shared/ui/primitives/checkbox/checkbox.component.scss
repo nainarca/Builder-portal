@@ -1,0 +1,15 @@
+:host {
+  display: inline-block;
+}
+
+.ui-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mpa-spacing-sm);
+  cursor: pointer;
+}
+
+.ui-checkbox__label {
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-text);
+}

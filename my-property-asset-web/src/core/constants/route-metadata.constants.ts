@@ -962,3 +962,84 @@ export const BUILDER_PORTAL_METADATA: RouteMetadata = {
   analyticsName: 'builder_portal_home',
   visible: true,
 };
+
+export const BUILDER_PORTAL_DASHBOARD_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_METADATA,
+  title: 'Dashboard',
+  icon: 'pi pi-chart-line',
+  description: 'Project delivery overview and daily operational signals',
+  breadcrumb: 'Dashboard',
+  analyticsName: 'builder_portal_dashboard',
+};
+
+export const BUILDER_PORTAL_PROJECTS_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_METADATA,
+  title: 'Project workspace',
+  icon: 'pi pi-briefcase',
+  description: 'Portfolio-wide construction progress, health, and delivery milestones',
+  breadcrumb: 'Projects',
+  analyticsName: 'builder_portal_projects_workspace',
+};
+
+export const BUILDER_PORTAL_PROJECTS_LIST_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_PROJECTS_METADATA,
+  title: 'Projects',
+  description: 'Search, filter, and manage every development in your portfolio',
+  breadcrumb: 'All projects',
+  analyticsName: 'builder_portal_projects_list',
+};
+
+export const BUILDER_PORTAL_PROJECT_CREATE_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_PROJECTS_METADATA,
+  title: 'Create project',
+  breadcrumb: 'Create',
+  permissions: ['portal:builder-portal', 'id-07-project-unit:contribute'],
+  analyticsName: 'builder_portal_project_create',
+};
+
+export const BUILDER_PORTAL_PROJECT_DETAIL_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_PROJECTS_METADATA,
+  title: 'Project details',
+  breadcrumb: 'Details',
+  analyticsName: 'builder_portal_project_detail',
+};
+
+export const BUILDER_PORTAL_PROJECT_EDIT_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_PROJECTS_METADATA,
+  title: 'Edit project',
+  breadcrumb: 'Edit',
+  permissions: ['portal:builder-portal', 'id-07-project-unit:contribute'],
+  analyticsName: 'builder_portal_project_edit',
+};
+
+export const BUILDER_PORTAL_UNITS_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_PROJECTS_METADATA,
+  title: 'Units',
+  icon: 'pi pi-building',
+  description: 'Tower, floor, and construction progress tracking for this project’s units',
+  breadcrumb: 'Units',
+  analyticsName: 'builder_portal_units_workspace',
+};
+
+export const BUILDER_PORTAL_UNIT_CREATE_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_UNITS_METADATA,
+  title: 'Create unit',
+  breadcrumb: 'Create',
+  permissions: ['portal:builder-portal', 'id-07-project-unit:contribute'],
+  analyticsName: 'builder_portal_unit_create',
+};
+
+export const BUILDER_PORTAL_UNIT_DETAIL_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_UNITS_METADATA,
+  title: 'Unit details',
+  breadcrumb: 'Details',
+  analyticsName: 'builder_portal_unit_detail',
+};
+
+export const BUILDER_PORTAL_UNIT_EDIT_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_UNITS_METADATA,
+  title: 'Edit unit',
+  breadcrumb: 'Edit',
+  permissions: ['portal:builder-portal', 'id-07-project-unit:contribute'],
+  analyticsName: 'builder_portal_unit_edit',
+};

@@ -1,0 +1,30 @@
+<app-base-page>
+  @if (unit(); as u) {
+    <div class="unit-page unit-page--detail">
+      <app-unit-header [unit]="u" [projectId]="projectId()">
+        @if (!u.archived) {
+          <app-button label="Archive" icon="pi pi-archive" severity="danger" [outlined]="true" (clicked)="onArchive()" />
+        } @else {
+          <app-button label="Restore" icon="pi pi-replay" (clicked)="onRestore()" />
+        }
+      </app-unit-header>
+
+      <div class="unit-detail-layout">
+        <div class="unit-detail-layout__main">
+          <app-unit-overview [unit]="u" />
+          <app-unit-timeline [milestones]="u.milestones" />
+          <app-unit-summary-row [summary]="u.summary" />
+        </div>
+        <aside class="unit-detail-layout__aside">
+          <app-unit-gallery-placeholder />
+          <app-unit-drawing-placeholder />
+        </aside>
+      </div>
+    </div>
+  } @else {
+    <div class="unit-page unit-page--empty">
+      <h1 class="ui-page-title">Unit not found</h1>
+      <p class="ui-page-subtitle">The requested unit does not exist or was removed.</p>
+    </div>
+  }
+</app-base-page>
