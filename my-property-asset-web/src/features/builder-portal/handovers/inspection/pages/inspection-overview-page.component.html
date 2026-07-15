@@ -1,0 +1,43 @@
+<app-base-page>
+  @if (handover(); as h) {
+    <div class="handover-page insp-page">
+      <header class="handover-header">
+        <div class="handover-header__main">
+          <span class="handover-icon handover-icon--lg"><i class="pi pi-check-square" aria-hidden="true"></i></span>
+          <div>
+            <span class="mpa-eyebrow">{{ h.projectName }} · {{ h.towerName }}</span>
+            <h1 class="ui-page-title">Inspection — {{ h.unitNumber }}</h1>
+            <p class="ui-page-subtitle">{{ h.ownerName }}</p>
+          </div>
+        </div>
+        <div class="handover-header__actions">
+          <app-button label="Open checklist" icon="pi pi-list-check" (clicked)="openChecklist(h.id)" />
+          <app-button label="Back to handover" [text]="true" (clicked)="backToHandover(h.id)" />
+        </div>
+      </header>
+
+      <section class="handover-quick-stats" aria-label="Inspection statistics">
+        @for (kpi of kpis(); track kpi.id) {
+          <app-bp-kpi-card [item]="kpi" />
+        }
+      </section>
+
+      <div class="insp-overview-layout">
+        <div class="insp-overview-layout__main">
+          <app-inspection-category-grid [inspections]="inspections()" />
+          <app-timeline-card title="Recent activity" [items]="recentActivity()" />
+        </div>
+        <aside class="insp-overview-layout__aside">
+          @if (readiness(); as r) {
+            <app-readiness-card [readiness]="r" />
+          }
+        </aside>
+      </div>
+    </div>
+  } @else {
+    <div class="handover-page handover-page--empty">
+      <h1 class="ui-page-title">Handover not found</h1>
+      <p class="ui-page-subtitle">The requested handover does not exist.</p>
+    </div>
+  }
+</app-base-page>

@@ -1132,3 +1132,17 @@ export const BUILDER_PORTAL_HANDOVER_DETAIL_METADATA: RouteMetadata = {
   breadcrumb: 'Details',
   analyticsName: 'builder_portal_handover_detail',
 };
+
+export const BUILDER_PORTAL_HANDOVER_INSPECTION_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_HANDOVER_DETAIL_METADATA,
+  title: 'Inspection',
+  breadcrumb: 'Inspection',
+  analyticsName: 'builder_portal_handover_inspection',
+};
+
+export const BUILDER_PORTAL_HANDOVER_CHECKLIST_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_HANDOVER_DETAIL_METADATA,
+  title: 'Checklist',
+  breadcrumb: 'Checklist',
+  analyticsName: 'builder_portal_handover_checklist',
+};

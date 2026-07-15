@@ -1,7 +1,14 @@
 import { Injectable, signal } from '@angular/core';
 
 import { MOCK_HANDOVERS } from '../config/handovers.config';
-import { Handover, HandoverListQuery, HandoverListResult, HandoverStageId } from '../models/handover.model';
+import {
+  Handover,
+  HandoverListQuery,
+  HandoverListResult,
+  HandoverOverallStatus,
+  HandoverStageId,
+  HandoverStageStatusValue,
+} from '../models/handover.model';
 
 @Injectable({ providedIn: 'root' })
 export class HandoverStoreService {
@@ -24,6 +31,39 @@ export class HandoverStoreService {
   currentStageId(handover: Handover): HandoverStageId {
     const active = handover.stages.find((s) => s.status !== 'completed');
     return active?.stageId ?? handover.stages[handover.stages.length - 1].stageId;
+  }
+
+  /** Updates a single stage's status and recomputes overallStatus/overallProgress from the full stage array. */
+  updateStageStatus(handoverId: string, stageId: HandoverStageId, status: HandoverStageStatusValue): void {
+    this.handoversSignal.update((handovers) =>
+      handovers.map((h) => {
+        if (h.id !== handoverId) {
+          return h;
+        }
+        const now = new Date().toISOString();
+        const stages = h.stages.map((s) =>
+          s.stageId === stageId ? { ...s, status, completedAt: status === 'completed' ? now : s.completedAt } : s,
+        );
+        return { ...h, stages, ...this.deriveOverall(stages), updatedAt: now };
+      }),
+    );
+  }
+
+  private deriveOverall(stages: Handover['stages']): { overallStatus: HandoverOverallStatus; overallProgress: number } {
+    const total = stages.length;
+    const completedCount = stages.filter((s) => s.status === 'completed').length;
+    const overallProgress = Math.round((completedCount / total) * 100);
+
+    if (stages.some((s) => s.status === 'delayed')) {
+      return { overallStatus: 'delayed', overallProgress };
+    }
+    if (completedCount === total) {
+      return { overallStatus: 'completed', overallProgress };
+    }
+    if (completedCount === 0) {
+      return { overallStatus: 'pending', overallProgress };
+    }
+    return { overallStatus: 'in-progress', overallProgress };
   }
 
   query(params: HandoverListQuery): HandoverListResult {

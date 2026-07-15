@@ -1,0 +1,44 @@
+<app-base-page>
+  @if (handover(); as h) {
+    <div class="handover-page insp-page">
+      <header class="handover-header">
+        <div class="handover-header__main">
+          <span class="handover-icon handover-icon--lg"><i class="pi pi-list-check" aria-hidden="true"></i></span>
+          <div>
+            <span class="mpa-eyebrow">{{ h.projectName }} · {{ h.towerName }}</span>
+            <h1 class="ui-page-title">Checklist — {{ h.unitNumber }}</h1>
+            <p class="ui-page-subtitle">{{ h.ownerName }}</p>
+          </div>
+        </div>
+        <div class="handover-header__actions">
+          <app-button label="Back to inspection" [text]="true" (clicked)="backToInspection(h.id)" />
+        </div>
+      </header>
+
+      <div class="insp-checklist-list">
+        @for (insp of inspections(); track insp.id) {
+          <div [id]="'insp-category-' + insp.category">
+            <app-workflow-card [title]="insp.title">
+              <div class="insp-checklist-category__header">
+                <app-inspection-status-badge [status]="insp.result" />
+                <span class="insp-checklist-category__progress">{{ insp.completionPercent }}% complete</span>
+              </div>
+
+              @for (section of insp.sections; track section.id) {
+                <app-checklist-section [section]="section" [inspectionId]="insp.id" />
+              }
+
+              <app-inspector-notes-panel [inspectionId]="insp.id" [notes]="insp.inspectorNotes" />
+              <app-attachments-placeholder />
+            </app-workflow-card>
+          </div>
+        }
+      </div>
+    </div>
+  } @else {
+    <div class="handover-page handover-page--empty">
+      <h1 class="ui-page-title">Handover not found</h1>
+      <p class="ui-page-subtitle">The requested handover does not exist.</p>
+    </div>
+  }
+</app-base-page>

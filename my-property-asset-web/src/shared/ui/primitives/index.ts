@@ -14,4 +14,5 @@ export { SkeletonComponent } from './skeleton/skeleton.component';
 export { SpinnerComponent } from './spinner/spinner.component';
 export { TableComponent } from './table/table.component';
 export { TagComponent } from './tag/tag.component';
+export { TextareaComponent } from './textarea/textarea.component';
 export { ToastHostComponent } from './toast/toast-host.component';
