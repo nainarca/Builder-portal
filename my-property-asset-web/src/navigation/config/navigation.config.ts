@@ -264,6 +264,16 @@ export const BUILDER_PORTAL_NAVIGATION: NavigationConfiguration = createConfigur
       },
     },
     {
+      id: 'ba-documents',
+      label: 'Documents',
+      route: '/builder-portal/documents',
+      icon: 'pi pi-file',
+      metadata: {
+        permissions: ['id-09-handover-document:read'],
+        analyticsName: 'ba_documents_nav',
+      },
+    },
+    {
       id: 'ba-settings',
       label: 'Settings',
       route: '/builder-portal',

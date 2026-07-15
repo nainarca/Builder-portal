@@ -1,0 +1,104 @@
+@if (formState.model(); as model) {
+  <app-form-container>
+    @if (formState.lastAutosavedAt()) {
+      <app-message severity="info" text="Draft autosaved" />
+    }
+
+    <app-stepper
+      [steps]="steps"
+      [activeIndex]="activeIndex()"
+      (next)="nextStep()"
+      (back)="backStep()"
+      (stepChange)="goToStep($event)"
+    >
+      @switch (activeIndex()) {
+        @case (0) {
+          <app-form-section title="Basics" description="Document identity — no real file is uploaded in this framework">
+            <div class="doc-form__field">
+              <span class="doc-form__label">Document name *</span>
+              <app-input-text
+                [value]="model.name"
+                [invalid]="!!formState.errors()['name']"
+                (valueChange)="onTextChange('name', $event)"
+              />
+              @if (formState.errors()['name']) {
+                <small class="doc-form__error">{{ formState.errors()['name'] }}</small>
+              }
+            </div>
+            <div class="doc-form__field">
+              <span class="doc-form__label">Category</span>
+              <app-select [options]="categoryOptions" [value]="model.category" (valueChange)="onTextChange('category', $event)" />
+            </div>
+            @if (model.category === 'custom') {
+              <div class="doc-form__field">
+                <span class="doc-form__label">Custom category label *</span>
+                <app-input-text
+                  [value]="model.customCategoryLabel"
+                  [invalid]="!!formState.errors()['customCategoryLabel']"
+                  (valueChange)="onTextChange('customCategoryLabel', $event)"
+                />
+                @if (formState.errors()['customCategoryLabel']) {
+                  <small class="doc-form__error">{{ formState.errors()['customCategoryLabel'] }}</small>
+                }
+              </div>
+            }
+            <div class="doc-form__field">
+              <span class="doc-form__label">File type</span>
+              <app-select [options]="fileTypeOptions" [value]="model.fileType" (valueChange)="onTextChange('fileType', $event)" />
+            </div>
+            <div class="doc-form__field">
+              <span class="doc-form__label">File name (placeholder — no real upload) *</span>
+              <app-input-text
+                [value]="model.fileName"
+                [invalid]="!!formState.errors()['fileName']"
+                (valueChange)="onTextChange('fileName', $event)"
+              />
+              @if (formState.errors()['fileName']) {
+                <small class="doc-form__error">{{ formState.errors()['fileName'] }}</small>
+              }
+            </div>
+            <div class="doc-form__field doc-form__field--full">
+              <span class="doc-form__label">Notes</span>
+              <app-input-text [value]="model.notes" (valueChange)="onTextChange('notes', $event)" />
+            </div>
+          </app-form-section>
+        }
+        @case (1) {
+          <app-form-section title="Link & visibility" description="Where this document belongs and who can see it">
+            <div class="doc-form__field">
+              <span class="doc-form__label">Project *</span>
+              <app-select [options]="projectOptions()" [value]="model.projectId" (valueChange)="onProjectChange($event)" />
+              @if (formState.errors()['projectId']) {
+                <small class="doc-form__error">{{ formState.errors()['projectId'] }}</small>
+              }
+            </div>
+            <div class="doc-form__field">
+              <span class="doc-form__label">Unit</span>
+              <app-select [options]="unitOptions()" [value]="model.unitId" (valueChange)="onTextChange('unitId', $event)" />
+            </div>
+            <div class="doc-form__field">
+              <span class="doc-form__label">Visibility</span>
+              <app-select [options]="visibilityOptions" [value]="model.visibility" (valueChange)="onTextChange('visibility', $event)" />
+            </div>
+          </app-form-section>
+        }
+        @case (2) {
+          <app-form-section title="Review" description="Confirm details before saving">
+            <dl class="doc-form__review">
+              <div class="doc-form__review-row"><dt>Name</dt><dd>{{ model.name }}</dd></div>
+              <div class="doc-form__review-row"><dt>Category</dt><dd>{{ model.category }}</dd></div>
+              <div class="doc-form__review-row"><dt>File name</dt><dd>{{ model.fileName }}</dd></div>
+              <div class="doc-form__review-row"><dt>Project</dt><dd>{{ selectedProjectName() }}</dd></div>
+              <div class="doc-form__review-row"><dt>Visibility</dt><dd>{{ model.visibility === 'owner-visible' ? 'Owner visible' : 'Internal' }}</dd></div>
+              <div class="doc-form__review-row"><dt>Notes</dt><dd>{{ model.notes || '—' }}</dd></div>
+            </dl>
+          </app-form-section>
+        }
+      }
+    </app-stepper>
+
+    <app-form-actions>
+      <ng-content select="[formActions]" />
+    </app-form-actions>
+  </app-form-container>
+}

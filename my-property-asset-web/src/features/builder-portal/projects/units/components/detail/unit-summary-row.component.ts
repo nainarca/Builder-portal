@@ -10,7 +10,7 @@ import { UnitSummaryPlaceholders } from '../../models/unit.model';
     <section class="unit-summary-row" aria-label="Related module summaries">
       @for (item of items(); track item.label) {
         @if (item.route) {
-          <a class="unit-summary-widget unit-summary-widget--link" [routerLink]="item.route">
+          <a class="unit-summary-widget unit-summary-widget--link" [routerLink]="item.route" [queryParams]="item.queryParams">
             <i class="unit-summary-widget__icon" [class]="item.icon" aria-hidden="true"></i>
             <div>
               <p class="unit-summary-widget__value">{{ item.value }}</p>
@@ -35,11 +35,13 @@ export class UnitSummaryRowComponent {
   readonly summary = input.required<UnitSummaryPlaceholders>();
   readonly ownerName = input<string | undefined>(undefined);
   readonly ownerId = input<string | undefined>(undefined);
+  readonly unitId = input<string | undefined>(undefined);
 
   readonly items = computed(() => {
     const s = this.summary();
     const name = this.ownerName();
     const id = this.ownerId();
+    const unit = this.unitId();
     return [
       {
         label: 'Owner',
@@ -47,7 +49,13 @@ export class UnitSummaryRowComponent {
         icon: 'pi pi-user',
         route: name && id ? ['/builder-portal/owners', id] : undefined,
       },
-      { label: 'Documents', value: String(s.documentsCount), icon: 'pi pi-file' },
+      {
+        label: 'Documents',
+        value: String(s.documentsCount),
+        icon: 'pi pi-file',
+        route: unit ? ['/builder-portal/documents'] : undefined,
+        queryParams: unit ? { unitId: unit } : undefined,
+      },
       { label: 'Handover', value: this.handoverLabel(s.handoverStatus), icon: 'pi pi-key' },
       { label: 'Open snags', value: String(s.openSnags), icon: 'pi pi-exclamation-triangle' },
       { label: 'Upcoming appointments', value: String(s.upcomingAppointments), icon: 'pi pi-map-marker' },

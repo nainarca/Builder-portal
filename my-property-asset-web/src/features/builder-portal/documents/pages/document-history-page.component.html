@@ -1,0 +1,47 @@
+<app-base-page>
+  @if (document(); as doc) {
+    <div class="doc-page">
+      <app-page-header
+        eyebrow="Documents"
+        [title]="'Version history — ' + doc.name"
+        description="Every version uploaded for this document, newest first."
+      >
+        <app-button pageActions label="Back to document" icon="pi pi-arrow-left" [outlined]="true" (clicked)="goBack()" />
+        <app-button pageActions label="Add version" icon="pi pi-upload" (clicked)="openAddVersion()" />
+      </app-page-header>
+
+      <app-current-version-card [version]="doc.versions[0]" />
+
+      <div class="doc-overview__grid">
+        <div>
+          <h3 class="mpa-heading-sm">All versions</h3>
+          <app-version-history-list [versions]="doc.versions" />
+        </div>
+        <div>
+          <app-version-timeline [versions]="doc.versions" />
+        </div>
+      </div>
+
+      <app-version-comparison-placeholder />
+    </div>
+
+    <app-modal-shell title="Add new version" [visible]="addVersionVisible()" (visibleChange)="addVersionVisible.set($event)" (hidden)="closeAddVersion()">
+      <div class="doc-form__field">
+        <span class="doc-form__label">File name (placeholder — no real upload) *</span>
+        <app-input-text [value]="newFileName()" (valueChange)="newFileName.set($event)" />
+      </div>
+      <div class="doc-form__field">
+        <span class="doc-form__label">Notes</span>
+        <app-input-text [value]="newNotes()" (valueChange)="newNotes.set($event)" />
+      </div>
+      <div modalActions>
+        <app-button label="Cancel" [outlined]="true" (clicked)="closeAddVersion()" />
+        <app-button label="Add version" icon="pi pi-check" (clicked)="confirmAddVersion()" />
+      </div>
+    </app-modal-shell>
+  } @else {
+    <div class="doc-page doc-page--empty">
+      <h1 class="ui-page-title">Document not found</h1>
+    </div>
+  }
+</app-base-page>

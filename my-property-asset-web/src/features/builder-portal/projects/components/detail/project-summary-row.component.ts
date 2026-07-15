@@ -10,7 +10,7 @@ import { ProjectSummaryCounts } from '../../models/project.model';
     <section class="proj-summary-row" aria-label="Related module summaries">
       @for (item of items(); track item.label) {
         @if (item.route) {
-          <a class="proj-summary-widget proj-summary-widget--link" [routerLink]="item.route">
+          <a class="proj-summary-widget proj-summary-widget--link" [routerLink]="item.route" [queryParams]="item.queryParams">
             <i class="proj-summary-widget__icon" [class]="item.icon" aria-hidden="true"></i>
             <div>
               <p class="proj-summary-widget__value">{{ item.value }}</p>
@@ -46,7 +46,13 @@ export class ProjectSummaryRowComponent {
         route: id ? ['/builder-portal/projects', id, 'units'] : undefined,
       },
       { label: 'Owners', value: String(s.ownersCount), icon: 'pi pi-users' },
-      { label: 'Documents', value: String(s.documentsCount), icon: 'pi pi-file' },
+      {
+        label: 'Documents',
+        value: String(s.documentsCount),
+        icon: 'pi pi-file',
+        route: id ? ['/builder-portal/documents'] : undefined,
+        queryParams: id ? { projectId: id } : undefined,
+      },
       { label: 'Pending handovers', value: String(s.pendingHandovers), icon: 'pi pi-key' },
       { label: 'Open snags', value: String(s.openSnags), icon: 'pi pi-exclamation-triangle' },
       { label: 'Upcoming appointments', value: String(s.upcomingAppointments), icon: 'pi pi-map-marker' },

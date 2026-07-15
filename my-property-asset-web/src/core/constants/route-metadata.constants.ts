@@ -1076,3 +1076,42 @@ export const BUILDER_PORTAL_OWNER_EDIT_METADATA: RouteMetadata = {
   permissions: ['portal:builder-portal', 'id-08-owner-assignment-prospect:contribute'],
   analyticsName: 'builder_portal_owner_edit',
 };
+
+export const BUILDER_PORTAL_DOCUMENTS_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_METADATA,
+  title: 'Documents',
+  icon: 'pi pi-file',
+  description: 'The enterprise document platform — categories, versions, approvals, and visibility',
+  breadcrumb: 'Documents',
+  permissions: ['portal:builder-portal', 'id-09-handover-document:read'],
+  analyticsName: 'builder_portal_documents_workspace',
+};
+
+export const BUILDER_PORTAL_DOCUMENT_CATEGORIES_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_DOCUMENTS_METADATA,
+  title: 'Document categories',
+  breadcrumb: 'Categories',
+  analyticsName: 'builder_portal_document_categories',
+};
+
+export const BUILDER_PORTAL_DOCUMENT_UPLOAD_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_DOCUMENTS_METADATA,
+  title: 'Add document',
+  breadcrumb: 'Add document',
+  permissions: ['portal:builder-portal', 'id-09-handover-document:contribute'],
+  analyticsName: 'builder_portal_document_upload',
+};
+
+export const BUILDER_PORTAL_DOCUMENT_DETAIL_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_DOCUMENTS_METADATA,
+  title: 'Document details',
+  breadcrumb: 'Details',
+  analyticsName: 'builder_portal_document_detail',
+};
+
+export const BUILDER_PORTAL_DOCUMENT_HISTORY_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_DOCUMENTS_METADATA,
+  title: 'Version history',
+  breadcrumb: 'History',
+  analyticsName: 'builder_portal_document_history',
+};

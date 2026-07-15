@@ -28,6 +28,10 @@ export const BUILDER_PORTAL_ROUTES: Routes = [
         path: 'owners',
         loadChildren: () => import('./owners/owners.routes').then((m) => m.OWNER_ROUTES),
       },
+      {
+        path: 'documents',
+        loadChildren: () => import('./documents/documents.routes').then((m) => m.DOCUMENT_ROUTES),
+      },
     ],
   },
 ];

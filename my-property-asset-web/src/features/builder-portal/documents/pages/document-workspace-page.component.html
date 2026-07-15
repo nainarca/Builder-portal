@@ -1,0 +1,112 @@
+<app-base-page>
+  <div class="doc-page">
+    <app-page-header
+      [eyebrow]="header.eyebrow"
+      [title]="header.title"
+      [description]="header.description"
+    >
+      <app-button pageActions label="Categories" icon="pi pi-th-large" [outlined]="true" (clicked)="goToCategories()" />
+      <app-button pageActions label="Add document" icon="pi pi-plus" (clicked)="goToUpload()" />
+    </app-page-header>
+
+    <section class="doc-quick-stats" aria-label="Document quick statistics">
+      @for (kpi of kpis(); track kpi.id) {
+        <app-bp-kpi-card [item]="kpi" />
+      }
+    </section>
+
+    <div class="doc-overview__grid">
+      <div class="doc-info-panel">
+        <h3 class="doc-info-panel__title">Approval status</h3>
+        <app-bp-chart-wrapper [config]="approvalStatusChart()" />
+      </div>
+      <div class="doc-info-panel">
+        <h3 class="doc-info-panel__title">Recent documents</h3>
+        <div class="doc-list">
+          @for (doc of recentDocuments(); track doc.id) {
+            <app-document-tile [document]="doc" />
+          }
+        </div>
+      </div>
+    </div>
+
+    <app-document-bulk-actions
+      [count]="listState.selectedIds().length"
+      (action)="onBulkAction($event)"
+      (clear)="listState.clearSelection()"
+    />
+
+    <app-document-quick-filters
+      [selected]="listState.approvalFilter()"
+      (selectedChange)="listState.setApprovalFilter($event)"
+    />
+
+    <app-explorer-toolbar>
+      <app-explorer-scope-toggle toolbarScope [scope]="listState.scope()" (scopeChange)="onScopeChange($event)" />
+      <app-search-field
+        toolbarStart
+        [value]="listState.search()"
+        placeholder="Search documents…"
+        ariaLabel="Search documents"
+        (valueChange)="onSearch($event)"
+      />
+      <app-document-saved-views
+        toolbarStart
+        [views]="listState.savedViews()"
+        [selectedId]="listState.savedViewId()"
+        (viewChange)="listState.applySavedView($event)"
+      />
+      <app-explorer-view-toggle toolbarEnd [mode]="listState.viewMode()" (modeChange)="listState.setViewMode($event)" />
+      <app-sort-control
+        toolbarEnd
+        [options]="sortOptions"
+        [value]="listState.sortValue()"
+        (sortChange)="onSort($event)"
+      />
+      <app-export-button toolbarEnd [loading]="listState.exportLoading()" (exportClick)="exportAll()" />
+      <app-button
+        toolbarEnd
+        [label]="listState.showAdvancedFilters() ? 'Hide filters' : 'Advanced filters'"
+        icon="pi pi-filter"
+        [text]="true"
+        (clicked)="listState.toggleAdvancedFilters()"
+      />
+    </app-explorer-toolbar>
+
+    @if (listState.showAdvancedFilters()) {
+      <app-document-advanced-filters
+        [categoryFilter]="listState.categoryFilter()"
+        [visibilityFilter]="listState.visibilityFilter()"
+        [projectFilter]="listState.projectFilter()"
+        [includeArchived]="listState.includeArchived()"
+        [projects]="projects()"
+        (categoryFilterChange)="listState.setCategoryFilter($event)"
+        (visibilityFilterChange)="listState.setVisibilityFilter($event)"
+        (projectFilterChange)="listState.setProjectFilter($event)"
+        (includeArchivedChange)="listState.setIncludeArchived($event)"
+        (filtersReset)="listState.resetFilters()"
+      />
+    }
+
+    @if (listState.viewMode() === 'list') {
+      <app-document-column-selector
+        [visibleColumns]="listState.visibleColumns()"
+        (columnToggle)="listState.toggleColumn($event)"
+      />
+      <app-document-data-grid
+        [items]="listState.listResult().items"
+        [visibleColumns]="listState.visibleColumns()"
+        (selectionChange)="onSelectionChange($event)"
+      />
+    } @else {
+      <app-document-grid [items]="listState.listResult().items" />
+    }
+
+    <app-pagination-wrapper
+      [rows]="listState.pageSize()"
+      [totalRecords]="listState.listResult().total"
+      [first]="(listState.page() - 1) * listState.pageSize()"
+      (pageChange)="onCardPageChange($event)"
+    />
+  </div>
+</app-base-page>

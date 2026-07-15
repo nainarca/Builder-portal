@@ -1,0 +1,51 @@
+<app-base-page>
+  @if (document(); as doc) {
+    <div class="doc-page doc-page--detail">
+      <app-document-header [document]="doc">
+        @if (!doc.archived) {
+          <app-button label="Archive" icon="pi pi-archive" severity="danger" [outlined]="true" (clicked)="onArchive()" />
+        } @else {
+          <app-button label="Restore" icon="pi pi-replay" (clicked)="onRestore()" />
+        }
+      </app-document-header>
+
+      <div class="doc-detail-layout">
+        <div class="doc-detail-layout__main">
+          <app-document-overview [document]="doc" />
+          <app-approval-status-panel
+            [document]="doc"
+            (submitForReview)="onSubmitForReview()"
+            (approve)="onApprove()"
+            (rejectRequested)="openRejectModal()"
+          />
+          <app-document-timeline [items]="doc.activity" />
+        </div>
+        <aside class="doc-detail-layout__aside">
+          <app-owner-visibility-panel
+            [visible]="doc.visibility === 'owner-visible'"
+            [ownerName]="assignedOwner()?.name"
+            [ownerId]="assignedOwner()?.id"
+          />
+          <app-preview-placeholder />
+          <app-download-placeholder />
+        </aside>
+      </div>
+    </div>
+
+    <app-modal-shell title="Reject document" [visible]="rejectModalVisible()" (visibleChange)="rejectModalVisible.set($event)" (hidden)="closeRejectModal()">
+      <div class="doc-form__field">
+        <span class="doc-form__label">Reason for rejection *</span>
+        <app-input-text [value]="rejectComment()" (valueChange)="rejectComment.set($event)" />
+      </div>
+      <div modalActions>
+        <app-button label="Cancel" [outlined]="true" (clicked)="closeRejectModal()" />
+        <app-button label="Confirm rejection" icon="pi pi-times" severity="danger" (clicked)="confirmReject()" />
+      </div>
+    </app-modal-shell>
+  } @else {
+    <div class="doc-page doc-page--empty">
+      <h1 class="ui-page-title">Document not found</h1>
+      <p class="ui-page-subtitle">The requested document does not exist or was removed.</p>
+    </div>
+  }
+</app-base-page>
