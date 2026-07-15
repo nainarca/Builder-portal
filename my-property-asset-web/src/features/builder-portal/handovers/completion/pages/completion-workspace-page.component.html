@@ -1,0 +1,73 @@
+<app-base-page>
+  @if (handover(); as h) {
+    @if (completion(); as c) {
+      <div class="handover-page">
+        <header class="handover-header">
+          <div class="handover-header__main">
+            <span class="handover-icon handover-icon--lg"><i class="pi pi-verified" aria-hidden="true"></i></span>
+            <div>
+              <span class="mpa-eyebrow">{{ h.projectName }} · {{ h.towerName }}</span>
+              <h1 class="ui-page-title">Completion — {{ h.unitNumber }}</h1>
+              <p class="ui-page-subtitle">{{ h.ownerName }}</p>
+              <div class="handover-header__badges">
+                <app-completion-status-badge [status]="status()" />
+              </div>
+            </div>
+          </div>
+          <div class="handover-header__actions">
+            <app-button label="Back to handover" [text]="true" (clicked)="backToHandover()" />
+          </div>
+        </header>
+
+        @if (status() === 'completed') {
+          <app-success-state title="Handover complete!" description="Builder responsibility completed. Owner possession has started." />
+        } @else if (status() === 'ready') {
+          <div class="handover-info-panel completion-ready-notice">
+            <p class="mpa-body-md">This handover has been approved and is ready to be finalized. Finalizing marks builder responsibility as completed and owner possession as started.</p>
+            <app-button label="Finalize completion" icon="pi pi-check-circle" severity="success" (clicked)="onFinalize()" />
+          </div>
+        } @else {
+          <app-completion-empty-state />
+          <app-button label="Go to approval" icon="pi pi-arrow-right" (clicked)="goToApproval()" />
+        }
+
+        <section class="handover-quick-stats" aria-label="Completion statistics">
+          @for (kpi of kpis(); track kpi.id) {
+            <app-bp-kpi-card [item]="kpi" />
+          }
+        </section>
+
+        <app-handover-overview [handover]="h" />
+
+        <div class="handover-detail-layout">
+          <div class="handover-detail-layout__main">
+            <app-document-summary-panel [unitId]="h.unitId" />
+            <app-inspection-checklist-summary-panel [handoverId]="h.id" />
+            @if (approval(); as a) {
+              <app-acceptance-summary-panel [approval]="a" />
+            }
+            <app-workflow-card title="Full handover pipeline">
+              <app-workflow-timeline [stages]="h.stages" />
+            </app-workflow-card>
+            <app-timeline-card title="Completion timeline" [items]="c.activity" />
+          </div>
+          <aside class="handover-detail-layout__aside">
+            <app-completion-summary-card [handover]="h" [completion]="c" [status]="status()" />
+            <app-owner-package-card [handoverId]="h.id" [unitId]="h.unitId" />
+            <app-future-integrations-panel />
+            <div class="handover-info-panel">
+              <h3 class="handover-info-panel__title">Related</h3>
+              <app-button label="View certificate" icon="pi pi-verified" [outlined]="true" (clicked)="goToCertificate()" />
+              <app-button label="View archive" icon="pi pi-history" [outlined]="true" (clicked)="goToArchive()" />
+            </div>
+          </aside>
+        </div>
+      </div>
+    }
+  } @else {
+    <div class="handover-page handover-page--empty">
+      <h1 class="ui-page-title">Handover not found</h1>
+      <p class="ui-page-subtitle">The requested handover does not exist.</p>
+    </div>
+  }
+</app-base-page>

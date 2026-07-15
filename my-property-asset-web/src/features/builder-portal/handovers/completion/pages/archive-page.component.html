@@ -1,0 +1,30 @@
+<app-base-page>
+  @if (handover(); as h) {
+    @if (completion(); as c) {
+      <div class="handover-page">
+        <header class="handover-header">
+          <div class="handover-header__main">
+            <span class="handover-icon handover-icon--lg"><i class="pi pi-history" aria-hidden="true"></i></span>
+            <div>
+              <span class="mpa-eyebrow">{{ h.projectName }} · {{ h.towerName }}</span>
+              <h1 class="ui-page-title">Archive — {{ h.unitNumber }}</h1>
+              <p class="ui-page-subtitle">{{ h.ownerName }}</p>
+            </div>
+          </div>
+          <div class="handover-header__actions">
+            <app-button label="Back to completion" [text]="true" (clicked)="backToCompletion()" />
+          </div>
+        </header>
+
+        <app-archive-summary-card [completion]="c" />
+
+        <app-timeline-card title="Complete audit trail" [items]="mergedAuditTrail()" />
+      </div>
+    }
+  } @else {
+    <div class="handover-page handover-page--empty">
+      <h1 class="ui-page-title">Handover not found</h1>
+      <p class="ui-page-subtitle">The requested handover does not exist.</p>
+    </div>
+  }
+</app-base-page>

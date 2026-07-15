@@ -88,6 +88,10 @@ export class ApprovalWorkspacePageComponent {
     this.router.navigate(['/builder-portal/handovers', this.handoverId(), 'signature']);
   }
 
+  goToCompletion(): void {
+    this.router.navigate(['/builder-portal/handovers', this.handoverId(), 'completion']);
+  }
+
   backToHandover(): void {
     this.router.navigate(['/builder-portal/handovers', this.handoverId()]);
   }

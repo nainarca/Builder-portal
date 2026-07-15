@@ -1,0 +1,53 @@
+<app-base-page>
+  @if (handover(); as h) {
+    @if (completion(); as c) {
+      @if (approval(); as a) {
+        <div class="handover-page">
+          <header class="handover-header certificate-page-chrome">
+            <div class="handover-header__main">
+              <span class="handover-icon handover-icon--lg"><i class="pi pi-verified" aria-hidden="true"></i></span>
+              <div>
+                <span class="mpa-eyebrow">{{ h.projectName }} · {{ h.towerName }}</span>
+                <h1 class="ui-page-title">Certificate — {{ h.unitNumber }}</h1>
+                <p class="ui-page-subtitle">{{ h.ownerName }}</p>
+              </div>
+            </div>
+            <div class="handover-header__actions">
+              <app-button label="Back to completion" [text]="true" (clicked)="backToCompletion()" />
+            </div>
+          </header>
+
+          @if (!c.completedAt) {
+            <app-completion-empty-state
+              title="Certificate not yet available"
+              description="This handover must be finalized before a possession certificate can be issued."
+            />
+            <app-button class="certificate-page-chrome" label="Go to completion" icon="pi pi-arrow-right" (clicked)="backToCompletion()" />
+          } @else {
+            <div class="certificate-page-chrome certificate-page__actions">
+              @if (c.certificate.status !== 'generated') {
+                <app-button label="Generate certificate" icon="pi pi-verified" severity="success" (clicked)="onGenerateCertificate()" />
+              } @else {
+                <app-button label="Print certificate" icon="pi pi-print" (clicked)="onPrint()" />
+              }
+            </div>
+
+            <app-certificate-preview [handover]="h" [completion]="c" [approval]="a" [owner]="owner()" />
+
+            @if (c.certificate.status === 'generated') {
+              <div class="certificate-page-chrome completion-placeholder-grid">
+                <app-qr-verification-placeholder />
+                <app-pdf-download-placeholder />
+              </div>
+            }
+          }
+        </div>
+      }
+    }
+  } @else {
+    <div class="handover-page handover-page--empty">
+      <h1 class="ui-page-title">Handover not found</h1>
+      <p class="ui-page-subtitle">The requested handover does not exist.</p>
+    </div>
+  }
+</app-base-page>

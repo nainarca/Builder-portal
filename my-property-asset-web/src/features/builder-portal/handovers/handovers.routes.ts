@@ -2,7 +2,10 @@ import { Routes } from '@angular/router';
 
 import {
   BUILDER_PORTAL_HANDOVER_APPROVAL_METADATA,
+  BUILDER_PORTAL_HANDOVER_ARCHIVE_METADATA,
+  BUILDER_PORTAL_HANDOVER_CERTIFICATE_METADATA,
   BUILDER_PORTAL_HANDOVER_CHECKLIST_METADATA,
+  BUILDER_PORTAL_HANDOVER_COMPLETION_METADATA,
   BUILDER_PORTAL_HANDOVER_DETAIL_METADATA,
   BUILDER_PORTAL_HANDOVER_INSPECTION_METADATA,
   BUILDER_PORTAL_HANDOVER_REVIEW_METADATA,
@@ -52,5 +55,23 @@ export const HANDOVER_ROUTES: Routes = [
     loadComponent: () =>
       import('./approval/pages/signature-page.component').then((m) => m.SignaturePageComponent),
     data: BUILDER_PORTAL_HANDOVER_SIGNATURE_METADATA,
+  },
+  {
+    path: ':id/completion',
+    loadComponent: () =>
+      import('./completion/pages/completion-workspace-page.component').then((m) => m.CompletionWorkspacePageComponent),
+    data: BUILDER_PORTAL_HANDOVER_COMPLETION_METADATA,
+  },
+  {
+    path: ':id/certificate',
+    loadComponent: () =>
+      import('./completion/pages/certificate-page.component').then((m) => m.CertificatePageComponent),
+    data: BUILDER_PORTAL_HANDOVER_CERTIFICATE_METADATA,
+  },
+  {
+    path: ':id/archive',
+    loadComponent: () =>
+      import('./completion/pages/archive-page.component').then((m) => m.ArchivePageComponent),
+    data: BUILDER_PORTAL_HANDOVER_ARCHIVE_METADATA,
   },
 ];

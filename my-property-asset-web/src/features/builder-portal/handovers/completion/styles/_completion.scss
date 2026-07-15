@@ -1,0 +1,306 @@
+// Handover Completion, Possession Certificate & Final Closure — design system aligned styles
+
+// Completion status badge (3-value)
+.completion-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--mpa-radius-full);
+  font-size: var(--mpa-font-size-xs);
+  font-weight: var(--mpa-font-weight-semibold);
+
+  &--not-ready { background: var(--mpa-color-surface-muted); color: var(--mpa-color-text-muted); }
+  &--ready { background: color-mix(in srgb, var(--mpa-color-info) 14%, transparent); color: var(--mpa-color-info); }
+  &--completed { background: color-mix(in srgb, var(--mpa-color-success) 14%, transparent); color: var(--mpa-color-success); }
+}
+
+.completion-ready-notice {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-md);
+  align-items: flex-start;
+}
+
+// Completion summary card (header identity card)
+.completion-summary-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--mpa-spacing-md);
+  margin-bottom: var(--mpa-spacing-md);
+}
+
+.completion-summary-card__title-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.completion-summary-card__title {
+  margin: 0;
+  font-size: var(--mpa-font-size-md);
+  font-weight: var(--mpa-font-weight-semibold);
+  color: var(--mpa-color-text);
+}
+
+.completion-summary-card__meta {
+  margin: 0.15rem 0 0;
+  font-size: var(--mpa-font-size-xs);
+  color: var(--mpa-color-text-muted);
+}
+
+// Owner package card
+.owner-package-card__section {
+  margin-bottom: var(--mpa-spacing-lg);
+
+  &:last-of-type { margin-bottom: var(--mpa-spacing-md); }
+}
+
+.owner-package-card__section-title {
+  margin: 0 0 var(--mpa-spacing-sm);
+  font-size: var(--mpa-font-size-sm);
+  font-weight: var(--mpa-font-weight-semibold);
+  color: var(--mpa-color-text);
+}
+
+.owner-package-card__doc-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-text);
+}
+
+.owner-package-card__checklist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-sm);
+}
+
+.owner-package-card__download-placeholder {
+  display: flex;
+  align-items: center;
+  gap: var(--mpa-spacing-sm);
+  padding-top: var(--mpa-spacing-md);
+  border-top: 1px dashed var(--mpa-color-border);
+  font-size: var(--mpa-font-size-xs);
+  color: var(--mpa-color-text-muted);
+}
+
+// Future integrations panel
+.future-integrations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: var(--mpa-spacing-md);
+  margin-top: var(--mpa-spacing-md);
+}
+
+.future-integrations-grid__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--mpa-spacing-sm);
+  padding: var(--mpa-spacing-sm);
+  border: 1px solid var(--mpa-color-border);
+  border-radius: var(--mpa-radius-md);
+}
+
+.future-integrations-grid__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--mpa-radius-md);
+  background: var(--mpa-color-surface-muted);
+  color: var(--mpa-color-text-muted);
+  flex-shrink: 0;
+}
+
+.future-integrations-grid__label {
+  margin: 0;
+  font-size: var(--mpa-font-size-sm);
+  font-weight: var(--mpa-font-weight-medium);
+  color: var(--mpa-color-text);
+}
+
+.future-integrations-grid__description {
+  margin: 0.15rem 0 0;
+  font-size: var(--mpa-font-size-xs);
+  color: var(--mpa-color-text-muted);
+}
+
+// Certificate preview — the possession certificate visual itself
+.certificate-preview {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: var(--mpa-spacing-2xl);
+  border: 2px solid var(--mpa-color-primary);
+  border-radius: var(--mpa-radius-xl);
+  background: var(--mpa-color-surface-elevated);
+  box-shadow: var(--mpa-shadow-md);
+}
+
+.certificate-preview__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  text-align: center;
+  padding-bottom: var(--mpa-spacing-lg);
+  margin-bottom: var(--mpa-spacing-lg);
+  border-bottom: 1px solid var(--mpa-color-border);
+}
+
+.certificate-preview__brand {
+  font-size: var(--mpa-font-size-sm);
+  font-weight: var(--mpa-font-weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mpa-color-primary);
+}
+
+.certificate-preview__title {
+  font-size: var(--mpa-font-size-xl);
+  font-weight: var(--mpa-font-weight-bold, 700);
+  color: var(--mpa-color-text);
+}
+
+.certificate-preview__statement {
+  text-align: center;
+  color: var(--mpa-color-text-muted);
+  margin: 0 0 var(--mpa-spacing-lg);
+}
+
+.certificate-preview__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--mpa-spacing-lg);
+  margin-bottom: var(--mpa-spacing-lg);
+}
+
+.certificate-preview__field {
+  h4 {
+    margin: 0 0 0.25rem;
+    font-size: var(--mpa-font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--mpa-color-text-muted);
+  }
+
+  p {
+    margin: 0;
+    font-size: var(--mpa-font-size-sm);
+    color: var(--mpa-color-text);
+  }
+}
+
+.certificate-preview__signatures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: var(--mpa-spacing-lg);
+  margin-top: var(--mpa-spacing-xl);
+  padding-top: var(--mpa-spacing-lg);
+  border-top: 1px dashed var(--mpa-color-border);
+}
+
+.certificate-preview__signature-line {
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin-bottom: 0.4rem;
+  background: var(--mpa-color-text-muted);
+}
+
+.certificate-preview__signature-name {
+  margin: 0;
+  font-size: var(--mpa-font-size-sm);
+  font-weight: var(--mpa-font-weight-medium);
+  color: var(--mpa-color-text);
+}
+
+.certificate-preview__signature-date {
+  margin: 0.15rem 0 0;
+  font-size: var(--mpa-font-size-xs);
+  color: var(--mpa-color-text-muted);
+}
+
+.certificate-preview__footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mpa-spacing-md);
+  margin-top: var(--mpa-spacing-xl);
+  padding-top: var(--mpa-spacing-md);
+  border-top: 1px solid var(--mpa-color-border);
+  font-size: var(--mpa-font-size-xs);
+  color: var(--mpa-color-text-muted);
+}
+
+.certificate-preview__status {
+  padding: 0.15rem 0.6rem;
+  border-radius: var(--mpa-radius-full);
+  background: var(--mpa-color-surface-muted);
+  color: var(--mpa-color-text-muted);
+  font-weight: var(--mpa-font-weight-semibold);
+
+  &--generated { background: color-mix(in srgb, var(--mpa-color-success) 14%, transparent); color: var(--mpa-color-success); }
+}
+
+.certificate-page__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--mpa-spacing-md);
+}
+
+// Placeholder panels (QR / PDF) — mirrors documents' & inspection's placeholder pattern
+.completion-placeholder-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mpa-spacing-sm);
+  padding: var(--mpa-spacing-xl);
+  border: 1px dashed var(--mpa-color-border);
+  border-radius: var(--mpa-radius-lg);
+  color: var(--mpa-color-text-muted);
+  text-align: center;
+
+  i { font-size: 1.5rem; }
+  p { margin: 0; font-size: var(--mpa-font-size-sm); }
+}
+
+.completion-placeholder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--mpa-spacing-lg);
+  margin-top: var(--mpa-spacing-lg);
+}
+
+.completion-loading-state {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-md);
+}
+
+@media (max-width: 768px) {
+  .certificate-preview__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .future-integrations-grid,
+  .completion-placeholder-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Printable layout for the possession certificate
+@media print {
+  .certificate-page-chrome {
+    display: none !important;
+  }
+
+  .certificate-preview {
+    box-shadow: none;
+    border-width: 1px;
+    max-width: 100%;
+    margin: 0;
+  }
+}

@@ -1167,3 +1167,24 @@ export const BUILDER_PORTAL_HANDOVER_SIGNATURE_METADATA: RouteMetadata = {
   breadcrumb: 'Signature',
   analyticsName: 'builder_portal_handover_signature',
 };
+
+export const BUILDER_PORTAL_HANDOVER_COMPLETION_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_HANDOVER_DETAIL_METADATA,
+  title: 'Completion',
+  breadcrumb: 'Completion',
+  analyticsName: 'builder_portal_handover_completion',
+};
+
+export const BUILDER_PORTAL_HANDOVER_CERTIFICATE_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_HANDOVER_DETAIL_METADATA,
+  title: 'Certificate',
+  breadcrumb: 'Certificate',
+  analyticsName: 'builder_portal_handover_certificate',
+};
+
+export const BUILDER_PORTAL_HANDOVER_ARCHIVE_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_HANDOVER_DETAIL_METADATA,
+  title: 'Archive',
+  breadcrumb: 'Archive',
+  analyticsName: 'builder_portal_handover_archive',
+};
