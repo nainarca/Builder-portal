@@ -1,0 +1,187 @@
+// Digital Signature, Owner Acceptance & Handover Approval — design system aligned styles
+
+// Approval status badge (7-value)
+.approval-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--mpa-radius-full);
+  font-size: var(--mpa-font-size-xs);
+  font-weight: var(--mpa-font-weight-semibold);
+
+  &--ready-for-signature { background: var(--mpa-color-surface-muted); color: var(--mpa-color-text-muted); }
+  &--owner-signed,
+  &--builder-signed { background: color-mix(in srgb, var(--mpa-color-info) 14%, transparent); color: var(--mpa-color-info); }
+  &--pending-approval { background: color-mix(in srgb, var(--mpa-color-warning) 14%, transparent); color: var(--mpa-color-warning); }
+  &--approved { background: color-mix(in srgb, var(--mpa-color-success) 14%, transparent); color: var(--mpa-color-success); }
+  &--rejected,
+  &--cancelled { background: color-mix(in srgb, var(--mpa-color-danger) 14%, transparent); color: var(--mpa-color-danger); }
+}
+
+// Approval card (header summary)
+.approval-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--mpa-spacing-md);
+  margin-bottom: var(--mpa-spacing-md);
+}
+
+.approval-card__title-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.approval-card__title {
+  margin: 0;
+  font-size: var(--mpa-font-size-md);
+  font-weight: var(--mpa-font-weight-semibold);
+  color: var(--mpa-color-text);
+}
+
+.approval-card__meta {
+  margin: 0.15rem 0 0;
+  font-size: var(--mpa-font-size-xs);
+  color: var(--mpa-color-text-muted);
+}
+
+// Quick actions panel
+.approval-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-sm);
+}
+
+// Reject modal field
+.approval-reject-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: var(--mpa-spacing-md);
+}
+
+.approval-reject-field__label {
+  font-size: var(--mpa-font-size-sm);
+  font-weight: var(--mpa-font-weight-medium);
+  color: var(--mpa-color-text);
+}
+
+// Owner review summary grid
+.owner-review-summary__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--mpa-spacing-lg);
+  margin-top: var(--mpa-spacing-lg);
+}
+
+// Terms acceptance panel
+.terms-acceptance__accepted-icon {
+  color: var(--mpa-color-success);
+  margin-right: 0.35rem;
+}
+
+.terms-acceptance__actions {
+  margin-top: var(--mpa-spacing-md);
+}
+
+// Signature cards
+.signature-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: var(--mpa-spacing-lg);
+}
+
+.signature-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--mpa-spacing-md);
+  margin-bottom: var(--mpa-spacing-md);
+}
+
+.signature-card__title-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.signature-card__title {
+  margin: 0;
+  font-size: var(--mpa-font-size-md);
+  font-weight: var(--mpa-font-weight-semibold);
+  color: var(--mpa-color-text);
+}
+
+.signature-card__flag {
+  font-size: var(--mpa-font-size-xs);
+  color: var(--mpa-color-text-muted);
+}
+
+.signature-card__status {
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--mpa-radius-full);
+  font-size: var(--mpa-font-size-xs);
+  font-weight: var(--mpa-font-weight-medium);
+  background: var(--mpa-color-surface-muted);
+  color: var(--mpa-color-text-muted);
+  white-space: nowrap;
+
+  &--signed { background: color-mix(in srgb, var(--mpa-color-success) 14%, transparent); color: var(--mpa-color-success); }
+}
+
+.signature-card__signed-icon {
+  color: var(--mpa-color-success);
+  margin-right: 0.35rem;
+}
+
+.signature-card__witness-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-sm);
+}
+
+.signature-card__provider-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin: var(--mpa-spacing-md) 0 0;
+  padding-top: var(--mpa-spacing-sm);
+  border-top: 1px dashed var(--mpa-color-border);
+  font-size: var(--mpa-font-size-xs);
+  color: var(--mpa-color-text-muted);
+}
+
+// Verification placeholders (Identity / OTP)
+.signature-verification-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: var(--mpa-spacing-lg);
+}
+
+.approval-placeholder-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mpa-spacing-sm);
+  padding: var(--mpa-spacing-xl);
+  border: 1px dashed var(--mpa-color-border);
+  border-radius: var(--mpa-radius-lg);
+  color: var(--mpa-color-text-muted);
+  text-align: center;
+
+  i { font-size: 1.5rem; }
+  p { margin: 0; font-size: var(--mpa-font-size-sm); }
+}
+
+.approval-loading-state {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-md);
+}
+
+@media (max-width: 768px) {
+  .owner-review-summary__grid,
+  .signature-card-grid,
+  .signature-verification-grid {
+    grid-template-columns: 1fr;
+  }
+}

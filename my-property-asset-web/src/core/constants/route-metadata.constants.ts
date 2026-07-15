@@ -1146,3 +1146,24 @@ export const BUILDER_PORTAL_HANDOVER_CHECKLIST_METADATA: RouteMetadata = {
   breadcrumb: 'Checklist',
   analyticsName: 'builder_portal_handover_checklist',
 };
+
+export const BUILDER_PORTAL_HANDOVER_APPROVAL_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_HANDOVER_DETAIL_METADATA,
+  title: 'Approval',
+  breadcrumb: 'Approval',
+  analyticsName: 'builder_portal_handover_approval',
+};
+
+export const BUILDER_PORTAL_HANDOVER_REVIEW_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_HANDOVER_DETAIL_METADATA,
+  title: 'Owner review',
+  breadcrumb: 'Review',
+  analyticsName: 'builder_portal_handover_review',
+};
+
+export const BUILDER_PORTAL_HANDOVER_SIGNATURE_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_HANDOVER_DETAIL_METADATA,
+  title: 'Signature',
+  breadcrumb: 'Signature',
+  analyticsName: 'builder_portal_handover_signature',
+};

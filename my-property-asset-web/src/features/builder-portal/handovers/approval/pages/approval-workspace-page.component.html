@@ -1,0 +1,92 @@
+<app-base-page>
+  @if (handover(); as h) {
+    @if (approval(); as a) {
+      <div class="handover-page">
+        <header class="handover-header">
+          <div class="handover-header__main">
+            <span class="handover-icon handover-icon--lg"><i class="pi pi-verified" aria-hidden="true"></i></span>
+            <div>
+              <span class="mpa-eyebrow">{{ h.projectName }} · {{ h.towerName }}</span>
+              <h1 class="ui-page-title">Approval — {{ h.unitNumber }}</h1>
+              <p class="ui-page-subtitle">{{ h.ownerName }}</p>
+              <div class="handover-header__badges">
+                <app-approval-status-badge [status]="a.status" />
+              </div>
+            </div>
+          </div>
+          <div class="handover-header__actions">
+            <app-button label="Back to handover" [text]="true" (clicked)="backToHandover()" />
+          </div>
+        </header>
+
+        <section class="handover-quick-stats" aria-label="Approval statistics">
+          @for (kpi of kpis(); track kpi.id) {
+            <app-bp-kpi-card [item]="kpi" />
+          }
+        </section>
+
+        <div class="handover-detail-layout">
+          <div class="handover-detail-layout__main">
+            <app-workflow-card title="Approval workflow">
+              <app-approval-workflow-timeline [status]="a.status" />
+            </app-workflow-card>
+            <app-timeline-card title="Audit timeline" [items]="a.activity" />
+          </div>
+          <aside class="handover-detail-layout__aside">
+            <app-acceptance-card [notes]="a.reviewNotes" (notesChange)="onNotesChange($event)" />
+
+            <div class="handover-info-panel approval-actions">
+              <h3 class="handover-info-panel__title">Quick actions</h3>
+              @switch (a.status) {
+                @case ('pending-approval') {
+                  <app-button label="Approve" icon="pi pi-check" severity="success" (clicked)="onApprove()" />
+                  <app-button label="Reject" icon="pi pi-times" severity="danger" [outlined]="true" (clicked)="openRejectModal()" />
+                  <app-button label="Cancel" [outlined]="true" (clicked)="onCancel()" />
+                }
+                @case ('approved') {
+                  <p class="mpa-body-md m-0">This handover has been approved.</p>
+                }
+                @case ('rejected') {
+                  <p class="mpa-body-md m-0">This handover was rejected.</p>
+                }
+                @case ('cancelled') {
+                  <p class="mpa-body-md m-0">This approval workflow was cancelled.</p>
+                }
+                @default {
+                  @if (!a.termsAccepted) {
+                    <app-button label="Continue to review" icon="pi pi-arrow-right" (clicked)="goToReview()" />
+                  } @else {
+                    <app-button label="Continue to signature" icon="pi pi-arrow-right" (clicked)="goToSignature()" />
+                  }
+                }
+              }
+            </div>
+          </aside>
+        </div>
+
+        <app-modal-shell
+          title="Reject handover"
+          [visible]="rejectModalVisible()"
+          (visibleChange)="rejectModalVisible.set($event)"
+          (hidden)="closeRejectModal()"
+        >
+          <div class="approval-reject-field">
+            <span class="approval-reject-field__label">Reason for rejection *</span>
+            <app-textarea [value]="rejectReason()" [rows]="3" ariaLabel="Reason for rejection" (valueChange)="rejectReason.set($event)" />
+          </div>
+          <div modalActions>
+            <app-button label="Cancel" [outlined]="true" (clicked)="closeRejectModal()" />
+            <app-button label="Confirm rejection" icon="pi pi-times" severity="danger" (clicked)="confirmReject()" />
+          </div>
+        </app-modal-shell>
+      </div>
+    } @else {
+      <app-approval-empty-state />
+    }
+  } @else {
+    <div class="handover-page handover-page--empty">
+      <h1 class="ui-page-title">Handover not found</h1>
+      <p class="ui-page-subtitle">The requested handover does not exist.</p>
+    </div>
+  }
+</app-base-page>

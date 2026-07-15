@@ -1,0 +1,60 @@
+<app-base-page>
+  @if (handover(); as h) {
+    @if (approval(); as a) {
+      <div class="handover-page">
+        <header class="handover-header">
+          <div class="handover-header__main">
+            <span class="handover-icon handover-icon--lg"><i class="pi pi-pencil" aria-hidden="true"></i></span>
+            <div>
+              <span class="mpa-eyebrow">{{ h.projectName }} · {{ h.towerName }}</span>
+              <h1 class="ui-page-title">Signature — {{ h.unitNumber }}</h1>
+              <p class="ui-page-subtitle">{{ h.ownerName }}</p>
+              <div class="handover-header__badges">
+                <app-approval-status-badge [status]="a.status" />
+              </div>
+            </div>
+          </div>
+          <div class="handover-header__actions">
+            <app-button label="Back to approval" [text]="true" (clicked)="backToApproval()" />
+          </div>
+        </header>
+
+        <app-approval-card [handover]="h" [approval]="a" />
+
+        @if (!a.termsAccepted) {
+          <div class="handover-info-panel">
+            <h3 class="handover-info-panel__title">Owner review required</h3>
+            <p class="mpa-body-md">The owner must review the handover and accept the terms &amp; conditions before signatures can be collected.</p>
+            <app-button label="Go to owner review" icon="pi pi-arrow-right" (clicked)="goToReview()" />
+          </div>
+        } @else {
+          <div class="signature-card-grid">
+            @if (ownerSignature(); as sig) {
+              <app-signature-card party="owner" [signature]="sig" [defaultName]="h.ownerName" (sign)="onSign('owner', $event)" />
+            }
+            @if (builderSignature(); as sig) {
+              <app-signature-card party="builder" [signature]="sig" defaultName="Builder Admin" (sign)="onSign('builder', $event)" />
+            }
+            @if (witnessSignature(); as sig) {
+              <app-signature-card party="witness" [signature]="sig" [mandatory]="false" (sign)="onSign('witness', $event)" />
+            }
+          </div>
+
+          <div class="signature-verification-grid">
+            <app-identity-verification-placeholder />
+            <app-otp-verification-placeholder />
+          </div>
+
+          <app-timeline-card title="Signature timeline" [items]="a.activity" />
+        }
+      </div>
+    } @else {
+      <app-approval-empty-state />
+    }
+  } @else {
+    <div class="handover-page handover-page--empty">
+      <h1 class="ui-page-title">Handover not found</h1>
+      <p class="ui-page-subtitle">The requested handover does not exist.</p>
+    </div>
+  }
+</app-base-page>
