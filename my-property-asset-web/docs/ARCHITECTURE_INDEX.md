@@ -2,7 +2,7 @@
 
 **Repository root:** `my-property-asset-web/docs/`
 **Purpose:** Registry of every approved architecture document and ADR for the MyPropertyAsset Web Platform (Angular Enterprise Web Platform: Public Website, Super Admin Portal, Builder Handover Portal, plus its relationship to the existing Owner Mobile App and future Tenant Mobile App).
-**Last updated:** 2026-07-09 (NG-014 added — Technical Architecture Review & Implementation Readiness, the terminal document of the NG-series; formal split approval recommendation issued, see §5)
+**Last updated:** 2026-07-16 (P4 Platform Database Evolution added — awaiting approval; Schema V2 additive extension)
 
 ---
 
@@ -35,6 +35,10 @@ This index and every document it registers is for the **new Angular Web Platform
 | A-007 | Information Architecture | 1.0 | Draft | A-001, A-002, A-003, A-003A, A-004, A-005 *(not A-006 — see §4)* | 2026-07-09 |
 | A-008 | Permission Matrix (RBAC) | 1.0 | Draft | A-001–A-005, A-007 *(not A-006)* | 2026-07-09 |
 | A-009 | Business Architecture Review & Gap Analysis | 1.0 | Draft (audit) | A-001–A-005, A-007, A-008 | 2026-07-09 |
+| **P1** | **Platform Foundation (Design)** | 1.0 | **Draft — awaiting approval** | A-001, A-002, A-007, A-008; Schema V2 (Flutter) | **2026-07-16** |
+| **P2** | **Platform Database & Authentication Blueprint** | 1.0 | **Draft — awaiting approval** | P1 (source of truth), A-001–A-008, NG-006–NG-008 | **2026-07-16** |
+| **P3** | **Builder Business Domain Design** | 1.0 | **Draft — awaiting approval** | P1, P2, A-001 §12, A-002 | **2026-07-16** |
+| **P4** | **Platform Database Evolution (Schema V2 Extension)** | 1.0 | **Draft — awaiting approval** | P1, P2, P3 | **2026-07-16** |
 | NG-000 | Web Platform Technical Governance | 1.0 | Draft | A-001–A-009 | 2026-07-09 |
 | NG-001 | Angular Enterprise Architecture | 1.0 | Draft | NG-000, A-001–A-009 | 2026-07-09 |
 | NG-002 | Angular Workspace & Project Architecture | 1.0 | Draft | NG-000, NG-001, A-001–A-009 | 2026-07-09 |
@@ -109,6 +113,10 @@ my-property-asset-web/
     │   ├── MODULE_PERMISSIONS.md
     │   ├── SCREEN_PERMISSIONS.md
     │   ├── A-009_Business_Architecture_Review.md
+    │   ├── P1_Platform_Foundation.md          (Phase P1 — design only; awaiting approval)
+    │   ├── P2_Platform_Database_Authentication_Blueprint.md  (Phase P2 — design only; awaiting approval)
+    │   ├── P3_Builder_Business_Domain.md      (Phase P3 — design only; awaiting approval)
+    │   ├── P4_Platform_Database_Evolution.md  (Phase P4 — design only; awaiting approval)
     │   └── diagrams/
     │       ├── A-003_User_Journey_Diagrams.md
     │       ├── A-004_Screen_Flow_Diagrams.md
