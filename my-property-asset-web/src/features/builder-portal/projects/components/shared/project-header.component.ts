@@ -5,6 +5,7 @@ import { HasPermissionDirective } from '@core/rbac';
 import { ButtonComponent } from '@shared/ui';
 
 import { Project } from '../../models/project.model';
+import { buildingsAreSupported } from '../../buildings/utils/project-building-compatibility';
 import { ProjectAvatarComponent } from './project-avatar.component';
 import { ProjectStatusBadgeComponent } from './project-status-badge.component';
 import { ProjectTypeBadgeComponent } from './project-type-badge.component';
@@ -38,6 +39,14 @@ import { ProjectTypeBadgeComponent } from './project-type-badge.component';
       </div>
       <div class="proj-header__actions">
         <app-button label="Back to list" icon="pi pi-arrow-left" [outlined]="true" (clicked)="goToList()" />
+        @if (showBuildings()) {
+          <app-button
+            label="Buildings"
+            icon="pi pi-building"
+            [outlined]="true"
+            (clicked)="goToBuildings()"
+          />
+        }
         @if (!project().archived) {
           <app-button
             *appHasPermission="'id-07-project-unit:contribute'"
@@ -57,11 +66,19 @@ export class ProjectHeaderComponent {
 
   readonly project = input.required<Project>();
 
+  showBuildings(): boolean {
+    return buildingsAreSupported(this.project().projectType);
+  }
+
   goToList(): void {
     void this.router.navigate(['/builder-portal/projects/list']);
   }
 
   goToEdit(): void {
     void this.router.navigate(['/builder-portal/projects', this.project().id, 'edit']);
+  }
+
+  goToBuildings(): void {
+    void this.router.navigate(['/builder-portal/projects', this.project().id, 'buildings']);
   }
 }

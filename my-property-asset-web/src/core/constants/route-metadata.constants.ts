@@ -1055,6 +1055,38 @@ export const BUILDER_PORTAL_UNIT_EDIT_METADATA: RouteMetadata = {
   analyticsName: 'builder_portal_unit_edit',
 };
 
+export const BUILDER_PORTAL_BUILDINGS_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_PROJECTS_METADATA,
+  title: 'Buildings',
+  icon: 'pi pi-building',
+  description: 'Towers and blocks under this project',
+  breadcrumb: 'Buildings',
+  analyticsName: 'builder_portal_buildings_workspace',
+};
+
+export const BUILDER_PORTAL_BUILDING_CREATE_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_BUILDINGS_METADATA,
+  title: 'Create building',
+  breadcrumb: 'Create',
+  permissions: ['portal:builder-portal', 'id-07-project-unit:contribute'],
+  analyticsName: 'builder_portal_building_create',
+};
+
+export const BUILDER_PORTAL_BUILDING_DETAIL_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_BUILDINGS_METADATA,
+  title: 'Building details',
+  breadcrumb: 'Details',
+  analyticsName: 'builder_portal_building_detail',
+};
+
+export const BUILDER_PORTAL_BUILDING_EDIT_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_BUILDINGS_METADATA,
+  title: 'Edit building',
+  breadcrumb: 'Edit',
+  permissions: ['portal:builder-portal', 'id-07-project-unit:contribute'],
+  analyticsName: 'builder_portal_building_edit',
+};
+
 export const BUILDER_PORTAL_OWNERS_METADATA: RouteMetadata = {
   ...BUILDER_PORTAL_METADATA,
   title: 'Owners',

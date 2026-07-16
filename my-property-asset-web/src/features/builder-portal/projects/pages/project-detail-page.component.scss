@@ -1,1 +1,12 @@
-// Styles are provided globally via src/styles.scss
+.proj-buildings-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--mpa-color-border, #e5e7eb);
+  background: color-mix(in srgb, #1b4d89 6%, transparent);
+}

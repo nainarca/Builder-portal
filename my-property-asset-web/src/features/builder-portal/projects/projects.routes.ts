@@ -46,7 +46,12 @@ export const PROJECT_ROUTES: Routes = [
     data: BUILDER_PORTAL_PROJECT_EDIT_METADATA,
   },
   {
-    // Existing units mock route retained; P8 does not implement Units domain.
+    path: ':id/buildings',
+    loadChildren: () =>
+      import('./buildings/buildings.routes').then((m) => m.BUILDING_ROUTES),
+  },
+  {
+    // Existing units mock route retained; P9 does not implement Units domain.
     path: ':id/units',
     loadChildren: () => import('./units/units.routes').then((m) => m.UNIT_ROUTES),
   },
