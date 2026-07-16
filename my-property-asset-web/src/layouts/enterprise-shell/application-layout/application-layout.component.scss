@@ -1,0 +1,24 @@
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100%;
+}
+
+.application-layout__main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 100vh;
+  background: var(--mpa-color-background);
+}
+
+.application-layout__sidebar {
+  display: block;
+}
+
+@media (max-width: 639px) {
+  .application-layout__main {
+    min-height: auto;
+  }
+}

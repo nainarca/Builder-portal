@@ -1,4 +1,5 @@
 export * from './components';
+export * from './enterprise-shell';
 export { AuthenticatedLayoutComponent } from './authenticated/authenticated-layout.component';
 export { BlankLayoutComponent } from './blank/blank-layout.component';
 export { BlankPageComponent } from './blank/blank-page.component';

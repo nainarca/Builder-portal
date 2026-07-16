@@ -1,0 +1,43 @@
+<app-responsive-layout
+  variant="authenticated"
+  [sidebarCollapsed]="sidebarCollapsed()"
+  [class]="'layout-authenticated ' + layoutClass()"
+>
+  <app-shell-sidebar
+    class="application-layout__sidebar"
+    [brand]="brand()"
+    [collapsed]="sidebarCollapsed()"
+    [ariaLabel]="sidebarAriaLabel()"
+  />
+
+  <div class="application-layout__main">
+    <app-shell-header
+      [brand]="brand()"
+      [sticky]="stickyHeader()"
+      [showNavigation]="showHeaderNavigation()"
+      [showOrganizationSelector]="showOrganizationSelector()"
+    />
+
+    @if (showWorkspaceHeader()) {
+      <app-workspace-header />
+    }
+
+    @if (showBreadcrumb()) {
+      <app-shell-breadcrumb />
+    }
+
+    @if (showPageToolbar()) {
+      <app-shell-page-toolbar>
+        <ng-content select="[shellPageToolbar]" />
+      </app-shell-page-toolbar>
+    }
+
+    <app-shell-content-area [scrollable]="contentScrollable()" [fluid]="contentFluid()">
+      <ng-content />
+    </app-shell-content-area>
+
+    @if (showFooter()) {
+      <app-shell-footer [brand]="brand()" />
+    }
+  </div>
+</app-responsive-layout>

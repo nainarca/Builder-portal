@@ -1,16 +1,11 @@
-<app-responsive-container
-  variant="authenticated"
+<app-application-layout
+  layoutClass="layout-authenticated-generic"
   [sidebarCollapsed]="sidebarCollapsed()"
-  class="layout-authenticated"
+  [showOrganizationSelector]="true"
+  [showWorkspaceHeader]="false"
+  [showBreadcrumb]="false"
+  [showPageToolbar]="false"
+  [showFooter]="true"
 >
-  <app-sidebar-placeholder class="layout-authenticated__sidebar" [collapsed]="sidebarCollapsed()" />
-  <div class="layout-authenticated__main">
-    <app-header-placeholder [sticky]="true" />
-    <app-content-wrapper>
-      <app-page-container>
-        <router-outlet />
-      </app-page-container>
-    </app-content-wrapper>
-    <app-footer-placeholder />
-  </div>
-</app-responsive-container>
+  <router-outlet />
+</app-application-layout>

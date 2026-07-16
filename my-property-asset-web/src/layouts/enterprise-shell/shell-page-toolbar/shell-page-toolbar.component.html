@@ -1,0 +1,12 @@
+@if (visible()) {
+  <div class="shell-page-toolbar__inner" role="region" aria-label="Page toolbar">
+    <div class="shell-page-toolbar__leading">
+      <ng-content select="[shellToolbarTitle]" />
+      <ng-content select="[shellToolbarMeta]" />
+    </div>
+    <div class="shell-page-toolbar__actions">
+      <ng-content select="[shellToolbarActions]" />
+    </div>
+    <ng-content />
+  </div>
+}

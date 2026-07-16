@@ -1,0 +1,28 @@
+:host {
+  display: block;
+}
+
+.shell-page-toolbar__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--mpa-spacing-sm);
+  min-width: 0;
+}
+
+.shell-page-toolbar__leading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-xs);
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.shell-page-toolbar__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--mpa-spacing-sm);
+  flex: 0 0 auto;
+}

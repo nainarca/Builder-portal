@@ -1,23 +1,13 @@
-<app-responsive-container
-  variant="authenticated"
+<app-application-layout
+  class="layout-super-admin"
+  layoutClass="layout-super-admin"
+  sidebarAriaLabel="Super Admin sidebar"
   [sidebarCollapsed]="sidebarCollapsed()"
-  class="layout-authenticated layout-super-admin"
+  [showOrganizationSelector]="true"
+  [showWorkspaceHeader]="true"
+  [showBreadcrumb]="true"
+  [showPageToolbar]="false"
+  [showFooter]="true"
 >
-  <app-sidebar-placeholder
-    class="layout-authenticated__sidebar"
-    [collapsed]="sidebarCollapsed()"
-    ariaLabel="Super Admin sidebar"
-  />
-  <div class="layout-authenticated__main">
-    <app-header-placeholder [sticky]="true" [showOrganizationSelector]="true" />
-    <app-context-navigation />
-    <app-secondary-navigation />
-    <app-breadcrumb-placeholder />
-    <app-content-wrapper>
-      <app-page-container>
-        <router-outlet />
-      </app-page-container>
-    </app-content-wrapper>
-    <app-footer-placeholder />
-  </div>
-</app-responsive-container>
+  <router-outlet />
+</app-application-layout>
