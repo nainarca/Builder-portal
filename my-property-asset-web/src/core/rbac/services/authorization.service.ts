@@ -11,6 +11,7 @@ import { RBAC_EVENT_TYPES } from '../constants/rbac.constants';
 import { AuthorizationContextService } from './authorization-context.service';
 import { PermissionResolverService } from './permission-resolver.service';
 import { PolicyEvaluationService } from './policy-evaluation.service';
+import { PlatformOperatorService } from './platform-operator.service';
 import { RoleService } from './role.service';
 
 @Injectable({ providedIn: 'root' })
@@ -46,6 +47,7 @@ export class AuthorizationService {
   private readonly authorizationContext = inject(AuthorizationContextService);
   private readonly permissionService = inject(PermissionService);
   private readonly roleService = inject(RoleService);
+  private readonly platformOperators = inject(PlatformOperatorService);
   private readonly permissionResolver = inject(PermissionResolverService);
   private readonly policyEvaluation = inject(PolicyEvaluationService);
   private readonly organizationContext = inject(OrganizationContextService);
@@ -56,6 +58,11 @@ export class AuthorizationService {
   readonly state = this.authorizationContext.authorizationState;
   readonly permissions = this.authorizationContext.permissions;
   readonly role = this.authorizationContext.role;
+
+  /** Coalesces concurrent resolves; prevents AUTH-02 microtask storm. */
+  private resolveInflight: Promise<void> | null = null;
+  /** True while executeResolve runs — ignore org events published by that run. */
+  private isResolving = false;
 
   initialize(): void {
     this.eventBus.on(AUTH_EVENT_TYPES.signedIn, () => {
@@ -71,19 +78,40 @@ export class AuthorizationService {
     });
 
     this.eventBus.on(ORGANIZATION_EVENT_TYPES.contextChanged, () => {
+      // AUTH-02: org.resolve publishes contextChanged; must not re-enter resolveAuthorization
+      if (this.isResolving) {
+        return;
+      }
       void this.resolveAuthorization();
     });
 
     this.eventBus.on(ORGANIZATION_EVENT_TYPES.switched, () => {
+      if (this.isResolving) {
+        return;
+      }
       void this.resolveAuthorization();
     });
   }
 
   async resolveAuthorization(): Promise<void> {
+    if (this.resolveInflight) {
+      return this.resolveInflight;
+    }
+
+    this.resolveInflight = this.executeResolve().finally(() => {
+      this.resolveInflight = null;
+    });
+
+    return this.resolveInflight;
+  }
+
+  private async executeResolve(): Promise<void> {
+    this.isResolving = true;
     this.authorizationContext.setLoading(true);
     this.permissionResolver.invalidate();
 
     try {
+      await this.platformOperators.refresh();
       await this.organizationContext.resolve();
       const userContext = this.roleService.resolveUserContext();
       const organizationId = this.currentOrganization.organizationId();
@@ -113,12 +141,17 @@ export class AuthorizationService {
         permissions: {},
         error: 'Unable to resolve access permissions.',
       });
+    } finally {
+      this.isResolving = false;
     }
   }
 
   clear(): void {
+    this.resolveInflight = null;
+    this.isResolving = false;
     this.authorizationContext.clear();
     this.organizationContext.clear();
+    this.platformOperators.clear();
   }
 
   hasPermission(requirement: string): boolean {

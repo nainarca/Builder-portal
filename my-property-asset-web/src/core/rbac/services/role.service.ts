@@ -5,11 +5,13 @@ import { CurrentOrganizationService } from '@core/organization-context';
 import { PlatformRole, UserContext } from '../models/permission.model';
 import { ROLE_PORTAL_ACCESS } from '../registry/permission-matrix.registry';
 import { normalizeRole } from '../utils/permission.utils';
+import { PlatformOperatorService } from './platform-operator.service';
 
 @Injectable({ providedIn: 'root' })
 export class RoleService {
   private readonly authContext = inject(AuthContextService);
   private readonly currentOrganization = inject(CurrentOrganizationService);
+  private readonly platformOperators = inject(PlatformOperatorService);
 
   resolveUserContext(): UserContext {
     const user = this.authContext.user();
@@ -24,6 +26,21 @@ export class RoleService {
     }
 
     const metadata = user.metadata ?? {};
+
+    // AUTH-01: platform_operators wins over personal org / JWT "owner" metadata
+    if (this.platformOperators.isSuperAdmin()) {
+      return {
+        userId: user.id,
+        email: user.email,
+        role: 'super-admin',
+        portals: ROLE_PORTAL_ACCESS['super-admin'] ?? [],
+        supportAccessOrganizationId:
+          typeof metadata['supportAccessOrganizationId'] === 'string'
+            ? metadata['supportAccessOrganizationId']
+            : null,
+      };
+    }
+
     const activeRole = this.currentOrganization.snapshot().role;
     const role = activeRole ?? this.resolveRole(metadata);
     const portals = ROLE_PORTAL_ACCESS[role] ?? [];

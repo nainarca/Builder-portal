@@ -24,3 +24,4 @@ export { AuthorizationContextService } from './services/authorization-context.se
 export { PermissionCacheService, PermissionResolverService } from './services/permission-resolver.service';
 export { PolicyEvaluationService } from './services/policy-evaluation.service';
 export { RoleService } from './services/role.service';
+export { PlatformOperatorService } from './services/platform-operator.service';

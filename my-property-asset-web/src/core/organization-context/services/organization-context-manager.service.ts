@@ -6,6 +6,7 @@ import { FeatureFlagService } from '@infrastructure/feature-flags';
 import { NotificationService } from '@infrastructure/notification';
 import { NavigationService } from '@navigation/services';
 import { PlatformRole } from '@core/rbac/models/permission.model';
+import { PlatformOperatorService } from '@core/rbac/services/platform-operator.service';
 import { normalizeRole } from '@core/rbac/utils/permission.utils';
 import { ORGANIZATION_EVENT_TYPES } from '../constants/organization.constants';
 import { Organization, OrganizationMembership } from '../models/organization.model';
@@ -115,6 +116,7 @@ export class OrganizationContextManagerService {
   private readonly branding = inject(OrganizationBrandingService);
   private readonly switchService = inject(OrganizationSwitchService);
   private readonly eventBus = inject(ApplicationEventBusService);
+  private readonly platformOperators = inject(PlatformOperatorService);
 
   initialize(): void {
     // Reserved for future cross-tab organization sync.
@@ -133,7 +135,31 @@ export class OrganizationContextManagerService {
       const metadata = user?.metadata ?? {};
       const role = normalizeRole(metadata['role'] ?? metadata['platformRole']) as PlatformRole | null;
 
+      // AUTH-01: resolve platform_operators before personal/builder membership logic
+      await this.platformOperators.refresh();
+      if (this.platformOperators.isSuperAdmin()) {
+        // Skip re-publish when already on platform context (AUTH-02: avoid event storms)
+        if (
+          this.store.isResolved() &&
+          this.store.context().organizationType === 'platform' &&
+          !this.store.activeOrganization()
+        ) {
+          return;
+        }
+        this.store.applyPlatformContext();
+        this.branding.applyPlatformBrand();
+        this.publishResolved(null);
+        return;
+      }
+
       if (role === 'super-admin' || role === 'support-user') {
+        if (
+          this.store.isResolved() &&
+          this.store.context().organizationType === 'platform' &&
+          !this.store.activeOrganization()
+        ) {
+          return;
+        }
         this.store.applyPlatformContext();
         this.branding.applyPlatformBrand();
         this.publishResolved(null);
