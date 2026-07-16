@@ -200,8 +200,18 @@ export const BUILDER_PORTAL_NAVIGATION: NavigationConfiguration = createConfigur
       route: '/builder-portal',
       icon: 'pi pi-chart-line',
       metadata: {
-        permissions: ['portal:builder-portal', 'id-07-project-unit:read'],
+        permissions: ['portal:builder-portal'],
         analyticsName: 'ba_dashboard_nav',
+      },
+    },
+    {
+      id: 'ba-company',
+      label: 'Company',
+      route: '/builder-portal/company',
+      icon: 'pi pi-building',
+      metadata: {
+        permissions: ['portal:builder-portal', 'id-03-organization-tenancy:read'],
+        analyticsName: 'ba_company_nav',
       },
     },
     {
@@ -247,7 +257,7 @@ export const BUILDER_PORTAL_NAVIGATION: NavigationConfiguration = createConfigur
     {
       id: 'ba-settings',
       label: 'Settings',
-      route: '/builder-portal',
+      route: '/builder-portal/settings',
       icon: 'pi pi-sliders-h',
       metadata: {
         permissions: ['id-03-organization-tenancy:operate'],

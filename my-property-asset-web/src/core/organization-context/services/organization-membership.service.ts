@@ -4,10 +4,12 @@ import { AuthContextService } from '@core/auth';
 import { PlatformRole } from '@core/rbac/models/permission.model';
 import { normalizeRole } from '@core/rbac/utils/permission.utils';
 import { OrganizationMembership } from '../models/organization.model';
+import { BuilderSessionBridgeService } from './builder-session-bridge.service';
 
 @Injectable({ providedIn: 'root' })
 export class OrganizationMembershipService {
   private readonly authContext = inject(AuthContextService);
+  private readonly builderSession = inject(BuilderSessionBridgeService);
 
   resolveMemberships(): OrganizationMembership[] {
     const user = this.authContext.user();
@@ -18,13 +20,22 @@ export class OrganizationMembershipService {
     const metadata = user.metadata ?? {};
     const organizations = metadata['organizations'];
 
+    let memberships: OrganizationMembership[] = [];
+
     if (Array.isArray(organizations) && organizations.length > 0) {
-      return organizations
+      memberships = organizations
         .map((entry) => this.mapMembership(entry))
         .filter((entry): entry is OrganizationMembership => entry !== null);
+    } else {
+      memberships = this.createFallbackMembership(metadata);
     }
 
-    return this.createFallbackMembership(metadata);
+    const bridged = this.builderSession.membership();
+    if (bridged && !memberships.some((m) => m.organizationId === bridged.organizationId)) {
+      memberships = [...memberships, bridged];
+    }
+
+    return memberships;
   }
 
   private mapMembership(entry: unknown): OrganizationMembership | null {
@@ -53,15 +64,21 @@ export class OrganizationMembershipService {
   }
 
   private createFallbackMembership(metadata: Record<string, unknown>): OrganizationMembership[] {
-    const role = normalizeRole(metadata['role'] ?? metadata['platformRole']) as PlatformRole | null;
-    if (!role || role === 'public-visitor') {
+    const roleKey = normalizeRole(metadata['role'] ?? metadata['platformRole']);
+    if (!roleKey || roleKey === 'public-visitor') {
       return [];
     }
 
-    if (role === 'super-admin' || role === 'support-user') {
+    // Schema V2 personal/tenant — no Web portal membership (Flutter only)
+    if (roleKey === 'owner' || roleKey === 'tenant') {
       return [];
     }
 
+    if (roleKey === 'super-admin' || roleKey === 'support-user') {
+      return [];
+    }
+
+    const role = roleKey as PlatformRole;
     const organizationId =
       typeof metadata['organizationId'] === 'string' ? metadata['organizationId'] : null;
     const organizationName =
@@ -70,7 +87,11 @@ export class OrganizationMembershipService {
         : 'Organization';
     const organizationType =
       this.normalizeOrganizationType(metadata['organizationType']) ??
-      (role.startsWith('builder-org-') ? 'builder' : role.startsWith('owner-') ? 'owner' : 'builder');
+      (role.startsWith('builder-org-')
+        ? 'builder'
+        : role.startsWith('owner-')
+          ? 'owner'
+          : 'builder');
 
     return [
       {

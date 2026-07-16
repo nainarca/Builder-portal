@@ -41,5 +41,18 @@ export function normalizeRole(value: unknown): string | null {
     return null;
   }
 
-  return value.trim().toLowerCase().replace(/_/g, '-');
+  const raw = value.trim().toLowerCase().replace(/_/g, '-');
+
+  // P6B / DB snake_case and short aliases → Angular PlatformRole ids
+  const aliases: Record<string, string> = {
+    'builder-owner': 'builder-org-owner',
+    'builder-admin': 'builder-org-admin',
+    'builder-staff': 'builder-org-member',
+    'builder-member': 'builder-org-member',
+    'super-admin': 'super-admin',
+    owner: 'owner',
+    tenant: 'tenant',
+  };
+
+  return aliases[raw] ?? raw;
 }

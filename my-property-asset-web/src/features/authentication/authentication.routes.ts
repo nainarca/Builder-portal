@@ -7,6 +7,7 @@ import {
   AUTH_EMAIL_VERIFICATION_METADATA,
   AUTH_FORGOT_PASSWORD_METADATA,
   AUTH_LOGIN_METADATA,
+  AUTH_PORTAL_UNAVAILABLE_METADATA,
   AUTH_RESET_PASSWORD_METADATA,
   AUTH_SESSION_EXPIRED_METADATA,
 } from '@core/constants/route-metadata.constants';
@@ -18,6 +19,8 @@ import { AccountLockedPageComponent } from './pages/account-locked/account-locke
 import { EmailVerificationPendingPageComponent } from './pages/email-verification-pending/email-verification-pending-page.component';
 import { ForgotPasswordPageComponent } from './pages/forgot-password/forgot-password-page.component';
 import { LoginPageComponent } from './pages/login/login-page.component';
+import { PortalUnavailablePageComponent } from './pages/portal-unavailable/portal-unavailable-page.component';
+import { BuilderInvitationAcceptPageComponent } from './pages/builder-invitation-accept/builder-invitation-accept-page.component';
 import { ResetPasswordPageComponent } from './pages/reset-password/reset-password-page.component';
 import { SessionExpiredPageComponent } from './pages/session-expired/session-expired-page.component';
 
@@ -58,6 +61,23 @@ export const AUTHENTICATION_ROUTES: Routes = [
         path: AUTH_ROUTE_SEGMENTS.accessDenied,
         component: AccessDeniedPageComponent,
         data: AUTH_ACCESS_DENIED_METADATA,
+      },
+      {
+        path: AUTH_ROUTE_SEGMENTS.portalUnavailable,
+        component: PortalUnavailablePageComponent,
+        data: AUTH_PORTAL_UNAVAILABLE_METADATA,
+      },
+      {
+        path: AUTH_ROUTE_SEGMENTS.builderInvitation,
+        component: BuilderInvitationAcceptPageComponent,
+        data: {
+          title: 'Builder Invitation',
+          breadcrumb: 'Builder Invitation',
+          layout: 'public',
+          navigationContext: 'authentication',
+          analyticsName: 'auth_builder_invitation',
+          visible: false,
+        },
       },
       {
         path: AUTH_ROUTE_SEGMENTS.sessionExpired,

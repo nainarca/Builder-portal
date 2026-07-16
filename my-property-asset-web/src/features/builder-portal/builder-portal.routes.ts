@@ -4,6 +4,9 @@ import { BUILDER_PORTAL_DASHBOARD_METADATA } from '../../core/constants/route-me
 import { BuilderPortalLayoutComponent } from '../../layouts/builder-portal/builder-portal-layout.component';
 import { navigationResolver } from '../../navigation/resolvers';
 import { BuilderDashboardComponent } from './builder-dashboard.component';
+import { BuilderCompanyPageComponent } from './organization/pages/builder-company-page.component';
+import { BuilderInvitationPageComponent } from './organization/pages/builder-invitation-page.component';
+import { BuilderSettingsPageComponent } from './organization/pages/builder-settings-page.component';
 
 export const BUILDER_PORTAL_ROUTES: Routes = [
   {
@@ -19,6 +22,35 @@ export const BUILDER_PORTAL_ROUTES: Routes = [
         path: '',
         component: BuilderDashboardComponent,
         data: BUILDER_PORTAL_DASHBOARD_METADATA,
+      },
+      {
+        path: 'company',
+        component: BuilderCompanyPageComponent,
+        data: {
+          title: 'Company',
+          breadcrumb: 'Company',
+          permissions: ['portal:builder-portal', 'id-03-organization-tenancy:read'],
+          analyticsName: 'builder_portal_company',
+        },
+      },
+      {
+        path: 'settings',
+        component: BuilderSettingsPageComponent,
+        data: {
+          title: 'Settings',
+          breadcrumb: 'Settings',
+          permissions: ['portal:builder-portal', 'id-03-organization-tenancy:operate'],
+          analyticsName: 'builder_portal_settings',
+        },
+      },
+      {
+        path: 'invitation',
+        component: BuilderInvitationPageComponent,
+        data: {
+          title: 'Invitation',
+          breadcrumb: 'Invitation',
+          analyticsName: 'builder_portal_invitation',
+        },
       },
       {
         path: 'projects',

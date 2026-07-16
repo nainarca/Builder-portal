@@ -1,0 +1,53 @@
+<section class="builder-company-page">
+  <header class="builder-company-page__header">
+    <div>
+      <p class="mpa-eyebrow">Company</p>
+      <h1 class="ui-page-title">Builder company profile</h1>
+      <p class="ui-page-subtitle">Maintain legal identity and primary contacts for your organization.</p>
+    </div>
+    <a routerLink="/builder-portal/settings" class="builder-company-page__link">Settings</a>
+  </header>
+
+  @if (company(); as profile) {
+    <p class="builder-company-page__status">
+      Status: <strong>{{ profile.status }}</strong>
+      @if (profile.planCode) {
+        · Plan: <strong>{{ profile.planCode }}</strong>
+      }
+    </p>
+  }
+
+  <form class="builder-company-page__form" [formGroup]="form" (ngSubmit)="save()">
+    <app-form-section title="Company identity" description="Legal and trading names shown to owners at handover.">
+      <label class="builder-field">
+        <span>Legal name</span>
+        <input type="text" formControlName="legalName" />
+      </label>
+      <label class="builder-field">
+        <span>Trading name</span>
+        <input type="text" formControlName="tradingName" />
+      </label>
+      <label class="builder-field">
+        <span>Region</span>
+        <input type="text" formControlName="region" />
+      </label>
+    </app-form-section>
+
+    <app-form-section title="Primary contact" description="Used for invitations and platform communications.">
+      <label class="builder-field">
+        <span>Contact name</span>
+        <input type="text" formControlName="primaryContactName" />
+      </label>
+      <label class="builder-field">
+        <span>Contact email</span>
+        <input type="email" formControlName="primaryContactEmail" />
+      </label>
+      <label class="builder-field">
+        <span>Contact phone</span>
+        <input type="text" formControlName="primaryContactPhone" />
+      </label>
+    </app-form-section>
+
+    <app-button type="submit" label="Save profile" />
+  </form>
+</section>

@@ -3,6 +3,8 @@ export const AUTH_ROUTE_SEGMENTS = {
   forgotPassword: 'forgot-password',
   resetPassword: 'reset-password',
   accessDenied: 'access-denied',
+  portalUnavailable: 'portal-unavailable',
+  builderInvitation: 'builder-invitation',
   sessionExpired: 'session-expired',
   emailVerification: 'email-verification',
   accountLocked: 'account-locked',
@@ -22,7 +24,11 @@ export const AUTH_STORAGE_KEYS = {
   rememberedEmail: 'mpa-auth-remembered-email',
 } as const;
 
+/** Fallback only when role-aware routing cannot run (e.g. sanitize without context). */
 export const AUTH_DEFAULT_REDIRECT = '/super-admin';
+
+/** Friendly page for authenticated users without Web portal grant (e.g. Schema V2 owner). */
+export const AUTH_PORTAL_UNAVAILABLE_REDIRECT = '/auth/portal-unavailable';
 
 export const AUTH_EVENT_TYPES = {
   signedIn: 'auth.signedIn',
@@ -40,3 +46,6 @@ export const AUTH_VALIDATION = {
   passwordMinLength: 8,
   emailPattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
 } as const;
+
+export const AUTH_PORTAL_UNAVAILABLE_MESSAGE =
+  'This portal is available only for Builder organizations and Platform Administrators.';

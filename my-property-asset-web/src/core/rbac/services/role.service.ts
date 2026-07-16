@@ -51,6 +51,12 @@ export class RoleService {
 
   private resolveRole(metadata: Record<string, unknown>): PlatformRole {
     const explicitRole = normalizeRole(metadata['role'] ?? metadata['platformRole']);
+
+    // Schema V2 Personal Workspace / tenant — no Web portal grant
+    if (explicitRole === 'owner' || explicitRole === 'tenant') {
+      return 'public-visitor';
+    }
+
     if (explicitRole && this.isPlatformRole(explicitRole)) {
       return explicitRole;
     }

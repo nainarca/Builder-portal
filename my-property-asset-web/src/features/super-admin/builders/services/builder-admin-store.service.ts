@@ -104,6 +104,37 @@ export class BuilderAdminStoreService {
     return record;
   }
 
+  deactivate(id: string): BuilderAdminRecord | undefined {
+    return this.setStatus(id, 'inactive');
+  }
+
+  inviteBuilderOwner(id: string): { invitationId: string; token: string } | undefined {
+    const existing = this.getById(id);
+    if (!existing) {
+      return undefined;
+    }
+
+    const invitationId = `inv-${crypto.randomUUID().slice(0, 8)}`;
+    const token = crypto.randomUUID().replace(/-/g, '');
+    this.buildersSignal.update((list) =>
+      list.map((b) =>
+        b.id === id
+          ? {
+              ...b,
+              invitationCount: (b.invitationCount ?? 0) + 1,
+              status: b.status === 'archived' ? b.status : 'pending',
+              updatedAt: new Date().toISOString(),
+            }
+          : b,
+      ),
+    );
+    return { invitationId, token };
+  }
+
+  resendOwnerInvitation(id: string): { invitationId: string; token: string } | undefined {
+    return this.inviteBuilderOwner(id);
+  }
+
   update(id: string, model: BuilderFormModel): BuilderAdminRecord | undefined {
     const existing = this.getById(id);
     if (!existing) return undefined;

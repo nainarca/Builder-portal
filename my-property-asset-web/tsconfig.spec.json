@@ -4,7 +4,18 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
-    "types": ["jasmine"]
+    "types": ["jasmine"],
+    "baseUrl": "./",
+    "paths": {
+      "@core/*": ["src/core/*"],
+      "@shared/*": ["src/shared/*"],
+      "@features/*": ["src/features/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@theme/*": ["src/theme/*"],
+      "@infrastructure/*": ["src/infrastructure/*"],
+      "@environments/*": ["src/environments/*"],
+      "@navigation/*": ["src/navigation/*"]
+    }
   },
   "include": ["src/**/*.ts"]
 }

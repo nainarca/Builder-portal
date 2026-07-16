@@ -3,9 +3,13 @@ import { Router } from '@angular/router';
 
 import { APP_ROUTES } from '../../constants/app.constants';
 import { SessionMonitorService } from '../../../infrastructure/session';
+import { AuthorizationService } from '../../rbac/services/authorization.service';
+import { RoleService } from '../../rbac/services/role.service';
+import { PORTAL_PERMISSION_KEYS } from '../../rbac/constants/rbac.constants';
 import { AUTH_CONFIG } from '../config/auth.config';
 import {
   AUTH_DEFAULT_REDIRECT,
+  AUTH_PORTAL_UNAVAILABLE_REDIRECT,
   AUTH_QUERY_PARAMS,
   AUTH_ROUTE_SEGMENTS,
 } from '../constants/auth.constants';
@@ -49,6 +53,8 @@ export class AuthSessionService {
 @Injectable({ providedIn: 'root' })
 export class AuthRedirectService {
   private readonly router = inject(Router);
+  private readonly authorization = inject(AuthorizationService);
+  private readonly roleService = inject(RoleService);
 
   getReturnUrl(): string {
     const url = this.router.parseUrl(this.router.url);
@@ -66,13 +72,56 @@ export class AuthRedirectService {
     return `/${APP_ROUTES.authentication}/${AUTH_ROUTE_SEGMENTS.login}?${params.toString()}`;
   }
 
-  getSanitizedReturnUrl(returnUrl?: string | null): string {
-    return this.sanitizeReturnUrl(returnUrl ?? undefined);
+  getSanitizedReturnUrl(returnUrl?: string | null, portals?: readonly string[]): string {
+    return (
+      this.sanitizeReturnUrl(returnUrl ?? undefined, portals) ??
+      this.resolveHomeForPortals(portals ?? [])
+    );
   }
 
+  /** Resolves the post-auth landing URL without navigating. */
+  resolvePostLoginUrl(returnUrl?: string | null, portals?: readonly string[]): string {
+    const resolvedPortals = portals ?? this.roleService.resolveUserContext().portals;
+    return (
+      this.sanitizeReturnUrl(returnUrl ?? undefined, resolvedPortals) ??
+      this.resolveHomeForPortals(resolvedPortals)
+    );
+  }
+
+  buildPortalUnavailableUrl(): string {
+    return `/${APP_ROUTES.authentication}/${AUTH_ROUTE_SEGMENTS.portalUnavailable}`;
+  }
+
+  /**
+   * Post-login routing (P2 / P7):
+   * Super Admin → /super-admin
+   * Builder → /builder-portal
+   * Owner / other → friendly portal-unavailable
+   */
   async navigateAfterLogin(returnUrl?: string): Promise<void> {
-    const sanitized = this.sanitizeReturnUrl(returnUrl);
-    await this.router.navigateByUrl(sanitized);
+    await this.authorization.resolveAuthorization();
+
+    const portals = this.roleService.resolveUserContext().portals;
+    const sanitized = this.sanitizeReturnUrl(returnUrl, portals);
+
+    if (sanitized) {
+      await this.router.navigateByUrl(sanitized);
+      return;
+    }
+
+    await this.router.navigateByUrl(this.resolveHomeForPortals(portals));
+  }
+
+  resolveHomeForPortals(portals: readonly string[]): string {
+    if (portals.includes(PORTAL_PERMISSION_KEYS.superAdmin)) {
+      return `/${APP_ROUTES.superAdmin}`;
+    }
+
+    if (portals.includes(PORTAL_PERMISSION_KEYS.builderPortal)) {
+      return `/${APP_ROUTES.builderPortal}`;
+    }
+
+    return AUTH_PORTAL_UNAVAILABLE_REDIRECT;
   }
 
   async navigateToLogin(returnUrl?: string): Promise<void> {
@@ -107,13 +156,32 @@ export class AuthRedirectService {
     return reason ? `${base}?${AUTH_QUERY_PARAMS.deniedReason}=${encodeURIComponent(reason)}` : base;
   }
 
-  private sanitizeReturnUrl(returnUrl?: string): string {
+  private sanitizeReturnUrl(
+    returnUrl?: string,
+    portals?: readonly string[],
+  ): string | null {
     if (!returnUrl || !returnUrl.startsWith('/') || returnUrl.startsWith('//')) {
-      return AUTH_DEFAULT_REDIRECT;
+      return null;
     }
 
     if (returnUrl.startsWith(`/${APP_ROUTES.authentication}`)) {
-      return AUTH_DEFAULT_REDIRECT;
+      return null;
+    }
+
+    if (portals) {
+      if (
+        returnUrl.startsWith(`/${APP_ROUTES.superAdmin}`) &&
+        !portals.includes(PORTAL_PERMISSION_KEYS.superAdmin)
+      ) {
+        return null;
+      }
+
+      if (
+        returnUrl.startsWith(`/${APP_ROUTES.builderPortal}`) &&
+        !portals.includes(PORTAL_PERMISSION_KEYS.builderPortal)
+      ) {
+        return null;
+      }
     }
 
     return returnUrl;

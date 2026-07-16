@@ -1,0 +1,27 @@
+<section class="builder-settings-page">
+  <header>
+    <p class="mpa-eyebrow">Settings</p>
+    <h1 class="ui-page-title">Organization settings</h1>
+    <p class="ui-page-subtitle">Manage company profile and invitation status for your Builder Organization.</p>
+  </header>
+
+  <div class="builder-settings-page__grid">
+    <article class="builder-settings-page__card">
+      <h2>Company</h2>
+      <p>{{ company()?.legalName ?? organizationName() ?? 'Your builder organization' }}</p>
+      <a routerLink="/builder-portal/company">Edit company profile</a>
+    </article>
+
+    <article class="builder-settings-page__card">
+      <h2>Organization</h2>
+      <p>ID: {{ organizationId() ?? 'Not resolved' }}</p>
+      <p>Status: {{ company()?.status ?? 'unknown' }}</p>
+    </article>
+
+    <article class="builder-settings-page__card">
+      <h2>Invitations</h2>
+      <p>Accept a builder owner invitation after Super Admin provisions your company.</p>
+      <a routerLink="/builder-portal/invitation">Open invitation workspace</a>
+    </article>
+  </div>
+</section>

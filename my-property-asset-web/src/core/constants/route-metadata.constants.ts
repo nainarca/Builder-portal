@@ -624,6 +624,17 @@ export const AUTH_ACCESS_DENIED_METADATA: RouteMetadata = {
   visible: false,
 };
 
+export const AUTH_PORTAL_UNAVAILABLE_METADATA: RouteMetadata = {
+  title: 'Portal Unavailable',
+  icon: 'pi pi-info-circle',
+  description: 'This portal is available only for Builder organizations and Platform Administrators.',
+  layout: 'public',
+  navigationContext: 'authentication',
+  breadcrumb: 'Portal Unavailable',
+  analyticsName: 'auth_portal_unavailable',
+  visible: false,
+};
+
 export const AUTH_SESSION_EXPIRED_METADATA: RouteMetadata = {
   title: 'Session Expired',
   icon: 'pi pi-clock',

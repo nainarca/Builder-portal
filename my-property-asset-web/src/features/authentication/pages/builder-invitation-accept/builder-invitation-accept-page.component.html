@@ -1,0 +1,19 @@
+<app-auth-form-card
+  title="Accept builder invitation"
+  subtitle="Join your Builder Organization to open the Builder Portal."
+>
+  <form class="builder-invite-accept" [formGroup]="form" (ngSubmit)="accept()">
+    <label class="builder-invite-accept__field">
+      <span>Invitation token</span>
+      <input type="text" formControlName="token" autocomplete="off" />
+    </label>
+    <app-button type="submit" label="Accept invitation" [loading]="accepting()" />
+  </form>
+
+  @if (error()) {
+    <p class="builder-invite-accept__error" role="alert">{{ error() }}</p>
+  }
+  @if (message()) {
+    <p class="builder-invite-accept__message" role="status">{{ message() }}</p>
+  }
+</app-auth-form-card>

@@ -1,0 +1,14 @@
+<app-auth-form-card
+  title="Portal unavailable"
+  subtitle="Your account does not include access to this web workspace."
+>
+  <app-error-state
+    title="Builder and Platform access only"
+    [description]="message"
+    actionLabel="Back to home"
+    (action)="goToPublicHome()"
+  />
+  <div class="auth-portal-unavailable-actions">
+    <button type="button" class="auth-link-button" (click)="signOut()">Sign out</button>
+  </div>
+</app-auth-form-card>
