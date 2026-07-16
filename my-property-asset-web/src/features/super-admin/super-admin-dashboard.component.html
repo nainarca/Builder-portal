@@ -21,13 +21,13 @@
     </app-sa-dashboard-toolbar>
 
     <section class="sa-dashboard__kpi-row" aria-label="Key performance indicators">
-      @for (kpi of kpis; track kpi.id) {
+      @for (kpi of kpis(); track kpi.id) {
         <app-sa-kpi-card [item]="kpi" />
       }
     </section>
 
     <section class="sa-dashboard__trend-row" aria-label="Trend metrics">
-      @for (trend of trends; track trend.id) {
+      @for (trend of trends(); track trend.id) {
         <app-sa-trend-card [item]="trend" />
       }
     </section>
@@ -74,7 +74,7 @@
             }
             @case ('recent-activity') {
               <app-sa-recent-activity-widget
-                [items]="activities"
+                [items]="activities()"
                 [loading]="isLoading('recent-activity')"
                 (refresh)="onRefreshWidget('recent-activity')"
               />

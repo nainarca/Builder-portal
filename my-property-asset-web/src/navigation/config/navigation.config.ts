@@ -170,6 +170,16 @@ export const SUPER_ADMIN_NAVIGATION: NavigationConfiguration = createConfigurati
     },
   },
   {
+    id: 'sa-branding-oversight',
+    label: 'Branding Oversight',
+    route: '/super-admin/branding-oversight',
+    icon: 'pi pi-eye',
+    metadata: {
+      permissions: ['id-04-white-label-branding:full'],
+      analyticsName: 'sa_branding_oversight_nav',
+    },
+  },
+  {
     id: 'sa-platform',
     label: 'Platform Settings',
     route: '/super-admin/settings',
@@ -197,6 +207,26 @@ export const SUPER_ADMIN_NAVIGATION: NavigationConfiguration = createConfigurati
     metadata: {
       permissions: ['id-05-subscription-commercial:read'],
       analyticsName: 'sa_billing_nav',
+    },
+  },
+  {
+    id: 'sa-support',
+    label: 'Support',
+    route: '/super-admin/support',
+    icon: 'pi pi-headphones',
+    metadata: {
+      permissions: ['id-06-platform-operations:full'],
+      analyticsName: 'sa_support_nav',
+    },
+  },
+  {
+    id: 'sa-analytics',
+    label: 'Analytics',
+    route: '/super-admin/analytics',
+    icon: 'pi pi-chart-bar',
+    metadata: {
+      permissions: ['id-06-platform-operations:read'],
+      analyticsName: 'sa_analytics_nav',
     },
   },
 ]);

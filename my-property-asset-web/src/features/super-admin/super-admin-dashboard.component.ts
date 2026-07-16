@@ -4,15 +4,11 @@ import { Router } from '@angular/router';
 import { BasePageComponent } from '@shared/ui';
 
 import {
-  SUPER_ADMIN_DASHBOARD_ACTIVITIES,
   SUPER_ADMIN_DASHBOARD_ANNOUNCEMENTS,
   SUPER_ADMIN_DASHBOARD_FILTERS,
   SUPER_ADMIN_DASHBOARD_HEADER,
-  SUPER_ADMIN_DASHBOARD_KPIS,
   SUPER_ADMIN_DASHBOARD_QUICK_ACTIONS,
   SUPER_ADMIN_DASHBOARD_STATUSES,
-  SUPER_ADMIN_DASHBOARD_SUMMARIES,
-  SUPER_ADMIN_DASHBOARD_TRENDS,
   SUPER_ADMIN_DONUT_CHART,
   SUPER_ADMIN_ORG_CHART,
   SUPER_ADMIN_USAGE_CHART,
@@ -45,6 +41,9 @@ import {
 import { DashboardWidgetId } from './models/dashboard.model';
 import { DashboardPreferencesService } from './services/dashboard-preferences.service';
 import { WidgetLoaderService } from './services/widget-loader.service';
+import { PlatformMetricsService } from './platform/services/platform-metrics.service';
+import { PlatformAuditService } from './platform/services/platform-audit.service';
+import { SupportTicketService } from './platform/services/support-ticket.service';
 
 @Component({
   selector: 'app-super-admin-dashboard',
@@ -78,12 +77,12 @@ export class SuperAdminDashboardComponent {
   private readonly router = inject(Router);
   private readonly preferences = inject(DashboardPreferencesService);
   private readonly widgetLoader = inject(WidgetLoaderService);
+  private readonly metrics = inject(PlatformMetricsService);
+  private readonly audit = inject(PlatformAuditService);
+  private readonly support = inject(SupportTicketService);
 
   readonly header = SUPER_ADMIN_DASHBOARD_HEADER;
-  readonly kpis = SUPER_ADMIN_DASHBOARD_KPIS;
-  readonly trends = SUPER_ADMIN_DASHBOARD_TRENDS;
   readonly statuses = SUPER_ADMIN_DASHBOARD_STATUSES;
-  readonly activities = SUPER_ADMIN_DASHBOARD_ACTIVITIES;
   readonly announcements = SUPER_ADMIN_DASHBOARD_ANNOUNCEMENTS;
   readonly quickActions = SUPER_ADMIN_DASHBOARD_QUICK_ACTIONS;
   readonly filters = SUPER_ADMIN_DASHBOARD_FILTERS;
@@ -98,15 +97,112 @@ export class SuperAdminDashboardComponent {
   readonly pinnedActionIds = computed(() => this.preferences.preferences().pinnedActions);
   readonly favoriteActionIds = computed(() => this.preferences.preferences().favoriteActions);
 
-  readonly orgSummary = computed(
-    () => SUPER_ADMIN_DASHBOARD_SUMMARIES.find((item) => item.id === 'org-summary')!,
+  readonly metricsSnapshot = this.metrics.snapshot;
+
+  readonly kpis = computed(() => {
+    const m = this.metricsSnapshot();
+    return [
+      {
+        id: 'builders',
+        label: 'Total Builders',
+        value: String(m.totalBuilders),
+        hint: `${m.activeBuilders} active`,
+        icon: 'pi pi-building',
+        tone: 'primary' as const,
+        trend: 'up' as const,
+        trendLabel: `+${m.monthlyGrowthPercent}% growth signal`,
+      },
+      {
+        id: 'trial',
+        label: 'Trial Builders',
+        value: String(m.trialBuilders),
+        hint: `${m.expiredBuilders} expired / archived`,
+        icon: 'pi pi-clock',
+        tone: 'warning' as const,
+      },
+      {
+        id: 'projects',
+        label: 'Total Projects',
+        value: String(m.totalProjects),
+        hint: `${m.totalUnits} units`,
+        icon: 'pi pi-briefcase',
+        tone: 'info' as const,
+      },
+      {
+        id: 'health',
+        label: 'Platform Health',
+        value: m.platformHealth,
+        hint: `${m.storageUsageGb} GB storage`,
+        icon: 'pi pi-heart',
+        tone: m.platformHealth === 'healthy' ? ('success' as const) : ('warning' as const),
+      },
+    ];
+  });
+
+  readonly trends = computed(() => {
+    const m = this.metricsSnapshot();
+    return [
+      {
+        id: 'owners',
+        label: 'Active owners',
+        value: String(m.totalActiveOwners),
+        change: `+${m.monthlyGrowthPercent}%`,
+        trend: 'up' as const,
+        period: 'Portfolio',
+      },
+      {
+        id: 'handovers',
+        label: 'Digital handovers',
+        value: String(m.totalDigitalHandovers),
+        change: '+8%',
+        trend: 'up' as const,
+        period: 'Estimated',
+      },
+      {
+        id: 'support',
+        label: 'Support tickets',
+        value: String(m.openSupportTickets),
+        change: this.support.openCount() > 0 ? 'Open queue' : 'Clear',
+        trend: this.support.openCount() > 0 ? ('down' as const) : ('up' as const),
+        period: 'Support Center',
+      },
+    ];
+  });
+
+  readonly activities = computed(() =>
+    this.audit.list(8).map((event) => ({
+      id: event.id,
+      title: event.summary,
+      description: `${event.category} · ${event.action}`,
+      timestamp: new Date(event.createdAt).toLocaleString(),
+      icon: 'pi pi-history',
+      tone: 'info' as const,
+    })),
   );
-  readonly builderSummary = computed(
-    () => SUPER_ADMIN_DASHBOARD_SUMMARIES.find((item) => item.id === 'builder-summary')!,
-  );
-  readonly userSummary = computed(
-    () => SUPER_ADMIN_DASHBOARD_SUMMARIES.find((item) => item.id === 'user-summary')!,
-  );
+
+  readonly orgSummary = computed(() => ({
+    id: 'org-summary',
+    title: 'Active subscriptions',
+    value: String(this.metricsSnapshot().activeSubscriptions),
+    subtitle: `${this.metricsSnapshot().trialBuilders} on trial`,
+    icon: 'pi pi-credit-card',
+  }));
+
+  readonly builderSummary = computed(() => ({
+    id: 'builder-summary',
+    title: 'Builders',
+    value: String(this.metricsSnapshot().totalBuilders),
+    subtitle: `${this.metricsSnapshot().suspendedBuilders} suspended`,
+    icon: 'pi pi-building',
+  }));
+
+  readonly userSummary = computed(() => ({
+    id: 'user-summary',
+    title: 'Active owners',
+    value: String(this.metricsSnapshot().totalActiveOwners),
+    subtitle: `${this.metricsSnapshot().totalDigitalHandovers} handovers`,
+    icon: 'pi pi-users',
+  }));
 
   readonly lastRefreshedLabel = computed(() => {
     const timestamp = this.preferences.preferences().lastRefreshedAt;

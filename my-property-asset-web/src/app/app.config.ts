@@ -18,6 +18,7 @@ import { provideBuilderCommunications } from '@features/builder-portal/communica
 import { provideBuilderProjects } from '@features/builder-portal/projects/providers/project.providers';
 import { provideBuilderBuildings } from '@features/builder-portal/projects/buildings/providers/building.providers';
 import { provideBuilderSubscription } from '@features/builder-portal/subscription/providers/subscription.providers';
+import { provideSuperAdminPlatform } from '@features/super-admin/platform/providers/platform.providers';
 import { provideSeo } from '@infrastructure/seo';
 import { environment } from '../environments/environment';
 import { routes } from './app.routes';
@@ -46,6 +47,7 @@ export const appConfig: ApplicationConfig = {
     provideBuilderBranding(),
     provideBuilderCommunications(),
     provideBuilderSubscription(),
+    provideSuperAdminPlatform(),
     provideBuilderProjects(),
     provideBuilderBuildings(),
     provideNavigation(),

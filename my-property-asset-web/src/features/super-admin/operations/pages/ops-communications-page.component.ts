@@ -47,6 +47,12 @@ import { CommunicationService } from '@features/builder-portal/communications/se
                     [disabled]="item.disabledByPlatform"
                     (clicked)="disable(item.id)"
                   />
+                  <app-button
+                    label="Archive"
+                    [outlined]="true"
+                    [disabled]="item.status === 'archived'"
+                    (clicked)="archive(item.id)"
+                  />
                 </td>
               </tr>
             }
@@ -94,6 +100,13 @@ export class OpsCommunicationsPageComponent {
     const disabled = this.communicationService.disable(id);
     if (disabled) {
       this.toast.success('Communication disabled', 'Builder communication has been disabled.');
+    }
+  }
+
+  archive(id: string): void {
+    const archived = this.communicationService.archive(id);
+    if (archived) {
+      this.toast.info('Communication archived', 'Communication moved to archive.');
     }
   }
 }

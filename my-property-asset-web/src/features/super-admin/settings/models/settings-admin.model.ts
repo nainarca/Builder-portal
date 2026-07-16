@@ -39,6 +39,9 @@ export interface GeneralSettings {
   platformName: string;
   platformTagline: string;
   supportEmail: string;
+  supportPhone: string;
+  termsUrl: string;
+  privacyUrl: string;
   defaultLanguage: string;
   defaultTimezone: string;
   defaultCurrency: string;

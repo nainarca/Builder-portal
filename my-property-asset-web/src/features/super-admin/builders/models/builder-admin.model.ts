@@ -120,6 +120,10 @@ export interface BuilderListQuery {
   readonly statusFilter: BuilderAdminStatus | 'all';
   readonly regionFilter: string;
   readonly planFilter: string;
+  readonly dateFrom?: string;
+  readonly dateTo?: string;
+  readonly minProjects?: number | null;
+  readonly minUnits?: number | null;
   readonly sortField: string;
   readonly sortDirection: 'asc' | 'desc';
   readonly page: number;

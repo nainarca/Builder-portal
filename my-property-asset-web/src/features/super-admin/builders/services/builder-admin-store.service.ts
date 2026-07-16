@@ -57,6 +57,24 @@ export class BuilderAdminStoreService {
       items = items.filter((b) => b.plan === params.planFilter);
     }
 
+    if (params.dateFrom) {
+      const from = new Date(params.dateFrom).getTime();
+      items = items.filter((b) => new Date(b.createdAt).getTime() >= from);
+    }
+
+    if (params.dateTo) {
+      const to = new Date(params.dateTo).getTime();
+      items = items.filter((b) => new Date(b.createdAt).getTime() <= to);
+    }
+
+    if (params.minProjects != null) {
+      items = items.filter((b) => b.projectCount >= (params.minProjects ?? 0));
+    }
+
+    if (params.minUnits != null) {
+      items = items.filter((b) => b.unitCount >= (params.minUnits ?? 0));
+    }
+
     items.sort((a, b) => this.compare(a, b, params.sortField, params.sortDirection));
 
     const total = items.length;
@@ -106,6 +124,22 @@ export class BuilderAdminStoreService {
 
   deactivate(id: string): BuilderAdminRecord | undefined {
     return this.setStatus(id, 'inactive');
+  }
+
+  activate(id: string): BuilderAdminRecord | undefined {
+    return this.setStatus(id, 'active');
+  }
+
+  suspend(id: string): BuilderAdminRecord | undefined {
+    return this.setStatus(id, 'inactive');
+  }
+
+  reactivate(id: string): BuilderAdminRecord | undefined {
+    return this.setStatus(id, 'active');
+  }
+
+  softDelete(id: string): BuilderAdminRecord | undefined {
+    return this.setStatus(id, 'archived');
   }
 
   inviteBuilderOwner(id: string): { invitationId: string; token: string } | undefined {
