@@ -1,14 +1,13 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { SidebarPlaceholderComponent } from '../../components/sidebar-placeholder/sidebar-placeholder.component';
+import { EnterpriseSidebarComponent } from '../enterprise-sidebar/enterprise-sidebar.component';
 
 /**
- * P0.1 §1.2 Sidebar — primary top-level navigation region.
- * Wraps existing sidebar chrome only. Sidebar redesign is DS-02 — do not change structure here.
+ * P0.1 §1.2 Sidebar — DS-02 Enterprise Sidebar implementation.
  */
 @Component({
   selector: 'app-shell-sidebar',
-  imports: [SidebarPlaceholderComponent],
+  imports: [EnterpriseSidebarComponent],
   templateUrl: './shell-sidebar.component.html',
   styleUrl: './shell-sidebar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

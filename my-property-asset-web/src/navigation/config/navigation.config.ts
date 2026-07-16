@@ -1,4 +1,10 @@
-import { NavigationConfiguration, NavigationMetadata, NavigationSection } from '../models';
+import {
+  NavigationConfiguration,
+  NavigationGroup,
+  NavigationItem,
+  NavigationMetadata,
+  NavigationSection,
+} from '../models';
 
 const PUBLIC_SECTIONS = {
   trustedBy: 'trusted-by',
@@ -18,20 +24,30 @@ const emptySection = (id: string, ariaLabel: string): NavigationSection => ({
 const section = (
   id: string,
   ariaLabel: string,
-  items: NavigationSection['groups'][number]['items'],
+  items: readonly NavigationItem[],
 ): NavigationSection => ({
   id,
   ariaLabel,
   groups: [{ id: `${id}-primary`, items }],
 });
 
+const groupedSection = (
+  id: string,
+  ariaLabel: string,
+  groups: readonly NavigationGroup[],
+): NavigationSection => ({
+  id,
+  ariaLabel,
+  groups,
+});
+
 const createConfiguration = (
   context: NavigationConfiguration['context'],
-  sidebarItems: NavigationSection['groups'][number]['items'] = [],
+  sidebarGroups: readonly NavigationGroup[] = [],
 ): NavigationConfiguration => ({
   context,
   topNav: emptySection(`${context}-top`, 'Top navigation'),
-  sidebarNav: section(`${context}-sidebar`, 'Sidebar navigation', sidebarItems),
+  sidebarNav: groupedSection(`${context}-sidebar`, 'Sidebar navigation', sidebarGroups),
   contextNav: emptySection(`${context}-context`, 'Context navigation'),
   secondaryNav: emptySection(`${context}-secondary`, 'Secondary navigation'),
   footerNav: emptySection(`${context}-footer`, 'Footer navigation'),
@@ -118,224 +134,348 @@ export const PUBLIC_WEBSITE_NAVIGATION: NavigationConfiguration = {
 export const AUTHENTICATION_NAVIGATION: NavigationConfiguration =
   createConfiguration('authentication');
 
+/** DS-02 Super Admin sidebar — existing routes & permissions only. */
 export const SUPER_ADMIN_NAVIGATION: NavigationConfiguration = createConfiguration('super-admin', [
   {
-    id: 'sa-dashboard',
-    label: 'Dashboard',
-    route: '/super-admin',
-    icon: 'pi pi-chart-bar',
-    metadata: {
-      permissions: ['portal:super-admin', 'id-06-platform-operations:read'],
-      analyticsName: 'sa_dashboard_nav',
-    },
+    id: 'sa-group-overview',
+    label: 'Overview',
+    items: [
+      {
+        id: 'sa-dashboard',
+        label: 'Dashboard',
+        route: '/super-admin',
+        icon: 'pi pi-chart-bar',
+        metadata: {
+          permissions: ['portal:super-admin', 'id-06-platform-operations:read'],
+          analyticsName: 'sa_dashboard_nav',
+        },
+      },
+      {
+        id: 'sa-analytics',
+        label: 'Analytics',
+        route: '/super-admin/analytics',
+        icon: 'pi pi-chart-pie',
+        metadata: {
+          permissions: ['id-06-platform-operations:read'],
+          analyticsName: 'sa_analytics_nav',
+        },
+      },
+    ],
   },
   {
-    id: 'sa-organizations',
-    label: 'Organizations',
-    route: '/super-admin/organizations',
-    icon: 'pi pi-sitemap',
-    metadata: {
-      permissions: ['id-03-organization-tenancy:read'],
-      analyticsName: 'sa_organizations_nav',
-    },
+    id: 'sa-group-directory',
+    label: 'Directory',
+    items: [
+      {
+        id: 'sa-organizations',
+        label: 'Organizations',
+        route: '/super-admin/organizations',
+        icon: 'pi pi-sitemap',
+        metadata: {
+          permissions: ['id-03-organization-tenancy:read'],
+          analyticsName: 'sa_organizations_nav',
+        },
+      },
+      {
+        id: 'sa-builders',
+        label: 'Builders',
+        route: '/super-admin/builders',
+        icon: 'pi pi-building',
+        metadata: {
+          permissions: ['id-02-builder-onboarding:read'],
+          analyticsName: 'sa_builders_nav',
+        },
+      },
+      {
+        id: 'sa-iam',
+        label: 'Identity & Access',
+        route: '/super-admin/iam/users',
+        icon: 'pi pi-users',
+        metadata: {
+          permissions: ['id-14-user-identity-access:read'],
+          analyticsName: 'sa_iam_nav',
+        },
+      },
+    ],
   },
   {
-    id: 'sa-builders',
-    label: 'Builders',
-    route: '/super-admin/builders',
-    icon: 'pi pi-building',
-    metadata: {
-      permissions: ['id-02-builder-onboarding:read'],
-      analyticsName: 'sa_builders_nav',
-    },
-  },
-  {
-    id: 'sa-iam',
-    label: 'Identity & Access',
-    route: '/super-admin/iam/users',
-    icon: 'pi pi-users',
-    metadata: {
-      permissions: ['id-14-user-identity-access:read'],
-      analyticsName: 'sa_iam_nav',
-    },
-  },
-  {
-    id: 'sa-branding',
+    id: 'sa-group-branding',
     label: 'Branding',
-    route: '/super-admin/branding',
-    icon: 'pi pi-palette',
-    metadata: {
-      permissions: ['id-04-white-label-branding:read'],
-      analyticsName: 'sa_branding_nav',
-    },
+    items: [
+      {
+        id: 'sa-branding',
+        label: 'Branding',
+        route: '/super-admin/branding',
+        icon: 'pi pi-palette',
+        metadata: {
+          permissions: ['id-04-white-label-branding:read'],
+          analyticsName: 'sa_branding_nav',
+        },
+      },
+      {
+        id: 'sa-branding-oversight',
+        label: 'Branding Oversight',
+        route: '/super-admin/branding-oversight',
+        icon: 'pi pi-eye',
+        metadata: {
+          permissions: ['id-04-white-label-branding:full'],
+          analyticsName: 'sa_branding_oversight_nav',
+        },
+      },
+    ],
   },
   {
-    id: 'sa-branding-oversight',
-    label: 'Branding Oversight',
-    route: '/super-admin/branding-oversight',
-    icon: 'pi pi-eye',
-    metadata: {
-      permissions: ['id-04-white-label-branding:full'],
-      analyticsName: 'sa_branding_oversight_nav',
-    },
-  },
-  {
-    id: 'sa-platform',
-    label: 'Platform Settings',
-    route: '/super-admin/settings',
-    icon: 'pi pi-cog',
-    metadata: {
-      permissions: ['id-06-platform-operations:read'],
-      analyticsName: 'sa_settings_nav',
-    },
-  },
-  {
-    id: 'sa-operations',
-    label: 'Operations',
-    route: '/super-admin/operations',
-    icon: 'pi pi-chart-line',
-    metadata: {
-      permissions: ['id-06-platform-operations:read'],
-      analyticsName: 'sa_operations_nav',
-    },
-  },
-  {
-    id: 'sa-billing',
-    label: 'Billing',
-    route: '/super-admin/billing',
-    icon: 'pi pi-wallet',
-    metadata: {
-      permissions: ['id-05-subscription-commercial:read'],
-      analyticsName: 'sa_billing_nav',
-    },
-  },
-  {
-    id: 'sa-support',
-    label: 'Support',
-    route: '/super-admin/support',
-    icon: 'pi pi-headphones',
-    metadata: {
-      permissions: ['id-06-platform-operations:full'],
-      analyticsName: 'sa_support_nav',
-    },
-  },
-  {
-    id: 'sa-analytics',
-    label: 'Analytics',
-    route: '/super-admin/analytics',
-    icon: 'pi pi-chart-bar',
-    metadata: {
-      permissions: ['id-06-platform-operations:read'],
-      analyticsName: 'sa_analytics_nav',
-    },
+    id: 'sa-group-platform',
+    label: 'Platform',
+    items: [
+      {
+        id: 'sa-platform',
+        label: 'Platform Settings',
+        route: '/super-admin/settings',
+        icon: 'pi pi-cog',
+        metadata: {
+          permissions: ['id-06-platform-operations:read'],
+          analyticsName: 'sa_settings_nav',
+        },
+      },
+      {
+        id: 'sa-operations',
+        label: 'Operations',
+        route: '/super-admin/operations',
+        icon: 'pi pi-chart-line',
+        metadata: {
+          permissions: ['id-06-platform-operations:read'],
+          analyticsName: 'sa_operations_nav',
+        },
+      },
+      {
+        id: 'sa-billing',
+        label: 'Billing',
+        route: '/super-admin/billing',
+        icon: 'pi pi-wallet',
+        metadata: {
+          permissions: ['id-05-subscription-commercial:read'],
+          analyticsName: 'sa_billing_nav',
+        },
+      },
+      {
+        id: 'sa-support',
+        label: 'Support',
+        route: '/super-admin/support',
+        icon: 'pi pi-headphones',
+        metadata: {
+          permissions: ['id-06-platform-operations:full'],
+          analyticsName: 'sa_support_nav',
+        },
+      },
+    ],
   },
 ]);
 
+/** DS-02 Builder Portal sidebar — existing routes & permissions only. */
 export const BUILDER_PORTAL_NAVIGATION: NavigationConfiguration = createConfiguration(
   'builder-portal',
   [
     {
-      id: 'ba-dashboard',
-      label: 'Dashboard',
-      route: '/builder-portal',
-      icon: 'pi pi-chart-line',
-      metadata: {
-        permissions: ['portal:builder-portal'],
-        analyticsName: 'ba_dashboard_nav',
-      },
+      id: 'ba-group-overview',
+      label: 'Overview',
+      items: [
+        {
+          id: 'ba-dashboard',
+          label: 'Dashboard',
+          route: '/builder-portal',
+          icon: 'pi pi-chart-line',
+          metadata: {
+            permissions: ['portal:builder-portal'],
+            analyticsName: 'ba_dashboard_nav',
+          },
+        },
+      ],
     },
     {
-      id: 'ba-company',
-      label: 'Company',
-      route: '/builder-portal/company',
-      icon: 'pi pi-building',
-      metadata: {
-        permissions: ['portal:builder-portal', 'id-03-organization-tenancy:read'],
-        analyticsName: 'ba_company_nav',
-      },
+      id: 'ba-group-portfolio',
+      label: 'Portfolio',
+      items: [
+        {
+          id: 'ba-projects',
+          label: 'Projects',
+          route: '/builder-portal/projects',
+          icon: 'pi pi-briefcase',
+          metadata: {
+            permissions: ['id-07-project-unit:read'],
+            analyticsName: 'ba_projects_nav',
+          },
+          children: [
+            {
+              id: 'ba-buildings',
+              label: 'Buildings',
+              route: '/builder-portal/projects',
+              icon: 'pi pi-building',
+              metadata: {
+                permissions: ['id-07-project-unit:read'],
+                analyticsName: 'ba_buildings_nav',
+                activeMatch: '/buildings',
+                description: 'Open a project to manage buildings',
+              },
+            },
+            {
+              id: 'ba-units',
+              label: 'Units',
+              route: '/builder-portal/projects',
+              icon: 'pi pi-th-large',
+              metadata: {
+                permissions: ['id-07-project-unit:read'],
+                analyticsName: 'ba_units_nav',
+                activeMatch: '/units',
+                description: 'Open a project to manage units',
+              },
+            },
+          ],
+        },
+        {
+          id: 'ba-owners',
+          label: 'Owners',
+          route: '/builder-portal/owners',
+          icon: 'pi pi-users',
+          metadata: {
+            permissions: ['id-08-owner-assignment-prospect:read'],
+            analyticsName: 'ba_owners_nav',
+          },
+        },
+      ],
     },
     {
-      id: 'ba-branding',
-      label: 'Branding',
-      route: '/builder-portal/branding',
-      icon: 'pi pi-palette',
-      metadata: {
-        permissions: ['id-04-white-label-branding:read'],
-        analyticsName: 'ba_branding_nav',
-      },
+      id: 'ba-group-handover',
+      label: 'Handover',
+      items: [
+        {
+          id: 'ba-invitations',
+          label: 'Invitations',
+          route: '/builder-portal/invitation',
+          icon: 'pi pi-send',
+          metadata: {
+            permissions: ['portal:builder-portal', 'id-03-organization-tenancy:read'],
+            analyticsName: 'ba_invitations_nav',
+          },
+        },
+        {
+          id: 'ba-handovers',
+          label: 'Digital Handover',
+          route: '/builder-portal/handovers',
+          icon: 'pi pi-flag',
+          metadata: {
+            permissions: ['id-09-handover-document:read'],
+            analyticsName: 'ba_handovers_nav',
+          },
+        },
+        {
+          id: 'ba-documents',
+          label: 'Documents',
+          route: '/builder-portal/documents',
+          icon: 'pi pi-file',
+          metadata: {
+            permissions: ['id-09-handover-document:read'],
+            analyticsName: 'ba_documents_nav',
+          },
+        },
+      ],
     },
     {
-      id: 'ba-projects',
-      label: 'Projects',
-      route: '/builder-portal/projects',
-      icon: 'pi pi-briefcase',
+      id: 'ba-group-workspace',
+      label: 'Workspace',
+      items: [
+        {
+          id: 'ba-branding',
+          label: 'Branding',
+          route: '/builder-portal/branding',
+          icon: 'pi pi-palette',
+          metadata: {
+            permissions: ['id-04-white-label-branding:read'],
+            analyticsName: 'ba_branding_nav',
+          },
+        },
+        {
+          id: 'ba-team',
+          label: 'Team',
+          route: '/builder-portal/company',
+          icon: 'pi pi-id-card',
+          metadata: {
+            permissions: ['portal:builder-portal', 'id-03-organization-tenancy:read'],
+            analyticsName: 'ba_team_nav',
+          },
+        },
+        {
+          id: 'ba-billing',
+          label: 'Billing',
+          route: '/builder-portal/subscription',
+          icon: 'pi pi-credit-card',
+          metadata: {
+            permissions: ['id-05-subscription-commercial:read'],
+            analyticsName: 'ba_billing_nav',
+          },
+        },
+        {
+          id: 'ba-reports',
+          label: 'Reports',
+          icon: 'pi pi-chart-bar',
+          metadata: {
+            permissions: ['portal:builder-portal'],
+            analyticsName: 'ba_reports_nav',
+            description: 'Reports surface — route reserved for a future delivery',
+          },
+        },
+        {
+          id: 'ba-settings',
+          label: 'Settings',
+          route: '/builder-portal/settings',
+          icon: 'pi pi-sliders-h',
+          metadata: {
+            permissions: ['id-03-organization-tenancy:operate'],
+            analyticsName: 'ba_settings_nav',
+          },
+        },
+      ],
+    },
+  ],
+);
+
+/**
+ * Context-aware menus (workspace header) — portal-scoped secondary destinations.
+ * Record-level siblings stay empty until a detail context provider lands.
+ */
+export const SUPER_ADMIN_NAVIGATION_WITH_CONTEXT: NavigationConfiguration = {
+  ...SUPER_ADMIN_NAVIGATION,
+  contextNav: emptySection('super-admin-context', 'Context navigation'),
+  secondaryNav: section('super-admin-secondary', 'Secondary navigation', [
+    {
+      id: 'sa-ctx-support',
+      label: 'Support',
+      route: '/super-admin/support',
+      icon: 'pi pi-headphones',
       metadata: {
-        permissions: ['id-07-project-unit:read'],
-        analyticsName: 'ba_projects_nav',
+        permissions: ['id-06-platform-operations:full'],
+        analyticsName: 'sa_secondary_support',
       },
     },
+  ]),
+};
+
+export const BUILDER_PORTAL_NAVIGATION_WITH_CONTEXT: NavigationConfiguration = {
+  ...BUILDER_PORTAL_NAVIGATION,
+  contextNav: emptySection('builder-portal-context', 'Context navigation'),
+  secondaryNav: section('builder-portal-secondary', 'Secondary navigation', [
     {
-      id: 'ba-owners',
-      label: 'Owners',
-      route: '/builder-portal/owners',
-      icon: 'pi pi-users',
-      metadata: {
-        permissions: ['id-08-owner-assignment-prospect:read'],
-        analyticsName: 'ba_owners_nav',
-      },
-    },
-    {
-      id: 'ba-documents',
-      label: 'Documents',
-      route: '/builder-portal/documents',
-      icon: 'pi pi-file',
-      metadata: {
-        permissions: ['id-09-handover-document:read'],
-        analyticsName: 'ba_documents_nav',
-      },
-    },
-    {
-      id: 'ba-handovers',
-      label: 'Handovers',
-      route: '/builder-portal/handovers',
-      icon: 'pi pi-flag',
-      metadata: {
-        permissions: ['id-09-handover-document:read'],
-        analyticsName: 'ba_handovers_nav',
-      },
-    },
-    {
-      id: 'ba-communications',
+      id: 'ba-ctx-communications',
       label: 'Communications',
       route: '/builder-portal/communications',
       icon: 'pi pi-megaphone',
       metadata: {
         permissions: ['id-11-notification:read'],
-        analyticsName: 'ba_communications_nav',
+        analyticsName: 'ba_secondary_communications',
       },
     },
-    {
-      id: 'ba-subscription',
-      label: 'Subscription',
-      route: '/builder-portal/subscription',
-      icon: 'pi pi-credit-card',
-      metadata: {
-        permissions: ['id-05-subscription-commercial:read'],
-        analyticsName: 'ba_subscription_nav',
-      },
-    },
-    {
-      id: 'ba-settings',
-      label: 'Settings',
-      route: '/builder-portal/settings',
-      icon: 'pi pi-sliders-h',
-      metadata: {
-        permissions: ['id-03-organization-tenancy:operate'],
-        analyticsName: 'ba_settings_nav',
-      },
-    },
-  ],
-);
+  ]),
+};
 
 export const TENANT_PORTAL_NAVIGATION: NavigationConfiguration =
   createConfiguration('tenant-portal');
@@ -348,8 +488,8 @@ export const BLANK_NAVIGATION: NavigationConfiguration = createConfiguration('bl
 export const NAVIGATION_CONFIGURATIONS: readonly NavigationConfiguration[] = [
   PUBLIC_WEBSITE_NAVIGATION,
   AUTHENTICATION_NAVIGATION,
-  SUPER_ADMIN_NAVIGATION,
-  BUILDER_PORTAL_NAVIGATION,
+  SUPER_ADMIN_NAVIGATION_WITH_CONTEXT,
+  BUILDER_PORTAL_NAVIGATION_WITH_CONTEXT,
   TENANT_PORTAL_NAVIGATION,
   PARTNER_PORTAL_NAVIGATION,
   BLANK_NAVIGATION,

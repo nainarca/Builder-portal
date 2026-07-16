@@ -17,4 +17,8 @@ export class ContextNavigationComponent {
   readonly section = input<NavigationSection | undefined>(undefined);
 
   readonly resolvedSection = computed(() => this.section() ?? this.navigationService.contextNav());
+
+  readonly hasItems = computed(() =>
+    (this.resolvedSection()?.groups ?? []).some((group) => group.items.length > 0),
+  );
 }

@@ -1,0 +1,73 @@
+<aside
+  class="enterprise-sidebar layout-surface"
+  [class.enterprise-sidebar--collapsed-rail]="iconRail()"
+  [class.enterprise-sidebar--hover-expanded]="hoverExpanded() && pinnedCollapsed()"
+  [class.enterprise-sidebar--expanded]="visuallyExpanded()"
+  role="navigation"
+  [attr.aria-label]="ariaLabel()"
+  [attr.aria-expanded]="visuallyExpanded()"
+>
+  <div class="enterprise-sidebar__inner">
+    <div class="enterprise-sidebar__chrome">
+      <app-sidebar-workspace-indicator
+        [brand]="brand()"
+        [compact]="iconRail()"
+        [organizationName]="organizationName()"
+      />
+
+      <button
+        type="button"
+        class="enterprise-sidebar__collapse-button mpa-focus-visible"
+        [attr.aria-label]="pinnedCollapsed() ? 'Expand sidebar' : 'Collapse sidebar'"
+        [attr.aria-pressed]="pinnedCollapsed()"
+        [attr.aria-expanded]="!pinnedCollapsed()"
+        (click)="toggleSidebar(); $event.stopPropagation()"
+      >
+        <i
+          class="pi"
+          [class.pi-angle-left]="!pinnedCollapsed()"
+          [class.pi-angle-right]="pinnedCollapsed()"
+          aria-hidden="true"
+        ></i>
+      </button>
+    </div>
+
+    @if (showNavigation()) {
+      <div class="enterprise-sidebar__nav layout-scrollable">
+        <app-sidebar-navigation [compact]="iconRail()" />
+
+        <div
+          class="enterprise-sidebar__section"
+          [class.enterprise-sidebar__section--hidden]="iconRail()"
+        >
+          <app-favorites-navigation />
+        </div>
+
+        <div
+          class="enterprise-sidebar__section"
+          [class.enterprise-sidebar__section--hidden]="iconRail()"
+        >
+          <app-recent-items-navigation />
+        </div>
+      </div>
+    }
+
+    <div class="enterprise-sidebar__spacer"></div>
+
+    @if (showProfile() && userEmail()) {
+      <div
+        class="enterprise-sidebar__profile"
+        [class.enterprise-sidebar__profile--compact]="iconRail()"
+        [attr.title]="iconRail() ? userEmail() : null"
+      >
+        <span class="enterprise-sidebar__profile-avatar" aria-hidden="true">{{ userInitial() }}</span>
+        @if (!iconRail()) {
+          <div class="enterprise-sidebar__profile-info">
+            <span class="enterprise-sidebar__profile-email">{{ userEmail() }}</span>
+            <span class="enterprise-sidebar__profile-org">{{ organizationName() }}</span>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</aside>

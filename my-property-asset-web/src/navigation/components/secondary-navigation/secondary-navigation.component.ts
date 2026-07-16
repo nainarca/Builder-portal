@@ -19,4 +19,8 @@ export class SecondaryNavigationComponent {
   readonly resolvedSection = computed(
     () => this.section() ?? this.navigationService.secondaryNav(),
   );
+
+  readonly hasItems = computed(() =>
+    (this.resolvedSection()?.groups ?? []).some((group) => group.items.length > 0),
+  );
 }

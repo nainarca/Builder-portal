@@ -1,3 +1,22 @@
 :host {
   display: block;
 }
+
+.sidebar-placeholder-zone__label {
+  margin: 0 0 var(--mpa-spacing-sm);
+  padding: 0 var(--mpa-spacing-sm);
+  font-size: var(--mpa-font-size-xs);
+  font-weight: var(--mpa-font-weight-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--mpa-color-text-muted);
+}
+
+.sidebar-placeholder-zone__hint {
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  font-size: var(--mpa-font-size-xs);
+  color: var(--mpa-color-text-muted);
+  border-radius: var(--mpa-radius-md);
+  background: color-mix(in srgb, var(--mpa-color-surface-muted) 70%, transparent);
+}

@@ -10,6 +10,12 @@ export interface NavigationItemMetadata {
   featureFlag?: string;
   permissions?: string[];
   visible?: boolean;
+  /**
+   * Optional substring / path fragment used for active highlighting when the
+   * navigable `route` is only an entry point (e.g. Buildings under Projects).
+   * Does not change routing — presentation only (DS-02).
+   */
+  activeMatch?: string;
 }
 
 export interface NavigationItem {

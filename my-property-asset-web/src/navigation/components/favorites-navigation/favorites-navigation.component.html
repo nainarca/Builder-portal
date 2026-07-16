@@ -1,1 +1,14 @@
-<app-nav-list [section]="section()" orientation="vertical" ariaLabel="Favorites" zone="favorites" />
+<section class="sidebar-placeholder-zone" aria-labelledby="sidebar-favorites-heading">
+  <p class="sidebar-placeholder-zone__label" id="sidebar-favorites-heading">Favorites</p>
+  @if (isEmpty()) {
+    <p class="sidebar-placeholder-zone__hint">Pin pages for quick access</p>
+  } @else {
+    <app-nav-list
+      [section]="section()"
+      orientation="vertical"
+      ariaLabel="Favorites"
+      zone="favorites"
+      [allowNesting]="false"
+    />
+  }
+</section>

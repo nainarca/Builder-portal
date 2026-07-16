@@ -1,0 +1,14 @@
+<div
+  class="sidebar-workspace-indicator__inner"
+  role="group"
+  [attr.aria-label]="'Workspace: ' + displayName()"
+  [attr.title]="compact() ? displayName() : null"
+>
+  <span class="sidebar-workspace-indicator__mark" aria-hidden="true">{{ initial() }}</span>
+  @if (!compact()) {
+    <div class="sidebar-workspace-indicator__text">
+      <span class="sidebar-workspace-indicator__eyebrow">Workspace</span>
+      <span class="sidebar-workspace-indicator__name">{{ displayName() }}</span>
+    </div>
+  }
+</div>

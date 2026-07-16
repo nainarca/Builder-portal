@@ -1,39 +1,109 @@
 @if (section(); as navSection) {
   <nav class="nav-list" [attr.aria-label]="navSection.ariaLabel ?? ariaLabel()">
     @for (group of navSection.groups; track group.id) {
-      @if (group.label) {
+      @if (group.label && !compact()) {
         <p class="nav-list__group-label" id="nav-group-{{ group.id }}">{{ group.label }}</p>
       }
       <ul
         class="nav-list__items"
         [class.nav-list__items--horizontal]="orientation() === 'horizontal'"
-        [attr.aria-labelledby]="group.label ? 'nav-group-' + group.id : null"
+        [attr.aria-labelledby]="group.label && !compact() ? 'nav-group-' + group.id : null"
         role="list"
       >
         @for (item of visibleItems(group.items); track item.id) {
-          <li class="nav-list__item" role="listitem">
-            @if (routeCommands(item); as commands) {
-              <a
-                class="nav-list__link"
-                [routerLink]="commands"
-                [fragment]="item.metadata?.fragment"
-                routerLinkActive="nav-list__link--active"
-                [routerLinkActiveOptions]="{ exact: item.route === '/' && !item.metadata?.fragment }"
-                [attr.aria-current]="isActive(item) ? 'page' : null"
-                (click)="onItemClick(item)"
+          <li
+            class="nav-list__item"
+            [class.nav-list__item--has-children]="allowNesting() && !!item.children?.length"
+            role="listitem"
+          >
+            <div class="nav-list__row">
+              @if (routeCommands(item); as commands) {
+                <a
+                  class="nav-list__link"
+                  [class.nav-list__link--active]="isActive(item)"
+                  [routerLink]="commands"
+                  [fragment]="item.metadata?.fragment"
+                  routerLinkActive="nav-list__link--active"
+                  [routerLinkActiveOptions]="{ exact: item.route === '/' && !item.metadata?.fragment }"
+                  [attr.aria-current]="isActive(item) ? 'page' : null"
+                  [attr.title]="compact() ? item.label : item.metadata?.description || null"
+                  (click)="onItemClick(item)"
+                >
+                  @if (item.icon) {
+                    <i [class]="item.icon" aria-hidden="true"></i>
+                  }
+                  <span class="nav-list__label">{{ item.label }}</span>
+                </a>
+              } @else {
+                <span
+                  class="nav-list__link nav-list__link--static"
+                  [class.nav-list__link--active]="isActive(item)"
+                  [attr.title]="compact() ? item.label : item.metadata?.description || null"
+                >
+                  @if (item.icon) {
+                    <i [class]="item.icon" aria-hidden="true"></i>
+                  }
+                  <span class="nav-list__label">{{ item.label }}</span>
+                </span>
+              }
+
+              @if (allowNesting() && item.children?.length && !compact()) {
+                <button
+                  type="button"
+                  class="nav-list__expand mpa-focus-visible"
+                  [attr.aria-expanded]="isExpanded(item)"
+                  [attr.aria-controls]="'nav-children-' + item.id"
+                  [attr.aria-label]="'Toggle ' + item.label + ' submenu'"
+                  (click)="toggleExpanded(item, $event)"
+                >
+                  <i
+                    class="pi"
+                    [class.pi-chevron-down]="isExpanded(item)"
+                    [class.pi-chevron-right]="!isExpanded(item)"
+                    aria-hidden="true"
+                  ></i>
+                </button>
+              }
+            </div>
+
+            @if (allowNesting() && item.children?.length && isExpanded(item) && !compact()) {
+              <ul
+                class="nav-list__children"
+                role="list"
+                [id]="'nav-children-' + item.id"
               >
-                @if (item.icon) {
-                  <i [class]="item.icon" aria-hidden="true"></i>
+                @for (child of visibleItems(item.children ?? []); track child.id) {
+                  <li class="nav-list__item nav-list__item--child" role="listitem">
+                    @if (routeCommands(child); as childCommands) {
+                      <a
+                        class="nav-list__link nav-list__link--child"
+                        [class.nav-list__link--active]="isActive(child)"
+                        [routerLink]="childCommands"
+                        [fragment]="child.metadata?.fragment"
+                        [attr.aria-current]="isActive(child) ? 'page' : null"
+                        [attr.title]="child.metadata?.description || null"
+                        (click)="onItemClick(child)"
+                      >
+                        @if (child.icon) {
+                          <i [class]="child.icon" aria-hidden="true"></i>
+                        }
+                        <span class="nav-list__label">{{ child.label }}</span>
+                      </a>
+                    } @else {
+                      <span
+                        class="nav-list__link nav-list__link--child nav-list__link--static"
+                        [class.nav-list__link--active]="isActive(child)"
+                        [attr.title]="child.metadata?.description || child.label"
+                      >
+                        @if (child.icon) {
+                          <i [class]="child.icon" aria-hidden="true"></i>
+                        }
+                        <span class="nav-list__label">{{ child.label }}</span>
+                      </span>
+                    }
+                  </li>
                 }
-                <span>{{ item.label }}</span>
-              </a>
-            } @else {
-              <span class="nav-list__link nav-list__link--static">
-                @if (item.icon) {
-                  <i [class]="item.icon" aria-hidden="true"></i>
-                }
-                <span>{{ item.label }}</span>
-              </span>
+              </ul>
             }
           </li>
         }

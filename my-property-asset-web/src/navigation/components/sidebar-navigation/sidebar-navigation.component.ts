@@ -15,6 +15,7 @@ export class SidebarNavigationComponent {
   private readonly navigationService = inject(NavigationService);
 
   readonly section = input<NavigationSection | undefined>(undefined);
+  readonly compact = input(false);
 
   readonly resolvedSection = computed(() => this.section() ?? this.navigationService.sidebarNav());
 }

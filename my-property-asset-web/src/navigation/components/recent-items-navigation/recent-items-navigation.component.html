@@ -1,6 +1,14 @@
-<app-nav-list
-  [section]="section()"
-  orientation="vertical"
-  ariaLabel="Recent items"
-  zone="recentItems"
-/>
+<section class="sidebar-placeholder-zone" aria-labelledby="sidebar-recent-heading">
+  <p class="sidebar-placeholder-zone__label" id="sidebar-recent-heading">Recent</p>
+  @if (isEmpty()) {
+    <p class="sidebar-placeholder-zone__hint">Recently visited pages appear here</p>
+  } @else {
+    <app-nav-list
+      [section]="section()"
+      orientation="vertical"
+      ariaLabel="Recent items"
+      zone="recentItems"
+      [allowNesting]="false"
+    />
+  }
+</section>
