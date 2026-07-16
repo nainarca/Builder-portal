@@ -297,6 +297,15 @@ export const BUILDER_DASHBOARD_QUICK_ACTIONS: readonly DashboardQuickActionItem[
     permission: 'id-11-notification:contribute',
     favorite: true,
   },
+  {
+    id: 'qa7',
+    label: 'Manage subscription',
+    description: 'Plan, usage, renew, upgrade',
+    icon: 'pi pi-credit-card',
+    route: '/builder-portal/subscription',
+    permission: 'id-05-subscription-commercial:read',
+    pinned: true,
+  },
 ];
 
 export const BUILDER_DASHBOARD_FILTERS: readonly DashboardFilterOption[] = [

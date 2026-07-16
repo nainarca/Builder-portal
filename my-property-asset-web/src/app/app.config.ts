@@ -17,6 +17,7 @@ import { provideBuilderBranding } from '@features/builder-portal/branding/provid
 import { provideBuilderCommunications } from '@features/builder-portal/communications/providers/communications.providers';
 import { provideBuilderProjects } from '@features/builder-portal/projects/providers/project.providers';
 import { provideBuilderBuildings } from '@features/builder-portal/projects/buildings/providers/building.providers';
+import { provideBuilderSubscription } from '@features/builder-portal/subscription/providers/subscription.providers';
 import { provideSeo } from '@infrastructure/seo';
 import { environment } from '../environments/environment';
 import { routes } from './app.routes';
@@ -44,6 +45,7 @@ export const appConfig: ApplicationConfig = {
     provideAuthorization(),
     provideBuilderBranding(),
     provideBuilderCommunications(),
+    provideBuilderSubscription(),
     provideBuilderProjects(),
     provideBuilderBuildings(),
     provideNavigation(),

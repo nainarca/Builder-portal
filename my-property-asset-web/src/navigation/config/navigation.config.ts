@@ -189,6 +189,16 @@ export const SUPER_ADMIN_NAVIGATION: NavigationConfiguration = createConfigurati
       analyticsName: 'sa_operations_nav',
     },
   },
+  {
+    id: 'sa-billing',
+    label: 'Billing',
+    route: '/super-admin/billing',
+    icon: 'pi pi-wallet',
+    metadata: {
+      permissions: ['id-05-subscription-commercial:read'],
+      analyticsName: 'sa_billing_nav',
+    },
+  },
 ]);
 
 export const BUILDER_PORTAL_NAVIGATION: NavigationConfiguration = createConfiguration(
@@ -272,6 +282,16 @@ export const BUILDER_PORTAL_NAVIGATION: NavigationConfiguration = createConfigur
       metadata: {
         permissions: ['id-11-notification:read'],
         analyticsName: 'ba_communications_nav',
+      },
+    },
+    {
+      id: 'ba-subscription',
+      label: 'Subscription',
+      route: '/builder-portal/subscription',
+      icon: 'pi pi-credit-card',
+      metadata: {
+        permissions: ['id-05-subscription-commercial:read'],
+        analyticsName: 'ba_subscription_nav',
       },
     },
     {

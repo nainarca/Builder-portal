@@ -8,6 +8,7 @@ import { BasePageComponent, ButtonComponent, PageHeaderComponent, UiToastService
 import { UnitFormComponent } from '../components/form/unit-form.component';
 import { UnitFormModel } from '../models/unit.model';
 import { UnitStoreService } from '../services/unit-store.service';
+import { PlanEnforcementService } from '../../../subscription/services/plan-enforcement.service';
 
 @Component({
   selector: 'app-unit-create-page',
@@ -45,6 +46,7 @@ export class UnitCreatePageComponent {
   private readonly router = inject(Router);
   private readonly store = inject(UnitStoreService);
   private readonly toast = inject(UiToastService);
+  private readonly enforcement = inject(PlanEnforcementService);
   private readonly form = viewChild(UnitFormComponent);
 
   readonly projectId = toSignal(
@@ -62,6 +64,12 @@ export class UnitCreatePageComponent {
   }
 
   onSubmit(model: UnitFormModel): void {
+    const check = this.enforcement.check('create_unit');
+    if (!check.allowed) {
+      this.toast.warn('Upgrade required', check.reason ?? 'Plan limit reached.');
+      void this.router.navigate(['/builder-portal/subscription/plans']);
+      return;
+    }
     this.saving = true;
     const created = this.store.create(this.projectId(), model);
     this.saving = false;

@@ -1026,6 +1026,83 @@ export const BUILDER_PORTAL_COMMUNICATION_EDIT_METADATA: RouteMetadata = {
   analyticsName: 'builder_portal_communication_edit',
 };
 
+export const BUILDER_PORTAL_SUBSCRIPTION_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_METADATA,
+  title: 'Subscription',
+  icon: 'pi pi-credit-card',
+  description: 'Plan limits, usage, renewals, invoices, and upgrades',
+  breadcrumb: 'Subscription',
+  permissions: ['portal:builder-portal', 'id-05-subscription-commercial:read'],
+  analyticsName: 'builder_portal_subscription',
+};
+
+export const BUILDER_PORTAL_SUBSCRIPTION_PLANS_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_SUBSCRIPTION_METADATA,
+  title: 'Plans',
+  breadcrumb: 'Plans',
+  permissions: ['portal:builder-portal', 'id-05-subscription-commercial:operate'],
+  analyticsName: 'builder_portal_subscription_plans',
+};
+
+export const BUILDER_PORTAL_SUBSCRIPTION_INVOICES_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_SUBSCRIPTION_METADATA,
+  title: 'Invoices',
+  breadcrumb: 'Invoices',
+  analyticsName: 'builder_portal_subscription_invoices',
+};
+
+export const SUPER_ADMIN_BILLING_METADATA: RouteMetadata = {
+  title: 'Billing',
+  icon: 'pi pi-wallet',
+  description: 'Subscription plans, builder billing, invoices, and commercial alerts',
+  breadcrumb: 'Billing',
+  permissions: ['id-05-subscription-commercial:read'],
+  analyticsName: 'super_admin_billing',
+};
+
+export const SUPER_ADMIN_BILLING_PLANS_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_BILLING_METADATA,
+  title: 'Plans',
+  breadcrumb: 'Plans',
+  permissions: ['id-05-subscription-commercial:full'],
+  analyticsName: 'super_admin_billing_plans',
+};
+
+export const SUPER_ADMIN_BILLING_INVOICES_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_BILLING_METADATA,
+  title: 'Invoices',
+  breadcrumb: 'Invoices',
+  analyticsName: 'super_admin_billing_invoices',
+};
+
+export const SUPER_ADMIN_BILLING_INVOICE_DETAIL_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_BILLING_INVOICES_METADATA,
+  title: 'Invoice detail',
+  breadcrumb: 'Detail',
+  analyticsName: 'super_admin_billing_invoice_detail',
+};
+
+export const SUPER_ADMIN_BILLING_LICENSES_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_BILLING_METADATA,
+  title: 'Licenses',
+  breadcrumb: 'Licenses',
+  analyticsName: 'super_admin_billing_licenses',
+};
+
+export const SUPER_ADMIN_BILLING_USAGE_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_BILLING_METADATA,
+  title: 'Usage',
+  breadcrumb: 'Usage',
+  analyticsName: 'super_admin_billing_usage',
+};
+
+export const SUPER_ADMIN_BILLING_ALERTS_METADATA: RouteMetadata = {
+  ...SUPER_ADMIN_BILLING_METADATA,
+  title: 'Alerts',
+  breadcrumb: 'Alerts',
+  analyticsName: 'super_admin_billing_alerts',
+};
+
 export const SUPER_ADMIN_COMMUNICATIONS_METADATA: RouteMetadata = {
   ...SUPER_ADMIN_OPERATIONS_METADATA,
   title: 'Communications',
