@@ -82,6 +82,11 @@ export const BUILDER_PORTAL_ROUTES: Routes = [
         loadChildren: () =>
           import('./communications/communications.routes').then((m) => m.COMMUNICATION_ROUTES),
       },
+      {
+        path: 'subscription',
+        loadChildren: () =>
+          import('./subscription/subscription.routes').then((m) => m.SUBSCRIPTION_ROUTES),
+      },
     ],
   },
 ];

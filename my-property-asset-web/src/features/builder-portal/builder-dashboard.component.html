@@ -83,6 +83,27 @@
       />
     </section>
 
+    <section class="bp-dashboard__summary-row" aria-label="Subscription summary">
+      <app-bp-summary-card
+        [item]="{
+          id: 'subscription-plan',
+          title: 'Current plan',
+          value: subscriptionSummary().plan?.name ?? 'No plan',
+          subtitle: 'Status: ' + (subscriptionSummary().subscription?.status ?? 'none'),
+          icon: 'pi pi-credit-card'
+        }"
+      />
+      <app-bp-summary-card
+        [item]="{
+          id: 'subscription-usage',
+          title: 'Usage',
+          value: subscriptionUsageLabel(),
+          subtitle: subscriptionRemainingLabel(),
+          icon: 'pi pi-chart-bar'
+        }"
+      />
+    </section>
+
     <app-bp-dashboard-grid>
       @for (widget of visibleWidgets(); track widget.id) {
         <app-bp-dashboard-grid-item [colspan]="widget.colspan" [rowspan]="widget.rowspan ?? 1">

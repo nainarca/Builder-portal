@@ -31,7 +31,7 @@ export const PERMISSION_MATRIX: PermissionMatrix = {
   },
   'id-05-subscription-commercial': {
     'super-admin': 'full',
-    'builder-org-owner': 'read',
+    'builder-org-owner': 'operate',
     'builder-org-admin': 'read',
   },
   'id-06-platform-operations': {

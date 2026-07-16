@@ -8,6 +8,7 @@ import { InMemoryCommunicationRepository } from '../repositories/in-memory-commu
 import { CommunicationAudienceService } from '../services/communication-audience.service';
 import { CommunicationDeliveryService } from '../services/communication-delivery.service';
 import { CommunicationService } from '../services/communication.service';
+import { PlanEnforcementService } from '../../subscription/services/plan-enforcement.service';
 
 describe('CommunicationService (P14)', () => {
   let service: CommunicationService;
@@ -33,6 +34,10 @@ describe('CommunicationService (P14)', () => {
         {
           provide: CurrentUserService,
           useValue: { user: () => ({ email: 'tester@example.com' }) },
+        },
+        {
+          provide: PlanEnforcementService,
+          useValue: { check: () => ({ allowed: true, action: 'send_communication', upgradeRequired: false }) },
         },
       ],
     });

@@ -10,6 +10,7 @@ import {
 import { CommunicationRepository } from '../repositories/communication.repository';
 import { CommunicationAudienceService } from './communication-audience.service';
 import { CommunicationDeliveryService } from './communication-delivery.service';
+import { PlanEnforcementService } from '../../subscription/services/plan-enforcement.service';
 
 @Injectable({ providedIn: 'root' })
 export class CommunicationService {
@@ -18,6 +19,7 @@ export class CommunicationService {
   private readonly delivery = inject(CommunicationDeliveryService);
   private readonly currentOrganization = inject(CurrentOrganizationService);
   private readonly currentUser = inject(CurrentUserService);
+  private readonly enforcement = inject(PlanEnforcementService);
 
   private readonly querySignal = signal<CommunicationListQuery>({
     search: '',
@@ -68,6 +70,10 @@ export class CommunicationService {
   }
 
   publishNow(id: string): BuilderCommunication | undefined {
+    const check = this.enforcement.check('send_communication');
+    if (!check.allowed) {
+      throw new Error(check.reason ?? 'Plan limit reached for communications.');
+    }
     const communication = this.repository.getById(id);
     if (!communication) {
       return undefined;

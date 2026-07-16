@@ -8,6 +8,7 @@ import { UnitStoreService } from '../../projects/units/services/unit-store.servi
 import { DocumentUploadFormComponent } from '../components/form/document-upload-form.component';
 import { DocumentFormModel } from '../models/document.model';
 import { DocumentStoreService } from '../services/document-store.service';
+import { PlanEnforcementService } from '../../subscription/services/plan-enforcement.service';
 
 @Component({
   selector: 'app-document-upload-page',
@@ -52,6 +53,7 @@ export class DocumentUploadPageComponent {
   private readonly projectStore = inject(ProjectStoreService);
   private readonly unitStore = inject(UnitStoreService);
   private readonly toast = inject(UiToastService);
+  private readonly enforcement = inject(PlanEnforcementService);
   private readonly form = viewChild(DocumentUploadFormComponent);
 
   readonly projects = computed(() => this.projectStore.projects());
@@ -69,6 +71,12 @@ export class DocumentUploadPageComponent {
   }
 
   onSubmit(model: DocumentFormModel): void {
+    const check = this.enforcement.check('upload_document');
+    if (!check.allowed) {
+      this.toast.warn('Upgrade required', check.reason ?? 'Plan limit reached.');
+      void this.router.navigate(['/builder-portal/subscription/plans']);
+      return;
+    }
     this.saving = true;
     const created = this.store.create(model);
     this.saving = false;

@@ -44,6 +44,7 @@ import { WidgetLoaderService } from './services/widget-loader.service';
 import { ProjectStoreService } from './projects/services/project-store.service';
 import { BuilderBrandingService } from './branding/services/builder-branding.service';
 import { CommunicationDashboardService } from './communications/services/communication-dashboard.service';
+import { SubscriptionService } from './subscription/services/subscription.service';
 import { resolveDisplayName, resolveTimeGreeting } from './utils/display-name.util';
 
 @Component({
@@ -84,6 +85,7 @@ export class BuilderDashboardComponent {
   private readonly projectStore = inject(ProjectStoreService);
   private readonly branding = inject(BuilderBrandingService);
   private readonly communicationDashboard = inject(CommunicationDashboardService);
+  private readonly subscriptionService = inject(SubscriptionService);
   private readonly toast = inject(UiToastService);
 
   readonly header = BUILDER_DASHBOARD_HEADER;
@@ -176,6 +178,7 @@ export class BuilderDashboardComponent {
   readonly brandingCompletion = this.branding.completion;
   readonly brandingProfile = this.branding.activeBranding;
   readonly communicationSummary = this.communicationDashboard.summary;
+  readonly subscriptionSummary = this.subscriptionService.summary;
 
   readonly statusChart = computed(() => {
     const by = this.projectStats().byStatus;
@@ -224,5 +227,18 @@ export class BuilderDashboardComponent {
       return;
     }
     this.toast.info(action.label, 'This area is coming in a future module.');
+  }
+
+  subscriptionUsageLabel(): string {
+    const summary = this.subscriptionSummary();
+    const limit = summary.plan?.limits?.projects;
+    return `${summary.usage.projects} / ${limit ?? '—'} projects`;
+  }
+
+  subscriptionRemainingLabel(): string {
+    const summary = this.subscriptionSummary();
+    const days = summary.daysUntilExpiry ?? '—';
+    const units = typeof summary.remaining.units === 'number' ? summary.remaining.units : '—';
+    return `${days} days to renewal · ${units} units remaining`;
   }
 }
