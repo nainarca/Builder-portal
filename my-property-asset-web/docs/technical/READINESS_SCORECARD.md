@@ -1,5 +1,7 @@
 # Readiness Scorecard — MyPropertyAsset Web Platform
 
+> **P17 update (2026-07-16):** For Version 1.0 production go/no-go scoring, use [`docs/releases/V1_EXECUTIVE_REPORT.md`](../releases/V1_EXECUTIVE_REPORT.md) and [`docs/releases/V1_RELEASE_CHECKLIST.md`](../releases/V1_RELEASE_CHECKLIST.md). This scorecard remains an architecture-era artifact and is **not** the V1 release decision record.
+
 **Companion to:** [`NG-014_Technical_Architecture_Review.md`](NG-014_Technical_Architecture_Review.md)
 **Covers:** Readiness Matrix, Implementation Readiness Matrix.
 **Method:** Each score reflects *architectural* readiness (is the specification complete, consistent, and unambiguous enough to build against) discounted by *process* readiness (is it actually authorized to be built against) and *external* readiness (does it depend on something outside this series' control that isn't yet in place). A high architecture score with a low process score is not a contradiction — it is this scorecard's central, deliberate finding, the same split A-009 issued for the business architecture and this document issues again for the technical architecture.

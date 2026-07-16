@@ -4,7 +4,7 @@ export const environment: Environment = {
   production: true,
   environmentName: 'production',
   appTitle: 'MyPropertyAsset',
-  appVersion: '0.0.0',
+  appVersion: '1.0.0',
   featureFlagDefaults: {
     'maintenance-mode': false,
     'builder-portal': true,
