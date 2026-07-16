@@ -50,21 +50,21 @@ export class ProjectFormStateService {
     if (!model.city.trim()) {
       nextErrors.city = 'City is required';
     }
-    if (!model.startDate) {
-      nextErrors.startDate = 'Start date is required';
-    }
-    if (!model.targetCompletionDate) {
-      nextErrors.targetCompletionDate = 'Target completion date is required';
+    if (!model.projectType) {
+      nextErrors.projectType = 'Project type is required';
     }
     if (
-      model.startDate &&
-      model.targetCompletionDate &&
-      new Date(model.targetCompletionDate) < new Date(model.startDate)
+      model.launchDate &&
+      model.expectedCompletionDate &&
+      new Date(model.expectedCompletionDate) < new Date(model.launchDate)
     ) {
-      nextErrors.targetCompletionDate = 'Target completion must be after the start date';
+      nextErrors.expectedCompletionDate = 'Expected completion must be after the launch date';
     }
-    if (model.progress < 0 || model.progress > 100) {
-      nextErrors.progress = 'Progress must be between 0 and 100';
+    if (model.latitude.trim() && Number.isNaN(Number(model.latitude))) {
+      nextErrors.latitude = 'Latitude must be a number';
+    }
+    if (model.longitude.trim() && Number.isNaN(Number(model.longitude))) {
+      nextErrors.longitude = 'Longitude must be a number';
     }
 
     this.errors.set(nextErrors);

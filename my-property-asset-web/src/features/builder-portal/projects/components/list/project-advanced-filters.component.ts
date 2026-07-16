@@ -2,11 +2,8 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 
 import { CheckboxComponent, FilterPanelComponent, SelectComponent, SelectOption } from '@shared/ui';
 
-import {
-  PROJECT_HEALTH_OPTIONS,
-  PROJECT_STAGE_OPTIONS,
-} from '../../config/projects.config';
-import { ConstructionStage, ProjectHealth } from '../../models/project.model';
+import { PROJECT_TYPE_OPTIONS } from '../../config/projects.config';
+import { ProjectType } from '../../models/project.model';
 
 @Component({
   selector: 'app-proj-advanced-filters',
@@ -14,21 +11,12 @@ import { ConstructionStage, ProjectHealth } from '../../models/project.model';
   template: `
     <app-filter-panel ariaLabel="Advanced project filters">
       <div class="proj-advanced-filters__field">
-        <span>Construction stage</span>
+        <span>Project type</span>
         <app-select
-          [options]="stageOptions"
-          [value]="stageFilter()"
-          ariaLabel="Construction stage"
-          (valueChange)="onStageChange($event)"
-        />
-      </div>
-      <div class="proj-advanced-filters__field">
-        <span>Health</span>
-        <app-select
-          [options]="healthOptions"
-          [value]="healthFilter()"
-          ariaLabel="Health"
-          (valueChange)="onHealthChange($event)"
+          [options]="typeOptions"
+          [value]="typeFilter()"
+          ariaLabel="Project type"
+          (valueChange)="onTypeChange($event)"
         />
       </div>
       <div class="proj-advanced-filters__field">
@@ -51,30 +39,23 @@ import { ConstructionStage, ProjectHealth } from '../../models/project.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectAdvancedFiltersComponent {
-  readonly stageFilter = input<ConstructionStage | 'all'>('all');
-  readonly healthFilter = input<ProjectHealth | 'all'>('all');
+  readonly typeFilter = input<ProjectType | 'all'>('all');
   readonly cityFilter = input('');
   readonly includeArchived = input(false);
   readonly cities = input<readonly string[]>([]);
 
-  readonly stageFilterChange = output<ConstructionStage | 'all'>();
-  readonly healthFilterChange = output<ProjectHealth | 'all'>();
+  readonly typeFilterChange = output<ProjectType | 'all'>();
   readonly cityFilterChange = output<string>();
   readonly includeArchivedChange = output<boolean>();
   readonly filtersReset = output<void>();
 
-  readonly stageOptions: readonly SelectOption[] = PROJECT_STAGE_OPTIONS;
-  readonly healthOptions: readonly SelectOption[] = PROJECT_HEALTH_OPTIONS;
+  readonly typeOptions: readonly SelectOption[] = PROJECT_TYPE_OPTIONS;
 
   cityOptions(): readonly SelectOption[] {
     return [{ label: 'All cities', value: '' }, ...this.cities().map((city) => ({ label: city, value: city }))];
   }
 
-  onStageChange(value: string): void {
-    this.stageFilterChange.emit(value as ConstructionStage | 'all');
-  }
-
-  onHealthChange(value: string): void {
-    this.healthFilterChange.emit(value as ProjectHealth | 'all');
+  onTypeChange(value: string): void {
+    this.typeFilterChange.emit(value as ProjectType | 'all');
   }
 }

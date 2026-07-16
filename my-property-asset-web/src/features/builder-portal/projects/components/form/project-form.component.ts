@@ -13,18 +13,14 @@ import {
   WizardStep,
 } from '@shared/ui';
 
-import {
-  PROJECT_HEALTH_OPTIONS,
-  PROJECT_STAGE_OPTIONS,
-  PROJECT_STATUS_OPTIONS,
-} from '../../config/projects.config';
+import { PROJECT_STATUS_OPTIONS, PROJECT_TYPE_OPTIONS } from '../../config/projects.config';
 import { ProjectFormModel } from '../../models/project.model';
 import { ProjectFormStateService } from '../../services/project-form-state.service';
 
 const STEP_FIELD_MAP: Record<number, (keyof ProjectFormModel)[]> = {
-  0: ['name'],
-  1: ['city', 'startDate', 'targetCompletionDate'],
-  2: ['progress'],
+  0: ['name', 'projectType'],
+  1: ['city', 'launchDate', 'expectedCompletionDate', 'latitude', 'longitude'],
+  2: ['status'],
 };
 
 @Component({
@@ -54,15 +50,16 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   readonly steps: readonly WizardStep[] = [
     { id: 'basics', label: 'Basics' },
     { id: 'location', label: 'Location & timeline' },
-    { id: 'construction', label: 'Construction & health' },
+    { id: 'status', label: 'Status & media' },
     { id: 'review', label: 'Review' },
   ];
 
   readonly activeIndex = signal(0);
 
-  readonly statusOptions: readonly SelectOption[] = PROJECT_STATUS_OPTIONS.filter((o) => o.value !== 'all');
-  readonly stageOptions: readonly SelectOption[] = PROJECT_STAGE_OPTIONS.filter((o) => o.value !== 'all');
-  readonly healthOptions: readonly SelectOption[] = PROJECT_HEALTH_OPTIONS.filter((o) => o.value !== 'all');
+  readonly statusOptions: readonly SelectOption[] = PROJECT_STATUS_OPTIONS.filter(
+    (o) => o.value !== 'all' && o.value !== 'archived',
+  );
+  readonly typeOptions: readonly SelectOption[] = PROJECT_TYPE_OPTIONS.filter((o) => o.value !== 'all');
 
   ngOnInit(): void {
     this.formState.initialize(this.initialModel());
@@ -103,10 +100,6 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   onTextChange<K extends keyof ProjectFormModel>(field: K, value: string): void {
     this.formState.setField(field, value as ProjectFormModel[K]);
-  }
-
-  onNumberChange(field: 'progress', value: string): void {
-    this.formState.setField(field, Number(value) as ProjectFormModel[typeof field]);
   }
 
   onTextareaChange(field: 'description', event: Event): void {

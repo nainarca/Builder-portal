@@ -10,9 +10,15 @@ import { ProjectLocation } from '../../models/project.model';
   template: `
     <app-content-card icon="map-marker">
       <h3 class="mpa-heading-sm m-0">Location</h3>
-      <p class="mpa-body-md m-0">{{ location().addressLine }}</p>
-      <p class="mpa-body-md m-0">{{ location().city }}, {{ location().state }} {{ location().postalCode }}</p>
-      <p class="mpa-body-md m-0">{{ location().country }}</p>
+      <p class="mpa-body-md m-0">{{ location().addressLine || '—' }}</p>
+      <p class="mpa-body-md m-0">
+        {{ location().city }}, {{ location().state }} {{ location().postalCode }}
+      </p>
+      @if (location().latitude != null && location().longitude != null) {
+        <p class="mpa-body-md m-0">
+          {{ location().latitude }}, {{ location().longitude }}
+        </p>
+      }
     </app-content-card>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

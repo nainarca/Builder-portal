@@ -11,14 +11,26 @@ import { DashboardProjectSummaryItem } from '../../models/dashboard.model';
         <span class="bp-progress-card__status" [class]="statusClass()">{{ statusLabel() }}</span>
       </div>
       <p class="bp-progress-card__location">{{ item().location }}</p>
-      <div class="bp-progress-card__bar" role="progressbar" [attr.aria-valuenow]="item().progress"
-        aria-valuemin="0" aria-valuemax="100">
-        <div class="bp-progress-card__bar-fill" [style.width.%]="item().progress"></div>
-      </div>
-      <div class="bp-progress-card__footer">
-        <span>{{ item().progress }}% complete</span>
-        <span>{{ item().unitsSold }}/{{ item().unitsTotal }} units sold</span>
-      </div>
+      @if (item().progress != null) {
+        <div
+          class="bp-progress-card__bar"
+          role="progressbar"
+          [attr.aria-valuenow]="item().progress"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        >
+          <div class="bp-progress-card__bar-fill" [style.width.%]="item().progress"></div>
+        </div>
+        <div class="bp-progress-card__footer">
+          <span>{{ item().progress }}% complete</span>
+          <span>{{ item().unitsSold }}/{{ item().unitsTotal }} units sold</span>
+        </div>
+      } @else {
+        <div class="bp-progress-card__footer">
+          <span>{{ item().projectType || 'Project' }}</span>
+          <span>{{ item().unitsSold }}/{{ item().unitsTotal }} inventory</span>
+        </div>
+      }
     </article>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,14 +42,18 @@ export class ProgressCardComponent {
 
   readonly statusLabel = computed(() => {
     switch (this.item().status) {
+      case 'upcoming':
+        return 'Upcoming';
       case 'planning':
         return 'Planning';
-      case 'in-progress':
-        return 'In progress';
-      case 'handover':
-        return 'Handover';
+      case 'construction':
+        return 'Construction';
       case 'completed':
         return 'Completed';
+      case 'archived':
+        return 'Archived';
+      default:
+        return this.item().status;
     }
   });
 }

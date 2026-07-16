@@ -60,13 +60,11 @@
 
       @if (listState.showAdvancedFilters()) {
         <app-proj-advanced-filters
-          [stageFilter]="listState.stageFilter()"
-          [healthFilter]="listState.healthFilter()"
+          [typeFilter]="listState.typeFilter()"
           [cityFilter]="listState.cityFilter()"
           [includeArchived]="listState.includeArchived()"
           [cities]="listState.cities()"
-          (stageFilterChange)="listState.setStageFilter($event)"
-          (healthFilterChange)="listState.setHealthFilter($event)"
+          (typeFilterChange)="listState.setTypeFilter($event)"
           (cityFilterChange)="listState.setCityFilter($event)"
           (includeArchivedChange)="listState.setIncludeArchived($event)"
           (filtersReset)="listState.resetFilters()"

@@ -4,7 +4,7 @@ import { PROJECT_SAVED_VIEWS, PROJECT_TABLE_COLUMNS } from '../config/projects.c
 import { ProjectBulkAction, ProjectListQuery, ProjectSavedView } from '../models/project.model';
 import { ProjectStoreService } from './project-store.service';
 
-const STORAGE_KEY = 'mpa-bp-project-list-state';
+const STORAGE_KEY = 'mpa-bp-project-list-state-p8';
 
 export type ProjectViewMode = 'card' | 'table';
 
@@ -22,8 +22,7 @@ export class ProjectListStateService {
 
   readonly search = signal('');
   readonly statusFilter = signal<ProjectListQuery['statusFilter']>('all');
-  readonly stageFilter = signal<ProjectListQuery['stageFilter']>('all');
-  readonly healthFilter = signal<ProjectListQuery['healthFilter']>('all');
+  readonly typeFilter = signal<ProjectListQuery['typeFilter']>('all');
   readonly cityFilter = signal('');
   readonly includeArchived = signal(false);
   readonly sortValue = signal('name:asc');
@@ -48,8 +47,7 @@ export class ProjectListStateService {
     return {
       search: this.search(),
       statusFilter: this.statusFilter(),
-      stageFilter: this.stageFilter(),
-      healthFilter: this.healthFilter(),
+      typeFilter: this.typeFilter(),
       cityFilter: this.cityFilter(),
       includeArchived: this.includeArchived(),
       sortField,
@@ -84,13 +82,8 @@ export class ProjectListStateService {
     this.page.set(1);
   }
 
-  setStageFilter(value: ProjectListQuery['stageFilter']): void {
-    this.stageFilter.set(value);
-    this.page.set(1);
-  }
-
-  setHealthFilter(value: ProjectListQuery['healthFilter']): void {
-    this.healthFilter.set(value);
+  setTypeFilter(value: ProjectListQuery['typeFilter']): void {
+    this.typeFilter.set(value);
     this.page.set(1);
   }
 
@@ -146,7 +139,7 @@ export class ProjectListStateService {
     }
     this.savedViewId.set(viewId);
     this.statusFilter.set(view.statusFilter);
-    this.healthFilter.set(view.healthFilter);
+    this.typeFilter.set(view.typeFilter);
     this.page.set(1);
     this.persist();
   }
@@ -223,8 +216,7 @@ export class ProjectListStateService {
   resetFilters(): void {
     this.search.set('');
     this.statusFilter.set('all');
-    this.stageFilter.set('all');
-    this.healthFilter.set('all');
+    this.typeFilter.set('all');
     this.cityFilter.set('');
     this.sortValue.set('name:asc');
     this.page.set(1);

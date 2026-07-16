@@ -10,11 +10,8 @@ import {
   BUILDER_DASHBOARD_APPOINTMENTS,
   BUILDER_DASHBOARD_FILTERS,
   BUILDER_DASHBOARD_HEADER,
-  BUILDER_DASHBOARD_KPIS,
   BUILDER_DASHBOARD_NOTIFICATIONS,
   BUILDER_DASHBOARD_QUICK_ACTIONS,
-  BUILDER_DASHBOARD_RECENT_PROJECTS,
-  BUILDER_DASHBOARD_STATUS_CHART,
   BUILDER_DASHBOARD_SUMMARIES,
   BUILDER_DASHBOARD_TRENDS,
 } from './config/builder-dashboard.config';
@@ -43,6 +40,7 @@ import {
 import { BuilderDashboardWidgetId, DashboardQuickActionItem } from './models/dashboard.model';
 import { DashboardPreferencesService } from './services/dashboard-preferences.service';
 import { WidgetLoaderService } from './services/widget-loader.service';
+import { ProjectStoreService } from './projects/services/project-store.service';
 import { resolveDisplayName, resolveTimeGreeting } from './utils/display-name.util';
 
 @Component({
@@ -79,19 +77,17 @@ export class BuilderDashboardComponent {
   private readonly widgetLoader = inject(WidgetLoaderService);
   private readonly currentUser = inject(CurrentUserService);
   private readonly currentOrganization = inject(CurrentOrganizationService);
+  private readonly projectStore = inject(ProjectStoreService);
   private readonly toast = inject(UiToastService);
 
   readonly header = BUILDER_DASHBOARD_HEADER;
-  readonly kpis = BUILDER_DASHBOARD_KPIS;
   readonly summaries = BUILDER_DASHBOARD_SUMMARIES;
   readonly activities = BUILDER_DASHBOARD_ACTIVITIES;
   readonly appointments = BUILDER_DASHBOARD_APPOINTMENTS;
   readonly notifications = BUILDER_DASHBOARD_NOTIFICATIONS;
-  readonly recentProjects = BUILDER_DASHBOARD_RECENT_PROJECTS;
   readonly trends = BUILDER_DASHBOARD_TRENDS;
   readonly quickActions = BUILDER_DASHBOARD_QUICK_ACTIONS;
   readonly filters = BUILDER_DASHBOARD_FILTERS;
-  readonly statusChart = BUILDER_DASHBOARD_STATUS_CHART;
 
   readonly selectedFilter = signal('30d');
   readonly refreshingAll = signal(false);
@@ -117,6 +113,75 @@ export class BuilderDashboardComponent {
       return undefined;
     }
     return new Date(timestamp).toLocaleString();
+  });
+
+  private readonly projectStats = computed(() => this.projectStore.dashboardStats());
+
+  readonly kpis = computed(() => {
+    const stats = this.projectStats();
+    return [
+      {
+        id: 'total-projects',
+        label: 'Total Projects',
+        value: String(stats.total),
+        hint: 'Active portfolio',
+        icon: 'pi pi-briefcase',
+        tone: 'primary' as const,
+      },
+      {
+        id: 'construction',
+        label: 'Construction',
+        value: String(stats.byStatus.construction),
+        hint: 'Under construction',
+        icon: 'pi pi-hammer',
+        tone: 'info' as const,
+      },
+      {
+        id: 'planning',
+        label: 'Planning / Upcoming',
+        value: String(stats.byStatus.planning + stats.byStatus.upcoming),
+        hint: 'Pre-construction',
+        icon: 'pi pi-map',
+        tone: 'warning' as const,
+      },
+      {
+        id: 'completed',
+        label: 'Completed',
+        value: String(stats.byStatus.completed),
+        hint: 'Delivered projects',
+        icon: 'pi pi-check-circle',
+        tone: 'success' as const,
+      },
+    ];
+  });
+
+  readonly recentProjects = computed(() =>
+    this.projectStats().recent.map((p) => ({
+      id: p.id,
+      name: p.name,
+      location: `${p.location.city}, ${p.location.state}`,
+      status: p.status,
+      projectType: p.projectType,
+      unitsTotal: p.summary.unitsTotal,
+      unitsSold: p.summary.unitsSold,
+    })),
+  );
+
+  readonly statusChart = computed(() => {
+    const by = this.projectStats().byStatus;
+    return {
+      id: 'project-status-overview',
+      type: 'donut' as const,
+      title: 'Project status overview',
+      subtitle: 'Live portfolio distribution',
+      labels: ['Upcoming', 'Planning', 'Construction', 'Completed'],
+      series: [
+        {
+          label: 'Projects',
+          values: [by.upcoming, by.planning, by.construction, by.completed],
+        },
+      ],
+    };
   });
 
   isVisible(id: BuilderDashboardWidgetId): boolean {

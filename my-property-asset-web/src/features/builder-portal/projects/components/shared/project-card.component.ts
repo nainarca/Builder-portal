@@ -1,19 +1,25 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+import { PROJECT_TYPE_LABELS } from '../../config/projects.config';
 import { Project } from '../../models/project.model';
 import { ProjectAvatarComponent } from './project-avatar.component';
-import { ProjectHealthBadgeComponent } from './project-health-badge.component';
 import { ProjectStatusBadgeComponent } from './project-status-badge.component';
+import { ProjectTypeBadgeComponent } from './project-type-badge.component';
 
 @Component({
   selector: 'app-proj-card',
-  imports: [RouterLink, ProjectAvatarComponent, ProjectStatusBadgeComponent, ProjectHealthBadgeComponent],
+  imports: [
+    RouterLink,
+    ProjectAvatarComponent,
+    ProjectStatusBadgeComponent,
+    ProjectTypeBadgeComponent,
+  ],
   template: `
     <article class="proj-card">
       <a class="proj-card__link" [routerLink]="['/builder-portal/projects', project().id]">
         <div class="proj-card__header">
-          <app-proj-avatar [name]="project().name" [thumbnailUrl]="project().thumbnailUrl" />
+          <app-proj-avatar [name]="project().name" [thumbnailUrl]="project().logoUrl ?? project().thumbnailUrl" />
           <div class="proj-card__title-group">
             <p class="proj-card__name">{{ project().name }}</p>
             <p class="proj-card__meta">{{ project().code }} · {{ project().location.city }}</p>
@@ -31,16 +37,12 @@ import { ProjectStatusBadgeComponent } from './project-status-badge.component';
 
         <div class="proj-card__badges">
           <app-proj-status-badge [status]="project().status" />
-          <app-proj-health-badge [health]="project().health" />
-        </div>
-
-        <div class="proj-card__bar" role="progressbar" [attr.aria-valuenow]="project().progress" aria-valuemin="0" aria-valuemax="100">
-          <div class="proj-card__bar-fill" [style.width.%]="project().progress"></div>
+          <app-proj-type-badge [projectType]="project().projectType" />
         </div>
 
         <div class="proj-card__footer">
-          <span>{{ project().progress }}% complete</span>
-          <span>{{ project().summary.unitsSold }}/{{ project().summary.unitsTotal }} units</span>
+          <span>{{ typeLabel }}</span>
+          <span>{{ project().expectedCompletionDate || 'TBD' }}</span>
         </div>
       </a>
     </article>
@@ -52,6 +54,10 @@ export class ProjectCardComponent {
   readonly favorite = input(false);
 
   readonly favoriteToggle = output<void>();
+
+  get typeLabel(): string {
+    return PROJECT_TYPE_LABELS[this.project().projectType] ?? this.project().projectType;
+  }
 
   onFavoriteClick(event: MouseEvent): void {
     event.preventDefault();

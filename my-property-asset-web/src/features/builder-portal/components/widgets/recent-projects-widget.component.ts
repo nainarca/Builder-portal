@@ -47,14 +47,18 @@ export class RecentProjectsWidgetComponent {
 
   statusLabel(status: DashboardProjectSummaryItem['status']): string {
     switch (status) {
+      case 'upcoming':
+        return 'Upcoming';
       case 'planning':
         return 'Planning';
-      case 'in-progress':
-        return 'In progress';
-      case 'handover':
-        return 'Handover';
+      case 'construction':
+        return 'Construction';
       case 'completed':
         return 'Completed';
+      case 'archived':
+        return 'Archived';
+      default:
+        return status;
     }
   }
 }

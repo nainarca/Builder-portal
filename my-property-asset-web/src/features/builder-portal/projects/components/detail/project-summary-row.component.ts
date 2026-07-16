@@ -1,31 +1,20 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { RouterLink } from '@angular/router';
 
 import { ProjectSummaryCounts } from '../../models/project.model';
 
+/** P8: related-module counts are placeholders only (Units/Owners/Documents out of scope). */
 @Component({
   selector: 'app-proj-summary-row',
-  imports: [RouterLink],
   template: `
-    <section class="proj-summary-row" aria-label="Related module summaries">
+    <section class="proj-summary-row" aria-label="Project statistics">
       @for (item of items(); track item.label) {
-        @if (item.route) {
-          <a class="proj-summary-widget proj-summary-widget--link" [routerLink]="item.route" [queryParams]="item.queryParams">
-            <i class="proj-summary-widget__icon" [class]="item.icon" aria-hidden="true"></i>
-            <div>
-              <p class="proj-summary-widget__value">{{ item.value }}</p>
-              <p class="proj-summary-widget__label">{{ item.label }}</p>
-            </div>
-          </a>
-        } @else {
-          <article class="proj-summary-widget">
-            <i class="proj-summary-widget__icon" [class]="item.icon" aria-hidden="true"></i>
-            <div>
-              <p class="proj-summary-widget__value">{{ item.value }}</p>
-              <p class="proj-summary-widget__label">{{ item.label }}</p>
-            </div>
-          </article>
-        }
+        <article class="proj-summary-widget">
+          <i class="proj-summary-widget__icon" [class]="item.icon" aria-hidden="true"></i>
+          <div>
+            <p class="proj-summary-widget__value">{{ item.value }}</p>
+            <p class="proj-summary-widget__label">{{ item.label }}</p>
+          </div>
+        </article>
       }
     </section>
   `,
@@ -37,31 +26,11 @@ export class ProjectSummaryRowComponent {
 
   readonly items = computed(() => {
     const s = this.summary();
-    const id = this.projectId();
     return [
-      {
-        label: 'Units',
-        value: `${s.unitsSold}/${s.unitsTotal}`,
-        icon: 'pi pi-building',
-        route: id ? ['/builder-portal/projects', id, 'units'] : undefined,
-      },
-      { label: 'Owners', value: String(s.ownersCount), icon: 'pi pi-users' },
-      {
-        label: 'Documents',
-        value: String(s.documentsCount),
-        icon: 'pi pi-file',
-        route: id ? ['/builder-portal/documents'] : undefined,
-        queryParams: id ? { projectId: id } : undefined,
-      },
-      {
-        label: 'Pending handovers',
-        value: String(s.pendingHandovers),
-        icon: 'pi pi-key',
-        route: id ? ['/builder-portal/handovers'] : undefined,
-        queryParams: id ? { projectId: id } : undefined,
-      },
-      { label: 'Open snags', value: String(s.openSnags), icon: 'pi pi-exclamation-triangle' },
-      { label: 'Upcoming appointments', value: String(s.upcomingAppointments), icon: 'pi pi-map-marker' },
+      { label: 'Inventory (future)', value: `${s.unitsSold}/${s.unitsTotal}`, icon: 'pi pi-building' },
+      { label: 'Owners (future)', value: String(s.ownersCount), icon: 'pi pi-users' },
+      { label: 'Documents (future)', value: String(s.documentsCount), icon: 'pi pi-file' },
+      { label: 'Handovers (future)', value: String(s.pendingHandovers), icon: 'pi pi-key' },
     ];
   });
 }

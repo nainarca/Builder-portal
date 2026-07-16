@@ -1,3 +1,4 @@
+export { ProjectTypeBadgeComponent } from './project-type-badge.component';
 export { ProjectAvatarComponent } from './project-avatar.component';
 export { ProjectCardComponent } from './project-card.component';
 export { ProjectEmptyStateComponent } from './project-empty-state.component';

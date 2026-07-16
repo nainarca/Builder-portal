@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 
 import { ContentCardComponent, ContentSectionComponent, SectionHeaderComponent } from '@shared/ui';
 
+import { PROJECT_STATUS_LABELS, PROJECT_TYPE_LABELS } from '../../config/projects.config';
 import { Project } from '../../models/project.model';
 
 @Component({
@@ -48,20 +49,45 @@ import { Project } from '../../models/project.model';
 export class ProjectOverviewComponent {
   readonly project = input.required<Project>();
 
-  readonly stats = computed(() => [
-    { label: 'Progress', value: `${this.project().progress}%`, icon: 'pi pi-gauge' },
-    { label: 'Units sold', value: `${this.project().summary.unitsSold}/${this.project().summary.unitsTotal}`, icon: 'pi pi-building' },
-    { label: 'Open snags', value: String(this.project().summary.openSnags), icon: 'pi pi-exclamation-triangle' },
-    { label: 'Pending handovers', value: String(this.project().summary.pendingHandovers), icon: 'pi pi-key' },
-  ]);
+  readonly stats = computed(() => {
+    const p = this.project();
+    return [
+      {
+        label: 'Status',
+        value: PROJECT_STATUS_LABELS[p.status] ?? p.status,
+        icon: 'pi pi-flag',
+      },
+      {
+        label: 'Type',
+        value: PROJECT_TYPE_LABELS[p.projectType] ?? p.projectType,
+        icon: 'pi pi-building',
+      },
+      {
+        label: 'City',
+        value: p.location.city || '—',
+        icon: 'pi pi-map-marker',
+      },
+      {
+        label: 'Expected completion',
+        value: p.expectedCompletionDate || '—',
+        icon: 'pi pi-calendar',
+      },
+    ];
+  });
 
   readonly profileItems = computed(() => {
     const project = this.project();
+    const coords =
+      project.location.latitude != null && project.location.longitude != null
+        ? `${project.location.latitude}, ${project.location.longitude}`
+        : '—';
     return [
       { label: 'Description', value: project.description ?? '—' },
-      { label: 'Start date', value: project.startDate },
-      { label: 'Target completion', value: project.targetCompletionDate },
-      { label: 'Actual completion', value: project.actualCompletionDate ?? '—' },
+      { label: 'Launch date', value: project.launchDate ?? '—' },
+      { label: 'Expected completion', value: project.expectedCompletionDate ?? '—' },
+      { label: 'Address', value: project.location.addressLine || '—' },
+      { label: 'Pincode', value: project.location.postalCode || '—' },
+      { label: 'Coordinates', value: coords },
     ];
   });
 }

@@ -13,7 +13,12 @@ export type BuilderDashboardWidgetId =
 export type DashboardKpiTone = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'neutral';
 export type ChartType = 'line' | 'bar' | 'pie' | 'donut' | 'area';
 export type StatTrend = 'up' | 'down' | 'neutral';
-export type ProjectStatus = 'planning' | 'in-progress' | 'handover' | 'completed';
+export type ProjectStatus =
+  | 'upcoming'
+  | 'planning'
+  | 'construction'
+  | 'completed'
+  | 'archived';
 
 export interface DashboardKpiItem {
   readonly id: string;
@@ -117,7 +122,8 @@ export interface DashboardProjectSummaryItem {
   readonly name: string;
   readonly location: string;
   readonly status: ProjectStatus;
-  readonly progress: number;
+  readonly progress?: number;
+  readonly projectType?: string;
   readonly unitsTotal: number;
   readonly unitsSold: number;
 }

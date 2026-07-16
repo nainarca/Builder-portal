@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
-import { ProjectStatus } from '../../../models/dashboard.model';
+import { ProjectStatus } from '../../models/project.model';
 
 @Component({
   selector: 'app-proj-quick-filters',
@@ -28,9 +28,9 @@ export class ProjectQuickFiltersComponent {
 
   readonly filters = [
     { label: 'All', value: 'all' as const },
+    { label: 'Upcoming', value: 'upcoming' as const },
     { label: 'Planning', value: 'planning' as const },
-    { label: 'In progress', value: 'in-progress' as const },
-    { label: 'Handover', value: 'handover' as const },
+    { label: 'Construction', value: 'construction' as const },
     { label: 'Completed', value: 'completed' as const },
   ];
 }

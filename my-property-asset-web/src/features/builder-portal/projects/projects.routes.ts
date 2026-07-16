@@ -13,6 +13,7 @@ import { ProjectDetailPageComponent } from './pages/project-detail-page.componen
 import { ProjectEditPageComponent } from './pages/project-edit-page.component';
 import { ProjectListPageComponent } from './pages/project-list-page.component';
 import { ProjectWorkspacePageComponent } from './pages/project-workspace-page.component';
+import { projectResolver } from './resolvers/project.resolver';
 
 export const PROJECT_ROUTES: Routes = [
   {
@@ -34,15 +35,18 @@ export const PROJECT_ROUTES: Routes = [
   {
     path: ':id',
     component: ProjectDetailPageComponent,
+    resolve: { project: projectResolver },
     data: BUILDER_PORTAL_PROJECT_DETAIL_METADATA,
   },
   {
     path: ':id/edit',
     component: ProjectEditPageComponent,
+    resolve: { project: projectResolver },
     canDeactivate: [projectUnsavedChangesGuard],
     data: BUILDER_PORTAL_PROJECT_EDIT_METADATA,
   },
   {
+    // Existing units mock route retained; P8 does not implement Units domain.
     path: ':id/units',
     loadChildren: () => import('./units/units.routes').then((m) => m.UNIT_ROUTES),
   },

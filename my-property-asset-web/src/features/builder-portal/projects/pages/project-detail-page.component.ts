@@ -11,7 +11,6 @@ import {
   ProjectMapPlaceholderComponent,
   ProjectOverviewComponent,
   ProjectSummaryRowComponent,
-  ProjectTimelineComponent,
 } from '../components/detail';
 import { ProjectHeaderComponent } from '../components/shared';
 import { ProjectStoreService } from '../services/project-store.service';
@@ -24,7 +23,6 @@ import { ProjectStoreService } from '../services/project-store.service';
     ProjectHeaderComponent,
     ProjectOverviewComponent,
     ProjectLocationCardComponent,
-    ProjectTimelineComponent,
     ProjectSummaryRowComponent,
     ProjectMapPlaceholderComponent,
     ProjectGalleryPlaceholderComponent,

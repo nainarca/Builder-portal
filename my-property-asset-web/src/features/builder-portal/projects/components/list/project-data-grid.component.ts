@@ -3,10 +3,11 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 import { RouterLink } from '@angular/router';
 import { TableModule } from 'primeng/table';
 
+import { PROJECT_TYPE_LABELS } from '../../config/projects.config';
 import { Project } from '../../models/project.model';
 import { ProjectAvatarComponent } from '../shared/project-avatar.component';
-import { ProjectHealthBadgeComponent } from '../shared/project-health-badge.component';
 import { ProjectStatusBadgeComponent } from '../shared/project-status-badge.component';
+import { ProjectTypeBadgeComponent } from '../shared/project-type-badge.component';
 
 @Component({
   selector: 'app-proj-data-grid',
@@ -16,7 +17,7 @@ import { ProjectStatusBadgeComponent } from '../shared/project-status-badge.comp
     DatePipe,
     ProjectAvatarComponent,
     ProjectStatusBadgeComponent,
-    ProjectHealthBadgeComponent,
+    ProjectTypeBadgeComponent,
   ],
   template: `
     <p-table
@@ -43,24 +44,18 @@ import { ProjectStatusBadgeComponent } from '../shared/project-status-badge.comp
           @if (isColumnVisible('status')) {
             <th>Status</th>
           }
-          @if (isColumnVisible('constructionStage')) {
-            <th>Construction stage</th>
-          }
-          @if (isColumnVisible('health')) {
-            <th>Health</th>
-          }
-          @if (isColumnVisible('progress')) {
-            <th pSortableColumn="progress">Progress <p-sortIcon field="progress" /></th>
-          }
-          @if (isColumnVisible('units')) {
-            <th>Units</th>
+          @if (isColumnVisible('projectType')) {
+            <th>Type</th>
           }
           @if (isColumnVisible('city')) {
-            <th>Location</th>
+            <th>City</th>
           }
-          @if (isColumnVisible('targetCompletionDate')) {
-            <th pSortableColumn="targetCompletionDate">
-              Target completion <p-sortIcon field="targetCompletionDate" />
+          @if (isColumnVisible('launchDate')) {
+            <th>Launch</th>
+          }
+          @if (isColumnVisible('expectedCompletionDate')) {
+            <th pSortableColumn="expectedCompletionDate">
+              Expected completion <p-sortIcon field="expectedCompletionDate" />
             </th>
           }
           <th style="width: 5rem"></th>
@@ -74,7 +69,11 @@ import { ProjectStatusBadgeComponent } from '../shared/project-status-badge.comp
           @if (isColumnVisible('name')) {
             <td>
               <a class="proj-grid__name-link" [routerLink]="['/builder-portal/projects', project.id]">
-                <app-proj-avatar [name]="project.name" [thumbnailUrl]="project.thumbnailUrl" size="sm" />
+                <app-proj-avatar
+                  [name]="project.name"
+                  [thumbnailUrl]="project.logoUrl ?? project.thumbnailUrl"
+                  size="sm"
+                />
                 <span>
                   <strong>{{ project.name }}</strong>
                   <small>{{ project.code }}</small>
@@ -85,23 +84,17 @@ import { ProjectStatusBadgeComponent } from '../shared/project-status-badge.comp
           @if (isColumnVisible('status')) {
             <td><app-proj-status-badge [status]="project.status" /></td>
           }
-          @if (isColumnVisible('constructionStage')) {
-            <td>{{ stageLabel(project.constructionStage) }}</td>
-          }
-          @if (isColumnVisible('health')) {
-            <td><app-proj-health-badge [health]="project.health" /></td>
-          }
-          @if (isColumnVisible('progress')) {
-            <td>{{ project.progress }}%</td>
-          }
-          @if (isColumnVisible('units')) {
-            <td>{{ project.summary.unitsSold }}/{{ project.summary.unitsTotal }}</td>
+          @if (isColumnVisible('projectType')) {
+            <td><app-proj-type-badge [projectType]="project.projectType" /></td>
           }
           @if (isColumnVisible('city')) {
             <td>{{ project.location.city }}</td>
           }
-          @if (isColumnVisible('targetCompletionDate')) {
-            <td>{{ project.targetCompletionDate | date: 'mediumDate' }}</td>
+          @if (isColumnVisible('launchDate')) {
+            <td>{{ project.launchDate | date: 'mediumDate' }}</td>
+          }
+          @if (isColumnVisible('expectedCompletionDate')) {
+            <td>{{ project.expectedCompletionDate | date: 'mediumDate' }}</td>
           }
           <td>
             <a class="proj-grid__view-link" [routerLink]="['/builder-portal/projects', project.id]">View</a>
@@ -149,15 +142,7 @@ export class ProjectDataGridComponent {
     return this.visibleColumns().length;
   }
 
-  stageLabel(stage: Project['constructionStage']): string {
-    const map: Record<Project['constructionStage'], string> = {
-      'land-acquisition': 'Land acquisition',
-      foundation: 'Foundation',
-      structure: 'Structure',
-      finishing: 'Finishing',
-      handover: 'Handover',
-      completed: 'Completed',
-    };
-    return map[stage];
+  typeLabel(type: Project['projectType']): string {
+    return PROJECT_TYPE_LABELS[type] ?? type;
   }
 }

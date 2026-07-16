@@ -8,13 +8,13 @@
     />
 
     <section class="bp-dashboard__kpi-row" aria-label="Project KPIs">
-      @for (kpi of kpis; track kpi.id) {
+      @for (kpi of kpis(); track kpi.id) {
         <app-bp-kpi-card [item]="kpi" />
       }
     </section>
 
-    <section class="bp-dashboard__summary-row" aria-label="Project health">
-      @for (item of healthSummary(); track item.id) {
+    <section class="bp-dashboard__summary-row" aria-label="Projects by status">
+      @for (item of statusSummary(); track item.id) {
         <app-bp-summary-card [item]="item" />
       }
     </section>
@@ -59,19 +59,11 @@
 
       <app-bp-dashboard-grid-item [colspan]="2">
         <app-bp-dashboard-widget-shell
-          [title]="constructionStatusChart().title"
+          [title]="statusChart().title"
           icon="pi pi-chart-pie"
-          [description]="constructionStatusChart().subtitle"
+          [description]="statusChart().subtitle"
         >
-          <app-bp-chart-wrapper [config]="constructionStatusChart()" />
-        </app-bp-dashboard-widget-shell>
-      </app-bp-dashboard-grid-item>
-
-      <app-bp-dashboard-grid-item [colspan]="2">
-        <app-bp-dashboard-widget-shell title="Needs attention" icon="pi pi-gauge" description="Lowest progress active projects">
-          @for (item of lowestProgressProjects(); track item.id) {
-            <app-bp-progress-card [item]="item" />
-          }
+          <app-bp-chart-wrapper [config]="statusChart()" />
         </app-bp-dashboard-widget-shell>
       </app-bp-dashboard-grid-item>
 

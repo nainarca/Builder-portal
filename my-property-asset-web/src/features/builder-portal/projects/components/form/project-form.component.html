@@ -29,6 +29,14 @@
               <span class="proj-form__label">Project code</span>
               <app-input-text [value]="model.code" (valueChange)="onTextChange('code', $event)" />
             </div>
+            <div class="proj-form__field">
+              <span class="proj-form__label">Project type *</span>
+              <app-select
+                [options]="typeOptions"
+                [value]="model.projectType"
+                (valueChange)="onTextChange('projectType', $event)"
+              />
+            </div>
             <div class="proj-form__field proj-form__field--full">
               <span class="proj-form__label">Description</span>
               <textarea rows="3" [value]="model.description" (input)="onTextareaChange('description', $event)"></textarea>
@@ -57,56 +65,52 @@
               <app-input-text [value]="model.state" (valueChange)="onTextChange('state', $event)" />
             </div>
             <div class="proj-form__field">
-              <span class="proj-form__label">Postal code</span>
+              <span class="proj-form__label">Pincode</span>
               <app-input-text [value]="model.postalCode" (valueChange)="onTextChange('postalCode', $event)" />
             </div>
             <div class="proj-form__field">
-              <span class="proj-form__label">Country</span>
-              <app-input-text [value]="model.country" (valueChange)="onTextChange('country', $event)" />
-            </div>
-            <div class="proj-form__field">
-              <span class="proj-form__label">Start date *</span>
-              <app-date-picker [value]="model.startDate" (valueChange)="onTextChange('startDate', $event ?? '')" />
-              @if (formState.errors()['startDate']) {
-                <small class="proj-form__error">{{ formState.errors()['startDate'] }}</small>
+              <span class="proj-form__label">Latitude</span>
+              <app-input-text [value]="model.latitude" (valueChange)="onTextChange('latitude', $event)" />
+              @if (formState.errors()['latitude']) {
+                <small class="proj-form__error">{{ formState.errors()['latitude'] }}</small>
               }
             </div>
             <div class="proj-form__field">
-              <span class="proj-form__label">Target completion *</span>
+              <span class="proj-form__label">Longitude</span>
+              <app-input-text [value]="model.longitude" (valueChange)="onTextChange('longitude', $event)" />
+              @if (formState.errors()['longitude']) {
+                <small class="proj-form__error">{{ formState.errors()['longitude'] }}</small>
+              }
+            </div>
+            <div class="proj-form__field">
+              <span class="proj-form__label">Launch date</span>
+              <app-date-picker [value]="model.launchDate" (valueChange)="onTextChange('launchDate', $event ?? '')" />
+            </div>
+            <div class="proj-form__field">
+              <span class="proj-form__label">Expected completion</span>
               <app-date-picker
-                [value]="model.targetCompletionDate"
-                (valueChange)="onTextChange('targetCompletionDate', $event ?? '')"
+                [value]="model.expectedCompletionDate"
+                (valueChange)="onTextChange('expectedCompletionDate', $event ?? '')"
               />
-              @if (formState.errors()['targetCompletionDate']) {
-                <small class="proj-form__error">{{ formState.errors()['targetCompletionDate'] }}</small>
+              @if (formState.errors()['expectedCompletionDate']) {
+                <small class="proj-form__error">{{ formState.errors()['expectedCompletionDate'] }}</small>
               }
             </div>
           </app-form-section>
         }
         @case (2) {
-          <app-form-section title="Construction & health">
+          <app-form-section title="Status & media">
             <div class="proj-form__field">
               <span class="proj-form__label">Status</span>
               <app-select [options]="statusOptions" [value]="model.status" (valueChange)="onTextChange('status', $event)" />
             </div>
-            <div class="proj-form__field">
-              <span class="proj-form__label">Construction stage</span>
-              <app-select
-                [options]="stageOptions"
-                [value]="model.constructionStage"
-                (valueChange)="onTextChange('constructionStage', $event)"
-              />
+            <div class="proj-form__field proj-form__field--full">
+              <span class="proj-form__label">Banner URL</span>
+              <app-input-text [value]="model.bannerUrl" (valueChange)="onTextChange('bannerUrl', $event)" />
             </div>
-            <div class="proj-form__field">
-              <span class="proj-form__label">Health</span>
-              <app-select [options]="healthOptions" [value]="model.health" (valueChange)="onTextChange('health', $event)" />
-            </div>
-            <div class="proj-form__field">
-              <span class="proj-form__label">Progress (%)</span>
-              <app-input-text [value]="model.progress + ''" (valueChange)="onNumberChange('progress', $event)" />
-              @if (formState.errors()['progress']) {
-                <small class="proj-form__error">{{ formState.errors()['progress'] }}</small>
-              }
+            <div class="proj-form__field proj-form__field--full">
+              <span class="proj-form__label">Logo URL</span>
+              <app-input-text [value]="model.logoUrl" (valueChange)="onTextChange('logoUrl', $event)" />
             </div>
           </app-form-section>
         }
@@ -115,15 +119,16 @@
             <dl class="proj-form__review">
               <div class="proj-form__review-row"><dt>Name</dt><dd>{{ model.name }}</dd></div>
               <div class="proj-form__review-row"><dt>Code</dt><dd>{{ model.code || '—' }}</dd></div>
+              <div class="proj-form__review-row"><dt>Type</dt><dd>{{ model.projectType }}</dd></div>
               <div class="proj-form__review-row">
                 <dt>Location</dt>
-                <dd>{{ model.city }}{{ model.state ? ', ' + model.state : '' }}{{ model.country ? ', ' + model.country : '' }}</dd>
+                <dd>{{ model.city }}{{ model.state ? ', ' + model.state : '' }} {{ model.postalCode }}</dd>
               </div>
-              <div class="proj-form__review-row"><dt>Timeline</dt><dd>{{ model.startDate }} → {{ model.targetCompletionDate }}</dd></div>
+              <div class="proj-form__review-row">
+                <dt>Timeline</dt>
+                <dd>{{ model.launchDate || '—' }} → {{ model.expectedCompletionDate || '—' }}</dd>
+              </div>
               <div class="proj-form__review-row"><dt>Status</dt><dd>{{ model.status }}</dd></div>
-              <div class="proj-form__review-row"><dt>Construction stage</dt><dd>{{ model.constructionStage }}</dd></div>
-              <div class="proj-form__review-row"><dt>Health</dt><dd>{{ model.health }}</dd></div>
-              <div class="proj-form__review-row"><dt>Progress</dt><dd>{{ model.progress }}%</dd></div>
             </dl>
           </app-form-section>
         }

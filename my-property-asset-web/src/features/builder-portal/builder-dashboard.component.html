@@ -28,7 +28,7 @@
     </app-bp-dashboard-toolbar>
 
     <section class="bp-dashboard__kpi-row" aria-label="Key performance indicators">
-      @for (kpi of kpis; track kpi.id) {
+      @for (kpi of kpis(); track kpi.id) {
         <app-bp-kpi-card [item]="kpi" />
       }
     </section>
@@ -53,21 +53,21 @@
             }
             @case ('recent-projects') {
               <app-bp-recent-projects-widget
-                [items]="recentProjects"
+                [items]="recentProjects()"
                 [loading]="isLoading('recent-projects')"
                 (refresh)="onRefreshWidget('recent-projects')"
               />
             }
             @case ('project-status-overview') {
               <app-bp-project-status-overview-widget
-                [chart]="statusChart"
+                [chart]="statusChart()"
                 [loading]="isLoading('project-status-overview')"
                 (refresh)="onRefreshWidget('project-status-overview')"
               />
             }
             @case ('project-progress') {
               <app-bp-project-progress-widget
-                [items]="recentProjects"
+                [items]="recentProjects()"
                 [loading]="isLoading('project-progress')"
                 (refresh)="onRefreshWidget('project-progress')"
               />
