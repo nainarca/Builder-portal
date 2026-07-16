@@ -215,6 +215,16 @@ export const BUILDER_PORTAL_NAVIGATION: NavigationConfiguration = createConfigur
       },
     },
     {
+      id: 'ba-branding',
+      label: 'Branding',
+      route: '/builder-portal/branding',
+      icon: 'pi pi-palette',
+      metadata: {
+        permissions: ['id-04-white-label-branding:read'],
+        analyticsName: 'ba_branding_nav',
+      },
+    },
+    {
       id: 'ba-projects',
       label: 'Projects',
       route: '/builder-portal/projects',

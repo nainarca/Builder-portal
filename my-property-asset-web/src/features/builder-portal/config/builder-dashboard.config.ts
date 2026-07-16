@@ -285,8 +285,17 @@ export const BUILDER_DASHBOARD_QUICK_ACTIONS: readonly DashboardQuickActionItem[
     label: 'Organization settings',
     description: 'Team and profile',
     icon: 'pi pi-sliders-h',
-    route: '/builder-portal',
+    route: '/builder-portal/settings',
     permission: 'id-03-organization-tenancy:operate',
+  },
+  {
+    id: 'qa5',
+    label: 'Configure branding',
+    description: 'Logos, theme, and Owner App contract',
+    icon: 'pi pi-palette',
+    route: '/builder-portal/branding',
+    permission: 'id-04-white-label-branding:read',
+    favorite: true,
   },
 ];
 

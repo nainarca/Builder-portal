@@ -25,8 +25,9 @@ export const PERMISSION_MATRIX: PermissionMatrix = {
   },
   'id-04-white-label-branding': {
     'super-admin': 'full',
-    'builder-org-owner': 'read',
-    'builder-org-admin': 'read',
+    'builder-org-owner': 'full',
+    'builder-org-admin': 'full',
+    'builder-org-member': 'read',
   },
   'id-05-subscription-commercial': {
     'super-admin': 'full',

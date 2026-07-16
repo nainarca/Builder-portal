@@ -983,6 +983,16 @@ export const BUILDER_PORTAL_DASHBOARD_METADATA: RouteMetadata = {
   analyticsName: 'builder_portal_dashboard',
 };
 
+export const BUILDER_PORTAL_BRANDING_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_METADATA,
+  title: 'Branding',
+  icon: 'pi pi-palette',
+  description: 'Builder white-label identity, theme configuration, and Owner App branding contract',
+  breadcrumb: 'Branding',
+  permissions: ['portal:builder-portal', 'id-04-white-label-branding:read'],
+  analyticsName: 'builder_portal_branding',
+};
+
 export const BUILDER_PORTAL_PROJECTS_METADATA: RouteMetadata = {
   ...BUILDER_PORTAL_METADATA,
   title: 'Project workspace',

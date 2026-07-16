@@ -39,6 +39,29 @@
       }
     </section>
 
+    <section class="bp-dashboard__summary-row" aria-label="Branding status">
+      <app-bp-summary-card
+        [item]="{
+          id: 'branding-completion',
+          title: 'Branding completion',
+          value: brandingCompletion().completionPercent + '%',
+          subtitle: brandingCompletion().missingItems.length
+            ? 'Missing: ' + brandingCompletion().missingItems.join(', ')
+            : 'Branding profile is fully configured',
+          icon: 'pi pi-palette'
+        }"
+      />
+      <app-bp-summary-card
+        [item]="{
+          id: 'branding-status',
+          title: 'Branding status',
+          value: brandingCompletion().statusLabel,
+          subtitle: 'Last updated ' + (brandingProfile().lastUpdatedAt | date: 'medium'),
+          icon: 'pi pi-check-circle'
+        }"
+      />
+    </section>
+
     <app-bp-dashboard-grid>
       @for (widget of visibleWidgets(); track widget.id) {
         <app-bp-dashboard-grid-item [colspan]="widget.colspan" [rowspan]="widget.rowspan ?? 1">

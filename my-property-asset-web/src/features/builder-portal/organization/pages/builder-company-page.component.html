@@ -5,7 +5,10 @@
       <h1 class="ui-page-title">Builder company profile</h1>
       <p class="ui-page-subtitle">Maintain legal identity and primary contacts for your organization.</p>
     </div>
-    <a routerLink="/builder-portal/settings" class="builder-company-page__link">Settings</a>
+    <div class="builder-company-page__header-actions">
+      <a routerLink="/builder-portal/branding" class="builder-company-page__link">Branding</a>
+      <a routerLink="/builder-portal/settings" class="builder-company-page__link">Settings</a>
+    </div>
   </header>
 
   @if (company(); as profile) {
