@@ -2,6 +2,8 @@
 
 Production Angular 20 frontend for the MyPropertyAsset commercial SaaS platform.
 
+**Current version:** `1.0.0` (V1)
+
 ## Stack
 
 - **Angular 20** — Standalone components, Signals, strict TypeScript
@@ -34,6 +36,7 @@ Navigate to `http://localhost:4200/`.
 | `npm run build:dev`     | Development build                    |
 | `npm run build:qa`      | QA environment build                 |
 | `npm run build:staging` | Staging environment build            |
+| `npm test`              | Unit tests (Karma / Jasmine)         |
 | `npm run lint`          | ESLint check                         |
 | `npm run lint:fix`      | ESLint auto-fix                      |
 | `npm run format`        | Prettier format                      |
@@ -67,10 +70,20 @@ Configure Supabase credentials in the environment files under `src/environments/
 - `environment.qa.ts` — QA
 - `environment.staging.ts` — Staging
 
+> V1 note: environment files currently share one Supabase project for demo. Split projects before production GO.
+
+## V1 Release
+
+Release documentation, checklist, and executive go/no-go report:
+
+- [`docs/releases/README.md`](docs/releases/README.md)
+- [`docs/releases/V1_EXECUTIVE_REPORT.md`](docs/releases/V1_EXECUTIVE_REPORT.md)
+- [`docs/releases/V1_RELEASE_CHECKLIST.md`](docs/releases/V1_RELEASE_CHECKLIST.md)
+
 ## Architecture
 
-This workspace follows the approved MyPropertyAsset architecture (NG-series). Feature shells are in place for IMP-002 feature development. Business logic, authentication flows, API calls, and state management are intentionally not implemented in this bootstrap phase.
+This workspace follows the approved MyPropertyAsset architecture (NG-series + P1–P17 delivery). Builder Portal and Super Admin feature modules are implemented for V1 demo readiness. Live Supabase repository wiring remains a post-V1 production gate — see known limitations.
 
 ## Documentation
 
-Architecture documentation is available in the `docs/` directory.
+Architecture and release documentation is available in the `docs/` directory.

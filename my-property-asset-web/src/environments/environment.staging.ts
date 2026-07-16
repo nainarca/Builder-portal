@@ -12,7 +12,7 @@ export const environment: Environment = {
   production: false,
   environmentName: 'staging',
   appTitle: 'MyPropertyAsset (Staging)',
-  appVersion: '0.0.0-staging',
+  appVersion: '1.0.0-staging',
   featureFlagDefaults: SHARED_FEATURE_FLAGS,
   supabase: {
     url: 'https://togszcwbaqzbyxqrlngb.supabase.co',

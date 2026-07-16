@@ -1,6 +1,6 @@
 {
   "name": "my-property-asset-web",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "MyPropertyAsset Web Platform — Angular 20 enterprise frontend",
   "scripts": {
     "ng": "ng",
