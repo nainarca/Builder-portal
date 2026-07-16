@@ -16,6 +16,7 @@ export const SEED_BUILDER_PROJECTS: readonly Project[] = [
     description: 'Twin residential towers with integrated retail podium.',
     ...ORG,
     projectType: 'apartment',
+    hierarchy: 'building-based',
     status: 'construction',
     location: {
       addressLine: 'Plot 14, Sector 12',
@@ -47,6 +48,7 @@ export const SEED_BUILDER_PROJECTS: readonly Project[] = [
     description: 'Premium mid-rise apartments nearing completion.',
     ...ORG,
     projectType: 'apartment',
+    hierarchy: 'building-based',
     status: 'construction',
     location: {
       addressLine: '22 Baner Road',
@@ -79,6 +81,7 @@ export const SEED_BUILDER_PROJECTS: readonly Project[] = [
     description: 'Large-scale mixed township with phased delivery.',
     ...ORG,
     projectType: 'mixed-development',
+    hierarchy: 'building-based',
     status: 'construction',
     location: {
       addressLine: '5 Whitefield Main Road',
@@ -110,6 +113,7 @@ export const SEED_BUILDER_PROJECTS: readonly Project[] = [
     description: 'Boutique residential development in early planning.',
     ...ORG,
     projectType: 'apartment',
+    hierarchy: 'building-based',
     status: 'planning',
     location: {
       addressLine: '9 Kandivali West',
@@ -140,6 +144,7 @@ export const SEED_BUILDER_PROJECTS: readonly Project[] = [
     description: 'Waterfront villas with private gardens.',
     ...ORG,
     projectType: 'villa',
+    hierarchy: 'direct-units',
     status: 'upcoming',
     location: {
       addressLine: '3 Riverside Drive',
@@ -170,6 +175,7 @@ export const SEED_BUILDER_PROJECTS: readonly Project[] = [
     description: 'Completed hillside community.',
     ...ORG,
     projectType: 'villa',
+    hierarchy: 'direct-units',
     status: 'completed',
     location: {
       addressLine: '1 Pinehill Road',
@@ -199,6 +205,7 @@ export const SEED_BUILDER_PROJECTS: readonly Project[] = [
     description: 'Commercial campus with retail podium.',
     ...ORG,
     projectType: 'commercial',
+    hierarchy: 'building-based',
     status: 'construction',
     location: {
       addressLine: '77 Cedar Avenue',
@@ -230,6 +237,7 @@ export const SEED_BUILDER_PROJECTS: readonly Project[] = [
     description: 'Archived residential plot scheme.',
     ...ORG,
     projectType: 'residential-plot',
+    hierarchy: 'direct-units',
     status: 'archived',
     location: {
       addressLine: '2 Willow Creek Lane',

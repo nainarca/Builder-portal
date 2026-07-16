@@ -1,11 +1,12 @@
-/** P8 Builder Project domain types — aligned with Batch 3 `builder_projects`. */
+/** P8/P9.1 Builder Project domain types — aligned with `builder_projects`. */
 
 export type ProjectType =
   | 'apartment'
   | 'villa'
   | 'residential-plot'
   | 'commercial'
-  | 'mixed-development';
+  | 'mixed-development'
+  | 'farm-land';
 
 /** DB snake_case codes for project_type */
 export type ProjectTypeDb =
@@ -13,7 +14,14 @@ export type ProjectTypeDb =
   | 'villa'
   | 'residential_plot'
   | 'commercial'
-  | 'mixed_development';
+  | 'mixed_development'
+  | 'farm_land';
+
+/** P9.1 — drives Builder Portal navigation (Buildings vs Units). */
+export type ProjectHierarchy = 'building-based' | 'direct-units';
+
+/** DB snake_case codes for project_hierarchy */
+export type ProjectHierarchyDb = 'building_based' | 'direct_units';
 
 export type ProjectStatus =
   | 'upcoming'
@@ -50,6 +58,8 @@ export interface Project {
   readonly organizationId: string;
   readonly organizationName: string;
   readonly projectType: ProjectType;
+  /** P9.1 — BUILDING_BASED | DIRECT_UNITS */
+  readonly hierarchy: ProjectHierarchy;
   readonly status: ProjectStatus;
   readonly location: ProjectLocation;
   readonly launchDate?: string;
@@ -68,6 +78,7 @@ export interface ProjectFormModel {
   code: string;
   description: string;
   projectType: ProjectType;
+  hierarchy: ProjectHierarchy;
   status: ProjectStatus;
   addressLine: string;
   city: string;
@@ -141,6 +152,7 @@ export function projectTypeToDb(type: ProjectType): ProjectTypeDb {
     'residential-plot': 'residential_plot',
     commercial: 'commercial',
     'mixed-development': 'mixed_development',
+    'farm-land': 'farm_land',
   };
   return map[type];
 }
@@ -154,8 +166,21 @@ export function projectTypeFromDb(value: string): ProjectType {
     commercial: 'commercial',
     mixed_development: 'mixed-development',
     'mixed-development': 'mixed-development',
+    farm_land: 'farm-land',
+    'farm-land': 'farm-land',
   };
   return map[value] ?? 'apartment';
+}
+
+export function projectHierarchyToDb(hierarchy: ProjectHierarchy): ProjectHierarchyDb {
+  return hierarchy === 'direct-units' ? 'direct_units' : 'building_based';
+}
+
+export function projectHierarchyFromDb(value: string): ProjectHierarchy {
+  if (value === 'direct_units' || value === 'direct-units') {
+    return 'direct-units';
+  }
+  return 'building-based';
 }
 
 export function emptyProjectSummary(): ProjectSummaryCounts {

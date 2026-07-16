@@ -81,6 +81,11 @@ export class BuildingCreatePageComponent implements BuildingUnsavedChangesHost {
       this.toast.error('Project not found');
       return;
     }
+    if (project.hierarchy === 'direct-units') {
+      this.toast.error('Buildings are not allowed for Direct Units projects');
+      void this.router.navigate(['/builder-portal/projects', this.projectId()]);
+      return;
+    }
 
     this.saving = true;
     try {

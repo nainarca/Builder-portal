@@ -67,7 +67,7 @@ export class ProjectHeaderComponent {
   readonly project = input.required<Project>();
 
   showBuildings(): boolean {
-    return buildingsAreSupported(this.project().projectType);
+    return buildingsAreSupported(this.project());
   }
 
   goToList(): void {

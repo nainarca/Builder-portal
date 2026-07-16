@@ -50,12 +50,13 @@ describe('ProjectService (P8)', () => {
     expect(result.items.every((p) => p.name.toLowerCase().includes('horizon'))).toBeTrue();
   });
 
-  it('creates a project with required P8 fields', () => {
+  it('creates a project with required P8/P9.1 fields', () => {
     const created = service.create({
       name: 'Lakeview Apartments',
       code: 'LVA-01',
       description: 'Waterfront apartments',
       projectType: 'apartment',
+      hierarchy: 'building-based',
       status: 'planning',
       addressLine: '1 Lake Road',
       city: 'Kochi',
@@ -71,8 +72,22 @@ describe('ProjectService (P8)', () => {
 
     expect(created.id).toBeTruthy();
     expect(created.projectType).toBe('apartment');
+    expect(created.hierarchy).toBe('building-based');
     expect(created.location.city).toBe('Kochi');
     expect(service.getById(created.id)?.name).toBe('Lakeview Apartments');
+  });
+
+  it('creates a DIRECT_UNITS villa community without buildings nav support', () => {
+    const created = service.create({
+      ...service.emptyFormModel(),
+      name: 'Palm Villas',
+      code: 'PV-01',
+      projectType: 'villa',
+      hierarchy: 'direct-units',
+      city: 'Goa',
+    });
+    expect(created.hierarchy).toBe('direct-units');
+    expect(created.projectType).toBe('villa');
   });
 
   it('archives and restores a project', () => {

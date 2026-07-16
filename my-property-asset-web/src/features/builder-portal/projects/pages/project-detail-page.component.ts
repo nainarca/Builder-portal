@@ -52,11 +52,11 @@ export class ProjectDetailPageComponent {
   readonly buildingStats = computed(() => this.buildings.dashboardStats(this.projectId()));
   readonly showBuildings = computed(() => {
     const p = this.project();
-    return p ? buildingsAreSupported(p.projectType) : false;
+    return p ? buildingsAreSupported(p) : false;
   });
   readonly buildingsRequired = computed(() => {
     const p = this.project();
-    return p ? buildingsAreRequired(p.projectType) : false;
+    return p ? buildingsAreRequired(p) : false;
   });
 
   goToBuildings(): void {

@@ -25,6 +25,7 @@ describe('BuildingService (P9)', () => {
                     organizationId: 'org-builder-demo',
                     name: 'Horizon Towers',
                     projectType: 'apartment',
+                    hierarchy: 'building-based',
                   }
                 : undefined,
           },
@@ -99,5 +100,36 @@ describe('BuildingService (P9)', () => {
   it('repository rejects cross-project code uniqueness only within project', () => {
     expect(repository.codeExists('proj-001', 'HZT-A')).toBeTrue();
     expect(repository.codeExists('proj-002', 'HZT-A')).toBeFalse();
+  });
+
+  it('rejects building create for DIRECT_UNITS projects', () => {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        InMemoryBuilderBuildingRepository,
+        { provide: BuilderBuildingRepository, useExisting: InMemoryBuilderBuildingRepository },
+        BuildingService,
+        {
+          provide: ProjectStoreService,
+          useValue: {
+            getById: () => ({
+              id: 'proj-villa',
+              organizationId: 'org-builder-demo',
+              name: 'Villas',
+              projectType: 'villa',
+              hierarchy: 'direct-units',
+            }),
+          },
+        },
+      ],
+    });
+    const directService = TestBed.inject(BuildingService);
+    expect(() =>
+      directService.create('proj-villa', {
+        ...directService.emptyFormModel(1),
+        name: 'Block A',
+        code: 'VA',
+      }),
+    ).toThrowError(/DIRECT_UNITS/);
   });
 });

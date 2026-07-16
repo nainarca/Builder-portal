@@ -8,6 +8,11 @@
   font-size: var(--mpa-font-size-xs);
 }
 
+.proj-form__hint {
+  color: var(--mpa-color-text-muted);
+  font-size: var(--mpa-font-size-xs);
+}
+
 .proj-form__field {
   display: flex;
   flex-direction: column;

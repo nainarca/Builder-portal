@@ -36,10 +36,16 @@ export const PROJECT_STATUS_OPTIONS = [
 export const PROJECT_TYPE_OPTIONS = [
   { label: 'All types', value: 'all' },
   { label: 'Apartment', value: 'apartment' },
-  { label: 'Villa', value: 'villa' },
-  { label: 'Residential Plot', value: 'residential-plot' },
-  { label: 'Commercial', value: 'commercial' },
+  { label: 'Villa Community', value: 'villa' },
+  { label: 'Residential Plot Layout', value: 'residential-plot' },
+  { label: 'Commercial Tower', value: 'commercial' },
   { label: 'Mixed Development', value: 'mixed-development' },
+  { label: 'Farm Land Layout', value: 'farm-land' },
+] as const;
+
+export const PROJECT_HIERARCHY_OPTIONS = [
+  { label: 'Building based (Project → Building → Unit)', value: 'building-based' },
+  { label: 'Direct units (Project → Unit)', value: 'direct-units' },
 ] as const;
 
 export const PROJECT_SORT_OPTIONS = [
@@ -52,10 +58,16 @@ export const PROJECT_SORT_OPTIONS = [
 
 export const PROJECT_TYPE_LABELS: Record<string, string> = {
   apartment: 'Apartment',
-  villa: 'Villa',
-  'residential-plot': 'Residential Plot',
-  commercial: 'Commercial',
+  villa: 'Villa Community',
+  'residential-plot': 'Residential Plot Layout',
+  commercial: 'Commercial Tower',
   'mixed-development': 'Mixed Development',
+  'farm-land': 'Farm Land Layout',
+};
+
+export const PROJECT_HIERARCHY_LABELS: Record<string, string> = {
+  'building-based': 'Building based',
+  'direct-units': 'Direct units',
 };
 
 export const PROJECT_STATUS_LABELS: Record<string, string> = {
