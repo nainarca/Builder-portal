@@ -55,6 +55,13 @@ export const OPS_SECTIONS: readonly OpsNavItem[] = [
     icon: 'pi pi-bell',
     route: '/super-admin/operations/alerts',
   },
+  {
+    id: 'communications',
+    label: 'Communications',
+    description: 'Builder communication moderation',
+    icon: 'pi pi-megaphone',
+    route: '/super-admin/operations/communications',
+  },
 ];
 
 export const MOCK_HEALTH_SERVICES: readonly HealthServiceRecord[] = [

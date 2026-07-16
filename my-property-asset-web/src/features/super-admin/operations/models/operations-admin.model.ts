@@ -15,7 +15,8 @@ export type OpsSectionId =
   | 'audit'
   | 'activity'
   | 'monitoring'
-  | 'alerts';
+  | 'alerts'
+  | 'communications';
 
 export type TelemetryProviderId =
   | 'sentry'

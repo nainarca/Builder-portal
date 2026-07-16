@@ -57,6 +57,11 @@ export const SUPER_ADMIN_ROUTES: Routes = [
         loadChildren: () =>
           import('./billing/billing.routes').then((m) => m.BILLING_ADMIN_ROUTE_CHILDREN),
       },
+      {
+        path: '',
+        loadChildren: () =>
+          import('./platform/platform.routes').then((m) => m.PLATFORM_ADMIN_ROUTE_CHILDREN),
+      },
     ],
   },
 ];

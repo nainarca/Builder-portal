@@ -52,6 +52,36 @@ interface SelectOption {
                 (input)="patch('supportEmail', inputValue($event))"
               />
             </div>
+            <div class="cfg-field">
+              <label class="cfg-field__label" for="cfg-support-phone">Support phone</label>
+              <input
+                id="cfg-support-phone"
+                class="cfg-field__input"
+                type="tel"
+                [value]="model.supportPhone"
+                (input)="patch('supportPhone', inputValue($event))"
+              />
+            </div>
+            <div class="cfg-field">
+              <label class="cfg-field__label" for="cfg-terms-url">Terms &amp; Conditions URL</label>
+              <input
+                id="cfg-terms-url"
+                class="cfg-field__input"
+                type="text"
+                [value]="model.termsUrl"
+                (input)="patch('termsUrl', inputValue($event))"
+              />
+            </div>
+            <div class="cfg-field cfg-field--full">
+              <label class="cfg-field__label" for="cfg-privacy-url">Privacy Policy URL</label>
+              <input
+                id="cfg-privacy-url"
+                class="cfg-field__input"
+                type="text"
+                [value]="model.privacyUrl"
+                (input)="patch('privacyUrl', inputValue($event))"
+              />
+            </div>
           </div>
         </app-form-section>
 

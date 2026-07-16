@@ -1103,6 +1103,33 @@ export const SUPER_ADMIN_BILLING_ALERTS_METADATA: RouteMetadata = {
   analyticsName: 'super_admin_billing_alerts',
 };
 
+export const SUPER_ADMIN_SUPPORT_METADATA: RouteMetadata = {
+  title: 'Support Center',
+  icon: 'pi pi-headphones',
+  description: 'Builder support queue, ticket status, and internal notes',
+  breadcrumb: 'Support',
+  permissions: ['portal:super-admin', 'id-06-platform-operations:full'],
+  analyticsName: 'super_admin_support',
+};
+
+export const SUPER_ADMIN_ANALYTICS_METADATA: RouteMetadata = {
+  title: 'Analytics',
+  icon: 'pi pi-chart-bar',
+  description: 'Platform growth, usage, and commercial analytics',
+  breadcrumb: 'Analytics',
+  permissions: ['portal:super-admin', 'id-06-platform-operations:read'],
+  analyticsName: 'super_admin_analytics',
+};
+
+export const SUPER_ADMIN_BRANDING_OVERSIGHT_METADATA: RouteMetadata = {
+  title: 'Branding oversight',
+  icon: 'pi pi-palette',
+  description: 'Review, reset, disable, and restore builder white-label branding',
+  breadcrumb: 'Branding oversight',
+  permissions: ['portal:super-admin', 'id-04-white-label-branding:full'],
+  analyticsName: 'super_admin_branding_oversight',
+};
+
 export const SUPER_ADMIN_COMMUNICATIONS_METADATA: RouteMetadata = {
   ...SUPER_ADMIN_OPERATIONS_METADATA,
   title: 'Communications',
