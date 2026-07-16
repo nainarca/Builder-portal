@@ -1231,3 +1231,31 @@ export const BUILDER_PORTAL_HANDOVER_ARCHIVE_METADATA: RouteMetadata = {
   breadcrumb: 'Archive',
   analyticsName: 'builder_portal_handover_archive',
 };
+
+export const BUILDER_PORTAL_HANDOVER_DOCUMENTS_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_HANDOVER_DETAIL_METADATA,
+  title: 'Handover documents',
+  breadcrumb: 'Documents',
+  analyticsName: 'builder_portal_handover_documents',
+};
+
+export const BUILDER_PORTAL_HANDOVER_INVITATION_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_HANDOVER_DETAIL_METADATA,
+  title: 'Invitation',
+  breadcrumb: 'Invitation',
+  analyticsName: 'builder_portal_handover_invitation',
+};
+
+export const BUILDER_PORTAL_HANDOVER_ACTIVATION_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_HANDOVER_DETAIL_METADATA,
+  title: 'Activation',
+  breadcrumb: 'Activation',
+  analyticsName: 'builder_portal_handover_activation',
+};
+
+export const BUILDER_PORTAL_HANDOVER_AUDIT_METADATA: RouteMetadata = {
+  ...BUILDER_PORTAL_HANDOVER_DETAIL_METADATA,
+  title: 'Audit',
+  breadcrumb: 'Audit',
+  analyticsName: 'builder_portal_handover_audit',
+};

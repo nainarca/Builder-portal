@@ -10,6 +10,8 @@ import { HandoverStatusBadgeComponent, WorkflowCardComponent } from '../componen
 import { MilestoneTrackerComponent, ProgressCardComponent, TimelineCardComponent, WorkflowTimelineComponent } from '../components/workflow';
 import { ReadinessCardComponent } from '../inspection/components/overview';
 import { ReadinessService } from '../inspection/services/readiness.service';
+import { HandoverInvitationService } from '../services/handover-invitation.service';
+import { OwnerActivationService } from '../services/owner-activation.service';
 import { HandoverStoreService } from '../services/handover-store.service';
 
 @Component({
@@ -35,6 +37,8 @@ export class HandoverDetailPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly store = inject(HandoverStoreService);
   private readonly readinessService = inject(ReadinessService);
+  private readonly invitations = inject(HandoverInvitationService);
+  private readonly activation = inject(OwnerActivationService);
 
   private readonly handoverId = toSignal(this.route.paramMap.pipe(map((p) => p.get('id') ?? '')), {
     initialValue: '',
@@ -42,4 +46,6 @@ export class HandoverDetailPageComponent {
 
   readonly handover = computed(() => this.store.getById(this.handoverId()));
   readonly readiness = computed(() => this.readinessService.getReadiness(this.handoverId()));
+  readonly invitation = computed(() => this.invitations.getSummary(this.handoverId()));
+  readonly activationReadiness = computed(() => this.activation.getReadiness(this.handoverId()));
 }

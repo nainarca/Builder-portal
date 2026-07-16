@@ -17,6 +17,7 @@ import {
 } from '../components/explorer';
 import { TimelineCardComponent } from '../components/workflow';
 import { HANDOVER_SORT_OPTIONS, HANDOVER_WORKSPACE_HEADER } from '../config/handovers.config';
+import { HandoverDashboardService } from '../services/handover-dashboard.service';
 import { HandoverListStateService } from '../services/handover-list-state.service';
 import { HandoverStoreService } from '../services/handover-store.service';
 
@@ -46,6 +47,7 @@ export class HandoverWorkspacePageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly store = inject(HandoverStoreService);
   private readonly projectStore = inject(ProjectStoreService);
+  private readonly dashboard = inject(HandoverDashboardService);
   readonly listState = inject(HandoverListStateService);
 
   readonly header = HANDOVER_WORKSPACE_HEADER;
@@ -57,14 +59,13 @@ export class HandoverWorkspacePageComponent {
 
   readonly kpis = computed<readonly DashboardKpiItem[]>(() => {
     const handovers = this.allHandovers();
-    const inProgress = handovers.filter((h) => h.overallStatus === 'in-progress').length;
-    const completed = handovers.filter((h) => h.overallStatus === 'completed').length;
-    const delayed = handovers.filter((h) => h.overallStatus === 'delayed').length;
+    const stats = this.dashboard.stats();
     return [
-      { id: 'total', label: 'Total handovers', value: String(handovers.length), icon: 'pi pi-flag', tone: 'primary' },
-      { id: 'in-progress', label: 'In progress', value: String(inProgress), icon: 'pi pi-sync', tone: 'info' },
-      { id: 'completed', label: 'Completed', value: String(completed), icon: 'pi pi-check-circle', tone: 'success' },
-      { id: 'delayed', label: 'Delayed', value: String(delayed), icon: 'pi pi-exclamation-triangle', tone: 'danger' },
+      { id: 'total', label: 'Total handovers', value: String(stats.total), icon: 'pi pi-flag', tone: 'primary' },
+      { id: 'invites-pending', label: 'Invitations pending', value: String(stats.invitationsPending), icon: 'pi pi-envelope', tone: 'warning' },
+      { id: 'invites-accepted', label: 'Invitations accepted', value: String(stats.invitationsAccepted), icon: 'pi pi-check-circle', tone: 'success' },
+      { id: 'activation-ready', label: 'Activation ready', value: String(stats.activationReady), icon: 'pi pi-mobile', tone: 'info' },
+      { id: 'activated', label: 'Activated', value: String(stats.activated), icon: 'pi pi-star', tone: 'success' },
     ];
   });
 

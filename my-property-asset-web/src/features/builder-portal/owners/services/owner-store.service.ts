@@ -261,6 +261,39 @@ export class OwnerStoreService {
     );
   }
 
+  generateInvitation(assignmentId: string): void {
+    this.assignmentsSignal.update((assignments) =>
+      assignments.map((a) => {
+        if (a.id !== assignmentId) {
+          return a;
+        }
+        const now = new Date().toISOString();
+        return {
+          ...a,
+          invitation: {
+            ...a.invitation,
+            status: 'pending',
+            sentAt: now,
+            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+            cancelledAt: undefined,
+            acceptedAt: undefined,
+          },
+          activity: [
+            {
+              id: `a-${crypto.randomUUID().slice(0, 8)}`,
+              title: 'Invitation generated',
+              description: `Generated for ${a.ownerName}`,
+              timestamp: now,
+              icon: 'pi pi-envelope',
+              tone: 'primary' as const,
+            },
+            ...a.activity,
+          ],
+        };
+      }),
+    );
+  }
+
   sendReminder(assignmentId: string): void {
     this.assignmentsSignal.update((assignments) =>
       assignments.map((a) => {
@@ -311,6 +344,40 @@ export class OwnerStoreService {
         };
       }),
     );
+  }
+
+  acceptInvitation(assignmentId: string): void {
+    this.assignmentsSignal.update((assignments) =>
+      assignments.map((a) => {
+        if (a.id !== assignmentId) {
+          return a;
+        }
+        const now = new Date().toISOString();
+        return {
+          ...a,
+          invitation: {
+            ...a.invitation,
+            status: 'accepted',
+            acceptedAt: now,
+          },
+          activity: [
+            {
+              id: `a-${crypto.randomUUID().slice(0, 8)}`,
+              title: 'Invitation accepted',
+              description: `${a.ownerName} accepted the mobile activation invitation`,
+              timestamp: now,
+              icon: 'pi pi-check-circle',
+              tone: 'success' as const,
+            },
+            ...a.activity,
+          ],
+        };
+      }),
+    );
+  }
+
+  markActivated(ownerId: string): void {
+    this.setActivationStatus(ownerId, 'activated');
   }
 
   private setActivationStatus(ownerId: string, status: Owner['activationStatus']): void {
