@@ -61,11 +61,11 @@ export class BuildingListPageComponent implements OnInit {
   readonly stats = computed(() => this.buildingService.dashboardStats(this.projectId()));
   readonly buildingMode = computed(() => {
     const project = this.project();
-    return project ? resolveBuildingMode(project.projectType) : 'optional';
+    return project ? resolveBuildingMode(project) : 'optional';
   });
   readonly buildingsRequired = computed(() => {
     const project = this.project();
-    return project ? buildingsAreRequired(project.projectType) : false;
+    return project ? buildingsAreRequired(project) : false;
   });
 
   readonly statusOptions: readonly SelectOption[] = BUILDING_STATUS_OPTIONS;

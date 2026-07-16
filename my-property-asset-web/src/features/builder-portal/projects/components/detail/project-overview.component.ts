@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 
 import { ContentCardComponent, ContentSectionComponent, SectionHeaderComponent } from '@shared/ui';
 
-import { PROJECT_STATUS_LABELS, PROJECT_TYPE_LABELS } from '../../config/projects.config';
+import { PROJECT_HIERARCHY_LABELS, PROJECT_STATUS_LABELS, PROJECT_TYPE_LABELS } from '../../config/projects.config';
 import { Project } from '../../models/project.model';
 
 @Component({
@@ -61,6 +61,11 @@ export class ProjectOverviewComponent {
         label: 'Type',
         value: PROJECT_TYPE_LABELS[p.projectType] ?? p.projectType,
         icon: 'pi pi-building',
+      },
+      {
+        label: 'Hierarchy',
+        value: PROJECT_HIERARCHY_LABELS[p.hierarchy] ?? p.hierarchy,
+        icon: 'pi pi-sitemap',
       },
       {
         label: 'City',

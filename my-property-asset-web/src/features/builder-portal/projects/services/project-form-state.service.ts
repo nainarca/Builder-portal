@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 
+import { isHierarchyCompatible } from '../buildings/utils/project-building-compatibility';
 import { ProjectFormModel } from '../models/project.model';
 
 const AUTOSAVE_DELAY_MS = 2000;
@@ -52,6 +53,11 @@ export class ProjectFormStateService {
     }
     if (!model.projectType) {
       nextErrors.projectType = 'Project type is required';
+    }
+    if (!model.hierarchy) {
+      nextErrors.hierarchy = 'Hierarchy is required';
+    } else if (!isHierarchyCompatible(model.projectType, model.hierarchy)) {
+      nextErrors.hierarchy = 'Hierarchy is not allowed for this project type';
     }
     if (
       model.launchDate &&

@@ -13,12 +13,16 @@ import {
   WizardStep,
 } from '@shared/ui';
 
-import { PROJECT_STATUS_OPTIONS, PROJECT_TYPE_OPTIONS } from '../../config/projects.config';
-import { ProjectFormModel } from '../../models/project.model';
+import { PROJECT_HIERARCHY_OPTIONS, PROJECT_STATUS_OPTIONS, PROJECT_TYPE_OPTIONS } from '../../config/projects.config';
+import { ProjectFormModel, ProjectHierarchy, ProjectType } from '../../models/project.model';
 import { ProjectFormStateService } from '../../services/project-form-state.service';
+import {
+  allowedHierarchiesForProjectType,
+  defaultHierarchyForProjectType,
+} from '../../buildings/utils/project-building-compatibility';
 
 const STEP_FIELD_MAP: Record<number, (keyof ProjectFormModel)[]> = {
-  0: ['name', 'projectType'],
+  0: ['name', 'projectType', 'hierarchy'],
   1: ['city', 'launchDate', 'expectedCompletionDate', 'latitude', 'longitude'],
   2: ['status'],
 };
@@ -60,6 +64,12 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     (o) => o.value !== 'all' && o.value !== 'archived',
   );
   readonly typeOptions: readonly SelectOption[] = PROJECT_TYPE_OPTIONS.filter((o) => o.value !== 'all');
+  readonly allHierarchyOptions: readonly SelectOption[] = PROJECT_HIERARCHY_OPTIONS;
+
+  hierarchyOptionsFor(type: ProjectType): readonly SelectOption[] {
+    const allowed = new Set(allowedHierarchiesForProjectType(type));
+    return this.allHierarchyOptions.filter((o) => allowed.has(o.value as ProjectHierarchy));
+  }
 
   ngOnInit(): void {
     this.formState.initialize(this.initialModel());
@@ -99,6 +109,12 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   onTextChange<K extends keyof ProjectFormModel>(field: K, value: string): void {
+    if (field === 'projectType') {
+      const nextType = value as ProjectType;
+      const nextHierarchy = defaultHierarchyForProjectType(nextType);
+      this.formState.patch({ projectType: nextType, hierarchy: nextHierarchy });
+      return;
+    }
     this.formState.setField(field, value as ProjectFormModel[K]);
   }
 

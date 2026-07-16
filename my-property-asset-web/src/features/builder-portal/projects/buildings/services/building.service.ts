@@ -70,6 +70,9 @@ export class BuildingService {
     if (!project) {
       throw new Error('Project not found');
     }
+    if (project.hierarchy === 'direct-units') {
+      throw new Error('Buildings are not allowed for DIRECT_UNITS projects');
+    }
     const created = this.repository.create(projectId, project.organizationId, model);
     this.touch();
     return created;

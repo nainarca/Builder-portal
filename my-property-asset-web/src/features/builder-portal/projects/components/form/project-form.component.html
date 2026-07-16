@@ -37,6 +37,20 @@
                 (valueChange)="onTextChange('projectType', $event)"
               />
             </div>
+            <div class="proj-form__field">
+              <span class="proj-form__label">Hierarchy *</span>
+              <app-select
+                [options]="hierarchyOptionsFor(model.projectType)"
+                [value]="model.hierarchy"
+                (valueChange)="onTextChange('hierarchy', $event)"
+              />
+              @if (formState.errors()['hierarchy']) {
+                <small class="proj-form__error">{{ formState.errors()['hierarchy'] }}</small>
+              }
+              <small class="proj-form__hint">
+                Building based shows Buildings then Units. Direct units skips Buildings.
+              </small>
+            </div>
             <div class="proj-form__field proj-form__field--full">
               <span class="proj-form__label">Description</span>
               <textarea rows="3" [value]="model.description" (input)="onTextareaChange('description', $event)"></textarea>
@@ -120,6 +134,7 @@
               <div class="proj-form__review-row"><dt>Name</dt><dd>{{ model.name }}</dd></div>
               <div class="proj-form__review-row"><dt>Code</dt><dd>{{ model.code || '—' }}</dd></div>
               <div class="proj-form__review-row"><dt>Type</dt><dd>{{ model.projectType }}</dd></div>
+              <div class="proj-form__review-row"><dt>Hierarchy</dt><dd>{{ model.hierarchy }}</dd></div>
               <div class="proj-form__review-row">
                 <dt>Location</dt>
                 <dd>{{ model.city }}{{ model.state ? ', ' + model.state : '' }} {{ model.postalCode }}</dd>

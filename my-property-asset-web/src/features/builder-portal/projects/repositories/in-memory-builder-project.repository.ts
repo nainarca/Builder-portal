@@ -81,6 +81,7 @@ export class InMemoryBuilderProjectRepository extends BuilderProjectRepository {
       organizationId,
       organizationName,
       projectType: model.projectType,
+      hierarchy: model.hierarchy,
       status,
       location: {
         addressLine: model.addressLine.trim(),
@@ -117,6 +118,7 @@ export class InMemoryBuilderProjectRepository extends BuilderProjectRepository {
       code: (model.code.trim() || existing.code).toUpperCase(),
       description: model.description.trim() || undefined,
       projectType: model.projectType,
+      hierarchy: model.hierarchy,
       status,
       location: {
         addressLine: model.addressLine.trim(),
