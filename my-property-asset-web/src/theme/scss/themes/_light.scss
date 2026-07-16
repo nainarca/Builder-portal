@@ -4,11 +4,18 @@
 }
 
 [data-theme-resolved='light'] {
+  --mpa-color-primary: #b45309;
+  --mpa-color-primary-hover: #92400e;
+  --mpa-color-primary-contrast: #ffffff;
+  --mpa-color-primary-subtle: #fef3c7;
   --mpa-color-surface: #ffffff;
+  --mpa-color-surface-elevated: #ffffff;
   --mpa-color-surface-muted: #f8fafc;
   --mpa-color-background: #f1f5f9;
+  --mpa-color-card: rgba(15, 23, 42, 0.03);
   --mpa-color-text: #1a1a2e;
   --mpa-color-text-muted: #64748b;
   --mpa-color-border: #e2e8f0;
   --mpa-color-border-strong: #cbd5e1;
+  --mpa-color-focus: #b45309;
 }

@@ -14,3 +14,11 @@
   font-size: var(--mpa-font-size-sm);
   font-weight: var(--mpa-font-weight-semibold);
 }
+
+:host ::ng-deep .p-datatable-tbody > tr {
+  transition: background-color var(--mpa-transition-fast);
+}
+
+:host ::ng-deep .p-datatable-tbody > tr:hover {
+  background: var(--mpa-color-surface-muted);
+}

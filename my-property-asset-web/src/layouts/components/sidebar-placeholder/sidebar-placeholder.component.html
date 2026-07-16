@@ -23,5 +23,17 @@
       <app-favorites-navigation />
       <app-recent-items-navigation />
     }
+
+    <div class="layout-sidebar__spacer"></div>
+
+    @if (showProfile() && userEmail()) {
+      <div class="layout-sidebar__profile">
+        <span class="layout-sidebar__profile-avatar">{{ userInitial() }}</span>
+        <div class="layout-sidebar__profile-info">
+          <span class="layout-sidebar__profile-email">{{ userEmail() }}</span>
+          <span class="layout-sidebar__profile-org">{{ organizationName() }}</span>
+        </div>
+      </div>
+    }
   </div>
 </aside>

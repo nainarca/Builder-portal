@@ -4,6 +4,7 @@
   background-color: var(--mpa-layout-header-bg);
   color: var(--mpa-color-text);
   box-shadow: var(--mpa-shadow-header);
+  backdrop-filter: blur(12px);
 }
 
 .layout-header__inner {
@@ -24,8 +25,10 @@
   height: 2rem;
   border-radius: var(--mpa-radius-md);
   background: var(--mpa-color-primary-subtle);
+  border: 1px solid color-mix(in srgb, var(--mpa-color-primary) 20%, transparent);
   color: var(--mpa-color-primary);
   font-size: var(--mpa-icon-size-sm);
+  font-weight: var(--mpa-font-weight-semibold);
 }
 
 .layout-header__menu-button {

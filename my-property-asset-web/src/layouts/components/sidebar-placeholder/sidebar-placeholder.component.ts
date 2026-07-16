@@ -1,4 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+
+import { AuthContextService } from '@core/auth';
+import { CurrentOrganizationService } from '@core/organization-context';
 
 import { FavoritesNavigationComponent } from '../../../navigation/components/favorites-navigation/favorites-navigation.component';
 import { RecentItemsNavigationComponent } from '../../../navigation/components/recent-items-navigation/recent-items-navigation.component';
@@ -24,13 +27,20 @@ import { LayoutService } from '../../services/layout.service';
 export class SidebarPlaceholderComponent {
   private readonly layoutService = inject(LayoutService);
   private readonly navigationState = inject(NavigationStateService);
+  private readonly authContext = inject(AuthContextService);
+  private readonly currentOrganization = inject(CurrentOrganizationService);
 
   readonly brand = input('MyPropertyAsset');
   readonly collapsed = input(false);
   readonly ariaLabel = input('Sidebar');
   readonly showNavigation = input(true);
+  readonly showProfile = input(true);
 
   readonly sidebarCollapsed = this.navigationState.sidebarCollapsed;
+
+  readonly userEmail = computed(() => this.authContext.user()?.email ?? '');
+  readonly userInitial = computed(() => this.userEmail().charAt(0).toUpperCase() || '?');
+  readonly organizationName = computed(() => this.currentOrganization.organizationName() ?? 'MyPropertyAsset');
 
   toggleSidebar(): void {
     const next = !this.sidebarCollapsed();

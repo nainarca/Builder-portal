@@ -10,7 +10,7 @@
   padding: var(--mpa-spacing-xl);
   border-radius: calc(var(--mpa-radius-xl) * 1.1);
   border: 1px solid var(--mpa-color-border);
-  background: var(--mpa-color-surface);
+  background: color-mix(in srgb, var(--mpa-color-surface-elevated) 96%, var(--mpa-color-card, transparent));
   box-shadow: var(--mpa-shadow-sm);
   transition:
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
@@ -21,8 +21,8 @@
 @media (prefers-reduced-motion: no-preference) {
   .public-features__card:hover {
     transform: translateY(-0.35rem);
-    border-color: color-mix(in srgb, var(--mpa-color-primary) 30%, var(--mpa-color-border));
-    box-shadow: var(--mpa-shadow-lg);
+    border-color: color-mix(in srgb, var(--mpa-color-primary) 35%, var(--mpa-color-border));
+    box-shadow: var(--mpa-shadow-lg), 0 0 0 1px color-mix(in srgb, var(--mpa-color-primary) 12%, transparent);
   }
 }
 
@@ -40,11 +40,8 @@
   width: 3rem;
   height: 3rem;
   border-radius: var(--mpa-radius-lg);
-  background: linear-gradient(
-    145deg,
-    color-mix(in srgb, var(--mpa-color-primary-subtle) 90%, white),
-    var(--mpa-color-primary-subtle)
-  );
+  background: var(--mpa-color-primary-subtle);
+  border: 1px solid color-mix(in srgb, var(--mpa-color-primary) 18%, transparent);
   color: var(--mpa-color-primary);
 }
 

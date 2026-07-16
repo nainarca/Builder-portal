@@ -13,7 +13,7 @@ export const environment: Environment = {
     'authentication': true,
   },
   supabase: {
-    url: '',
-    anonKey: '',
+    url: 'https://togszcwbaqzbyxqrlngb.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRvZ3N6Y3diYXF6Ynl4cXJsbmdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwNTgwMzQsImV4cCI6MjA5NjYzNDAzNH0.u-7Vw_c9Pt-tiOYPOBqgpomeXkNLo5_QQxDLCIu808I',
   },
 };

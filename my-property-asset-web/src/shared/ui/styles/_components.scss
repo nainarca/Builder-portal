@@ -51,9 +51,9 @@
 .ui-page-title {
   margin: 0;
   font-size: var(--mpa-font-size-2xl);
-  font-weight: var(--mpa-font-weight-semibold);
+  font-weight: var(--mpa-font-weight-bold);
   line-height: var(--mpa-line-height-tight);
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
   color: var(--mpa-color-text);
 }
 
@@ -124,7 +124,7 @@
   padding: clamp(1.25rem, 2vw, 1.75rem);
   border: 1px solid var(--mpa-color-border);
   border-radius: var(--mpa-radius-xl);
-  background: var(--mpa-color-surface-elevated);
+  background: color-mix(in srgb, var(--mpa-color-surface-elevated) 97%, var(--mpa-color-card, transparent));
   box-shadow: var(--mpa-shadow-sm);
   transition:
     box-shadow var(--mpa-transition-normal),
@@ -142,7 +142,8 @@
 
 .ui-card--interactive:hover {
   box-shadow: var(--mpa-shadow-md);
-  border-color: var(--mpa-color-border-strong);
+  border-color: color-mix(in srgb, var(--mpa-color-primary) 25%, var(--mpa-color-border-strong));
+  transform: translateY(-2px);
 }
 
 .ui-card--outlined {
@@ -159,7 +160,7 @@
 .ui-stat-card__value {
   margin: 0;
   font-size: var(--mpa-font-size-2xl);
-  font-weight: var(--mpa-font-weight-semibold);
+  font-weight: var(--mpa-font-weight-bold);
   letter-spacing: -0.02em;
   color: var(--mpa-color-text);
 }
@@ -228,7 +229,7 @@
   padding: var(--mpa-spacing-lg);
   border: 1px solid var(--mpa-color-border);
   border-radius: var(--mpa-radius-lg);
-  background: var(--mpa-color-surface);
+  background: color-mix(in srgb, var(--mpa-color-surface) 97%, var(--mpa-color-card, transparent));
 }
 
 .ui-validation-summary {

@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 
 import { AuthContextService } from '@core/auth';
-import { AuthorizationService } from '@core/rbac';
 import { ApplicationEventBusService } from '@infrastructure/events';
 import { FeatureFlagService } from '@infrastructure/feature-flags';
 import { NotificationService } from '@infrastructure/notification';
@@ -21,7 +20,6 @@ export class OrganizationSwitchService {
   private readonly store = inject(OrganizationStoreService);
   private readonly cache = inject(OrganizationCacheService);
   private readonly branding = inject(OrganizationBrandingService);
-  private readonly authorization = inject(AuthorizationService);
   private readonly navigation = inject(NavigationService);
   private readonly featureFlags = inject(FeatureFlagService);
   private readonly notifications = inject(NotificationService);
@@ -53,7 +51,7 @@ export class OrganizationSwitchService {
       this.cache.persistLastUsedOrganization(user.id, organizationId);
       const organization = this.toOrganization(membership);
       this.store.applyActiveOrganization(organization);
-      await this.refreshDependentContexts(organization);
+      this.refreshDependentContexts(organization);
 
       this.eventBus.publish({
         type: ORGANIZATION_EVENT_TYPES.switched,
@@ -84,11 +82,14 @@ export class OrganizationSwitchService {
     }
   }
 
-  private async refreshDependentContexts(organization: Organization): Promise<void> {
+  private refreshDependentContexts(organization: Organization): void {
     this.branding.applyForOrganization(organization);
     this.featureFlags.initialize();
     this.navigation.refreshContext();
-    await this.authorization.resolveAuthorization();
+    // Authorization re-resolution is triggered reactively via ORGANIZATION_EVENT_TYPES.switched/
+    // contextChanged, which AuthorizationService already subscribes to — see authorization.service.ts.
+    // This keeps organization-context decoupled from rbac (rbac depends on organization-context,
+    // never the reverse), avoiding the circular dependency that direct injection here caused.
   }
 
   private toOrganization(membership: OrganizationMembership): Organization {

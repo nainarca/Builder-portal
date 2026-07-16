@@ -1,17 +1,45 @@
 [data-theme-resolved='dark'] {
   color-scheme: dark;
-  --mpa-color-surface: #0f172a;
-  --mpa-color-surface-elevated: #1e293b;
-  --mpa-color-surface-muted: #1e293b;
-  --mpa-color-background: #020617;
-  --mpa-color-text: #f8fafc;
-  --mpa-color-text-muted: #94a3b8;
-  --mpa-color-border: #334155;
-  --mpa-color-border-strong: #475569;
-  --mpa-color-primary-subtle: #172554;
-  --mpa-layout-header-bg: var(--mpa-color-surface);
-  --mpa-layout-sidebar-bg: var(--mpa-color-surface);
-  --mpa-layout-footer-bg: var(--mpa-color-surface);
+
+  // Layered background system: background (page canvas) < surface (chrome/panels) < surface-elevated (cards/popovers)
+  --mpa-color-background: #0b0e1a;
+  --mpa-color-surface: #11182d;
+  --mpa-color-surface-elevated: #1b2a4e;
+  --mpa-color-surface-muted: #151d33;
+  --mpa-color-card: rgba(255, 255, 255, 0.04);
+
+  // Brand — amber CTA, high-contrast dark text on top of it
+  --mpa-color-primary: #ffc107;
+  --mpa-color-primary-hover: #ffbf3f;
+  --mpa-color-primary-contrast: #0b0e1a;
+  --mpa-color-primary-subtle: rgba(255, 193, 7, 0.14);
+
+  --mpa-color-secondary: #8b96b0;
+  --mpa-color-secondary-hover: #a8b2c8;
+  --mpa-color-accent: #38bdf8;
+  --mpa-color-accent-hover: #0ea5e9;
+
+  --mpa-color-success: #22c55e;
+  --mpa-color-warning: #f59e0b;
+  --mpa-color-danger: #f87171;
+  --mpa-color-info: #38bdf8;
+
+  --mpa-color-text: #ffffff;
+  --mpa-color-text-muted: #a8b2c8;
+  --mpa-color-border: rgba(255, 255, 255, 0.08);
+  --mpa-color-border-strong: rgba(255, 255, 255, 0.14);
+  --mpa-color-focus: #ffc107;
+
+  // Chrome (sidebar/header) sits between background and surface for subtle depth separation
+  --mpa-layout-header-bg: #0e1426;
+  --mpa-layout-sidebar-bg: #0e1426;
+  --mpa-layout-footer-bg: #0b0e1a;
   --mpa-layout-chrome-border: var(--mpa-color-border);
-  --mpa-shadow-header: 0 1px 0 rgb(0 0 0 / 25%);
+
+  // Shadows re-tuned for a dark canvas — black-based, higher opacity, edges rely on --mpa-color-border more than shadow
+  --mpa-shadow-sm: 0 1px 2px rgb(0 0 0 / 24%);
+  --mpa-shadow-md: 0 4px 12px -2px rgb(0 0 0 / 32%), 0 2px 4px -2px rgb(0 0 0 / 24%);
+  --mpa-shadow-lg: 0 12px 24px -4px rgb(0 0 0 / 40%), 0 4px 8px -4px rgb(0 0 0 / 28%);
+  --mpa-shadow-xl: 0 24px 48px -8px rgb(0 0 0 / 48%), 0 8px 16px -8px rgb(0 0 0 / 32%);
+  --mpa-shadow-header: 0 1px 0 rgb(0 0 0 / 40%);
 }

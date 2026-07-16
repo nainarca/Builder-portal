@@ -60,26 +60,63 @@
     </div>
 
     <div class="public-hero__visual public-animate-in public-animate-in--delay-2" aria-hidden="true">
-      <div class="public-hero__illustration">
-        <div class="public-hero__orb public-hero__orb--primary"></div>
-        <div class="public-hero__orb public-hero__orb--accent"></div>
+      <div class="dash-preview">
+        <div class="dash-preview__titlebar">
+          <span class="dash-preview__dot"></span><span class="dash-preview__dot"></span><span class="dash-preview__dot"></span>
+          <span class="dash-preview__titlebar-label">Builder Portal · Portfolio Overview</span>
+        </div>
 
-        <div class="public-hero__panel public-hero__panel--main">
-          <div class="public-hero__panel-header">
-            <span></span><span></span><span></span>
+        <div class="dash-preview__stats">
+          <div class="dash-preview__stat">
+            <span class="dash-preview__stat-icon dash-preview__stat-icon--primary"><i class="pi pi-briefcase"></i></span>
+            <div>
+              <span class="dash-preview__stat-value">12</span>
+              <span class="dash-preview__stat-label">Projects</span>
+            </div>
           </div>
-          <div class="public-hero__panel-line public-hero__panel-line--wide"></div>
-          <div class="public-hero__panel-line"></div>
-          <div class="public-hero__panel-chart">
-            <span></span><span></span><span></span><span></span><span></span>
+          <div class="dash-preview__stat">
+            <span class="dash-preview__stat-icon dash-preview__stat-icon--info"><i class="pi pi-building"></i></span>
+            <div>
+              <span class="dash-preview__stat-value">248</span>
+              <span class="dash-preview__stat-label">Units</span>
+            </div>
+          </div>
+          <div class="dash-preview__stat">
+            <span class="dash-preview__stat-icon dash-preview__stat-icon--success"><i class="pi pi-flag"></i></span>
+            <div>
+              <span class="dash-preview__stat-value">34</span>
+              <span class="dash-preview__stat-label">Handovers</span>
+            </div>
+          </div>
+          <div class="dash-preview__stat">
+            <span class="dash-preview__stat-icon dash-preview__stat-icon--warning"><i class="pi pi-exclamation-triangle"></i></span>
+            <div>
+              <span class="dash-preview__stat-value">7</span>
+              <span class="dash-preview__stat-label">Snags</span>
+            </div>
           </div>
         </div>
 
-        <div class="public-hero__panel public-hero__panel--floating">
-          <span class="public-hero__metric-label">Portfolio value</span>
-          <strong class="public-hero__metric-value">$2.4B</strong>
-          <span class="public-hero__metric-trend">+12.4% YoY</span>
+        <div class="dash-preview__body">
+          <div class="dash-preview__donut-block">
+            <div class="dash-preview__donut" style="--dash-preview-pct: 72"></div>
+            <div>
+              <span class="dash-preview__donut-label">Portfolio</span>
+              <span class="dash-preview__donut-value">72% complete</span>
+            </div>
+          </div>
+
+          <ul class="dash-preview__activity">
+            <li><span class="dash-preview__activity-dot dash-preview__activity-dot--success"></span>Handover completed — Tower A, Unit 204</li>
+            <li><span class="dash-preview__activity-dot dash-preview__activity-dot--info"></span>Appointment scheduled — owner walkthrough</li>
+            <li><span class="dash-preview__activity-dot dash-preview__activity-dot--warning"></span>Snag reported — Skyline Residences</li>
+          </ul>
         </div>
+      </div>
+
+      <div class="dash-preview__floating-chip">
+        <span class="dash-preview__floating-chip-label">On-time handovers</span>
+        <strong class="dash-preview__floating-chip-value">96%</strong>
       </div>
     </div>
   </div>

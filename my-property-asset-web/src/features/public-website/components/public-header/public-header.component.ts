@@ -1,10 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import {
-  QuickActionsComponent,
-  TopNavigationComponent,
-} from '@navigation/components';
+import { TopNavigationComponent } from '@navigation/components';
 import { NavigationStateService } from '@navigation/services';
 import { PLATFORM_BRAND } from '@theme/config';
 import { ThemeModePreference } from '@theme/models';
@@ -13,7 +10,7 @@ import { ConversionCtaLinkComponent } from '../conversion/conversion-cta-link/co
 
 @Component({
   selector: 'app-public-header',
-  imports: [RouterLink, ConversionCtaLinkComponent, TopNavigationComponent, QuickActionsComponent],
+  imports: [RouterLink, ConversionCtaLinkComponent, TopNavigationComponent],
   templateUrl: './public-header.component.html',
   styleUrl: './public-header.component.scss',
   host: {

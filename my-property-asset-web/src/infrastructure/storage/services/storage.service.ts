@@ -1,11 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 
-import {
-  LocalStorageAdapter,
-  MemoryStorageAdapter,
-  SessionStorageAdapter,
-  StorageAdapter,
-} from '../adapters/storage.adapters';
+import { MemoryStorageAdapter } from '../adapters/memory-storage.adapter';
+import { LocalStorageAdapter, SessionStorageAdapter, StorageAdapter } from '../adapters/storage.adapters';
 import { StorageEncryptionHookService } from '../hooks/storage-encryption.hook';
 import { StorageBackend, StorageOptions } from '../models/storage.model';
 

@@ -50,13 +50,16 @@ export const NAVIGATION_METADATA: NavigationMetadata = {
 
 export const PUBLIC_WEBSITE_NAVIGATION: NavigationConfiguration = {
   context: 'public-website',
+  // Kept deliberately minimal (UI-001): only Home/Solutions/Pricing/Company render in the header's
+  // primary nav. Features/About/Contact/Help/FAQ/How it works/Stories are unchanged, still fully
+  // routable pages, and still linked from the footer — only removed from this rendered array.
   topNav: section('public-website-top', 'Primary navigation', [
     { id: 'pub-home', label: 'Home', route: '/', icon: 'pi pi-home', metadata: { analyticsName: 'public_nav_home' } },
     {
-      id: 'pub-features',
-      label: 'Features',
+      id: 'pub-benefits',
+      label: 'Solutions',
       route: '/',
-      metadata: { fragment: PUBLIC_SECTIONS.features, analyticsName: 'public_nav_features' },
+      metadata: { fragment: PUBLIC_SECTIONS.benefits, analyticsName: 'public_nav_benefits' },
     },
     {
       id: 'pub-pricing',
@@ -65,52 +68,10 @@ export const PUBLIC_WEBSITE_NAVIGATION: NavigationConfiguration = {
       metadata: { analyticsName: 'public_nav_pricing' },
     },
     {
-      id: 'pub-about',
-      label: 'About',
-      route: '/about',
-      metadata: { analyticsName: 'public_nav_about' },
-    },
-    {
       id: 'pub-company',
       label: 'Company',
       route: '/company',
       metadata: { analyticsName: 'public_nav_company' },
-    },
-    {
-      id: 'pub-contact',
-      label: 'Contact',
-      route: '/contact',
-      metadata: { analyticsName: 'public_nav_contact' },
-    },
-    {
-      id: 'pub-help',
-      label: 'Help',
-      route: '/help',
-      metadata: { analyticsName: 'public_nav_help' },
-    },
-    {
-      id: 'pub-faq',
-      label: 'FAQ',
-      route: '/faq',
-      metadata: { analyticsName: 'public_nav_faq' },
-    },
-    {
-      id: 'pub-benefits',
-      label: 'Solutions',
-      route: '/',
-      metadata: { fragment: PUBLIC_SECTIONS.benefits, analyticsName: 'public_nav_benefits' },
-    },
-    {
-      id: 'pub-how-it-works',
-      label: 'How it works',
-      route: '/',
-      metadata: { fragment: PUBLIC_SECTIONS.howItWorks, analyticsName: 'public_nav_how_it_works' },
-    },
-    {
-      id: 'pub-testimonials',
-      label: 'Stories',
-      route: '/',
-      metadata: { fragment: PUBLIC_SECTIONS.testimonials, analyticsName: 'public_nav_testimonials' },
     },
   ]),
   sidebarNav: emptySection('public-website-sidebar', 'Sidebar navigation'),
@@ -139,7 +100,7 @@ export const PUBLIC_WEBSITE_NAVIGATION: NavigationConfiguration = {
   quickActions: section('public-website-quick-actions', 'Quick actions', [
     {
       id: 'pub-demo',
-      label: 'Get started',
+      label: 'Request Demo',
       route: '/get-started',
       metadata: { analyticsName: 'public_nav_get_started' },
     },

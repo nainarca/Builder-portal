@@ -1,5 +1,3 @@
-import { MemoryStorageAdapter } from './memory-storage.adapter';
-
 export abstract class StorageAdapter {
   abstract getItem(key: string): string | null;
   abstract setItem(key: string, value: string): void;
@@ -50,5 +48,3 @@ export class SessionStorageAdapter extends StorageAdapter {
     window.sessionStorage.clear();
   }
 }
-
-export { MemoryStorageAdapter };

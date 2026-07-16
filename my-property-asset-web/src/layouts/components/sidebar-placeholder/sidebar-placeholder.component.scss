@@ -5,6 +5,7 @@
   background-color: var(--mpa-layout-sidebar-bg);
   color: var(--mpa-color-text);
   flex-shrink: 0;
+  transition: width var(--mpa-transition-normal);
 }
 
 .layout-sidebar__inner {
@@ -12,6 +13,10 @@
   flex-direction: column;
   gap: var(--mpa-spacing-md);
   height: 100%;
+}
+
+.layout-sidebar__spacer {
+  flex: 1 1 auto;
 }
 
 .layout-sidebar__header {
@@ -52,10 +57,59 @@
   .layout-sidebar__collapse-button,
   app-sidebar-navigation,
   app-favorites-navigation,
-  app-recent-items-navigation {
+  app-recent-items-navigation,
+  .layout-sidebar__profile-info {
     opacity: 0;
     pointer-events: none;
   }
+}
+
+// Premium user identity block, pinned to the bottom of the sidebar via the flex spacer above.
+.layout-sidebar__profile {
+  display: flex;
+  align-items: center;
+  gap: var(--mpa-spacing-sm);
+  padding: var(--mpa-spacing-sm);
+  border-top: 1px solid var(--mpa-color-border);
+  border-radius: var(--mpa-radius-md);
+}
+
+.layout-sidebar__profile-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  border-radius: var(--mpa-radius-md);
+  background: var(--mpa-color-primary-subtle);
+  color: var(--mpa-color-primary);
+  font-weight: var(--mpa-font-weight-semibold);
+  font-size: var(--mpa-font-size-sm);
+}
+
+.layout-sidebar__profile-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 0.1rem;
+}
+
+.layout-sidebar__profile-email {
+  font-size: var(--mpa-font-size-sm);
+  font-weight: var(--mpa-font-weight-medium);
+  color: var(--mpa-color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.layout-sidebar__profile-org {
+  font-size: var(--mpa-font-size-xs);
+  color: var(--mpa-color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media (max-width: 1023px) {

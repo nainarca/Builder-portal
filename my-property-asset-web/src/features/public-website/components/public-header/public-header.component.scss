@@ -57,8 +57,8 @@
   font-size: var(--mpa-font-size-sm);
 }
 
-.public-header__sign-in {
-  text-decoration: none;
+.public-header__cta-primary {
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--mpa-color-primary) 32%, transparent);
 }
 
 .public-header__mobile-panel {
@@ -85,8 +85,7 @@
 
 @media (max-width: 1023px) {
   .public-header__navigation app-top-navigation,
-  .public-header__navigation app-quick-actions,
-  .public-header__navigation .public-header__sign-in,
+  .public-header__navigation app-conversion-cta-link,
   .public-header__theme-label {
     display: none;
   }

@@ -58,6 +58,7 @@
   font-weight: var(--mpa-font-weight-semibold);
   background-color: var(--mpa-color-primary-subtle);
   color: var(--mpa-color-primary);
+  box-shadow: inset 3px 0 0 var(--mpa-color-primary);
 }
 
 .nav-list__link--static {

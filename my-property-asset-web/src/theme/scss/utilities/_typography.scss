@@ -1,3 +1,11 @@
+.mpa-display-xl {
+  font-size: clamp(var(--mpa-font-size-4xl), 5vw, var(--mpa-font-size-6xl));
+  font-weight: var(--mpa-font-weight-bold);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--mpa-color-text);
+}
+
 .mpa-display-lg {
   font-size: var(--mpa-font-size-3xl);
   font-weight: var(--mpa-font-weight-semibold);

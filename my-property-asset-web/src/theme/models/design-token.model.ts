@@ -71,6 +71,9 @@ export interface TypographyTokens {
   fontSizeXl: string;
   fontSize2xl: string;
   fontSize3xl: string;
+  fontSize4xl?: string;
+  fontSize5xl?: string;
+  fontSize6xl?: string;
   lineHeightTight: string;
   lineHeightNormal: string;
   lineHeightRelaxed: string;

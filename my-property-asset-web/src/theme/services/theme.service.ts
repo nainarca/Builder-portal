@@ -16,7 +16,7 @@ export class ThemeService {
   private readonly validator = inject(ThemeValidatorService);
 
   private readonly themeIdSignal = signal(THEME_ENGINE_CONFIG.defaultThemeId);
-  private readonly modePreferenceSignal = signal<ThemeModePreference>('system');
+  private readonly modePreferenceSignal = signal<ThemeModePreference>('dark');
   private readonly organizationDefaultModeSignal = signal<ThemeModePreference>('system');
   private readonly contextSignal = signal<ThemeContext>({
     themeId: THEME_ENGINE_CONFIG.defaultThemeId,
