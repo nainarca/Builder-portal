@@ -1,8 +1,12 @@
 import { Routes } from '@angular/router';
 
-import { BUILDER_PORTAL_DASHBOARD_METADATA } from '../../core/constants/route-metadata.constants';
+import {
+  BUILDER_PORTAL_BRANDING_METADATA,
+  BUILDER_PORTAL_DASHBOARD_METADATA,
+} from '../../core/constants/route-metadata.constants';
 import { BuilderPortalLayoutComponent } from '../../layouts/builder-portal/builder-portal-layout.component';
 import { navigationResolver } from '../../navigation/resolvers';
+import { BuilderBrandingPageComponent } from './branding/pages/builder-branding-page.component';
 import { BuilderDashboardComponent } from './builder-dashboard.component';
 import { BuilderCompanyPageComponent } from './organization/pages/builder-company-page.component';
 import { BuilderInvitationPageComponent } from './organization/pages/builder-invitation-page.component';
@@ -32,6 +36,11 @@ export const BUILDER_PORTAL_ROUTES: Routes = [
           permissions: ['portal:builder-portal', 'id-03-organization-tenancy:read'],
           analyticsName: 'builder_portal_company',
         },
+      },
+      {
+        path: 'branding',
+        component: BuilderBrandingPageComponent,
+        data: BUILDER_PORTAL_BRANDING_METADATA,
       },
       {
         path: 'settings',
@@ -67,6 +76,11 @@ export const BUILDER_PORTAL_ROUTES: Routes = [
       {
         path: 'handovers',
         loadChildren: () => import('./handovers/handovers.routes').then((m) => m.HANDOVER_ROUTES),
+      },
+      {
+        path: 'communications',
+        loadChildren: () =>
+          import('./communications/communications.routes').then((m) => m.COMMUNICATION_ROUTES),
       },
     ],
   },

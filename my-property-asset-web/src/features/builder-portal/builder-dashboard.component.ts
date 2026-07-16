@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -41,11 +42,14 @@ import { BuilderDashboardWidgetId, DashboardQuickActionItem } from './models/das
 import { DashboardPreferencesService } from './services/dashboard-preferences.service';
 import { WidgetLoaderService } from './services/widget-loader.service';
 import { ProjectStoreService } from './projects/services/project-store.service';
+import { BuilderBrandingService } from './branding/services/builder-branding.service';
+import { CommunicationDashboardService } from './communications/services/communication-dashboard.service';
 import { resolveDisplayName, resolveTimeGreeting } from './utils/display-name.util';
 
 @Component({
   selector: 'app-builder-dashboard',
   imports: [
+    DatePipe,
     BasePageComponent,
     BuilderWelcomeComponent,
     DashboardHeaderComponent,
@@ -78,6 +82,8 @@ export class BuilderDashboardComponent {
   private readonly currentUser = inject(CurrentUserService);
   private readonly currentOrganization = inject(CurrentOrganizationService);
   private readonly projectStore = inject(ProjectStoreService);
+  private readonly branding = inject(BuilderBrandingService);
+  private readonly communicationDashboard = inject(CommunicationDashboardService);
   private readonly toast = inject(UiToastService);
 
   readonly header = BUILDER_DASHBOARD_HEADER;
@@ -166,6 +172,10 @@ export class BuilderDashboardComponent {
       unitsSold: p.summary.unitsSold,
     })),
   );
+
+  readonly brandingCompletion = this.branding.completion;
+  readonly brandingProfile = this.branding.activeBranding;
+  readonly communicationSummary = this.communicationDashboard.summary;
 
   readonly statusChart = computed(() => {
     const by = this.projectStats().byStatus;

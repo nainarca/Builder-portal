@@ -285,8 +285,17 @@ export const BUILDER_DASHBOARD_QUICK_ACTIONS: readonly DashboardQuickActionItem[
     label: 'Organization settings',
     description: 'Team and profile',
     icon: 'pi pi-sliders-h',
-    route: '/builder-portal',
+    route: '/builder-portal/settings',
     permission: 'id-03-organization-tenancy:operate',
+  },
+  {
+    id: 'qa6',
+    label: 'Send communication',
+    description: 'Announcements and owner updates',
+    icon: 'pi pi-megaphone',
+    route: '/builder-portal/communications/create',
+    permission: 'id-11-notification:contribute',
+    favorite: true,
   },
 ];
 

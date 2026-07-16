@@ -215,6 +215,16 @@ export const BUILDER_PORTAL_NAVIGATION: NavigationConfiguration = createConfigur
       },
     },
     {
+      id: 'ba-branding',
+      label: 'Branding',
+      route: '/builder-portal/branding',
+      icon: 'pi pi-palette',
+      metadata: {
+        permissions: ['id-04-white-label-branding:read'],
+        analyticsName: 'ba_branding_nav',
+      },
+    },
+    {
       id: 'ba-projects',
       label: 'Projects',
       route: '/builder-portal/projects',
@@ -252,6 +262,16 @@ export const BUILDER_PORTAL_NAVIGATION: NavigationConfiguration = createConfigur
       metadata: {
         permissions: ['id-09-handover-document:read'],
         analyticsName: 'ba_handovers_nav',
+      },
+    },
+    {
+      id: 'ba-communications',
+      label: 'Communications',
+      route: '/builder-portal/communications',
+      icon: 'pi pi-megaphone',
+      metadata: {
+        permissions: ['id-11-notification:read'],
+        analyticsName: 'ba_communications_nav',
       },
     },
     {
