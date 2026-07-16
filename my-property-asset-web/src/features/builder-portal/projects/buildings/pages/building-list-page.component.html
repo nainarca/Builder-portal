@@ -1,0 +1,104 @@
+<app-base-page>
+  @if (project(); as proj) {
+    <div class="bldg-page">
+      <app-page-header
+        eyebrow="{{ proj.code }}"
+        title="Buildings"
+        [description]="
+          buildingsRequired()
+            ? 'Buildings are required for this project type. Manage towers and blocks here.'
+            : 'Buildings are optional for this project type. You can still add towers if needed.'
+        "
+      >
+        <app-button pageActions label="Back to project" icon="pi pi-arrow-left" [outlined]="true" (clicked)="backToProject()" />
+        <app-button
+          *appHasPermission="'id-07-project-unit:contribute'"
+          pageActions
+          label="Create building"
+          icon="pi pi-plus"
+          (clicked)="createBuilding()"
+        />
+      </app-page-header>
+
+      <section class="bldg-stats" aria-label="Building statistics">
+        <article class="bldg-stats__card">
+          <p class="bldg-stats__label">Total buildings</p>
+          <p class="bldg-stats__value">{{ stats().total }}</p>
+        </article>
+        @for (item of statusSummary(); track item.status) {
+          <article class="bldg-stats__card">
+            <p class="bldg-stats__label">{{ item.label }}</p>
+            <p class="bldg-stats__value">{{ item.count }}</p>
+          </article>
+        }
+      </section>
+
+      <div class="bldg-toolbar">
+        <app-search-field
+          [value]="listState.search()"
+          placeholder="Search buildings…"
+          ariaLabel="Search buildings"
+          (valueChange)="onSearch($event)"
+        />
+        <app-select
+          [options]="statusOptions"
+          [value]="listState.statusFilter()"
+          ariaLabel="Status filter"
+          (valueChange)="onStatus($event)"
+        />
+        <app-select
+          [options]="sortOptions"
+          [value]="listState.sortValue()"
+          ariaLabel="Sort"
+          (valueChange)="onSort($event)"
+        />
+        <label class="bldg-toolbar__archive">
+          <input
+            type="checkbox"
+            [checked]="listState.includeArchived()"
+            (change)="listState.setIncludeArchived($any($event.target).checked)"
+          />
+          Include archived
+        </label>
+      </div>
+
+      @if (listState.listResult().items.length === 0) {
+        <div class="bldg-empty">
+          <h2 class="ui-page-title">No buildings yet</h2>
+          <p class="ui-page-subtitle">
+            @if (buildingsRequired()) {
+              Create the first tower or block for this {{ proj.projectType }} project.
+            } @else {
+              This project type does not require buildings, but you can add one if useful.
+            }
+          </p>
+        </div>
+      } @else {
+        <div class="bldg-grid">
+          @for (building of listState.listResult().items; track building.id) {
+            <app-bldg-card [building]="building" />
+          }
+        </div>
+
+        <section class="bldg-recent" aria-label="Recent buildings">
+          <h3 class="mpa-heading-sm">Recent buildings</h3>
+          <ul class="bldg-recent__list">
+            @for (building of stats().recent; track building.id) {
+              <li>
+                <a [routerLink]="['/builder-portal/projects', proj.id, 'buildings', building.id]">
+                  {{ building.name }}
+                </a>
+                <app-bldg-status-badge [status]="building.status" />
+                <span>{{ building.updatedAt | date: 'mediumDate' }}</span>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+    </div>
+  } @else {
+    <div class="bldg-page bldg-page--empty">
+      <h1 class="ui-page-title">Project not found</h1>
+    </div>
+  }
+</app-base-page>

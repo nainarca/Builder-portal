@@ -14,6 +14,7 @@ import { provideAuthorization } from '@core/rbac';
 import { provideOrganizationContext } from '@core/organization-context';
 import { providePublicWebsite } from '@features/public-website/provide-public-website';
 import { provideBuilderProjects } from '@features/builder-portal/projects/providers/project.providers';
+import { provideBuilderBuildings } from '@features/builder-portal/projects/buildings/providers/building.providers';
 import { provideSeo } from '@infrastructure/seo';
 import { environment } from '../environments/environment';
 import { routes } from './app.routes';
@@ -40,6 +41,7 @@ export const appConfig: ApplicationConfig = {
     provideOrganizationContext(),
     provideAuthorization(),
     provideBuilderProjects(),
+    provideBuilderBuildings(),
     provideNavigation(),
     provideSeo(),
     providePublicWebsite(),

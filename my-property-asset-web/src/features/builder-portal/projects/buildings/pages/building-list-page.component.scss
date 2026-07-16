@@ -1,0 +1,72 @@
+.bldg-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.bldg-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 0.75rem;
+}
+
+.bldg-stats__card {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--mpa-color-border, #e5e7eb);
+  background: var(--mpa-color-surface, #fff);
+}
+
+.bldg-stats__label {
+  margin: 0;
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.bldg-stats__value {
+  margin: 0.25rem 0 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.bldg-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.bldg-toolbar__archive {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.bldg-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1rem;
+}
+
+.bldg-recent__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.bldg-recent__list li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--mpa-color-border, #e5e7eb);
+}
+
+.bldg-empty {
+  padding: 2rem 0;
+}

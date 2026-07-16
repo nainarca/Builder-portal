@@ -15,6 +15,23 @@
         }
       </app-proj-header>
 
+      @if (showBuildings()) {
+        <section class="proj-buildings-card" aria-label="Buildings summary">
+          <div>
+            <h2 class="mpa-heading-sm m-0">Buildings</h2>
+            <p class="mpa-body-md m-0">
+              {{ buildingStats().total }} active
+              @if (buildingsRequired()) {
+                · Required for this project type
+              } @else {
+                · Optional for this project type
+              }
+            </p>
+          </div>
+          <app-button label="Manage buildings" icon="pi pi-building" (clicked)="goToBuildings()" />
+        </section>
+      }
+
       <div class="proj-detail-layout">
         <div class="proj-detail-layout__main">
           <app-proj-overview [project]="proj" />

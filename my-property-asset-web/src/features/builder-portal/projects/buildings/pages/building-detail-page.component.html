@@ -1,0 +1,53 @@
+<app-base-page>
+  @if (building(); as b) {
+    <div class="bldg-page bldg-page--detail">
+      <app-bldg-header [building]="b" [projectName]="project()?.name ?? 'Project'">
+        @if (!b.archived) {
+          <app-button
+            label="Archive"
+            icon="pi pi-archive"
+            severity="danger"
+            [outlined]="true"
+            (clicked)="onArchive()"
+          />
+        } @else {
+          <app-button label="Restore" icon="pi pi-replay" (clicked)="onRestore()" />
+        }
+      </app-bldg-header>
+
+      <section class="bldg-overview" aria-label="Building overview">
+        <div class="bldg-overview__stats">
+          <article>
+            <p class="bldg-overview__label">Status</p>
+            <app-bldg-status-badge [status]="b.status" />
+          </article>
+          <article>
+            <p class="bldg-overview__label">Floors</p>
+            <p class="bldg-overview__value">{{ b.floorsCount }}</p>
+          </article>
+          <article>
+            <p class="bldg-overview__label">Units (planned)</p>
+            <p class="bldg-overview__value">{{ b.unitsCount }}</p>
+          </article>
+          <article>
+            <p class="bldg-overview__label">Display order</p>
+            <p class="bldg-overview__value">{{ b.displayOrder }}</p>
+          </article>
+        </div>
+
+        <dl class="bldg-overview__details">
+          <div><dt>Description</dt><dd>{{ b.description || '—' }}</dd></div>
+          <div><dt>Tower</dt><dd>{{ b.towerName || '—' }}</dd></div>
+          <div><dt>Block</dt><dd>{{ b.blockName || '—' }}</dd></div>
+          <div><dt>Address</dt><dd>{{ b.addressLine || '—' }}</dd></div>
+          <div><dt>Image</dt><dd>{{ b.imageUrl || '—' }}</dd></div>
+        </dl>
+      </section>
+    </div>
+  } @else {
+    <div class="bldg-page bldg-page--empty">
+      <h1 class="ui-page-title">Building not found</h1>
+      <p class="ui-page-subtitle">The requested building does not exist or belongs to another project.</p>
+    </div>
+  }
+</app-base-page>

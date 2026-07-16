@@ -1,10 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
 import { BasePageComponent, ButtonComponent, UiDialogService, UiToastService } from '@shared/ui';
 
+import { BuildingService } from '../buildings/services/building.service';
+import {
+  buildingsAreRequired,
+  buildingsAreSupported,
+} from '../buildings/utils/project-building-compatibility';
 import {
   ProjectGalleryPlaceholderComponent,
   ProjectLocationCardComponent,
@@ -33,7 +38,9 @@ import { ProjectStoreService } from '../services/project-store.service';
 })
 export class ProjectDetailPageComponent {
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly store = inject(ProjectStoreService);
+  private readonly buildings = inject(BuildingService);
   private readonly dialog = inject(UiDialogService);
   private readonly toast = inject(UiToastService);
 
@@ -42,6 +49,19 @@ export class ProjectDetailPageComponent {
   });
 
   readonly project = computed(() => this.store.getById(this.projectId()));
+  readonly buildingStats = computed(() => this.buildings.dashboardStats(this.projectId()));
+  readonly showBuildings = computed(() => {
+    const p = this.project();
+    return p ? buildingsAreSupported(p.projectType) : false;
+  });
+  readonly buildingsRequired = computed(() => {
+    const p = this.project();
+    return p ? buildingsAreRequired(p.projectType) : false;
+  });
+
+  goToBuildings(): void {
+    void this.router.navigate(['/builder-portal/projects', this.projectId(), 'buildings']);
+  }
 
   async onArchive(): Promise<void> {
     const project = this.project();
