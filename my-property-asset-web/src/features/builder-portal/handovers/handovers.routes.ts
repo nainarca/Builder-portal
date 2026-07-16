@@ -2,12 +2,16 @@ import { Routes } from '@angular/router';
 
 import {
   BUILDER_PORTAL_HANDOVER_APPROVAL_METADATA,
+  BUILDER_PORTAL_HANDOVER_ACTIVATION_METADATA,
   BUILDER_PORTAL_HANDOVER_ARCHIVE_METADATA,
+  BUILDER_PORTAL_HANDOVER_AUDIT_METADATA,
   BUILDER_PORTAL_HANDOVER_CERTIFICATE_METADATA,
   BUILDER_PORTAL_HANDOVER_CHECKLIST_METADATA,
   BUILDER_PORTAL_HANDOVER_COMPLETION_METADATA,
   BUILDER_PORTAL_HANDOVER_DETAIL_METADATA,
+  BUILDER_PORTAL_HANDOVER_DOCUMENTS_METADATA,
   BUILDER_PORTAL_HANDOVER_INSPECTION_METADATA,
+  BUILDER_PORTAL_HANDOVER_INVITATION_METADATA,
   BUILDER_PORTAL_HANDOVER_REVIEW_METADATA,
   BUILDER_PORTAL_HANDOVER_SIGNATURE_METADATA,
   BUILDER_PORTAL_HANDOVERS_METADATA,
@@ -37,6 +41,30 @@ export const HANDOVER_ROUTES: Routes = [
     loadComponent: () =>
       import('./inspection/pages/checklist-execution-page.component').then((m) => m.ChecklistExecutionPageComponent),
     data: BUILDER_PORTAL_HANDOVER_CHECKLIST_METADATA,
+  },
+  {
+    path: ':id/documents',
+    loadComponent: () =>
+      import('./pages/handover-documents-page.component').then((m) => m.HandoverDocumentsPageComponent),
+    data: BUILDER_PORTAL_HANDOVER_DOCUMENTS_METADATA,
+  },
+  {
+    path: ':id/invitation',
+    loadComponent: () =>
+      import('./pages/handover-invitation-page.component').then((m) => m.HandoverInvitationPageComponent),
+    data: BUILDER_PORTAL_HANDOVER_INVITATION_METADATA,
+  },
+  {
+    path: ':id/activation',
+    loadComponent: () =>
+      import('./pages/handover-activation-page.component').then((m) => m.HandoverActivationPageComponent),
+    data: BUILDER_PORTAL_HANDOVER_ACTIVATION_METADATA,
+  },
+  {
+    path: ':id/audit',
+    loadComponent: () =>
+      import('./pages/handover-audit-page.component').then((m) => m.HandoverAuditPageComponent),
+    data: BUILDER_PORTAL_HANDOVER_AUDIT_METADATA,
   },
   {
     path: ':id/approval',

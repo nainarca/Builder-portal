@@ -14,6 +14,15 @@
           </div>
         </div>
         <div class="handover-header__actions">
+          <a class="handover-grid__view-link" [routerLink]="['/builder-portal/handovers', h.id, 'documents']">
+            Go to Documents
+          </a>
+          <a class="handover-grid__view-link" [routerLink]="['/builder-portal/handovers', h.id, 'invitation']">
+            Go to Invitation
+          </a>
+          <a class="handover-grid__view-link" [routerLink]="['/builder-portal/handovers', h.id, 'activation']">
+            Go to Activation
+          </a>
           <a class="handover-grid__view-link" [routerLink]="['/builder-portal/handovers', h.id, 'inspection']">
             Go to Inspection &amp; Checklist
           </a>
@@ -41,6 +50,21 @@
           <app-progress-card [percent]="h.overallProgress" [delayed]="h.overallStatus === 'delayed'" />
           @if (readiness(); as r) {
             <app-readiness-card [readiness]="r" />
+          }
+          @if (invitation(); as invitation) {
+            <section class="handover-info-panel">
+              <h3 class="handover-info-panel__title">Invitation</h3>
+              <div class="handover-info-panel__row"><dt>Status</dt><dd>{{ invitation.status }}</dd></div>
+              <div class="handover-info-panel__row"><dt>Expires</dt><dd>{{ invitation.expiresAt ?? '—' }}</dd></div>
+            </section>
+          }
+          @if (activationReadiness(); as activation) {
+            <section class="handover-info-panel">
+              <h3 class="handover-info-panel__title">Activation readiness</h3>
+              <div class="handover-info-panel__row"><dt>Checklist</dt><dd>{{ activation.checklistComplete ? 'Ready' : 'Pending' }}</dd></div>
+              <div class="handover-info-panel__row"><dt>Invitation</dt><dd>{{ activation.invitationAccepted ? 'Accepted' : 'Pending' }}</dd></div>
+              <div class="handover-info-panel__row"><dt>Activated</dt><dd>{{ activation.activated ? 'Yes' : 'No' }}</dd></div>
+            </section>
           }
           <app-document-summary-panel [unitId]="h.unitId" />
         </aside>

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, viewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { BasePageComponent, ButtonComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
 
@@ -47,6 +47,7 @@ import { DocumentStoreService } from '../services/document-store.service';
 })
 export class DocumentUploadPageComponent {
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private readonly store = inject(DocumentStoreService);
   private readonly projectStore = inject(ProjectStoreService);
   private readonly unitStore = inject(UnitStoreService);
@@ -55,7 +56,11 @@ export class DocumentUploadPageComponent {
 
   readonly projects = computed(() => this.projectStore.projects());
   readonly units = computed(() => this.unitStore.units());
-  readonly initialModel: DocumentFormModel = this.store.emptyFormModel();
+  readonly initialModel: DocumentFormModel = {
+    ...this.store.emptyFormModel(),
+    projectId: this.route.snapshot.queryParamMap.get('projectId') ?? '',
+    unitId: this.route.snapshot.queryParamMap.get('unitId') ?? '',
+  };
 
   saving = false;
 
