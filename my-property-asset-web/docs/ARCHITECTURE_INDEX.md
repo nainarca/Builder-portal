@@ -2,7 +2,7 @@
 
 **Repository root:** `my-property-asset-web/docs/`
 **Purpose:** Registry of every approved architecture document and ADR for the MyPropertyAsset Web Platform (Angular Enterprise Web Platform: Public Website, Super Admin Portal, Builder Handover Portal, plus its relationship to the existing Owner Mobile App and future Tenant Mobile App).
-**Last updated:** 2026-07-16 (P4 Platform Database Evolution added — awaiting approval; Schema V2 additive extension)
+**Last updated:** 2026-07-16 (P6B Platform Security SQL implemented — stop; await approval before Builder Organization)
 
 ---
 
@@ -39,6 +39,9 @@ This index and every document it registers is for the **new Angular Web Platform
 | **P2** | **Platform Database & Authentication Blueprint** | 1.0 | **Draft — awaiting approval** | P1 (source of truth), A-001–A-008, NG-006–NG-008 | **2026-07-16** |
 | **P3** | **Builder Business Domain Design** | 1.0 | **Draft — awaiting approval** | P1, P2, A-001 §12, A-002 | **2026-07-16** |
 | **P4** | **Platform Database Evolution (Schema V2 Extension)** | 1.0 | **Draft — awaiting approval** | P1, P2, P3 | **2026-07-16** |
+| **P5** | **Platform SQL Migration Design** | 1.0 | **Draft — awaiting approval** | P1–P4 (FINAL) | **2026-07-16** |
+| **P6A** | **Batch 1A — Platform Foundation SQL** | 1.0 | **Implemented — stop; await approval** | P1–P5 | **2026-07-16** |
+| **P6B** | **Platform Security SQL** | 1.0 | **Implemented — stop; await approval** | P1–P5, P6A | **2026-07-16** |
 | NG-000 | Web Platform Technical Governance | 1.0 | Draft | A-001–A-009 | 2026-07-09 |
 | NG-001 | Angular Enterprise Architecture | 1.0 | Draft | NG-000, A-001–A-009 | 2026-07-09 |
 | NG-002 | Angular Workspace & Project Architecture | 1.0 | Draft | NG-000, NG-001, A-001–A-009 | 2026-07-09 |
@@ -117,6 +120,7 @@ my-property-asset-web/
     │   ├── P2_Platform_Database_Authentication_Blueprint.md  (Phase P2 — design only; awaiting approval)
     │   ├── P3_Builder_Business_Domain.md      (Phase P3 — design only; awaiting approval)
     │   ├── P4_Platform_Database_Evolution.md  (Phase P4 — design only; awaiting approval)
+    │   ├── P5_Platform_SQL_Migration_Design.md (Phase P5 — design only; no SQL yet; awaiting approval)
     │   └── diagrams/
     │       ├── A-003_User_Journey_Diagrams.md
     │       ├── A-004_Screen_Flow_Diagrams.md
