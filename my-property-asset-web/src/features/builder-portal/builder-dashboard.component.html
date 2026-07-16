@@ -62,6 +62,27 @@
       />
     </section>
 
+    <section class="bp-dashboard__summary-row" aria-label="Communication status">
+      <app-bp-summary-card
+        [item]="{
+          id: 'communication-draft',
+          title: 'Draft communications',
+          value: communicationSummary().draftCount + '',
+          subtitle: communicationSummary().scheduledCount + ' scheduled',
+          icon: 'pi pi-megaphone'
+        }"
+      />
+      <app-bp-summary-card
+        [item]="{
+          id: 'communication-published',
+          title: 'Published communications',
+          value: communicationSummary().publishedCount + '',
+          subtitle: communicationSummary().totalRecipients + ' total recipients',
+          icon: 'pi pi-send'
+        }"
+      />
+    </section>
+
     <app-bp-dashboard-grid>
       @for (widget of visibleWidgets(); track widget.id) {
         <app-bp-dashboard-grid-item [colspan]="widget.colspan" [rowspan]="widget.rowspan ?? 1">

@@ -289,12 +289,12 @@ export const BUILDER_DASHBOARD_QUICK_ACTIONS: readonly DashboardQuickActionItem[
     permission: 'id-03-organization-tenancy:operate',
   },
   {
-    id: 'qa5',
-    label: 'Configure branding',
-    description: 'Logos, theme, and Owner App contract',
-    icon: 'pi pi-palette',
-    route: '/builder-portal/branding',
-    permission: 'id-04-white-label-branding:read',
+    id: 'qa6',
+    label: 'Send communication',
+    description: 'Announcements and owner updates',
+    icon: 'pi pi-megaphone',
+    route: '/builder-portal/communications/create',
+    permission: 'id-11-notification:contribute',
     favorite: true,
   },
 ];

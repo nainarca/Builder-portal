@@ -64,10 +64,10 @@ export const PERMISSION_MATRIX: PermissionMatrix = {
     'owner-org-owner': 'decide',
   },
   'id-11-notification': {
-    'super-admin': 'own-read',
-    'builder-org-owner': 'own-read',
-    'builder-org-admin': 'own-read',
-    'builder-org-member': 'own-read',
+    'super-admin': 'full',
+    'builder-org-owner': 'full',
+    'builder-org-admin': 'operate',
+    'builder-org-member': 'contribute',
     'owner-org-owner': 'own-read',
   },
   'id-12-reporting-analytics': {

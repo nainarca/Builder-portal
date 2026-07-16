@@ -265,6 +265,16 @@ export const BUILDER_PORTAL_NAVIGATION: NavigationConfiguration = createConfigur
       },
     },
     {
+      id: 'ba-communications',
+      label: 'Communications',
+      route: '/builder-portal/communications',
+      icon: 'pi pi-megaphone',
+      metadata: {
+        permissions: ['id-11-notification:read'],
+        analyticsName: 'ba_communications_nav',
+      },
+    },
+    {
       id: 'ba-settings',
       label: 'Settings',
       route: '/builder-portal/settings',

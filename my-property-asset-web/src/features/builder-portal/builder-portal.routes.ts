@@ -77,6 +77,11 @@ export const BUILDER_PORTAL_ROUTES: Routes = [
         path: 'handovers',
         loadChildren: () => import('./handovers/handovers.routes').then((m) => m.HANDOVER_ROUTES),
       },
+      {
+        path: 'communications',
+        loadChildren: () =>
+          import('./communications/communications.routes').then((m) => m.COMMUNICATION_ROUTES),
+      },
     ],
   },
 ];
