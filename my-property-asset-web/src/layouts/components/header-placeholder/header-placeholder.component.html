@@ -1,6 +1,6 @@
 <header class="layout-header layout-surface" role="banner">
-  <div class="layout-header__inner flex align-items-center justify-content-between px-4 gap-3">
-    <div class="layout-header__brand-group flex align-items-center gap-3">
+  <div class="layout-header__inner">
+    <div class="layout-header__leading">
       <button
         type="button"
         class="layout-header__menu-button mpa-focus-visible"
@@ -12,7 +12,7 @@
       </button>
 
       @if (showOrganizationSelector()) {
-        <app-organization-selector />
+        <app-organization-selector variant="header" />
       } @else {
         <div class="layout-header__brand">
           <span class="layout-header__brand-mark" aria-hidden="true">{{ brandInitial() }}</span>
@@ -22,9 +22,16 @@
     </div>
 
     @if (showNavigation()) {
-      <div
-        class="layout-header__navigation flex align-items-center gap-3 flex-1 justify-content-end"
-      >
+      @if (showGlobalSearch()) {
+        <div class="layout-header__center">
+          <app-shell-global-search />
+        </div>
+      }
+
+      <div class="layout-header__trailing">
+        @if (showNotifications()) {
+          <app-shell-notification-area />
+        }
         <app-top-navigation />
         <app-quick-actions />
         <app-user-navigation />

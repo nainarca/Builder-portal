@@ -1,23 +1,34 @@
-<div class="organization-selector">
+<div
+  class="organization-selector"
+  [class.organization-selector--sidebar]="variant() === 'sidebar'"
+  [class.organization-selector--compact]="compact()"
+>
   <button
     type="button"
     class="organization-selector__trigger"
     [class.organization-selector__trigger--static]="!canSwitch()"
+    [class.organization-selector__trigger--sidebar]="variant() === 'sidebar'"
     [attr.aria-expanded]="panelOpen()"
     [attr.aria-haspopup]="canSwitch() ? 'listbox' : null"
     [attr.aria-busy]="switching()"
+    [attr.aria-label]="compact() ? 'Workspace: ' + displayName() : null"
+    [attr.title]="compact() ? displayName() : null"
     [disabled]="switching()"
     (click)="togglePanel()"
   >
     <span class="organization-selector__avatar" aria-hidden="true">{{ initials() }}</span>
-    <span class="organization-selector__copy">
-      <span class="organization-selector__label">Workspace</span>
-      <span class="organization-selector__name">{{ displayName() }}</span>
-      <span class="organization-selector__meta">{{ displayType() | titlecase }}</span>
-    </span>
+    @if (!compact()) {
+      <span class="organization-selector__copy">
+        <span class="organization-selector__label">Workspace</span>
+        <span class="organization-selector__name">{{ displayName() }}</span>
+        @if (variant() === 'header') {
+          <span class="organization-selector__meta">{{ displayType() | titlecase }}</span>
+        }
+      </span>
+    }
     @if (switching()) {
       <span class="organization-selector__switching" aria-live="polite">Switching…</span>
-    } @else if (canSwitch()) {
+    } @else if (canSwitch() && !compact()) {
       <app-icon name="chevron-down" size="sm" />
     }
   </button>

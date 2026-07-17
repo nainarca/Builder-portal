@@ -1,0 +1,24 @@
+/* Foundation responsive content grid — opt-in utility for page batches */
+.mpa-content-grid {
+  display: grid;
+  gap: var(--mpa-content-grid-gap);
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, var(--mpa-content-grid-min-column)), 1fr)
+  );
+}
+
+.mpa-content-grid--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.mpa-content-grid--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 1023px) {
+  .mpa-content-grid--two,
+  .mpa-content-grid--three {
+    grid-template-columns: 1fr;
+  }
+}

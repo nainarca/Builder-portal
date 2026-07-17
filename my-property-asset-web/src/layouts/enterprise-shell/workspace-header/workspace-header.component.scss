@@ -1,9 +1,14 @@
 :host {
   display: block;
+  background: var(--mpa-color-background);
 }
 
 .workspace-header__inner {
   display: flex;
   flex-direction: column;
+  gap: var(--mpa-layout-region-gap);
   min-width: 0;
+  max-width: var(--mpa-layout-content-max-width);
+  margin-inline: auto;
+  padding-inline: var(--mpa-layout-page-padding);
 }

@@ -1,5 +1,5 @@
 import { TitleCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 
 import { CurrentUserService } from '@core/auth';
 import { OrganizationMembership, OrganizationType } from '@core/organization-context/models/organization.model';
@@ -10,12 +10,19 @@ import { CurrentOrganizationService } from '../../services/organization-store.se
 import { OrganizationContextService } from '../../services/organization-context.service';
 import { OrganizationStoreService } from '../../services/organization-store.service';
 
+export type OrganizationSelectorVariant = 'header' | 'sidebar';
+
 @Component({
   selector: 'app-organization-selector',
   imports: [TitleCasePipe, IconComponent, StatusBadgeComponent],
   templateUrl: './organization-selector.component.html',
   styleUrl: './organization-selector.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'organization-selector-host',
+    '[class.organization-selector-host--sidebar]': 'variant() === "sidebar"',
+    '[class.organization-selector-host--compact]': 'compact()',
+  },
 })
 export class OrganizationSelectorComponent {
   private readonly organizationContext = inject(OrganizationContextService);
@@ -23,6 +30,11 @@ export class OrganizationSelectorComponent {
   private readonly store = inject(OrganizationStoreService);
   private readonly cache = inject(OrganizationCacheService);
   private readonly currentUser = inject(CurrentUserService);
+
+  /** Visual placement — header chrome vs sidebar workspace control (UI-REBIRTH §2). */
+  readonly variant = input<OrganizationSelectorVariant>('header');
+  /** Icon-only trigger (sidebar rail). */
+  readonly compact = input(false);
 
   readonly panelOpen = signal(false);
   readonly switching = this.store.switching;

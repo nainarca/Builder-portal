@@ -1,0 +1,37 @@
+<div class="shell-notification-area__anchor">
+  <button
+    type="button"
+    class="shell-notification-area__trigger mpa-focus-visible"
+    [attr.aria-expanded]="open()"
+    aria-haspopup="dialog"
+    aria-controls="shell-notification-panel"
+    aria-label="Notifications"
+    (click)="toggle()"
+  >
+    <i class="pi pi-bell" aria-hidden="true"></i>
+    @if (unreadCount() > 0) {
+      <span class="shell-notification-area__badge" aria-hidden="true">{{ unreadCount() }}</span>
+    }
+  </button>
+
+  @if (open()) {
+    <div
+      class="shell-notification-area__backdrop"
+      aria-hidden="true"
+      (click)="close()"
+    ></div>
+    <div
+      id="shell-notification-panel"
+      class="shell-notification-area__panel"
+      role="dialog"
+      aria-label="Notifications"
+    >
+      <header class="shell-notification-area__header">
+        <h2 class="shell-notification-area__title">Notifications</h2>
+      </header>
+      <p class="shell-notification-area__empty">
+        You're all caught up. Cross-entity events will appear here.
+      </p>
+    </div>
+  }
+</div>

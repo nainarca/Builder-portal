@@ -1,7 +1,14 @@
 :host {
   display: block;
+  padding-block: var(--mpa-layout-breadcrumb-gap);
+  padding-inline: var(--mpa-layout-page-padding);
+  background: var(--mpa-color-background);
 }
 
 .shell-breadcrumb__nav {
   display: block;
+  max-width: var(--mpa-layout-content-max-width);
+  margin-inline: auto;
+  color: var(--mpa-color-text-muted);
+  font-size: var(--mpa-font-size-sm);
 }

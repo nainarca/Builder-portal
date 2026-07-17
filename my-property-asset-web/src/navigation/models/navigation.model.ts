@@ -11,8 +11,9 @@ export interface NavigationItemMetadata {
   permissions?: string[];
   visible?: boolean;
   /**
-   * Optional substring / path fragment used for active highlighting when the
-   * navigable `route` is only an entry point (e.g. Buildings under Projects).
+   * Optional substring / path fragment used for active highlighting when a
+   * nested item has a distinct deep-link destination. Do not use for decorative
+   * children that share the parent's route (UI-REBIRTH §2 / §19 #1).
    * Does not change routing — presentation only (DS-02).
    */
   activeMatch?: string;

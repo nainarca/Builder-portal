@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
+import { LoadingOverlayComponent } from '@shared/ui';
+
 import { ResponsiveLayoutComponent } from '../responsive-layout/responsive-layout.component';
 import { ShellBreadcrumbComponent } from '../shell-breadcrumb/shell-breadcrumb.component';
 import { ShellContentAreaComponent } from '../shell-content-area/shell-content-area.component';
@@ -28,6 +30,7 @@ import { WorkspaceHeaderComponent } from '../workspace-header/workspace-header.c
     ShellPageToolbarComponent,
     ShellContentAreaComponent,
     ShellFooterComponent,
+    LoadingOverlayComponent,
   ],
   templateUrl: './application-layout.component.html',
   styleUrl: './application-layout.component.scss',
@@ -43,6 +46,8 @@ export class ApplicationLayoutComponent {
   readonly stickyHeader = input(true);
   readonly showOrganizationSelector = input(true);
   readonly showHeaderNavigation = input(true);
+  readonly showGlobalSearch = input(true);
+  readonly showNotifications = input(true);
   readonly showWorkspaceHeader = input(true);
   readonly showBreadcrumb = input(true);
   /** Shell page-toolbar region; off by default so in-page headers stay unchanged. */
@@ -51,4 +56,7 @@ export class ApplicationLayoutComponent {
   readonly contentScrollable = input(true);
   readonly contentFluid = input(false);
   readonly layoutClass = input('');
+  /** Shell-level loading overlay (UI chrome only). */
+  readonly loading = input(false);
+  readonly loadingLabel = input('Loading');
 }

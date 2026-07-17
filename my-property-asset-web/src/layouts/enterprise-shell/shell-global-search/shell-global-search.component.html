@@ -1,0 +1,45 @@
+<div class="shell-global-search__anchor">
+  <button
+    type="button"
+    class="shell-global-search__trigger mpa-focus-visible"
+    [attr.aria-expanded]="open()"
+    aria-haspopup="dialog"
+    aria-controls="shell-global-search-panel"
+    (click)="toggle()"
+  >
+    <i class="pi pi-search" aria-hidden="true"></i>
+    <span class="shell-global-search__placeholder">Search</span>
+    <kbd class="shell-global-search__shortcut" aria-hidden="true">{{ shortcutLabel }}</kbd>
+  </button>
+
+  @if (open()) {
+    <div
+      class="shell-global-search__backdrop"
+      aria-hidden="true"
+      (click)="close()"
+    ></div>
+    <div
+      id="shell-global-search-panel"
+      class="shell-global-search__panel"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Global search"
+    >
+      <label class="shell-global-search__field">
+        <i class="pi pi-search" aria-hidden="true"></i>
+        <input
+          #queryInput
+          type="search"
+          class="shell-global-search__input"
+          placeholder="Jump to a page or record…"
+          autocomplete="off"
+          [formControl]="query"
+        />
+        <kbd class="shell-global-search__shortcut" aria-hidden="true">esc</kbd>
+      </label>
+      <p class="shell-global-search__hint">
+        Search pages and records from anywhere. Results will appear here as you type.
+      </p>
+    </div>
+  }
+</div>

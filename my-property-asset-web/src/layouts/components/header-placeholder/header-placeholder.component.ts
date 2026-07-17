@@ -8,6 +8,8 @@ import {
   UserNavigationComponent,
 } from '../../../navigation/components';
 import { NavigationStateService } from '../../../navigation/services';
+import { ShellGlobalSearchComponent } from '../../enterprise-shell/shell-global-search/shell-global-search.component';
+import { ShellNotificationAreaComponent } from '../../enterprise-shell/shell-notification-area/shell-notification-area.component';
 
 @Component({
   selector: 'app-header-placeholder',
@@ -16,6 +18,8 @@ import { NavigationStateService } from '../../../navigation/services';
     TopNavigationComponent,
     UserNavigationComponent,
     OrganizationSelectorComponent,
+    ShellGlobalSearchComponent,
+    ShellNotificationAreaComponent,
   ],
   templateUrl: './header-placeholder.component.html',
   styleUrl: './header-placeholder.component.scss',
@@ -33,6 +37,8 @@ export class HeaderPlaceholderComponent {
   readonly sticky = input(true);
   readonly showNavigation = input(true);
   readonly showOrganizationSelector = input(true);
+  readonly showGlobalSearch = input(true);
+  readonly showNotifications = input(true);
 
   readonly mobileMenuOpen = this.navigationState.mobileMenuOpen;
 

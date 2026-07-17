@@ -5,10 +5,36 @@
   color: var(--mpa-color-text);
   box-shadow: var(--mpa-shadow-header);
   backdrop-filter: blur(12px);
+  transition:
+    background-color var(--mpa-transition-normal),
+    border-color var(--mpa-transition-normal);
 }
 
 .layout-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mpa-spacing-md);
   min-height: var(--mpa-layout-header-height);
+  padding-inline: var(--mpa-spacing-lg);
+}
+
+.layout-header__leading,
+.layout-header__trailing {
+  display: flex;
+  align-items: center;
+  gap: var(--mpa-spacing-sm);
+  min-width: 0;
+  flex: 0 1 auto;
+}
+
+.layout-header__center {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+  min-width: 0;
+  max-width: var(--mpa-layout-search-max-width);
+  margin-inline: auto;
 }
 
 .layout-header__brand {
@@ -21,8 +47,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: var(--mpa-avatar-size-sm);
+  height: var(--mpa-avatar-size-sm);
   border-radius: var(--mpa-radius-md);
   background: var(--mpa-color-primary-subtle);
   border: 1px solid color-mix(in srgb, var(--mpa-color-primary) 20%, transparent);
@@ -35,8 +61,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: var(--mpa-avatar-size-md);
+  height: var(--mpa-avatar-size-md);
   border: 0;
   border-radius: var(--mpa-radius-md);
   background: transparent;
@@ -52,8 +78,14 @@
   color: var(--mpa-color-text);
 }
 
-.layout-header__navigation {
-  min-width: 0;
+.layout-header__menu-button:focus-visible {
+  outline: 2px solid var(--mpa-color-focus);
+  outline-offset: 2px;
+}
+
+.layout-header__trailing {
+  flex: 0 0 auto;
+  justify-content: flex-end;
 }
 
 @media (min-width: 1024px) {
@@ -63,9 +95,25 @@
 }
 
 @media (max-width: 1023px) {
-  .layout-header__navigation app-top-navigation,
-  .layout-header__navigation app-quick-actions,
-  .layout-header__navigation app-user-navigation {
+  .layout-header__inner {
+    padding-inline: var(--mpa-spacing-md);
+  }
+
+  .layout-header__center {
+    flex: 0 0 auto;
+    margin-inline: 0;
+    max-width: none;
+  }
+
+  .layout-header__trailing app-top-navigation,
+  .layout-header__trailing app-quick-actions,
+  .layout-header__trailing app-user-navigation {
     display: none;
+  }
+}
+
+@media (max-width: 639px) {
+  .layout-header__leading app-organization-selector {
+    max-width: 10rem;
   }
 }

@@ -1,3 +1,5 @@
 :host {
   display: block;
+  position: relative;
+  z-index: var(--mpa-z-index-sticky, 100);
 }

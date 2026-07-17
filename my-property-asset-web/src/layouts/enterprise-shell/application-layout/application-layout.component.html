@@ -16,6 +16,8 @@
       [sticky]="stickyHeader()"
       [showNavigation]="showHeaderNavigation()"
       [showOrganizationSelector]="showOrganizationSelector()"
+      [showGlobalSearch]="showGlobalSearch()"
+      [showNotifications]="showNotifications()"
     />
 
     @if (showWorkspaceHeader()) {
@@ -32,9 +34,17 @@
       </app-shell-page-toolbar>
     }
 
-    <app-shell-content-area [scrollable]="contentScrollable()" [fluid]="contentFluid()">
-      <ng-content />
-    </app-shell-content-area>
+    <div class="application-layout__content-host">
+      <app-shell-content-area [scrollable]="contentScrollable()" [fluid]="contentFluid()">
+        <ng-content />
+      </app-shell-content-area>
+
+      @if (loading()) {
+        <div class="application-layout__loading">
+          <app-loading-overlay [visible]="true" [label]="loadingLabel()" />
+        </div>
+      }
+    </div>
 
     @if (showFooter()) {
       <app-shell-footer [brand]="brand()" />

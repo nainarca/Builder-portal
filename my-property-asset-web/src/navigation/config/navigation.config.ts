@@ -304,33 +304,9 @@ export const BUILDER_PORTAL_NAVIGATION: NavigationConfiguration = createConfigur
           metadata: {
             permissions: ['id-07-project-unit:read'],
             analyticsName: 'ba_projects_nav',
+            description:
+              'Buildings and Units live under each Project — not as decorative sidebar children (UI-REBIRTH §2 / §19 #1)',
           },
-          children: [
-            {
-              id: 'ba-buildings',
-              label: 'Buildings',
-              route: '/builder-portal/projects',
-              icon: 'pi pi-building',
-              metadata: {
-                permissions: ['id-07-project-unit:read'],
-                analyticsName: 'ba_buildings_nav',
-                activeMatch: '/buildings',
-                description: 'Open a project to manage buildings',
-              },
-            },
-            {
-              id: 'ba-units',
-              label: 'Units',
-              route: '/builder-portal/projects',
-              icon: 'pi pi-th-large',
-              metadata: {
-                permissions: ['id-07-project-unit:read'],
-                analyticsName: 'ba_units_nav',
-                activeMatch: '/units',
-                description: 'Open a project to manage units',
-              },
-            },
-          ],
         },
         {
           id: 'ba-owners',

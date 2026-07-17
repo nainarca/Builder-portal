@@ -1,7 +1,23 @@
 :root {
+  /* Shell chrome */
   --mpa-layout-header-height: 4rem;
   --mpa-layout-sidebar-width: 17.5rem;
   --mpa-layout-sidebar-width-collapsed: 4.5rem;
+  --mpa-layout-aside-width: 20rem;
   --mpa-layout-content-max-width: 88rem;
   --mpa-layout-page-padding: clamp(1.25rem, 2vw, 2rem);
+  --mpa-layout-region-gap: var(--mpa-spacing-sm);
+  --mpa-layout-breadcrumb-gap: var(--mpa-spacing-xs);
+  --mpa-layout-toolbar-content-gap: var(--mpa-spacing-xl);
+  --mpa-layout-search-max-width: 28rem;
+
+  /* Avatar scale (system-wide — UI-REBIRTH §5 / §19 #8) */
+  --mpa-avatar-size-sm: 2rem;
+  --mpa-avatar-size-md: 2.25rem;
+  --mpa-avatar-size-lg: 2.75rem;
+  --mpa-avatar-size-xl: 4rem;
+
+  /* Content responsive grid (foundation utility) */
+  --mpa-content-grid-gap: var(--mpa-spacing-lg);
+  --mpa-content-grid-min-column: 16rem;
 }

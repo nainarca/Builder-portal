@@ -1,5 +1,8 @@
 :host {
   display: block;
+  padding-block: var(--mpa-spacing-sm) 0;
+  padding-inline: var(--mpa-layout-page-padding);
+  background: var(--mpa-color-background);
 }
 
 .shell-page-toolbar__inner {
@@ -8,6 +11,9 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--mpa-spacing-sm);
+  max-width: var(--mpa-layout-content-max-width);
+  margin-inline: auto;
+  margin-bottom: var(--mpa-layout-toolbar-content-gap);
   min-width: 0;
 }
 
@@ -25,4 +31,15 @@
   align-items: center;
   gap: var(--mpa-spacing-sm);
   flex: 0 0 auto;
+}
+
+@media (max-width: 639px) {
+  .shell-page-toolbar__inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .shell-page-toolbar__actions {
+    width: 100%;
+  }
 }

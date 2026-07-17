@@ -4,7 +4,9 @@ export { ResponsiveLayoutComponent } from './responsive-layout/responsive-layout
 export { ShellBreadcrumbComponent } from './shell-breadcrumb/shell-breadcrumb.component';
 export { ShellContentAreaComponent } from './shell-content-area/shell-content-area.component';
 export { ShellFooterComponent } from './shell-footer/shell-footer.component';
+export { ShellGlobalSearchComponent } from './shell-global-search/shell-global-search.component';
 export { ShellHeaderComponent } from './shell-header/shell-header.component';
+export { ShellNotificationAreaComponent } from './shell-notification-area/shell-notification-area.component';
 export { ShellPageToolbarComponent } from './shell-page-toolbar/shell-page-toolbar.component';
 export { ShellSidebarComponent } from './shell-sidebar/shell-sidebar.component';
 export { SidebarWorkspaceIndicatorComponent } from './sidebar-workspace-indicator/sidebar-workspace-indicator.component';

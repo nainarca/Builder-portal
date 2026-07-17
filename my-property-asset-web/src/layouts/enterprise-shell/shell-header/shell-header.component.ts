@@ -4,7 +4,7 @@ import { HeaderPlaceholderComponent } from '../../components/header-placeholder/
 
 /**
  * P0.1 §1.1 Header — persistent global orientation strip.
- * Wraps existing header chrome; no visual redesign (DS-01).
+ * Workspace switcher · global search · notifications · user menu (UI-IMP-01).
  */
 @Component({
   selector: 'app-shell-header',
@@ -21,4 +21,6 @@ export class ShellHeaderComponent {
   readonly sticky = input(true);
   readonly showNavigation = input(true);
   readonly showOrganizationSelector = input(true);
+  readonly showGlobalSearch = input(true);
+  readonly showNotifications = input(true);
 }
