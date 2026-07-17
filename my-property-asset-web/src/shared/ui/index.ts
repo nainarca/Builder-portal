@@ -1,4 +1,5 @@
 export * from './composites';
+export * from './enterprise';
 export * from './models';
 export * from './primitives';
 export * from './providers/provide-shared-ui';

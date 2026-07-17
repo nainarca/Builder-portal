@@ -1,0 +1,53 @@
+.enterprise-metric-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-xs);
+  min-width: 10rem;
+}
+
+.enterprise-metric-card__label {
+  margin: 0;
+  font-size: var(--mpa-font-size-xs);
+  font-weight: var(--mpa-font-weight-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--mpa-color-text-muted);
+}
+
+.enterprise-metric-card__value {
+  margin: 0;
+  font-size: var(--mpa-font-size-2xl);
+  font-weight: var(--mpa-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  line-height: var(--mpa-line-height-tight);
+  color: var(--mpa-color-text);
+}
+
+.enterprise-metric-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--mpa-spacing-sm);
+  margin: 0;
+  font-size: var(--mpa-font-size-xs);
+  color: var(--mpa-color-text-muted);
+}
+
+.enterprise-metric-card__trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: var(--mpa-font-weight-medium);
+}
+
+.enterprise-metric-card__trend--up {
+  color: var(--mpa-color-success);
+}
+
+.enterprise-metric-card__trend--down {
+  color: var(--mpa-color-danger);
+}
+
+.enterprise-metric-card__hint {
+  color: var(--mpa-color-text-muted);
+}
