@@ -1,54 +1,59 @@
 <app-sa-page>
   @if (builder(); as b) {
     <div class="bldr-page bldr-page--detail">
-      <app-bldr-header [builder]="b">
-        @if (b.status !== 'archived' && b.status !== 'inactive') {
-          <app-button
-            label="Invite owner"
-            icon="pi pi-send"
-            [outlined]="true"
-            (clicked)="onInviteOwner()"
-          />
-          <app-button
-            label="Resend invitation"
-            icon="pi pi-refresh"
-            [outlined]="true"
-            (clicked)="onResendInvitation()"
-          />
-          <app-button
-            label="Deactivate"
-            icon="pi pi-ban"
-            severity="danger"
-            [outlined]="true"
-            (clicked)="onDeactivate()"
-          />
+      <app-enterprise-detail-shell pattern="simple" [showAside]="true">
+        <div detailHero>
+          <app-bldr-header [builder]="b">
+            @if (b.status !== 'archived' && b.status !== 'inactive') {
+              <app-button
+                label="Invite owner"
+                icon="pi pi-send"
+                [outlined]="true"
+                (clicked)="onInviteOwner()"
+              />
+              <app-button
+                label="Resend invitation"
+                icon="pi pi-refresh"
+                [outlined]="true"
+                (clicked)="onResendInvitation()"
+              />
+              <app-button
+                label="Deactivate"
+                icon="pi pi-ban"
+                severity="danger"
+                [outlined]="true"
+                (clicked)="onDeactivate()"
+              />
+            }
+          </app-bldr-header>
+        </div>
+
+        @if (displayedInviteToken(); as token) {
+          <div detailChrome>
+            <p class="bldr-invite-banner" role="status">
+              Owner invitation token:
+              <code>{{ token }}</code>
+              — accept at <code>/auth/builder-invitation?token=…</code>
+            </p>
+          </div>
         }
-      </app-bldr-header>
 
-      @if (displayedInviteToken(); as token) {
-        <p class="bldr-invite-banner" role="status">
-          Owner invitation token:
-          <code>{{ token }}</code>
-          — accept at <code>/auth/builder-invitation?token=…</code>
-        </p>
-      }
-
-      <div class="bldr-detail-layout">
-        <div class="bldr-detail-layout__main">
+        <div detailMain>
           <app-bldr-overview [builder]="b" />
           <app-bldr-branding-summary [builder]="b" />
           <app-bldr-contacts-panel [contacts]="contacts()" />
           <app-bldr-activity-timeline [items]="activities()" />
           <app-bldr-audit-summary [items]="audits()" />
         </div>
-        <aside class="bldr-detail-layout__aside">
+
+        <aside detailAside>
           <app-bldr-status-panel
             [builder]="b"
             [history]="statusHistory()"
             (statusChange)="onStatusChange($event)"
           />
         </aside>
-      </div>
+      </app-enterprise-detail-shell>
     </div>
   } @else {
     <app-empty-no-data

@@ -2,6 +2,7 @@ export * from './alerts';
 export * from './avatars';
 export * from './buttons';
 export * from './cards';
+export * from './detail';
 export * from './dialogs';
 export * from './empty-states';
 export * from './forms';

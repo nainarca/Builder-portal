@@ -1,24 +1,27 @@
 <app-sa-page>
   @if (org(); as organization) {
     <div class="org-page org-page--detail">
-      <app-org-header [org]="organization" />
+      <app-enterprise-detail-shell pattern="simple" [showAside]="true">
+        <div detailHero>
+          <app-org-header [org]="organization" />
+        </div>
 
-      <div class="org-detail-layout">
-        <div class="org-detail-layout__main">
+        <div detailMain>
           <app-org-overview [org]="organization" />
           <app-org-branding-summary [org]="organization" />
           <app-org-members-list [members]="members()" />
           <app-org-activity-timeline [items]="activities()" />
           <app-org-audit-summary [items]="audits()" />
         </div>
-        <aside class="org-detail-layout__aside">
+
+        <aside detailAside>
           <app-org-status-panel
             [org]="organization"
             [history]="statusHistory()"
             (statusChange)="onStatusChange($event)"
           />
         </aside>
-      </div>
+      </app-enterprise-detail-shell>
     </div>
   } @else {
     <app-empty-no-data

@@ -1,74 +1,72 @@
 <app-bp-page>
   @if (handover(); as h) {
     <div class="handover-page handover-page--detail">
-      <header class="handover-header">
-        <div class="handover-header__main">
-          <span class="handover-icon handover-icon--lg"><i class="pi pi-flag" aria-hidden="true"></i></span>
-          <div>
-            <span class="mpa-eyebrow">{{ h.projectName }} · {{ h.towerName }}</span>
-            <h1 class="ui-page-title">Handover — {{ h.unitNumber }}</h1>
-            <p class="ui-page-subtitle">{{ h.ownerName }}</p>
-            <div class="handover-header__badges">
-              <app-handover-status-badge [status]="h.overallStatus" />
-            </div>
-          </div>
-        </div>
-        <div class="handover-header__actions">
-          <a class="handover-grid__view-link" [routerLink]="['/builder-portal/handovers', h.id, 'documents']">
-            Go to Documents
-          </a>
-          <a class="handover-grid__view-link" [routerLink]="['/builder-portal/handovers', h.id, 'invitation']">
-            Go to Invitation
-          </a>
-          <a class="handover-grid__view-link" [routerLink]="['/builder-portal/handovers', h.id, 'activation']">
-            Go to Activation
-          </a>
-          <a class="handover-grid__view-link" [routerLink]="['/builder-portal/handovers', h.id, 'inspection']">
-            Go to Inspection &amp; Checklist
-          </a>
-          <a class="handover-grid__view-link" [routerLink]="['/builder-portal/handovers', h.id, 'approval']">
-            Go to Approval &amp; Signature
-          </a>
-          <a class="handover-grid__view-link" [routerLink]="['/builder-portal/handovers', h.id, 'completion']">
-            Go to Completion
-          </a>
-        </div>
-      </header>
+      <app-enterprise-detail-shell
+        pattern="stage"
+        [stageSteps]="stageSteps()"
+        [activeStageId]="activeStageId()"
+        stageAriaLabel="Handover stages"
+        (stageSelect)="onStageSelect($event)"
+      >
+        <app-enterprise-entity-hero
+          detailHero
+          [eyebrow]="h.projectName + ' · ' + h.towerName"
+          [title]="'Handover — ' + h.unitNumber"
+          [subtitle]="h.ownerName"
+          [identifier]="h.id"
+          [statusLabel]="statusLabel()"
+          [statusSeverity]="statusSeverity()"
+          [statusIcon]="statusIcon()"
+          [facts]="heroFacts()"
+          [stats]="heroStats()"
+          [overflowActions]="overflowActions()"
+          (overflowAction)="onOverflowAction($event)"
+        >
+          <span entityHeroLeading class="handover-icon handover-icon--lg">
+            <i class="pi pi-flag" aria-hidden="true"></i>
+          </span>
+        </app-enterprise-entity-hero>
 
-      <app-milestone-tracker [stages]="h.stages" />
-
-      <app-handover-overview [handover]="h" />
-
-      <div class="handover-detail-layout">
-        <div class="handover-detail-layout__main">
+        <div detailMain>
+          <app-handover-overview [handover]="h" />
           <app-workflow-card title="Workflow timeline">
             <app-workflow-timeline [stages]="h.stages" />
           </app-workflow-card>
           <app-timeline-card title="Audit timeline" [items]="h.activity" />
         </div>
-        <aside class="handover-detail-layout__aside">
+
+        <aside detailAside>
           <app-progress-card [percent]="h.overallProgress" [delayed]="h.overallStatus === 'delayed'" />
           @if (readiness(); as r) {
             <app-readiness-card [readiness]="r" />
           }
           @if (invitation(); as invitation) {
-            <section class="handover-info-panel">
-              <h3 class="handover-info-panel__title">Invitation</h3>
-              <div class="handover-info-panel__row"><dt>Status</dt><dd>{{ invitation.status }}</dd></div>
-              <div class="handover-info-panel__row"><dt>Expires</dt><dd>{{ invitation.expiresAt ?? '—' }}</dd></div>
-            </section>
+            <app-enterprise-metadata-grid
+              title="Invitation"
+              [items]="[
+                { label: 'Status', value: invitation.status },
+                { label: 'Expires', value: invitation.expiresAt ?? '—' },
+              ]"
+            />
           }
           @if (activationReadiness(); as activation) {
-            <section class="handover-info-panel">
-              <h3 class="handover-info-panel__title">Activation readiness</h3>
-              <div class="handover-info-panel__row"><dt>Checklist</dt><dd>{{ activation.checklistComplete ? 'Ready' : 'Pending' }}</dd></div>
-              <div class="handover-info-panel__row"><dt>Invitation</dt><dd>{{ activation.invitationAccepted ? 'Accepted' : 'Pending' }}</dd></div>
-              <div class="handover-info-panel__row"><dt>Activated</dt><dd>{{ activation.activated ? 'Yes' : 'No' }}</dd></div>
-            </section>
+            <app-enterprise-metadata-grid
+              title="Activation readiness"
+              [items]="[
+                { label: 'Checklist', value: activation.checklistComplete ? 'Ready' : 'Pending' },
+                { label: 'Invitation', value: activation.invitationAccepted ? 'Accepted' : 'Pending' },
+                { label: 'Activated', value: activation.activated ? 'Yes' : 'No' },
+              ]"
+            />
           }
           <app-document-summary-panel [unitId]="h.unitId" />
+          <app-enterprise-detail-action-panel
+            title="Stage workspaces"
+            [actions]="stageWorkspaceActions()"
+            (actionClick)="onOverflowAction($event)"
+          />
         </aside>
-      </div>
+      </app-enterprise-detail-shell>
     </div>
   } @else {
     <app-empty-no-data

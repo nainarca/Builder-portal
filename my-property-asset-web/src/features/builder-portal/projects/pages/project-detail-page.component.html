@@ -1,51 +1,142 @@
 <app-bp-page>
   @if (project(); as proj) {
     <div class="proj-page proj-page--detail">
-      <app-proj-header [project]="proj">
-        @if (!proj.archived) {
-          <app-button
-            label="Archive"
-            icon="pi pi-archive"
-            severity="danger"
-            [outlined]="true"
-            (clicked)="onArchive()"
+      <app-enterprise-detail-shell
+        pattern="tabs"
+        [tabs]="detailTabs()"
+        [activeTabId]="activeTab()"
+        [showAside]="activeTab() === 'overview'"
+        idPrefix="project-detail"
+        tabsAriaLabel="Project sections"
+        (tabChange)="onTabChange($event)"
+      >
+        <app-enterprise-entity-hero
+          detailHero
+          [eyebrow]="proj.code + ' · ' + proj.organizationName"
+          [title]="proj.name"
+          [subtitle]="proj.location.city + ', ' + proj.location.state"
+          [identifier]="proj.id"
+          [statusLabel]="statusLabel()"
+          [statusSeverity]="statusSeverity()"
+          [statusIcon]="statusIcon()"
+          [facts]="heroFacts()"
+          [stats]="heroStats()"
+          [overflowActions]="overflowActions()"
+          (overflowAction)="onOverflowAction($event)"
+        >
+          <app-proj-avatar
+            entityHeroLeading
+            [name]="proj.name"
+            [thumbnailUrl]="proj.logoUrl ?? proj.thumbnailUrl"
+            size="lg"
           />
-        } @else {
-          <app-button label="Restore" icon="pi pi-replay" (clicked)="onRestore()" />
-        }
-      </app-proj-header>
+          <app-proj-type-badge entityHeroBadges [projectType]="proj.projectType" />
+          @if (!proj.archived) {
+            <app-primary-button
+              *appHasPermission="'id-07-project-unit:contribute'"
+              entityHeroPrimary
+              label="Edit"
+              icon="pi pi-pencil"
+              (clicked)="goToEdit()"
+            />
+          }
+        </app-enterprise-entity-hero>
 
-      @if (showBuildings()) {
-        <section class="proj-buildings-card" aria-label="Buildings summary">
-          <div>
-            <h2 class="mpa-heading-sm m-0">Buildings</h2>
-            <p class="mpa-body-md m-0">
-              {{ buildingStats().total }} active
-              @if (buildingsRequired()) {
-                · Required for this project type
-              } @else {
-                · Optional for this project type
-              }
-            </p>
-          </div>
-          <app-button label="Manage buildings" icon="pi pi-building" (clicked)="goToBuildings()" />
-        </section>
-      }
+        <div detailMain>
+          @if (activeTab() === 'overview') {
+            <app-proj-overview [project]="proj" />
+            <app-proj-location-card [location]="proj.location" />
+            <app-proj-summary-row [summary]="proj.summary" [projectId]="proj.id" />
+          }
 
-      <div class="proj-detail-layout">
-        <div class="proj-detail-layout__main">
-          <app-proj-overview [project]="proj" />
-          <app-proj-location-card [location]="proj.location" />
-          <app-proj-summary-row [summary]="proj.summary" [projectId]="proj.id" />
+          @if (activeTab() === 'buildings') {
+            <app-enterprise-related-records
+              title="Buildings"
+              [description]="
+                buildingsRequired()
+                  ? 'Buildings are required for this project type.'
+                  : showBuildings()
+                    ? 'Optional towers and blocks for this project.'
+                    : 'Buildings are not used for this project hierarchy.'
+              "
+              [items]="buildingRelatedItems()"
+              [actionLabel]="showBuildings() ? 'Manage buildings' : undefined"
+              emptyTitle="No buildings yet"
+              [emptyDescription]="
+                showBuildings()
+                  ? 'Create the first building for this project.'
+                  : 'This project does not use the buildings hierarchy.'
+              "
+              [emptyActionLabel]="showBuildings() ? 'Manage buildings' : undefined"
+              (action)="goToBuildings()"
+              (emptyAction)="goToBuildings()"
+            />
+          }
+
+          @if (activeTab() === 'units') {
+            <app-enterprise-related-records
+              title="Units"
+              description="Unit inventory and sales status for this project."
+              [items]="unitRelatedItems()"
+              actionLabel="Open units"
+              emptyTitle="No units yet"
+              emptyDescription="Units will appear here once they are created for this project."
+              emptyActionLabel="Open units"
+              (action)="goToUnits()"
+              (emptyAction)="goToUnits()"
+            />
+          }
+
+          @if (activeTab() === 'documents') {
+            <app-enterprise-attachment-panel
+              title="Documents"
+              [items]="documentAttachments()"
+              [showUpload]="false"
+              emptyDescription="Project documents are managed in the documents workspace."
+            />
+            <app-enterprise-detail-empty
+              variant="no-documents"
+              title="Browse full document library"
+              description="Open the documents workspace for upload, versions, and previews."
+              actionLabel="Open documents"
+              (action)="goToDocuments()"
+            />
+          }
+
+          @if (activeTab() === 'owners') {
+            <app-enterprise-related-records
+              title="Owners"
+              description="Owner assignments linked to this project’s units."
+              [items]="ownerRelatedItems()"
+              actionLabel="Open owners"
+              emptyTitle="No owners linked"
+              emptyDescription="Assigned owners will appear here as units are sold or assigned."
+              emptyActionLabel="Open owners"
+              (action)="goToOwners()"
+              (emptyAction)="goToOwners()"
+            />
+          }
         </div>
-        <aside class="proj-detail-layout__aside">
-          <app-proj-map-placeholder />
-          <app-proj-gallery-placeholder />
+
+        <aside detailAside>
+          @if (activeTab() === 'overview') {
+            <app-proj-map-placeholder />
+            <app-proj-gallery-placeholder />
+            <app-enterprise-detail-action-panel
+              title="Quick actions"
+              [actions]="quickActions()"
+              [dangerActions]="dangerActions()"
+              dangerDescription="Archive hides this project from the default portfolio list."
+              (actionClick)="onPanelAction($event)"
+            />
+          }
         </aside>
-      </div>
+      </app-enterprise-detail-shell>
     </div>
   } @else {
-    <app-empty-no-data title="Project not found" description="The requested project does not exist or was removed."
+    <app-empty-no-data
+      title="Project not found"
+      description="The requested project does not exist or was removed."
     />
   }
 </app-bp-page>

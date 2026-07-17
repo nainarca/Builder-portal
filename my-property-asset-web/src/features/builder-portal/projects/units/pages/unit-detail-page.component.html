@@ -1,16 +1,24 @@
 <app-bp-page>
   @if (unit(); as u) {
     <div class="unit-page unit-page--detail">
-      <app-unit-header [unit]="u" [projectId]="projectId()">
-        @if (!u.archived) {
-          <app-button label="Archive" icon="pi pi-archive" severity="danger" [outlined]="true" (clicked)="onArchive()" />
-        } @else {
-          <app-button label="Restore" icon="pi pi-replay" (clicked)="onRestore()" />
-        }
-      </app-unit-header>
+      <app-enterprise-detail-shell pattern="simple" [showAside]="true">
+        <div detailHero>
+          <app-unit-header [unit]="u" [projectId]="projectId()">
+            @if (!u.archived) {
+              <app-button
+                label="Archive"
+                icon="pi pi-archive"
+                severity="danger"
+                [outlined]="true"
+                (clicked)="onArchive()"
+              />
+            } @else {
+              <app-button label="Restore" icon="pi pi-replay" (clicked)="onRestore()" />
+            }
+          </app-unit-header>
+        </div>
 
-      <div class="unit-detail-layout">
-        <div class="unit-detail-layout__main">
+        <div detailMain>
           <app-unit-overview [unit]="u" />
           <app-unit-timeline [milestones]="u.milestones" />
           <app-unit-summary-row
@@ -20,14 +28,17 @@
             [unitId]="u.id"
           />
         </div>
-        <aside class="unit-detail-layout__aside">
+
+        <aside detailAside>
           <app-unit-gallery-placeholder />
           <app-unit-drawing-placeholder />
         </aside>
-      </div>
+      </app-enterprise-detail-shell>
     </div>
   } @else {
-    <app-empty-no-data title="Unit not found" description="The requested unit does not exist or was removed."
+    <app-empty-no-data
+      title="Unit not found"
+      description="The requested unit does not exist or was removed."
     />
   }
 </app-bp-page>
