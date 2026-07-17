@@ -6,7 +6,7 @@ import { JsonPipe } from '@angular/common';
 import { map } from 'rxjs';
 
 import { AuthorizedButtonComponent } from '@core/rbac';
-import { ButtonComponent, EmptyNoDataComponent, EnterpriseFormPageHeaderComponent, UiToastService } from '@shared/ui';
+import { ButtonComponent, EnterpriseDetailEmptyComponent, EnterpriseFormPageHeaderComponent, UiToastService } from '@shared/ui';
 import { CommunicationDeliveryService } from '../services/communication-delivery.service';
 import { CommunicationService } from '../services/communication.service';
 
@@ -15,7 +15,7 @@ import { CommunicationService } from '../services/communication.service';
   imports: [ BuilderPortalPageComponent,
     JsonPipe,
     RouterLink,
-    EmptyNoDataComponent,
+    EnterpriseDetailEmptyComponent,
     EnterpriseFormPageHeaderComponent, ButtonComponent,
     AuthorizedButtonComponent,
   ],
@@ -86,7 +86,8 @@ import { CommunicationService } from '../services/communication.service';
           </section>
         </div>
       } @else {
-        <app-empty-no-data
+        <app-enterprise-detail-empty
+          variant="no-related"
           title="Communication not found"
           description="The requested communication does not exist or was removed."
         />

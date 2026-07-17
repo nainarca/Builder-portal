@@ -2,13 +2,15 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { RouterLink } from '@angular/router';
 import { TableModule } from 'primeng/table';
 
+import { EnterpriseTableEmptyComponent } from '@shared/ui';
+
 import { Handover } from '../../models/handover.model';
 import { HandoverStatusBadgeComponent } from '../shared/handover-status-badge.component';
 import { StageBadgeComponent } from '../shared/stage-badge.component';
 
 @Component({
   selector: 'app-handover-data-grid',
-  imports: [RouterLink, TableModule, HandoverStatusBadgeComponent, StageBadgeComponent],
+  imports: [RouterLink, TableModule, HandoverStatusBadgeComponent, StageBadgeComponent, EnterpriseTableEmptyComponent],
   template: `
     <p-table [value]="gridItems()" [stripedRows]="true">
       <ng-template pTemplate="header">
@@ -42,7 +44,12 @@ import { StageBadgeComponent } from '../shared/stage-badge.component';
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td colspan="6">No handovers match your filters.</td>
+          <td colspan="6">
+            <app-enterprise-table-empty
+              title="No handovers match your filters"
+              description="Try adjusting filters or clearing search."
+            />
+          </td>
         </tr>
       </ng-template>
     </p-table>

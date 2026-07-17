@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 import { RouterLink } from '@angular/router';
 import { TableModule } from 'primeng/table';
 
+import { EnterpriseTableEmptyComponent } from '@shared/ui';
+
 import { Unit } from '../../models/unit.model';
 import { UnitAvatarComponent } from '../shared/unit-avatar.component';
 import { UnitConstructionBadgeComponent } from '../shared/unit-construction-badge.component';
@@ -9,7 +11,7 @@ import { UnitStatusBadgeComponent } from '../shared/unit-status-badge.component'
 
 @Component({
   selector: 'app-unit-data-grid',
-  imports: [RouterLink, TableModule, UnitAvatarComponent, UnitStatusBadgeComponent, UnitConstructionBadgeComponent],
+  imports: [RouterLink, TableModule, UnitAvatarComponent, UnitStatusBadgeComponent, UnitConstructionBadgeComponent, EnterpriseTableEmptyComponent],
   template: `
     <p-table
       [value]="gridItems()"
@@ -103,7 +105,12 @@ import { UnitStatusBadgeComponent } from '../shared/unit-status-badge.component'
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td [attr.colspan]="visibleColumnCount() + 2">No units match your filters.</td>
+          <td [attr.colspan]="visibleColumnCount() + 2">
+            <app-enterprise-table-empty
+              title="No units match your filters"
+              description="Try adjusting filters or clearing search."
+            />
+          </td>
         </tr>
       </ng-template>
     </p-table>

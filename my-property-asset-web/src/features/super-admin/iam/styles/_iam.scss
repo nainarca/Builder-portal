@@ -48,21 +48,21 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: var(--mpa-avatar-size-md);
+  height: var(--mpa-avatar-size-md);
   border-radius: var(--mpa-radius-lg);
   overflow: hidden;
   flex-shrink: 0;
 
   &--sm {
-    width: 2rem;
-    height: 2rem;
+    width: var(--mpa-avatar-size-sm);
+    height: var(--mpa-avatar-size-sm);
     border-radius: var(--mpa-radius-md);
   }
 
   &--lg {
-    width: 4rem;
-    height: 4rem;
+    width: var(--mpa-avatar-size-lg);
+    height: var(--mpa-avatar-size-lg);
     border-radius: var(--mpa-radius-xl);
   }
 }
@@ -242,7 +242,7 @@
 // Detail layout
 .iam-detail-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 20rem;
+  grid-template-columns: minmax(0, 1fr) var(--mpa-layout-aside-width);
   gap: var(--mpa-spacing-xl);
   align-items: start;
 }

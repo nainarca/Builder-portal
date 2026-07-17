@@ -4,9 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
 import {
-  EmptyNoDataComponent,
   EnterpriseDetailAction,
   EnterpriseDetailActionPanelComponent,
+  EnterpriseDetailEmptyComponent,
   EnterpriseDetailShellComponent,
   EnterpriseDetailStageStep,
   EnterpriseEntityHeroComponent,
@@ -33,7 +33,7 @@ import { HandoverStoreService } from '../services/handover-store.service';
   selector: 'app-handover-detail-page',
   imports: [
     BuilderPortalPageComponent,
-    EmptyNoDataComponent,
+    EnterpriseDetailEmptyComponent,
     EnterpriseDetailShellComponent,
     EnterpriseEntityHeroComponent,
     EnterpriseMetadataGridComponent,

@@ -5,7 +5,7 @@ import { map } from 'rxjs';
 
 import {
   ButtonComponent,
-  EmptyNoDataComponent,
+  EnterpriseDetailEmptyComponent,
   ModalShellComponent,
   SelectComponent,
   SelectOption,
@@ -30,7 +30,7 @@ import { OwnerStoreService } from '../services/owner-store.service';
   selector: 'app-owner-detail-page',
   imports: [
     BuilderPortalPageComponent,
-    EmptyNoDataComponent,
+    EnterpriseDetailEmptyComponent,
     ButtonComponent,
     ModalShellComponent,
     SelectComponent,

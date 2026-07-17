@@ -56,7 +56,10 @@
       </div>
     </app-modal-shell>
   } @else {
-    <app-empty-no-data title="Owner not found" description="The requested owner does not exist or was removed."
+    <app-enterprise-detail-empty
+      variant="no-related"
+      title="Owner not found"
+      description="The requested owner does not exist or was removed."
     />
   }
 </app-bp-page>

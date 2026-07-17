@@ -3,7 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 
-import { EmptyNoDataComponent, UiDialogService } from '@shared/ui';
+import { EnterpriseDetailEmptyComponent, UiDialogService } from '@shared/ui';
 
 import { SuperAdminPageComponent } from '../../../components/layout';
 
@@ -20,7 +20,7 @@ import { UserAdminStoreService } from '../../services/user-admin-store.service';
   selector: 'app-iam-user-detail-page',
   imports: [
     SuperAdminPageComponent,
-    EmptyNoDataComponent,
+    EnterpriseDetailEmptyComponent,
     IamSectionNavComponent, IamUserHeaderComponent, IamUserOverviewComponent,
     IamUserPermissionSummaryComponent, IamActivityTimelineComponent, IamUserAuditSummaryComponent,
     IamUserAccessReviewComponent, IamUserStatusPanelComponent,

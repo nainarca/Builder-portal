@@ -5,7 +5,6 @@ import { map } from 'rxjs';
 
 import { HasPermissionDirective } from '@core/rbac';
 import {
-  EmptyNoDataComponent,
   EnterpriseAttachmentPanelComponent,
   EnterpriseDetailAction,
   EnterpriseDetailActionPanelComponent,
@@ -44,7 +43,6 @@ import { ProjectStoreService } from '../services/project-store.service';
   selector: 'app-project-detail-page',
   imports: [
     BuilderPortalPageComponent,
-    EmptyNoDataComponent,
     HasPermissionDirective,
     PrimaryButtonComponent,
     EnterpriseDetailShellComponent,

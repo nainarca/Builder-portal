@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 
 import { PlatformRole } from '@core/rbac/models/permission.model';
-import { EmptyNoDataComponent } from '@shared/ui';
+import { EnterpriseDetailEmptyComponent } from '@shared/ui';
 
 import { SuperAdminPageComponent } from '../../../components/layout';
 import { IamRoleAssignmentPanelComponent, IamRoleOverviewComponent } from '../../components/roles/detail';
@@ -15,7 +15,7 @@ import { RoleAdminStoreService } from '../../services/role-admin-store.service';
   selector: 'app-iam-role-detail-page',
   imports: [
     SuperAdminPageComponent,
-    EmptyNoDataComponent,
+    EnterpriseDetailEmptyComponent,
     IamSectionNavComponent,
     IamRoleBadgeComponent,
     IamRoleOverviewComponent,
@@ -42,7 +42,8 @@ import { RoleAdminStoreService } from '../../services/role-admin-store.service';
           </div>
         </div>
       } @else {
-        <app-empty-no-data
+        <app-enterprise-detail-empty
+          variant="no-related"
           title="Role not found"
           description="The requested role does not exist or was removed."
         />

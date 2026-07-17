@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 import { RouterLink } from '@angular/router';
 import { TableModule } from 'primeng/table';
 
+import { EnterpriseTableEmptyComponent } from '@shared/ui';
+
 import { OwnerListItem } from '../../models/owner.model';
 import { CustomerAvatarComponent } from '../shared/customer-avatar.component';
 import { InvitationBadgeComponent } from '../shared/invitation-badge.component';
@@ -9,7 +11,7 @@ import { OwnerStatusBadgeComponent } from '../shared/owner-status-badge.componen
 
 @Component({
   selector: 'app-owner-data-grid',
-  imports: [RouterLink, TableModule, CustomerAvatarComponent, OwnerStatusBadgeComponent, InvitationBadgeComponent],
+  imports: [RouterLink, TableModule, CustomerAvatarComponent, OwnerStatusBadgeComponent, InvitationBadgeComponent, EnterpriseTableEmptyComponent],
   template: `
     <p-table
       [value]="gridItems()"
@@ -92,7 +94,12 @@ import { OwnerStatusBadgeComponent } from '../shared/owner-status-badge.componen
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td [attr.colspan]="visibleColumnCount() + 2">No owners match your filters.</td>
+          <td [attr.colspan]="visibleColumnCount() + 2">
+            <app-enterprise-table-empty
+              title="No owners match your filters"
+              description="Try adjusting filters or clearing search."
+            />
+          </td>
         </tr>
       </ng-template>
     </p-table>

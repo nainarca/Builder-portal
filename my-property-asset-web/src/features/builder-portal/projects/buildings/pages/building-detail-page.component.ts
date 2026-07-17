@@ -3,7 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 
-import { ButtonComponent, EmptyNoDataComponent, EnterpriseDetailShellComponent, EnterpriseMetadataGridComponent, UiDialogService, UiToastService } from '@shared/ui';
+import { ButtonComponent, EnterpriseDetailEmptyComponent, EnterpriseDetailShellComponent, EnterpriseMetadataGridComponent, UiDialogService, UiToastService } from '@shared/ui';
 
 import { BuilderPortalPageComponent } from '../../../components/layout';
 
@@ -17,7 +17,7 @@ import { BuildingService } from '../services/building.service';
   selector: 'app-building-detail-page',
   imports: [
     BuilderPortalPageComponent,
-    EmptyNoDataComponent,
+    EnterpriseDetailEmptyComponent,
     EnterpriseDetailShellComponent,
     EnterpriseMetadataGridComponent,
     ButtonComponent,

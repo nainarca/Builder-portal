@@ -3,13 +3,15 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 import { RouterLink } from '@angular/router';
 import { TableModule } from 'primeng/table';
 
+import { EnterpriseTableEmptyComponent } from '@shared/ui';
+
 import { BuilderAdminRecord } from '../../models/builder-admin.model';
 import { BuilderAvatarComponent } from '../shared/builder-avatar.component';
 import { BuilderStatusBadgeComponent } from '../shared/builder-status-badge.component';
 
 @Component({
   selector: 'app-bldr-data-grid',
-  imports: [RouterLink, TableModule, DatePipe, BuilderAvatarComponent, BuilderStatusBadgeComponent],
+  imports: [RouterLink, TableModule, DatePipe, BuilderAvatarComponent, BuilderStatusBadgeComponent, EnterpriseTableEmptyComponent],
   template: `
     <p-table [value]="gridItems()" [loading]="loading()" [paginator]="true" [rows]="pageSize()"
       [totalRecords]="total()" [rowsPerPageOptions]="[10, 25, 50]" [(selection)]="selectionModel"
@@ -58,7 +60,14 @@ import { BuilderStatusBadgeComponent } from '../shared/builder-status-badge.comp
         </tr>
       </ng-template>
       <ng-template pTemplate="emptymessage">
-        <tr><td [attr.colspan]="visibleColumnCount() + 2">No builders match your filters.</td></tr>
+        <tr>
+          <td [attr.colspan]="visibleColumnCount() + 2">
+            <app-enterprise-table-empty
+              title="No builders match your filters"
+              description="Try adjusting filters or clearing search."
+            />
+          </td>
+        </tr>
       </ng-template>
     </p-table>
   `,

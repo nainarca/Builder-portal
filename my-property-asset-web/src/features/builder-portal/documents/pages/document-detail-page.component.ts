@@ -6,7 +6,7 @@ import { map } from 'rxjs';
 
 import {
   ButtonComponent,
-  EmptyNoDataComponent,
+  EnterpriseDetailEmptyComponent,
   InputTextComponent,
   ModalShellComponent,
   UiDialogService,
@@ -28,7 +28,7 @@ import { DocumentStoreService } from '../services/document-store.service';
   selector: 'app-document-detail-page',
   imports: [
     BuilderPortalPageComponent,
-    EmptyNoDataComponent,
+    EnterpriseDetailEmptyComponent,
     ButtonComponent,
     InputTextComponent,
     ModalShellComponent,

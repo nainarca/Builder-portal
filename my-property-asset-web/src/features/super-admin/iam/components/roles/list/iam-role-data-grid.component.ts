@@ -2,12 +2,14 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { RouterLink } from '@angular/router';
 import { TableModule } from 'primeng/table';
 
+import { EnterpriseTableEmptyComponent } from '@shared/ui';
+
 import { RoleAdminRecord } from '../../../models/role-admin.model';
 import { IamRoleBadgeComponent } from '../../shared';
 
 @Component({
   selector: 'app-iam-role-data-grid',
-  imports: [RouterLink, TableModule, IamRoleBadgeComponent],
+  imports: [RouterLink, TableModule, IamRoleBadgeComponent, EnterpriseTableEmptyComponent],
   template: `
     <p-table [value]="gridItems()" [loading]="loading()" [paginator]="true" [rows]="pageSize()"
       [totalRecords]="total()" [stripedRows]="true">
@@ -37,7 +39,14 @@ import { IamRoleBadgeComponent } from '../../shared';
         </tr>
       </ng-template>
       <ng-template pTemplate="emptymessage">
-        <tr><td colspan="6">No roles match your filters.</td></tr>
+        <tr>
+          <td colspan="6">
+            <app-enterprise-table-empty
+              title="No roles match your filters"
+              description="Try adjusting filters or clearing search."
+            />
+          </td>
+        </tr>
       </ng-template>
     </p-table>
   `,

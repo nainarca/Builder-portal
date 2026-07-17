@@ -3,12 +3,14 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 import { RouterLink } from '@angular/router';
 import { TableModule } from 'primeng/table';
 
+import { EnterpriseTableEmptyComponent } from '@shared/ui';
+
 import { UserAdminRecord } from '../../../models/user-admin.model';
 import { IamRoleBadgeComponent, IamUserAvatarComponent, IamUserStatusBadgeComponent } from '../../shared';
 
 @Component({
   selector: 'app-iam-user-data-grid',
-  imports: [RouterLink, TableModule, DatePipe, IamUserAvatarComponent, IamUserStatusBadgeComponent, IamRoleBadgeComponent],
+  imports: [RouterLink, TableModule, DatePipe, IamUserAvatarComponent, IamUserStatusBadgeComponent, IamRoleBadgeComponent, EnterpriseTableEmptyComponent],
   template: `
     <p-table [value]="gridItems()" [loading]="loading()" [paginator]="true" [rows]="pageSize()"
       [totalRecords]="total()" [rowsPerPageOptions]="[10, 25, 50]" [(selection)]="selectionModel"
@@ -51,7 +53,14 @@ import { IamRoleBadgeComponent, IamUserAvatarComponent, IamUserStatusBadgeCompon
         </tr>
       </ng-template>
       <ng-template pTemplate="emptymessage">
-        <tr><td [attr.colspan]="visibleColumnCount() + 2">No users match your filters.</td></tr>
+        <tr>
+          <td [attr.colspan]="visibleColumnCount() + 2">
+            <app-enterprise-table-empty
+              title="No users match your filters"
+              description="Try adjusting filters or clearing search."
+            />
+          </td>
+        </tr>
       </ng-template>
     </p-table>
   `,

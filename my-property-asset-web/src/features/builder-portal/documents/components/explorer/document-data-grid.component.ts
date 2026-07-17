@@ -3,6 +3,8 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 import { RouterLink } from '@angular/router';
 import { TableModule } from 'primeng/table';
 
+import { EnterpriseTableEmptyComponent } from '@shared/ui';
+
 import { DocumentRecord } from '../../models/document.model';
 import { categoryLabel, fileTypeIcon } from '../../utils/file-type.util';
 import { ApprovalBadgeComponent } from '../shared/approval-badge.component';
@@ -10,7 +12,7 @@ import { VersionBadgeComponent } from '../shared/version-badge.component';
 
 @Component({
   selector: 'app-document-data-grid',
-  imports: [RouterLink, DatePipe, TableModule, ApprovalBadgeComponent, VersionBadgeComponent],
+  imports: [RouterLink, DatePipe, TableModule, ApprovalBadgeComponent, VersionBadgeComponent, EnterpriseTableEmptyComponent],
   template: `
     <p-table
       [value]="gridItems()"
@@ -86,7 +88,12 @@ import { VersionBadgeComponent } from '../shared/version-badge.component';
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td [attr.colspan]="visibleColumnCount() + 2">No documents match your filters.</td>
+          <td [attr.colspan]="visibleColumnCount() + 2">
+            <app-enterprise-table-empty
+              title="No documents match your filters"
+              description="Try adjusting filters or clearing search."
+            />
+          </td>
         </tr>
       </ng-template>
     </p-table>

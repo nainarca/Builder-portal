@@ -55,15 +55,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: var(--mpa-avatar-size-md);
+  height: var(--mpa-avatar-size-md);
   border-radius: var(--mpa-radius-lg);
   flex-shrink: 0;
   background: var(--mpa-color-primary-subtle);
   color: var(--mpa-color-primary);
 
-  &--sm { width: 2rem; height: 2rem; border-radius: var(--mpa-radius-md); font-size: 0.85rem; }
-  &--lg { width: 4rem; height: 4rem; border-radius: var(--mpa-radius-xl); font-size: 1.5rem; }
+  &--sm { width: var(--mpa-avatar-size-sm); height: var(--mpa-avatar-size-sm); border-radius: var(--mpa-radius-md); font-size: 0.85rem; }
+  &--lg { width: var(--mpa-avatar-size-lg); height: var(--mpa-avatar-size-lg); border-radius: var(--mpa-radius-xl); font-size: 1.5rem; }
 }
 
 // Category badge
@@ -453,7 +453,7 @@
 // Detail layout
 .doc-detail-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 20rem;
+  grid-template-columns: minmax(0, 1fr) var(--mpa-layout-aside-width);
   gap: var(--mpa-spacing-xl);
   align-items: start;
 }

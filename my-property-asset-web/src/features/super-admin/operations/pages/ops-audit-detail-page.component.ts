@@ -3,7 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 
-import { EmptyNoDataComponent, EnterpriseFormPageHeaderComponent } from '@shared/ui';
+import { EnterpriseDetailEmptyComponent, EnterpriseFormPageHeaderComponent } from '@shared/ui';
 
 import { SuperAdminPageComponent } from '../../components/layout';
 import { OpsSectionNavComponent, OpsStatusBadgeComponent } from '../components/shared';
@@ -15,7 +15,7 @@ import { OperationsAdminStoreService } from '../services/operations-admin-store.
   imports: [
     SuperAdminPageComponent,
     EnterpriseFormPageHeaderComponent,
-    EmptyNoDataComponent,
+    EnterpriseDetailEmptyComponent,
     RouterLink,
     OpsSectionNavComponent,
     OpsStatusBadgeComponent,
@@ -46,7 +46,8 @@ import { OperationsAdminStoreService } from '../services/operations-admin-store.
             </dl>
           </section>
         } @else {
-          <app-empty-no-data
+          <app-enterprise-detail-empty
+            variant="no-related"
             title="Audit record not found"
             description="The requested audit event does not exist or was removed."
           />

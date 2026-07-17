@@ -2,12 +2,14 @@ import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { TableModule } from 'primeng/table';
 
+import { EnterpriseTableEmptyComponent } from '@shared/ui';
+
 import { InvitationAdminRecord } from '../../models/invitation-admin.model';
 import { IamInvitationBadgeComponent, IamRoleBadgeComponent } from '../shared';
 
 @Component({
   selector: 'app-iam-invitation-data-grid',
-  imports: [TableModule, DatePipe, IamInvitationBadgeComponent, IamRoleBadgeComponent],
+  imports: [TableModule, DatePipe, IamInvitationBadgeComponent, IamRoleBadgeComponent, EnterpriseTableEmptyComponent],
   template: `
     <p-table [value]="gridItems()" [loading]="loading()" [paginator]="true" [rows]="pageSize()"
       [totalRecords]="total()" [(selection)]="selectionModel" dataKey="id" [stripedRows]="true">
@@ -41,7 +43,14 @@ import { IamInvitationBadgeComponent, IamRoleBadgeComponent } from '../shared';
         </tr>
       </ng-template>
       <ng-template pTemplate="emptymessage">
-        <tr><td colspan="8">No invitations found.</td></tr>
+        <tr>
+          <td colspan="8">
+            <app-enterprise-table-empty
+              title="No invitations found"
+              description="Try adjusting filters or clearing search."
+            />
+          </td>
+        </tr>
       </ng-template>
     </p-table>
   `,

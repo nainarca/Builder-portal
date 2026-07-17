@@ -3,6 +3,8 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 import { RouterLink } from '@angular/router';
 import { TableModule } from 'primeng/table';
 
+import { EnterpriseTableEmptyComponent } from '@shared/ui';
+
 import { PROJECT_TYPE_LABELS } from '../../config/projects.config';
 import { Project } from '../../models/project.model';
 import { ProjectAvatarComponent } from '../shared/project-avatar.component';
@@ -18,6 +20,7 @@ import { ProjectTypeBadgeComponent } from '../shared/project-type-badge.componen
     ProjectAvatarComponent,
     ProjectStatusBadgeComponent,
     ProjectTypeBadgeComponent,
+    EnterpriseTableEmptyComponent,
   ],
   template: `
     <p-table
@@ -103,7 +106,12 @@ import { ProjectTypeBadgeComponent } from '../shared/project-type-badge.componen
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td [attr.colspan]="visibleColumnCount() + 2">No projects match your filters.</td>
+          <td [attr.colspan]="visibleColumnCount() + 2">
+            <app-enterprise-table-empty
+              title="No projects match your filters"
+              description="Try adjusting filters or clearing search."
+            />
+          </td>
         </tr>
       </ng-template>
     </p-table>
