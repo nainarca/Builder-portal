@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { EnterpriseFormPageHeaderComponent } from '@shared/ui';
+import {
+  EnterpriseFormPageHeaderComponent,
+  EnterpriseSettingsNavigationComponent,
+  type EnterpriseSettingsNavItem,
+} from '@shared/ui';
 
 import { SuperAdminPageComponent } from '../../components/layout';
 import {
@@ -12,12 +16,14 @@ import {
   CfgSettingsOverviewComponent,
 } from '../components/dashboard';
 import { CfgSectionNavComponent, CfgSettingsSearchComponent } from '../components/shared';
+import { SETTINGS_CATEGORIES } from '../config/settings.config';
 
 @Component({
   selector: 'app-settings-dashboard-page',
   imports: [
     SuperAdminPageComponent,
     EnterpriseFormPageHeaderComponent,
+    EnterpriseSettingsNavigationComponent,
     CfgSectionNavComponent,
     CfgSettingsSearchComponent,
     CfgSettingsOverviewComponent,
@@ -40,6 +46,13 @@ import { CfgSectionNavComponent, CfgSettingsSearchComponent } from '../component
         <div class="cfg-dashboard-toolbar">
           <app-cfg-settings-search />
         </div>
+        <div class="cfg-dashboard-settings-nav">
+          <app-enterprise-settings-navigation
+            title="Browse settings"
+            ariaLabel="Settings category shortcuts"
+            [items]="landingNavItems"
+          />
+        </div>
         <app-cfg-settings-overview />
         <div class="cfg-dashboard-grid">
           <div class="cfg-dashboard-grid__main">
@@ -61,4 +74,14 @@ import { CfgSectionNavComponent, CfgSettingsSearchComponent } from '../component
   styleUrl: './settings-dashboard-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SettingsDashboardPageComponent {}
+export class SettingsDashboardPageComponent {
+  readonly landingNavItems: readonly EnterpriseSettingsNavItem[] = SETTINGS_CATEGORIES.map(
+    (category) => ({
+      id: category.id,
+      label: category.label,
+      description: category.description,
+      icon: category.icon,
+      href: category.route,
+    }),
+  );
+}

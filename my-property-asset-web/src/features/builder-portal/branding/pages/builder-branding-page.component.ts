@@ -4,7 +4,7 @@ import { DatePipe, JsonPipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { AuthorizedButtonComponent } from '@core/rbac';
-import { ButtonComponent, EnterpriseFormPageHeaderComponent, UiToastService } from '@shared/ui';
+import { ButtonComponent, EnterpriseBrandPreviewComponent, EnterpriseFormPageHeaderComponent, UiToastService } from '@shared/ui';
 import { WlDevicePreviewComponent } from '@features/super-admin/branding/components/shared/wl-device-preview.component';
 import { WlThemePreviewPanelComponent } from '@features/super-admin/branding/components/shared/wl-theme-preview-panel.component';
 import { PreviewDevice, PreviewSurface } from '@features/super-admin/branding/models/brand-admin.model';
@@ -23,6 +23,7 @@ import { BuilderBrandingService } from '../services/builder-branding.service';
     WlDevicePreviewComponent,
     WlThemePreviewPanelComponent,
     BuilderBrandLivePreviewComponent,
+    EnterpriseBrandPreviewComponent,
   ],
   template: `
     <app-bp-page>
@@ -174,6 +175,16 @@ import { BuilderBrandingService } from '../services/builder-branding.service';
           </form>
 
           <aside class="bp-branding-preview">
+            <app-enterprise-brand-preview
+              [displayName]="draftBranding().displayName || draftBranding().companyName"
+              [shortName]="draftBranding().shortName"
+              [logoUrl]="draftBranding().media.logo || null"
+              [primaryColor]="draftBranding().primaryColor"
+              [secondaryColor]="draftBranding().secondaryColor"
+              [tagline]="draftBranding().tagline"
+              ariaLabel="Organization brand preview"
+            />
+
             <div class="bp-branding-preview__toolbar">
               <app-wl-device-preview [device]="previewDevice()" (deviceChange)="previewDevice.set($event)" />
               <app-wl-theme-preview-panel

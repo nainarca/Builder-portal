@@ -8,29 +8,43 @@
     />
 
     <div class="builder-settings-page__grid">
-      <article class="builder-settings-page__card">
-        <h2>Company</h2>
+      <app-enterprise-settings-section
+        title="Company"
+        description="Legal name and company profile for your builder organization."
+        icon="pi pi-building"
+        headingId="builder-settings-company"
+      >
         <p>{{ company()?.legalName ?? organizationName() ?? 'Your builder organization' }}</p>
         <a routerLink="/builder-portal/company">Edit company profile</a>
-      </article>
+      </app-enterprise-settings-section>
 
-      <article class="builder-settings-page__card">
-        <h2>Organization</h2>
+      <app-enterprise-settings-section
+        title="Organization"
+        description="Current organization identifier and status."
+        icon="pi pi-sitemap"
+        headingId="builder-settings-organization"
+      >
         <p>ID: {{ organizationId() ?? 'Not resolved' }}</p>
         <p>Status: {{ company()?.status ?? 'unknown' }}</p>
-      </article>
+      </app-enterprise-settings-section>
 
-      <article class="builder-settings-page__card">
-        <h2>Branding</h2>
-        <p>Manage logos, theme tokens, Owner App contract payload, and branding health warnings.</p>
+      <app-enterprise-settings-section
+        title="Branding"
+        description="Manage logos, theme tokens, Owner App contract payload, and branding health warnings."
+        icon="pi pi-palette"
+        headingId="builder-settings-branding"
+      >
         <a routerLink="/builder-portal/branding">Open branding workspace</a>
-      </article>
+      </app-enterprise-settings-section>
 
-      <article class="builder-settings-page__card">
-        <h2>Invitations</h2>
-        <p>Accept a builder owner invitation after Super Admin provisions your company.</p>
+      <app-enterprise-settings-section
+        title="Invitations"
+        description="Accept a builder owner invitation after Super Admin provisions your company."
+        icon="pi pi-envelope"
+        headingId="builder-settings-invitations"
+      >
         <a routerLink="/builder-portal/invitation">Open invitation workspace</a>
-      </article>
+      </app-enterprise-settings-section>
     </div>
   </section>
 </app-bp-page>

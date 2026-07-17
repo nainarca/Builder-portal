@@ -1,1 +1,7 @@
-<app-organization-selector variant="sidebar" [compact]="compact()" />
+<app-enterprise-workspace-switcher
+  variant="sidebar"
+  [compact]="compact()"
+  [showInfo]="!compact() && !!organizationName()"
+  [info]="organizationName() ? { name: organizationName()!, subtitle: brand() } : undefined"
+  ariaLabel="Workspace switcher"
+/>

@@ -1,11 +1,14 @@
 import { ChangeDetectionStrategy, Component, HostListener, signal } from '@angular/core';
 
+import { EnterpriseNotificationCenterComponent } from '@shared/ui';
+
 /**
  * Shell notification area — P0.1 §1.1 / UI-REBIRTH §9 foundation chrome.
  * Visual notification center affordance only; no backend wiring in this batch.
  */
 @Component({
   selector: 'app-shell-notification-area',
+  imports: [EnterpriseNotificationCenterComponent],
   templateUrl: './shell-notification-area.component.html',
   styleUrl: './shell-notification-area.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

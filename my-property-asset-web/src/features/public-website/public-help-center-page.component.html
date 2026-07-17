@@ -1,85 +1,93 @@
 <main class="help-center-page">
-  <app-page-hero-banner [content]="hero" [compact]="true" />
+  <app-enterprise-help-center
+    ariaLabel="Help and support"
+    [showPlaceholders]="true"
+    faqPlaceholder="Browse categories and popular topics below for common questions."
+    docsPlaceholder="Featured articles and category guides act as documentation entry points."
+    supportPlaceholder="Use the contact support call-to-action at the bottom of this page."
+  >
+    <app-page-hero-banner [content]="hero" [compact]="true" />
 
-  <section class="public-section public-section--compact" aria-labelledby="help-search-title">
-    <div class="public-section__container help-center-page__search-container">
-      <h2 id="help-search-title" class="sr-only">Search help articles</h2>
-      <app-support-search-bar
-        placeholder="Search help articles and topics…"
-        [(query)]="searchQuery"
-      />
-    </div>
-  </section>
+    <section class="public-section public-section--compact" aria-labelledby="help-search-title">
+      <div class="public-section__container help-center-page__search-container">
+        <h2 id="help-search-title" class="sr-only">Search help articles</h2>
+        <app-support-search-bar
+          placeholder="Search help articles and topics…"
+          [(query)]="searchQuery"
+        />
+      </div>
+    </section>
 
-  @if (showSearchResults()) {
-    <section class="public-section" aria-labelledby="help-search-results-title">
-      <div class="public-section__container">
-        <header class="public-section__header" appRevealOnScroll>
-          <h2 id="help-search-results-title" class="public-section__title">Search results</h2>
-          <p class="public-section__description">
-            {{ filteredArticles().length }} article{{ filteredArticles().length === 1 ? '' : 's' }} found
-          </p>
-        </header>
-        @if (filteredArticles().length) {
-          <div class="public-grid public-grid--2">
-            @for (article of filteredArticles(); track article.id; let i = $index) {
-              <app-article-card [article]="article" appRevealOnScroll [appRevealOnScrollDelay]="i * 60" />
+    @if (showSearchResults()) {
+      <section class="public-section" aria-labelledby="help-search-results-title">
+        <div class="public-section__container">
+          <header class="public-section__header" appRevealOnScroll>
+            <h2 id="help-search-results-title" class="public-section__title">Search results</h2>
+            <p class="public-section__description">
+              {{ filteredArticles().length }} article{{ filteredArticles().length === 1 ? '' : 's' }} found
+            </p>
+          </header>
+          @if (filteredArticles().length) {
+            <div class="public-grid public-grid--2">
+              @for (article of filteredArticles(); track article.id; let i = $index) {
+                <app-article-card [article]="article" appRevealOnScroll [appRevealOnScrollDelay]="i * 60" />
+              }
+            </div>
+          } @else {
+            <p class="help-center-page__empty" role="status">No articles match your search. Try different keywords or browse categories below.</p>
+          }
+        </div>
+      </section>
+    } @else {
+      <section class="public-section" aria-labelledby="help-categories-title">
+        <div class="public-section__container">
+          <header class="public-section__header public-section__header--center" appRevealOnScroll>
+            <h2 id="help-categories-title" class="public-section__title">Browse by category</h2>
+            <p class="public-section__description">Find guides organized by topic area.</p>
+          </header>
+          <div class="public-grid public-grid--3">
+            @for (category of categories; track category.id; let i = $index) {
+              <div [id]="'category-' + category.id">
+                <app-category-card [category]="category" appRevealOnScroll [appRevealOnScrollDelay]="i * 70" />
+              </div>
             }
           </div>
-        } @else {
-          <p class="help-center-page__empty" role="status">No articles match your search. Try different keywords or browse categories below.</p>
-        }
-      </div>
-    </section>
-  } @else {
-    <section class="public-section" aria-labelledby="help-categories-title">
-      <div class="public-section__container">
-        <header class="public-section__header public-section__header--center" appRevealOnScroll>
-          <h2 id="help-categories-title" class="public-section__title">Browse by category</h2>
-          <p class="public-section__description">Find guides organized by topic area.</p>
-        </header>
-        <div class="public-grid public-grid--3">
-          @for (category of categories; track category.id; let i = $index) {
-            <div [id]="'category-' + category.id">
-              <app-category-card [category]="category" appRevealOnScroll [appRevealOnScrollDelay]="i * 70" />
-            </div>
-          }
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="public-section public-section--surface" aria-labelledby="help-popular-title">
-      <div class="public-section__container">
-        <header class="public-section__header public-section__header--center" appRevealOnScroll>
-          <h2 id="help-popular-title" class="public-section__title">Popular topics</h2>
-        </header>
-        <div class="help-center-page__topic-list">
-          @for (topic of popularTopics; track topic.id; let i = $index) {
-            <app-article-card [article]="topic" [compact]="true" appRevealOnScroll [appRevealOnScrollDelay]="i * 60" />
-          }
+      <section class="public-section public-section--surface" aria-labelledby="help-popular-title">
+        <div class="public-section__container">
+          <header class="public-section__header public-section__header--center" appRevealOnScroll>
+            <h2 id="help-popular-title" class="public-section__title">Popular topics</h2>
+          </header>
+          <div class="help-center-page__topic-list">
+            @for (topic of popularTopics; track topic.id; let i = $index) {
+              <app-article-card [article]="topic" [compact]="true" appRevealOnScroll [appRevealOnScrollDelay]="i * 60" />
+            }
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="public-section" aria-labelledby="help-featured-title">
-      <div class="public-section__container">
-        <header class="public-section__header public-section__header--center" appRevealOnScroll>
-          <h2 id="help-featured-title" class="public-section__title">Featured articles</h2>
-          <p class="public-section__description">Start here for platform fundamentals and best practices.</p>
-        </header>
-        <div class="public-grid public-grid--2">
-          @for (article of featuredArticles; track article.id; let i = $index) {
-            <app-article-card [article]="article" appRevealOnScroll [appRevealOnScrollDelay]="i * 80" />
-          }
+      <section class="public-section" aria-labelledby="help-featured-title">
+        <div class="public-section__container">
+          <header class="public-section__header public-section__header--center" appRevealOnScroll>
+            <h2 id="help-featured-title" class="public-section__title">Featured articles</h2>
+            <p class="public-section__description">Start here for platform fundamentals and best practices.</p>
+          </header>
+          <div class="public-grid public-grid--2">
+            @for (article of featuredArticles; track article.id; let i = $index) {
+              <app-article-card [article]="article" appRevealOnScroll [appRevealOnScrollDelay]="i * 80" />
+            }
+          </div>
         </div>
-      </div>
-    </section>
-  }
+      </section>
+    }
 
-  <app-public-cta-section
-    [title]="supportCta.title"
-    [description]="supportCta.description"
-    [primaryCta]="supportCta.primaryCta"
-    [secondaryCta]="supportCta.secondaryCta"
-  />
+    <app-public-cta-section
+      [title]="supportCta.title"
+      [description]="supportCta.description"
+      [primaryCta]="supportCta.primaryCta"
+      [secondaryCta]="supportCta.secondaryCta"
+    />
+  </app-enterprise-help-center>
 </main>

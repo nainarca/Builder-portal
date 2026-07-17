@@ -13,3 +13,4 @@ export * from './loading';
 export * from './models/enterprise.models';
 export * from './section';
 export * from './status';
+export * from './workspace';

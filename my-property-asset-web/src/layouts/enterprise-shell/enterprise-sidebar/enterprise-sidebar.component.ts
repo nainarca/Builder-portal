@@ -16,6 +16,7 @@ import { SidebarNavigationComponent } from '../../../navigation/components/sideb
 import { NavigationStateService } from '../../../navigation/services';
 import { LayoutService } from '../../services/layout.service';
 import { SidebarWorkspaceIndicatorComponent } from '../sidebar-workspace-indicator/sidebar-workspace-indicator.component';
+import { EnterpriseUserProfileCardComponent } from '@shared/ui';
 
 /**
  * DS-02 Enterprise Sidebar — desktop rail with collapse, hover expansion, groups,
@@ -28,6 +29,7 @@ import { SidebarWorkspaceIndicatorComponent } from '../sidebar-workspace-indicat
     SidebarNavigationComponent,
     FavoritesNavigationComponent,
     RecentItemsNavigationComponent,
+    EnterpriseUserProfileCardComponent,
   ],
   templateUrl: './enterprise-sidebar.component.html',
   styleUrl: './enterprise-sidebar.component.scss',

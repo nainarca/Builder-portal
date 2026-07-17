@@ -60,13 +60,13 @@
         [class.enterprise-sidebar__profile--compact]="iconRail()"
         [attr.title]="iconRail() ? userEmail() : null"
       >
-        <span class="enterprise-sidebar__profile-avatar" aria-hidden="true">{{ userInitial() }}</span>
-        @if (!iconRail()) {
-          <div class="enterprise-sidebar__profile-info">
-            <span class="enterprise-sidebar__profile-email">{{ userEmail() }}</span>
-            <span class="enterprise-sidebar__profile-org">{{ organizationName() }}</span>
-          </div>
-        }
+        <app-enterprise-user-profile-card
+          [email]="userEmail()"
+          [organizationName]="organizationName()"
+          [compact]="iconRail()"
+          [showPreferences]="false"
+          ariaLabel="Signed-in user"
+        />
       </div>
     }
   </div>

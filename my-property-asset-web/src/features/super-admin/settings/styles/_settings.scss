@@ -15,6 +15,13 @@
   max-width: 28rem;
 }
 
+.cfg-dashboard-settings-nav {
+  padding: var(--mpa-spacing-md);
+  border: 1px solid var(--mpa-color-border);
+  border-radius: var(--mpa-radius-lg);
+  background: var(--mpa-color-surface);
+}
+
 .cfg-dashboard-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 18rem;

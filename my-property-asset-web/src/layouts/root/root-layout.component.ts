@@ -4,7 +4,7 @@ import { NavigationDrawerComponent, NavigationOverlayComponent } from '../../nav
 import { PlatformChromeComponent } from '../../infrastructure/shell';
 import { RouterLoadingService } from '../../infrastructure/loading';
 import { OnlineStatusMonitorService } from '../../infrastructure/network';
-import { ConfirmationDialogComponent, ToastWrapperComponent } from '../../shared/ui';
+import { EnterpriseConfirmationDialogComponent, EnterpriseGlobalToastComponent } from '../../shared/ui';
 import { ThemeService } from '../../theme';
 import { LayoutHostComponent } from '../components/layout-host/layout-host.component';
 import { LayoutService } from '../services/layout.service';
@@ -16,8 +16,8 @@ import { LayoutService } from '../services/layout.service';
     NavigationOverlayComponent,
     NavigationDrawerComponent,
     PlatformChromeComponent,
-    ToastWrapperComponent,
-    ConfirmationDialogComponent,
+    EnterpriseGlobalToastComponent,
+    EnterpriseConfirmationDialogComponent,
   ],
   templateUrl: './root-layout.component.html',
   styleUrl: './root-layout.component.scss',

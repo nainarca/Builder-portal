@@ -14,10 +14,12 @@ import { PageHeroBannerComponent } from './components/company/page-hero-banner/p
 import { PublicCtaSectionComponent } from './components/sections/cta-section/cta-section.component';
 import { SupportSearchBarComponent } from './components/support/support-search-bar/support-search-bar.component';
 import { RevealOnScrollDirective } from './directives/reveal-on-scroll.directive';
+import { EnterpriseHelpCenterComponent } from '@shared/ui';
 
 @Component({
   selector: 'app-public-help-center-page',
   imports: [
+    EnterpriseHelpCenterComponent,
     PageHeroBannerComponent,
     SupportSearchBarComponent,
     CategoryCardComponent,

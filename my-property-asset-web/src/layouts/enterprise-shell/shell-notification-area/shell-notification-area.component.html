@@ -26,12 +26,13 @@
       role="dialog"
       aria-label="Notifications"
     >
-      <header class="shell-notification-area__header">
-        <h2 class="shell-notification-area__title">Notifications</h2>
-      </header>
-      <p class="shell-notification-area__empty">
-        You're all caught up. Cross-entity events will appear here.
-      </p>
+      <app-enterprise-notification-center
+        [items]="[]"
+        [loading]="false"
+        title="Notifications"
+        emptyTitle="You're all caught up"
+        emptyDescription="Cross-entity events will appear here."
+      />
     </div>
   }
 </div>

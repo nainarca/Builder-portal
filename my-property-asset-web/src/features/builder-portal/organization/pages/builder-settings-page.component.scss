@@ -1,25 +1,23 @@
 .builder-settings-page {
   display: grid;
-  gap: 1.5rem;
-  padding: 1.5rem;
+  gap: var(--mpa-spacing-xl, 1.5rem);
+  padding: var(--mpa-spacing-xl, 1.5rem);
 }
 
 .builder-settings-page__grid {
   display: grid;
-  gap: 1rem;
+  gap: var(--mpa-spacing-md, 1rem);
   grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 }
 
-.builder-settings-page__card {
-  border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
-  border-radius: 0.75rem;
-  padding: 1.25rem;
-  display: grid;
-  gap: 0.5rem;
+.builder-settings-page__grid a {
+  color: var(--mpa-color-primary);
+  font-weight: var(--mpa-font-weight-semibold);
+  text-decoration: none;
 }
 
-.builder-settings-page__card a {
-  color: var(--mpa-color-primary, #1b4d89);
-  font-weight: 600;
-  text-decoration: none;
+.builder-settings-page__grid p {
+  margin: 0 0 var(--mpa-spacing-xs);
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-text-muted);
 }

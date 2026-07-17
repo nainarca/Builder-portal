@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { OrganizationSelectorComponent } from '@core/organization-context';
+import { EnterpriseWorkspaceSwitcherComponent } from '@shared/ui';
 
 /**
  * Sidebar workspace switcher — real control (UI-REBIRTH §2 / §19 #2).
- * Delegates to the shared organization selector; no duplicate switch logic.
+ * Delegates to the shared enterprise workspace switcher → organization selector.
  */
 @Component({
   selector: 'app-sidebar-workspace-indicator',
-  imports: [OrganizationSelectorComponent],
+  imports: [EnterpriseWorkspaceSwitcherComponent],
   templateUrl: './sidebar-workspace-indicator.component.html',
   styleUrl: './sidebar-workspace-indicator.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
