@@ -7,16 +7,20 @@ import { map } from 'rxjs';
 import { HasPermissionDirective } from '@core/rbac';
 import {
   EmptyNoDataComponent,
-  EnterpriseFormPageHeaderComponent,
+  EnterpriseDataTableShellComponent,
+  EnterpriseListPageHeaderComponent,
   OutlineButtonComponent,
+  PrimaryButtonComponent,
 } from '@shared/ui';
 
 import { BuilderPortalPageComponent } from '../../../components/layout';
+import { mapActiveFilterChips, mapQuickFilters } from '../../../utils/builder-portal-table.helpers';
 import { ProjectStoreService } from '../../services/project-store.service';
 import {
   BUILDING_SORT_OPTIONS,
   BUILDING_STATUS_LABELS,
-  BUILDING_STATUS_OPTIONS } from '../config/buildings.config';
+  BUILDING_STATUS_OPTIONS,
+} from '../config/buildings.config';
 import { BuildingCardComponent } from '../components/shared/building-card.component';
 import { BuildingStatusBadgeComponent } from '../components/shared/building-status-badge.component';
 import { BuildingStatus } from '../models/building.model';
@@ -24,12 +28,22 @@ import { BuildingListStateService } from '../services/building-list-state.servic
 import { BuildingService } from '../services/building.service';
 import { buildingsAreRequired, resolveBuildingMode } from '../utils/project-building-compatibility';
 
+const STATUS_QUICK_FILTER_OPTIONS = [
+  { id: 'all' as const, label: 'All' },
+  { id: 'planning' as const, label: 'Planning' },
+  { id: 'construction' as const, label: 'Construction' },
+  { id: 'completed' as const, label: 'Completed' },
+  { id: 'archived' as const, label: 'Archived' },
+];
+
 @Component({
   selector: 'app-building-list-page',
   imports: [
     BuilderPortalPageComponent,
-    EnterpriseFormPageHeaderComponent,
+    EnterpriseListPageHeaderComponent,
+    EnterpriseDataTableShellComponent,
     OutlineButtonComponent,
+    PrimaryButtonComponent,
     RouterLink,
     HasPermissionDirective,
     EmptyNoDataComponent,
@@ -65,7 +79,40 @@ export class BuildingListPageComponent implements OnInit {
   });
 
   readonly statusOptions = BUILDING_STATUS_OPTIONS;
-  readonly sortOptions = BUILDING_SORT_OPTIONS;
+  readonly sortOptions = BUILDING_SORT_OPTIONS.map((option) => ({
+    label: option.label,
+    value: option.value,
+  }));
+
+  readonly statusQuickFilters = computed(() =>
+    mapQuickFilters(STATUS_QUICK_FILTER_OPTIONS, this.listState.statusFilter()),
+  );
+
+  readonly filterChips = computed(() => {
+    const status = this.listState.statusFilter();
+    const statusLabel =
+      STATUS_QUICK_FILTER_OPTIONS.find((option) => option.id === status)?.label ?? status;
+    return mapActiveFilterChips({
+      search: this.listState.search(),
+      status: {
+        id: 'status',
+        label: `Status: ${statusLabel}`,
+        active: status !== 'all',
+      },
+      extras: [
+        {
+          id: 'archived',
+          label: 'Include archived',
+          active: this.listState.includeArchived() && status !== 'archived',
+        },
+      ],
+    });
+  });
+
+  readonly resultSummary = computed(() => {
+    const total = this.listState.listResult().total;
+    return `${total} building${total === 1 ? '' : 's'}`;
+  });
 
   readonly statusSummary = computed(() => {
     const by = this.stats().byStatus;
@@ -74,7 +121,8 @@ export class BuildingListPageComponent implements OnInit {
       .map((status) => ({
         status,
         label: BUILDING_STATUS_LABELS[status],
-        count: by[status] }));
+        count: by[status],
+      }));
   });
 
   constructor() {
@@ -113,5 +161,25 @@ export class BuildingListPageComponent implements OnInit {
 
   onSort(value: string): void {
     this.listState.setSort(value);
+  }
+
+  onFilterChipRemove(chipId: string): void {
+    switch (chipId) {
+      case 'search':
+        this.listState.setSearch('');
+        break;
+      case 'status':
+        this.listState.setStatusFilter('all');
+        break;
+      case 'archived':
+        this.listState.setIncludeArchived(false);
+        break;
+      default:
+        break;
+    }
+  }
+
+  onClearFilters(): void {
+    this.listState.resetFilters();
   }
 }

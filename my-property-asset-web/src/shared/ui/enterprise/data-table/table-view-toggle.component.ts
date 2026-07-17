@@ -28,6 +28,10 @@ import type { EnterpriseTableViewMode } from './models/enterprise-table.models';
     .enterprise-table-view-toggle {
       display: inline-flex;
       gap: var(--mpa-spacing-xs);
+      padding: var(--mpa-spacing-xs);
+      border: 1px solid var(--mpa-color-border);
+      border-radius: var(--mpa-radius-md);
+      background: var(--mpa-color-surface-muted);
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,9 +1,11 @@
 import type {
   EnterpriseTableColumnDef,
+  EnterpriseTableFilterChip,
   EnterpriseTablePaginationState,
   EnterpriseTableQuickFilter,
   EnterpriseTableSavedSearch,
 } from '@shared/ui';
+import { collectFilterChips, filterChip } from '@shared/ui';
 
 export function mapQuickFilters<T extends string>(
   options: readonly { id: T; label: string }[],
@@ -72,4 +74,16 @@ export function tablePagination(
     totalRecords: total,
     first: Math.max(0, (page - 1) * pageSize),
   };
+}
+
+export function mapActiveFilterChips(parts: {
+  status?: { id: string; label: string; active: boolean };
+  search?: string;
+  extras?: Array<{ id: string; label: string; active: boolean }>;
+}): EnterpriseTableFilterChip[] {
+  return collectFilterChips(
+    filterChip('search', parts.search ? `Search: “${parts.search}”` : '', !!parts.search?.trim()),
+    parts.status ? filterChip(parts.status.id, parts.status.label, parts.status.active) : null,
+    ...(parts.extras ?? []).map((extra) => filterChip(extra.id, extra.label, extra.active)),
+  );
 }

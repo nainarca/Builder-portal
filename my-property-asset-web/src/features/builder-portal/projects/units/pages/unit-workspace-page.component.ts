@@ -6,29 +6,38 @@ import { map } from 'rxjs';
 import {
   DialogShellComponent,
   EnterpriseDataTableShellComponent,
-  EnterpriseFormPageHeaderComponent,
+  EnterpriseListPageHeaderComponent,
   EnterpriseTableBulkAction,
   EnterpriseTableColumnDef,
+  EnterpriseTableSecondaryAction,
   EnterpriseTableViewMode,
-  GhostButtonComponent,
   OutlineButtonComponent,
   PaginationWrapperComponent,
+  PrimaryButtonComponent,
 } from '@shared/ui';
 
 import { BuilderPortalPageComponent } from '../../../components/layout';
 import {
+  mapActiveFilterChips,
   mapQuickFilters,
   mapSavedViews,
   mapTableColumns,
   syncVisibleColumns,
-  visibleColumnIds } from '../../../utils/builder-portal-table.helpers';
+  visibleColumnIds,
+} from '../../../utils/builder-portal-table.helpers';
 import { DashboardKpiItem } from '../../../models/dashboard.model';
 import { UNIT_SORT_OPTIONS, UNIT_TABLE_COLUMNS } from '../config/units.config';
 import {
   UnitAdvancedFiltersComponent,
   UnitCardGridComponent,
-  UnitDataGridComponent } from '../components/list';
-import { TowerFloorSelectorComponent, TowerOverviewComponent, UnitGridVisualizationComponent, UnitQuickStatsComponent } from '../components/workspace';
+  UnitDataGridComponent,
+} from '../components/list';
+import {
+  TowerFloorSelectorComponent,
+  TowerOverviewComponent,
+  UnitGridVisualizationComponent,
+  UnitQuickStatsComponent,
+} from '../components/workspace';
 import { Unit, UnitBulkAction, UnitStatus } from '../models/unit.model';
 import { UnitListStateService } from '../services/unit-list-state.service';
 import { UnitStoreService } from '../services/unit-store.service';
@@ -46,10 +55,10 @@ const STATUS_QUICK_FILTER_OPTIONS = [
   selector: 'app-unit-workspace-page',
   imports: [
     BuilderPortalPageComponent,
-    EnterpriseFormPageHeaderComponent,
+    EnterpriseListPageHeaderComponent,
     EnterpriseDataTableShellComponent,
     OutlineButtonComponent,
-    GhostButtonComponent,
+    PrimaryButtonComponent,
     DialogShellComponent,
     RouterLink,
     PaginationWrapperComponent,
@@ -63,7 +72,8 @@ const STATUS_QUICK_FILTER_OPTIONS = [
   ],
   templateUrl: './unit-workspace-page.component.html',
   styleUrl: './unit-workspace-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush })
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class UnitWorkspacePageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -77,6 +87,11 @@ export class UnitWorkspacePageComponent {
     { id: 'archive', label: 'Archive', icon: 'pi pi-archive', severity: 'danger' },
     { id: 'restore', label: 'Restore', icon: 'pi pi-replay' },
     { id: 'export', label: 'Export', icon: 'pi pi-download' },
+  ];
+
+  readonly secondaryActions: readonly EnterpriseTableSecondaryAction[] = [
+    { id: 'import', label: 'Import', icon: 'pi pi-upload' },
+    { id: 'advanced-filters', label: 'Advanced filters', icon: 'pi pi-filter' },
   ];
 
   readonly projectId = toSignal(
@@ -104,7 +119,9 @@ export class UnitWorkspacePageComponent {
 
   readonly quickStats = computed<readonly DashboardKpiItem[]>(() => {
     const units = this.allProjectUnits();
-    const pending = units.filter((u) => u.constructionStage !== 'handed-over' && u.constructionStage !== 'ready-for-handover').length;
+    const pending = units.filter(
+      (u) => u.constructionStage !== 'handed-over' && u.constructionStage !== 'ready-for-handover',
+    ).length;
     const readyForHandover = units.filter((u) => u.constructionStage === 'ready-for-handover').length;
     const reserved = units.filter((u) => u.status === 'reserved').length;
     const completed = units.filter((u) => u.constructionStage === 'handed-over').length;
@@ -127,6 +144,57 @@ export class UnitWorkspacePageComponent {
   readonly tableColumns = computed(() =>
     mapTableColumns(UNIT_TABLE_COLUMNS, this.listState.visibleColumns()),
   );
+
+  readonly filterChips = computed(() => {
+    const status = this.listState.statusFilter();
+    const statusLabel =
+      STATUS_QUICK_FILTER_OPTIONS.find((option) => option.id === status)?.label ?? status;
+    const stage = this.listState.stageFilter();
+    const type = this.listState.typeFilter();
+    const towerId = this.listState.towerFilter();
+    const towerName = this.towers().find((t) => t.id === towerId)?.name ?? towerId;
+    const floor = this.listState.floorFilter();
+    return mapActiveFilterChips({
+      search: this.listState.search(),
+      status: {
+        id: 'status',
+        label: `Status: ${statusLabel}`,
+        active: status !== 'all',
+      },
+      extras: [
+        {
+          id: 'stage',
+          label: `Stage: ${stage}`,
+          active: stage !== 'all',
+        },
+        {
+          id: 'type',
+          label: `Type: ${type}`,
+          active: type !== 'all',
+        },
+        {
+          id: 'tower',
+          label: `Tower: ${towerName}`,
+          active: !!towerId,
+        },
+        {
+          id: 'floor',
+          label: `Floor: ${floor}`,
+          active: floor !== 'all',
+        },
+        {
+          id: 'archived',
+          label: 'Include archived',
+          active: this.listState.includeArchived(),
+        },
+      ],
+    });
+  });
+
+  readonly resultSummary = computed(() => {
+    const total = this.listState.listResult().total;
+    return `${total} unit${total === 1 ? '' : 's'}`;
+  });
 
   constructor() {
     this.listState.setProjectId(this.projectId());
@@ -181,6 +249,48 @@ export class UnitWorkspacePageComponent {
       return;
     }
     this.listState.setPage(Math.floor(first / rows) + 1);
+  }
+
+  onSecondaryAction(actionId: string): void {
+    if (actionId === 'import') {
+      this.openImport();
+      return;
+    }
+    if (actionId === 'advanced-filters') {
+      this.listState.toggleAdvancedFilters();
+    }
+  }
+
+  onFilterChipRemove(chipId: string): void {
+    switch (chipId) {
+      case 'search':
+        this.listState.setSearch('');
+        break;
+      case 'status':
+        this.listState.setStatusFilter('all');
+        break;
+      case 'stage':
+        this.listState.setStageFilter('all');
+        break;
+      case 'type':
+        this.listState.setTypeFilter('all');
+        break;
+      case 'tower':
+        this.listState.setTowerFilter('');
+        break;
+      case 'floor':
+        this.listState.setFloorFilter('all');
+        break;
+      case 'archived':
+        this.listState.setIncludeArchived(false);
+        break;
+      default:
+        break;
+    }
+  }
+
+  onClearFilters(): void {
+    this.listState.resetFilters();
   }
 
   async onBulkActionId(actionId: string): Promise<void> {

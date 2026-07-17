@@ -8,13 +8,29 @@ export type EnterpriseTableEmptyVariant =
   | 'no-search-results'
   | 'no-filter-results'
   | 'permission-denied'
-  | 'error';
+  | 'error'
+  | 'archived';
+
+/**
+ * Per-entity view-mode policy (UI-REBIRTH §6 / §11 / §20 #4).
+ * Visual portfolio entities may offer table⇄card; directory entities stay table-only.
+ */
+export type EnterpriseTableViewModePolicy = 'portfolio' | 'directory';
+
 export type EnterpriseTableLifecycleState =
   | 'idle'
   | 'loading'
   | 'refreshing'
   | 'error'
   | 'permission-denied';
+
+/** Secondary toolbar actions demoted into overflow (UI-REBIRTH §4 / §6 — one primary action). */
+export interface EnterpriseTableSecondaryAction {
+  readonly id: string;
+  readonly label: string;
+  readonly icon?: string;
+  readonly disabled?: boolean;
+}
 
 export type EnterpriseTableExportFormat = 'csv' | 'excel' | 'pdf' | 'print';
 

@@ -5,15 +5,16 @@ import { AuthorizedButtonComponent } from '@core/rbac';
 import {
   DialogShellComponent,
   EnterpriseDataTableShellComponent,
-  EnterpriseFormPageHeaderComponent,
+  EnterpriseListPageHeaderComponent,
   EnterpriseTableBulkAction,
   EnterpriseTableColumnDef,
-  GhostButtonComponent,
+  EnterpriseTableSecondaryAction,
   OutlineButtonComponent,
 } from '@shared/ui';
 
 import { SuperAdminPageComponent } from '../../../components/layout';
 import {
+  mapActiveFilterChips,
   mapQuickFilters,
   mapSavedViews,
   mapTableColumns,
@@ -38,10 +39,9 @@ const STATUS_QUICK_FILTER_OPTIONS = [
   selector: 'app-iam-user-list-page',
   imports: [
     SuperAdminPageComponent,
-    EnterpriseFormPageHeaderComponent,
+    EnterpriseListPageHeaderComponent,
     EnterpriseDataTableShellComponent,
     OutlineButtonComponent,
-    GhostButtonComponent,
     DialogShellComponent,
     AuthorizedButtonComponent,
     IamSectionNavComponent,
@@ -69,6 +69,11 @@ export class IamUserListPageComponent {
     { id: 'export', label: 'Export', icon: 'pi pi-download' },
   ];
 
+  readonly secondaryActions: readonly EnterpriseTableSecondaryAction[] = [
+    { id: 'import', label: 'Import', icon: 'pi pi-upload' },
+    { id: 'advanced-filters', label: 'Advanced filters', icon: 'pi pi-filter' },
+  ];
+
   readonly statusQuickFilters = computed(() =>
     mapQuickFilters(STATUS_QUICK_FILTER_OPTIONS, this.listState.statusFilter()),
   );
@@ -80,6 +85,37 @@ export class IamUserListPageComponent {
   readonly tableColumns = computed(() =>
     mapTableColumns(USER_TABLE_COLUMNS, this.listState.visibleColumns()),
   );
+
+  readonly filterChips = computed(() => {
+    const status = this.listState.statusFilter();
+    const statusLabel =
+      STATUS_QUICK_FILTER_OPTIONS.find((option) => option.id === status)?.label ?? status;
+    return mapActiveFilterChips({
+      search: this.listState.search(),
+      status: {
+        id: 'status',
+        label: `Status: ${statusLabel}`,
+        active: status !== 'all',
+      },
+      extras: [
+        {
+          id: 'role',
+          label: `Role: ${this.listState.roleFilter()}`,
+          active: this.listState.roleFilter() !== 'all',
+        },
+        {
+          id: 'organization',
+          label: `Organization: ${this.listState.organizationFilter()}`,
+          active: !!this.listState.organizationFilter(),
+        },
+      ],
+    });
+  });
+
+  readonly resultSummary = computed(() => {
+    const total = this.listState.listResult().total;
+    return `${total} user${total === 1 ? '' : 's'}`;
+  });
 
   onSearch(value: string): void {
     this.listState.setSearch(value);
@@ -111,6 +147,39 @@ export class IamUserListPageComponent {
 
   async onBulkActionId(actionId: string): Promise<void> {
     await this.listState.executeBulkAction(actionId as UserBulkAction);
+  }
+
+  onSecondaryAction(actionId: string): void {
+    if (actionId === 'import') {
+      this.openImport();
+      return;
+    }
+    if (actionId === 'advanced-filters') {
+      this.listState.toggleAdvancedFilters();
+    }
+  }
+
+  onFilterChipRemove(chipId: string): void {
+    switch (chipId) {
+      case 'search':
+        this.listState.setSearch('');
+        break;
+      case 'status':
+        this.listState.setStatusFilter('all');
+        break;
+      case 'role':
+        this.listState.setRoleFilter('all');
+        break;
+      case 'organization':
+        this.listState.setOrganizationFilter('');
+        break;
+      default:
+        break;
+    }
+  }
+
+  onClearFilters(): void {
+    this.listState.resetFilters();
   }
 
   createUser(): void {

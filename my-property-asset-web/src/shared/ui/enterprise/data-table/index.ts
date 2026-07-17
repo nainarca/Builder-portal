@@ -2,8 +2,10 @@ export * from './models/enterprise-table.models';
 export * from './utils/enterprise-table-export.util';
 export * from './utils/enterprise-table-search.util';
 export * from './utils/enterprise-table-columns.util';
+export * from './utils/enterprise-table-filter-chips.util';
 
 export { EnterpriseDataTableShellComponent } from './data-table-shell.component';
+export { EnterpriseListPageHeaderComponent } from './list-page-header.component';
 export { EnterpriseTableGridComponent } from './table-grid.component';
 export type { EnterpriseTableCellTemplateContext } from './table-grid.component';
 
@@ -26,3 +28,4 @@ export { EnterpriseTableExportComponent } from './table-export.component';
 export { EnterpriseTableExpandableRowComponent } from './table-expandable-row.component';
 export { EnterpriseTableStatusCellComponent } from './table-status-cell.component';
 export { EnterpriseTableSavedSearchesComponent } from './table-saved-searches.component';
+export { EnterpriseTableOverflowMenuComponent } from './table-overflow-menu.component';

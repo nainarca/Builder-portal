@@ -9,14 +9,19 @@
       <app-outline-button label="Back to project" icon="pi pi-arrow-left" (clicked)="goToProject()" />
     </div>
 
-    <app-enterprise-form-page-header
+    <!-- Portfolio entity: table/card toggle (UI-REBIRTH §6). One primary action in header. -->
+    <app-enterprise-list-page-header
       eyebrow="Unit management"
       title="Units"
-      [subtitle]="'Track construction progress, sales status, and floor organization for ' + (project()?.name ?? 'this project') + '.'"
-      mode="view"
+      [description]="'Track construction progress, sales status, and floor organization for ' + (project()?.name ?? 'this project') + '.'"
     >
-      <app-outline-button formHeaderActions label="Create unit" icon="pi pi-plus" (clicked)="createUnit()" />
-    </app-enterprise-form-page-header>
+      <app-primary-button
+        listHeaderActions
+        label="Create unit"
+        icon="pi pi-plus"
+        (clicked)="createUnit()"
+      />
+    </app-enterprise-list-page-header>
 
     <app-unit-quick-stats [stats]="quickStats()" />
 
@@ -51,6 +56,9 @@
       [selectedCount]="listState.selectedIds().length"
       [totalCount]="listState.listResult().total"
       [bulkActions]="bulkActions"
+      [secondaryActions]="secondaryActions"
+      [filterChips]="filterChips()"
+      [resultSummary]="resultSummary()"
       [showPagination]="false"
       (searchChange)="onSearch($event)"
       (quickFilterToggle)="onStatusFilter($event)"
@@ -59,22 +67,12 @@
       (viewModeChange)="onViewModeChange($event)"
       (columnsChange)="onColumnsChange($event)"
       (exportClick)="exportAll()"
+      (secondaryAction)="onSecondaryAction($event)"
+      (filterChipRemove)="onFilterChipRemove($event)"
+      (clearFilters)="onClearFilters()"
       (clearSelection)="listState.clearSelection()"
       (bulkAction)="onBulkActionId($event)"
     >
-      <app-outline-button
-        toolbarEnd
-        label="Import"
-        icon="pi pi-upload"
-        (clicked)="openImport()"
-      />
-      <app-ghost-button
-        toolbarEnd
-        [label]="listState.showAdvancedFilters() ? 'Hide filters' : 'Advanced filters'"
-        icon="pi pi-filter"
-        (clicked)="listState.toggleAdvancedFilters()"
-      />
-
       <app-unit-advanced-filters
         advancedFilters
         [stageFilter]="listState.stageFilter()"

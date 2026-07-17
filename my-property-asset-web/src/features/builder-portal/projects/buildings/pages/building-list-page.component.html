@@ -1,25 +1,30 @@
 <app-bp-page>
   @if (project(); as proj) {
     <div class="bldg-page">
-      <app-enterprise-form-page-header
+      <!-- Portfolio entity — card directory on shared list shell (UI-REBIRTH §6). -->
+      <app-enterprise-list-page-header
         [eyebrow]="proj.code"
         title="Buildings"
-        [subtitle]="
+        [description]="
           buildingsRequired()
             ? 'Buildings are required for this project type. Manage towers and blocks here.'
             : 'Buildings are optional for this project type. You can still add towers if needed.'
         "
-        mode="view"
       >
-        <app-outline-button formHeaderActions label="Back to project" icon="pi pi-arrow-left" (clicked)="backToProject()" />
         <app-outline-button
+          listHeaderToolbar
+          label="Back to project"
+          icon="pi pi-arrow-left"
+          (clicked)="backToProject()"
+        />
+        <app-primary-button
           *appHasPermission="'id-07-project-unit:contribute'"
-          formHeaderActions
+          listHeaderActions
           label="Create building"
           icon="pi pi-plus"
           (clicked)="createBuilding()"
         />
-      </app-enterprise-form-page-header>
+      </app-enterprise-list-page-header>
 
       <section class="bldg-stats" aria-label="Building statistics">
         <article class="bldg-stats__card">
@@ -34,59 +39,43 @@
         }
       </section>
 
-      <div class="bldg-toolbar">
-        <input
-          type="search"
-          class="bldg-toolbar__search"
-          [value]="listState.search()"
-          placeholder="Search buildings…"
-          aria-label="Search buildings"
-          (input)="onSearch($any($event.target).value)"
-        />
-        <select
-          [value]="listState.statusFilter()"
-          aria-label="Status filter"
-          (change)="onStatus($any($event.target).value)"
-        >
-          @for (option of statusOptions; track option.value) {
-            <option [value]="option.value">{{ option.label }}</option>
-          }
-        </select>
-        <select
-          [value]="listState.sortValue()"
-          aria-label="Sort"
-          (change)="onSort($any($event.target).value)"
-        >
-          @for (option of sortOptions; track option.value) {
-            <option [value]="option.value">{{ option.label }}</option>
-          }
-        </select>
-        <label class="bldg-toolbar__archive">
-          <input
-            type="checkbox"
-            [checked]="listState.includeArchived()"
-            (change)="listState.setIncludeArchived($any($event.target).checked)"
-          />
-          Include archived
-        </label>
-      </div>
-
-      @if (listState.listResult().items.length === 0) {
-        <app-empty-no-data
-          title="No buildings yet"
-          [description]="
-            buildingsRequired()
-              ? 'Create the first tower or block for this ' + proj.projectType + ' project.'
-              : 'This project type does not require buildings, but you can add one if useful.'
-          "
-        />
-      } @else {
-        <div class="bldg-grid">
+      <app-enterprise-data-table-shell
+        [state]="listState.loading() ? 'loading' : 'idle'"
+        [searchValue]="listState.search()"
+        searchPlaceholder="Search buildings…"
+        tableAriaLabel="Buildings"
+        [quickFilters]="statusQuickFilters()"
+        [sortOptions]="sortOptions"
+        [sortValue]="listState.sortValue()"
+        [viewMode]="'card'"
+        [showViewToggle]="false"
+        [showColumnSelector]="false"
+        [showExport]="false"
+        [showDensity]="false"
+        [filterChips]="filterChips()"
+        [resultSummary]="resultSummary()"
+        [showEmpty]="listState.listResult().items.length === 0"
+        [emptyTitle]="'No buildings yet'"
+        [emptyDescription]="
+          buildingsRequired()
+            ? 'Create the first tower or block for this ' + proj.projectType + ' project.'
+            : 'This project type does not require buildings, but you can add one if useful.'
+        "
+        [showPagination]="false"
+        (searchChange)="onSearch($event)"
+        (quickFilterToggle)="onStatus($event)"
+        (sortChange)="onSort($event)"
+        (filterChipRemove)="onFilterChipRemove($event)"
+        (clearFilters)="onClearFilters()"
+      >
+        <div tableBody class="bldg-grid">
           @for (building of listState.listResult().items; track building.id) {
             <app-bldg-card [building]="building" />
           }
         </div>
+      </app-enterprise-data-table-shell>
 
+      @if (listState.listResult().items.length > 0) {
         <section class="bldg-recent" aria-label="Recent buildings">
           <h3 class="mpa-heading-sm">Recent buildings</h3>
           <ul class="bldg-recent__list">
@@ -104,7 +93,9 @@
       }
     </div>
   } @else {
-    <app-empty-no-data title="Project not found" description="The requested project does not exist or was removed."
+    <app-empty-no-data
+      title="Project not found"
+      description="The requested project does not exist or was removed."
     />
   }
 </app-bp-page>

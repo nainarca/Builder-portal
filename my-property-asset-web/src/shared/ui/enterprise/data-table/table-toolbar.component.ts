@@ -9,10 +9,12 @@ import { EnterpriseTableDensityControlComponent } from './table-density-control.
 import { EnterpriseTableColumnSelectorComponent } from './table-column-selector.component';
 import { EnterpriseTableViewToggleComponent } from './table-view-toggle.component';
 import { EnterpriseTableSavedSearchesComponent } from './table-saved-searches.component';
+import { EnterpriseTableOverflowMenuComponent } from './table-overflow-menu.component';
 import type {
   EnterpriseTableColumnDef,
   EnterpriseTableQuickFilter,
   EnterpriseTableSavedSearch,
+  EnterpriseTableSecondaryAction,
   EnterpriseTableViewMode,
   TableDensity,
 } from './models/enterprise-table.models';
@@ -20,6 +22,7 @@ import type { SortOption } from '../../composites/data-display/sort-control.comp
 
 /**
  * DS-05 Table Toolbar — P0.1 §6.1 search leading, filters adjacent, density/columns trailing.
+ * Secondary actions live in overflow (UI-REBIRTH §6 — one primary action on the page header).
  */
 @Component({
   selector: 'app-enterprise-table-toolbar',
@@ -31,6 +34,7 @@ import type { SortOption } from '../../composites/data-display/sort-control.comp
     EnterpriseTableColumnSelectorComponent,
     EnterpriseTableViewToggleComponent,
     EnterpriseTableSavedSearchesComponent,
+    EnterpriseTableOverflowMenuComponent,
     ExportButtonComponent,
     SortControlComponent,
   ],
@@ -93,6 +97,12 @@ import type { SortOption } from '../../composites/data-display/sort-control.comp
             (exportClick)="exportClick.emit($event)"
           />
         }
+        @if (secondaryActions().length > 0) {
+          <app-enterprise-table-overflow-menu
+            [actions]="secondaryActions()"
+            (actionClick)="secondaryAction.emit($event)"
+          />
+        }
         <ng-content select="[toolbarEnd]" />
       </div>
     </app-table-toolbar>
@@ -109,6 +119,9 @@ import type { SortOption } from '../../composites/data-display/sort-control.comp
       .enterprise-table-toolbar__start,
       .enterprise-table-toolbar__end {
         width: 100%;
+      }
+      .enterprise-table-toolbar__end {
+        justify-content: flex-end;
       }
     }
   `,
@@ -133,6 +146,7 @@ export class EnterpriseTableToolbarComponent {
   readonly showExport = input(true);
   readonly exportLoading = input(false);
   readonly exportDisabled = input(false);
+  readonly secondaryActions = input<readonly EnterpriseTableSecondaryAction[]>([]);
 
   readonly searchChange = output<string>();
   readonly quickFilterToggle = output<string>();
@@ -143,4 +157,5 @@ export class EnterpriseTableToolbarComponent {
   readonly densityChange = output<TableDensity>();
   readonly columnsChange = output<readonly EnterpriseTableColumnDef[]>();
   readonly exportClick = output<MouseEvent>();
+  readonly secondaryAction = output<string>();
 }

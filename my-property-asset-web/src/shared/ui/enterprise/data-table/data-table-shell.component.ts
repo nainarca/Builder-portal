@@ -16,6 +16,7 @@ import type {
   EnterpriseTablePaginationState,
   EnterpriseTableQuickFilter,
   EnterpriseTableSavedSearch,
+  EnterpriseTableSecondaryAction,
   EnterpriseTableViewMode,
   TableDensity,
 } from './models/enterprise-table.models';
@@ -66,6 +67,7 @@ import type { SortOption } from '../../composites/data-display/sort-control.comp
           [showExport]="showExport()"
           [exportLoading]="exportLoading()"
           [exportDisabled]="exportDisabled()"
+          [secondaryActions]="secondaryActions()"
           (searchChange)="searchChange.emit($event)"
           (quickFilterToggle)="quickFilterToggle.emit($event)"
           (savedSearchSelect)="savedSearchSelect.emit($event)"
@@ -75,6 +77,7 @@ import type { SortOption } from '../../composites/data-display/sort-control.comp
           (densityChange)="densityChange.emit($event)"
           (columnsChange)="columnsChange.emit($event)"
           (exportClick)="exportClick.emit($event)"
+          (secondaryAction)="secondaryAction.emit($event)"
         >
           <ng-content select="[toolbarStart]" />
           <ng-content select="[toolbarEnd]" />
@@ -95,6 +98,7 @@ import type { SortOption } from '../../composites/data-display/sort-control.comp
       <div
         class="enterprise-data-table-shell__body"
         [class.enterprise-data-table-shell__body--compact]="density() === 'compact'"
+        [class.enterprise-data-table-shell__body--card]="viewMode() === 'card'"
         role="region"
         [attr.aria-label]="tableAriaLabel()"
         [attr.aria-busy]="state() === 'loading' || state() === 'refreshing' ? 'true' : null"
@@ -148,12 +152,22 @@ import type { SortOption } from '../../composites/data-display/sort-control.comp
     .enterprise-data-table-shell__body {
       position: relative;
       min-height: 8rem;
+      animation: enterprise-table-view-fade var(--mpa-animation-duration-normal)
+        var(--mpa-animation-easing-standard);
     }
     .enterprise-data-table-shell__body--compact {
       font-size: var(--mpa-font-size-sm);
     }
     .enterprise-data-table-shell__table-region {
       position: relative;
+    }
+    @keyframes enterprise-table-view-fade {
+      from {
+        opacity: 0.65;
+      }
+      to {
+        opacity: 1;
+      }
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -178,6 +192,7 @@ export class EnterpriseDataTableShellComponent {
   readonly showExport = input(true);
   readonly exportLoading = input(false);
   readonly exportDisabled = input(false);
+  readonly secondaryActions = input<readonly EnterpriseTableSecondaryAction[]>([]);
   readonly filterChips = input<readonly EnterpriseTableFilterChip[]>([]);
   readonly resultSummary = input<string | undefined>(undefined);
   readonly advancedFiltersOpen = input(false);
@@ -211,6 +226,7 @@ export class EnterpriseDataTableShellComponent {
   readonly densityChange = output<TableDensity>();
   readonly columnsChange = output<readonly EnterpriseTableColumnDef[]>();
   readonly exportClick = output<MouseEvent>();
+  readonly secondaryAction = output<string>();
   readonly filterChipRemove = output<string>();
   readonly clearFilters = output<void>();
   readonly bulkAction = output<string>();

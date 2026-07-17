@@ -60,6 +60,14 @@ import type { EnterpriseTableEmptyVariant } from './models/enterprise-table.mode
         @case ('error') {
           <app-error-alert [message]="description() || errorMessage() || title() || 'Unable to load data'" />
         }
+        @case ('archived') {
+          <app-empty-no-data
+            [title]="title() ?? 'No archived records'"
+            [description]="description() || 'Archived items will appear here when available.'"
+            [actionLabel]="actionLabel()"
+            (action)="action.emit($event)"
+          />
+        }
       }
     </div>
   `,

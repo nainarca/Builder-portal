@@ -5,26 +5,29 @@ import { AuthorizedButtonComponent } from '@core/rbac';
 import {
   DialogShellComponent,
   EnterpriseDataTableShellComponent,
-  EnterpriseFormPageHeaderComponent,
+  EnterpriseListPageHeaderComponent,
   EnterpriseTableBulkAction,
   EnterpriseTableColumnDef,
+  EnterpriseTableSecondaryAction,
   EnterpriseTableViewMode,
-  GhostButtonComponent,
   OutlineButtonComponent,
   PaginationWrapperComponent,
 } from '@shared/ui';
 
 import { BuilderPortalPageComponent } from '../../components/layout';
 import {
+  mapActiveFilterChips,
   mapQuickFilters,
   mapSavedViews,
   mapTableColumns,
   syncVisibleColumns,
-  visibleColumnIds } from '../../utils/builder-portal-table.helpers';
+  visibleColumnIds,
+} from '../../utils/builder-portal-table.helpers';
 import {
   ProjectAdvancedFiltersComponent,
   ProjectCardGridComponent,
-  ProjectDataGridComponent } from '../components/list';
+  ProjectDataGridComponent,
+} from '../components/list';
 import { PROJECT_SORT_OPTIONS, PROJECT_TABLE_COLUMNS } from '../config/projects.config';
 import { Project, ProjectBulkAction, ProjectStatus } from '../models/project.model';
 import { ProjectListStateService } from '../services/project-list-state.service';
@@ -37,14 +40,16 @@ const STATUS_QUICK_FILTER_OPTIONS = [
   { id: 'completed' as const, label: 'Completed' },
 ];
 
+/** Portfolio entity — table/card toggle allowed (UI-REBIRTH §6). */
+const VIEW_MODE_POLICY = 'portfolio' as const;
+
 @Component({
   selector: 'app-project-list-page',
   imports: [
     BuilderPortalPageComponent,
-    EnterpriseFormPageHeaderComponent,
+    EnterpriseListPageHeaderComponent,
     EnterpriseDataTableShellComponent,
     OutlineButtonComponent,
-    GhostButtonComponent,
     DialogShellComponent,
     AuthorizedButtonComponent,
     PaginationWrapperComponent,
@@ -60,12 +65,20 @@ export class ProjectListPageComponent {
   private readonly router = inject(Router);
   readonly listState = inject(ProjectListStateService);
 
+  /** @see VIEW_MODE_POLICY — portfolio entities keep card/table toggle. */
+  readonly viewModePolicy = VIEW_MODE_POLICY;
+
   readonly sortOptions = PROJECT_SORT_OPTIONS.map((o) => ({ label: o.label, value: o.value }));
 
   readonly bulkActions: readonly EnterpriseTableBulkAction[] = [
     { id: 'archive', label: 'Archive', icon: 'pi pi-archive', severity: 'danger' },
     { id: 'restore', label: 'Restore', icon: 'pi pi-replay' },
     { id: 'export', label: 'Export', icon: 'pi pi-download' },
+  ];
+
+  readonly secondaryActions: readonly EnterpriseTableSecondaryAction[] = [
+    { id: 'import', label: 'Import', icon: 'pi pi-upload' },
+    { id: 'advanced-filters', label: 'Advanced filters', icon: 'pi pi-filter' },
   ];
 
   readonly statusQuickFilters = computed(() =>
@@ -79,6 +92,42 @@ export class ProjectListPageComponent {
   readonly tableColumns = computed(() =>
     mapTableColumns(PROJECT_TABLE_COLUMNS, this.listState.visibleColumns()),
   );
+
+  readonly filterChips = computed(() => {
+    const status = this.listState.statusFilter();
+    const statusLabel =
+      STATUS_QUICK_FILTER_OPTIONS.find((option) => option.id === status)?.label ?? status;
+    return mapActiveFilterChips({
+      search: this.listState.search(),
+      status: {
+        id: 'status',
+        label: `Status: ${statusLabel}`,
+        active: status !== 'all',
+      },
+      extras: [
+        {
+          id: 'type',
+          label: `Type: ${this.listState.typeFilter()}`,
+          active: this.listState.typeFilter() !== 'all',
+        },
+        {
+          id: 'city',
+          label: `City: ${this.listState.cityFilter()}`,
+          active: !!this.listState.cityFilter(),
+        },
+        {
+          id: 'archived',
+          label: 'Including archived',
+          active: this.listState.includeArchived(),
+        },
+      ],
+    });
+  });
+
+  readonly resultSummary = computed(() => {
+    const total = this.listState.listResult().total;
+    return `${total} project${total === 1 ? '' : 's'}`;
+  });
 
   onSearch(value: string): void {
     this.listState.setSearch(value);
@@ -125,6 +174,42 @@ export class ProjectListPageComponent {
 
   async onBulkActionId(actionId: string): Promise<void> {
     await this.listState.executeBulkAction(actionId as ProjectBulkAction);
+  }
+
+  onSecondaryAction(actionId: string): void {
+    if (actionId === 'import') {
+      this.openImport();
+      return;
+    }
+    if (actionId === 'advanced-filters') {
+      this.listState.toggleAdvancedFilters();
+    }
+  }
+
+  onFilterChipRemove(chipId: string): void {
+    switch (chipId) {
+      case 'search':
+        this.listState.setSearch('');
+        break;
+      case 'status':
+        this.listState.setStatusFilter('all');
+        break;
+      case 'type':
+        this.listState.setTypeFilter('all');
+        break;
+      case 'city':
+        this.listState.setCityFilter('');
+        break;
+      case 'archived':
+        this.listState.setIncludeArchived(false);
+        break;
+      default:
+        break;
+    }
+  }
+
+  onClearFilters(): void {
+    this.listState.resetFilters();
   }
 
   createProject(): void {

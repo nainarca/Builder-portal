@@ -1,13 +1,18 @@
 <app-bp-page>
   <div class="owner-page">
-    <app-enterprise-form-page-header
+    <!-- Directory entity: table-only (UI-REBIRTH §6). One primary action in header. -->
+    <app-enterprise-list-page-header
       [eyebrow]="header.eyebrow"
       [title]="header.title"
-      [subtitle]="header.description"
-      mode="view"
+      [description]="header.description"
     >
-      <app-outline-button formHeaderActions label="Assign owner" icon="pi pi-plus" (clicked)="goToAssign()" />
-    </app-enterprise-form-page-header>
+      <app-primary-button
+        listHeaderActions
+        label="Assign owner"
+        icon="pi pi-plus"
+        (clicked)="goToAssign()"
+      />
+    </app-enterprise-list-page-header>
 
     <section class="owner-quick-stats" aria-label="Owner quick statistics">
       @for (kpi of kpis(); track kpi.id) {
@@ -42,31 +47,28 @@
       [sortOptions]="sortOptions"
       [sortValue]="listState.sortValue()"
       [columns]="tableColumns()"
-      [viewMode]="listState.viewMode()"
-      [showViewToggle]="true"
+      [showViewToggle]="false"
       [exportLoading]="listState.exportLoading()"
       [advancedFiltersOpen]="listState.showAdvancedFilters()"
       [selectedCount]="listState.selectedIds().length"
       [totalCount]="listState.listResult().total"
       [bulkActions]="bulkActions"
+      [secondaryActions]="secondaryActions"
+      [filterChips]="ownerFilterChips()"
+      [resultSummary]="ownerResultSummary()"
       [showPagination]="false"
       (searchChange)="onSearch($event)"
       (quickFilterToggle)="onActivationFilter($event)"
       (savedSearchSelect)="onSavedView($event)"
       (sortChange)="onSort($event)"
-      (viewModeChange)="onViewModeChange($event)"
       (columnsChange)="onColumnsChange($event)"
       (exportClick)="exportAll()"
+      (secondaryAction)="onOwnerSecondaryAction($event)"
+      (filterChipRemove)="onOwnerFilterChipRemove($event)"
+      (clearFilters)="listState.resetFilters()"
       (clearSelection)="listState.clearSelection()"
       (bulkAction)="onBulkActionId($event)"
     >
-      <app-ghost-button
-        toolbarEnd
-        [label]="listState.showAdvancedFilters() ? 'Hide filters' : 'Advanced filters'"
-        icon="pi pi-filter"
-        (clicked)="listState.toggleAdvancedFilters()"
-      />
-
       <app-owner-advanced-filters
         advancedFilters
         [invitationFilter]="listState.invitationFilter()"
@@ -79,27 +81,15 @@
         (filtersReset)="listState.resetFilters()"
       />
 
-      @if (listState.viewMode() === 'table') {
-        <app-owner-data-grid
-          tableBody
-          [items]="listState.listResult().items"
-          [loading]="listState.loading()"
-          [total]="listState.listResult().total"
-          [pageSize]="listState.pageSize()"
-          [visibleColumns]="listState.visibleColumns()"
-          (selectionChange)="onSelectionChange($event)"
-        />
-      } @else {
-        <div cardView>
-          <app-owner-card-grid [items]="listState.listResult().items" />
-          <app-pagination-wrapper
-            [rows]="listState.pageSize()"
-            [totalRecords]="listState.listResult().total"
-            [first]="(listState.page() - 1) * listState.pageSize()"
-            (pageChange)="onCardPageChange($event)"
-          />
-        </div>
-      }
+      <app-owner-data-grid
+        tableBody
+        [items]="listState.listResult().items"
+        [loading]="listState.loading()"
+        [total]="listState.listResult().total"
+        [pageSize]="listState.pageSize()"
+        [visibleColumns]="listState.visibleColumns()"
+        (selectionChange)="onSelectionChange($event)"
+      />
     </app-enterprise-data-table-shell>
   </div>
 </app-bp-page>

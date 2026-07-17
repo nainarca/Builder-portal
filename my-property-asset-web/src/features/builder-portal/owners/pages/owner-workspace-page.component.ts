@@ -3,13 +3,11 @@ import { Router } from '@angular/router';
 
 import {
   EnterpriseDataTableShellComponent,
-  EnterpriseFormPageHeaderComponent,
+  EnterpriseListPageHeaderComponent,
   EnterpriseTableBulkAction,
   EnterpriseTableColumnDef,
-  EnterpriseTableViewMode,
-  GhostButtonComponent,
-  OutlineButtonComponent,
-  PaginationWrapperComponent,
+  EnterpriseTableSecondaryAction,
+  PrimaryButtonComponent,
 } from '@shared/ui';
 
 import { KpiCardComponent } from '../../components/cards';
@@ -17,17 +15,20 @@ import { ChartWrapperComponent } from '../../components/charts';
 import { BuilderPortalPageComponent } from '../../components/layout';
 import { DashboardChartConfig, DashboardKpiItem } from '../../models/dashboard.model';
 import {
+  mapActiveFilterChips,
   mapQuickFilters,
   mapSavedViews,
   mapTableColumns,
   syncVisibleColumns,
-  visibleColumnIds } from '../../utils/builder-portal-table.helpers';
+  visibleColumnIds,
+} from '../../utils/builder-portal-table.helpers';
 import { ProjectStoreService } from '../../projects/services/project-store.service';
+import { OwnerAdvancedFiltersComponent, OwnerDataGridComponent } from '../components/list';
 import {
-  OwnerAdvancedFiltersComponent,
-  OwnerCardGridComponent,
-  OwnerDataGridComponent } from '../components/list';
-import { AssignmentSummaryRow, AssignmentSummaryWidgetComponent, RecentAssignmentsWidgetComponent } from '../components/workspace';
+  AssignmentSummaryRow,
+  AssignmentSummaryWidgetComponent,
+  RecentAssignmentsWidgetComponent,
+} from '../components/workspace';
 import { OWNER_TABLE_COLUMNS, OWNER_WORKSPACE_HEADER, OWNER_SORT_OPTIONS } from '../config/owners.config';
 import { OwnerActivationStatus, OwnerBulkAction, OwnerListItem } from '../models/owner.model';
 import { OwnerListStateService } from '../services/owner-list-state.service';
@@ -44,22 +45,20 @@ const ACTIVATION_QUICK_FILTER_OPTIONS = [
   selector: 'app-owner-workspace-page',
   imports: [
     BuilderPortalPageComponent,
-    EnterpriseFormPageHeaderComponent,
+    EnterpriseListPageHeaderComponent,
     EnterpriseDataTableShellComponent,
-    OutlineButtonComponent,
-    GhostButtonComponent,
-    PaginationWrapperComponent,
+    PrimaryButtonComponent,
     KpiCardComponent,
     ChartWrapperComponent,
     AssignmentSummaryWidgetComponent,
     RecentAssignmentsWidgetComponent,
     OwnerDataGridComponent,
-    OwnerCardGridComponent,
     OwnerAdvancedFiltersComponent,
   ],
   templateUrl: './owner-workspace-page.component.html',
   styleUrl: './owner-workspace-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush })
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class OwnerWorkspacePageComponent {
   private readonly router = inject(Router);
   private readonly store = inject(OwnerStoreService);
@@ -73,6 +72,10 @@ export class OwnerWorkspacePageComponent {
     { id: 'archive', label: 'Archive', icon: 'pi pi-archive', severity: 'danger' },
     { id: 'restore', label: 'Restore', icon: 'pi pi-replay' },
     { id: 'export', label: 'Export', icon: 'pi pi-download' },
+  ];
+
+  readonly secondaryActions: readonly EnterpriseTableSecondaryAction[] = [
+    { id: 'advanced-filters', label: 'Advanced filters', icon: 'pi pi-filter' },
   ];
 
   readonly projects = computed(() => this.projectStore.projects());
@@ -118,7 +121,8 @@ export class OwnerWorkspacePageComponent {
       title: 'Invitation status',
       subtitle: 'Active assignments by invitation state',
       labels,
-      series: [{ label: 'Invitations', values: counts }] };
+      series: [{ label: 'Invitations', values: counts }],
+    };
   });
 
   readonly recentAssignments = computed(() =>
@@ -139,6 +143,45 @@ export class OwnerWorkspacePageComponent {
   readonly tableColumns = computed(() =>
     mapTableColumns(OWNER_TABLE_COLUMNS, this.listState.visibleColumns()),
   );
+
+  readonly ownerFilterChips = computed(() => {
+    const activation = this.listState.activationFilter();
+    const activationLabel =
+      ACTIVATION_QUICK_FILTER_OPTIONS.find((option) => option.id === activation)?.label ?? activation;
+    const invitation = this.listState.invitationFilter();
+    const projectId = this.listState.projectFilter();
+    const projectName = this.projects().find((p) => p.id === projectId)?.name ?? projectId;
+    return mapActiveFilterChips({
+      search: this.listState.search(),
+      status: {
+        id: 'activation',
+        label: `Activation: ${activationLabel}`,
+        active: activation !== 'all',
+      },
+      extras: [
+        {
+          id: 'invitation',
+          label: `Invitation: ${invitation}`,
+          active: invitation !== 'all',
+        },
+        {
+          id: 'project',
+          label: `Project: ${projectName}`,
+          active: !!projectId,
+        },
+        {
+          id: 'archived',
+          label: 'Include archived',
+          active: this.listState.includeArchived(),
+        },
+      ],
+    });
+  });
+
+  readonly ownerResultSummary = computed(() => {
+    const total = this.listState.listResult().total;
+    return `${total} owner${total === 1 ? '' : 's'}`;
+  });
 
   goToAssign(): void {
     void this.router.navigate(['/builder-portal/owners/assign']);
@@ -172,19 +215,32 @@ export class OwnerWorkspacePageComponent {
     this.listState.setSelection(selection.map((item) => item.owner.id));
   }
 
-  onViewModeChange(mode: EnterpriseTableViewMode): void {
-    this.listState.setViewMode(mode);
+  onOwnerSecondaryAction(actionId: string): void {
+    if (actionId === 'advanced-filters') {
+      this.listState.toggleAdvancedFilters();
+    }
   }
 
-  onCardPageChange(event: unknown): void {
-    const paginatorEvent = event as { first?: number; rows?: number };
-    const rows = paginatorEvent.rows ?? this.listState.pageSize();
-    const first = paginatorEvent.first ?? 0;
-    if (rows !== this.listState.pageSize()) {
-      this.listState.setPageSize(rows);
-      return;
+  onOwnerFilterChipRemove(chipId: string): void {
+    switch (chipId) {
+      case 'search':
+        this.listState.setSearch('');
+        break;
+      case 'activation':
+        this.listState.setActivationFilter('all');
+        break;
+      case 'invitation':
+        this.listState.setInvitationFilter('all');
+        break;
+      case 'project':
+        this.listState.setProjectFilter('');
+        break;
+      case 'archived':
+        this.listState.setIncludeArchived(false);
+        break;
+      default:
+        break;
     }
-    this.listState.setPage(Math.floor(first / rows) + 1);
   }
 
   async onBulkActionId(actionId: string): Promise<void> {

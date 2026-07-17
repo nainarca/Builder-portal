@@ -1,19 +1,19 @@
 <app-sa-page>
   <div class="org-page">
-    <app-enterprise-form-page-header
+    <!-- Directory entity: table-only (no card toggle) — UI-REBIRTH §6 / §11 / §20 #4 -->
+    <app-enterprise-list-page-header
       eyebrow="Super Admin"
       title="Organizations"
-      subtitle="Manage all platform tenants — builders, owners, partners, and marketplace organizations."
-      mode="view"
+      description="Manage all platform tenants — builders, owners, partners, and marketplace organizations."
     >
       <app-authorized-button
-        formHeaderActions
+        listHeaderActions
         label="Create organization"
         icon="plus"
         permission="id-03-organization-tenancy:operate"
         (clicked)="createOrganization()"
       />
-    </app-enterprise-form-page-header>
+    </app-enterprise-list-page-header>
 
     <app-enterprise-data-table-shell
       [state]="listState.loading() ? 'loading' : 'idle'"
@@ -26,11 +26,15 @@
       [sortOptions]="sortOptions"
       [sortValue]="listState.sortValue()"
       [columns]="tableColumns()"
+      [showViewToggle]="false"
       [exportLoading]="listState.exportLoading()"
       [advancedFiltersOpen]="listState.showAdvancedFilters()"
       [selectedCount]="listState.selectedIds().length"
       [totalCount]="listState.listResult().total"
       [bulkActions]="bulkActions"
+      [secondaryActions]="secondaryActions"
+      [filterChips]="filterChips()"
+      [resultSummary]="resultSummary()"
       [showPagination]="false"
       (searchChange)="onSearch($event)"
       (quickFilterToggle)="onStatusFilter($event)"
@@ -38,22 +42,12 @@
       (sortChange)="onSort($event)"
       (columnsChange)="onColumnsChange($event)"
       (exportClick)="exportAll()"
+      (secondaryAction)="onSecondaryAction($event)"
+      (filterChipRemove)="onFilterChipRemove($event)"
+      (clearFilters)="onClearFilters()"
       (clearSelection)="listState.clearSelection()"
       (bulkAction)="onBulkActionId($event)"
     >
-      <app-outline-button
-        toolbarEnd
-        label="Import"
-        icon="pi pi-upload"
-        (clicked)="openImport()"
-      />
-      <app-ghost-button
-        toolbarEnd
-        [label]="listState.showAdvancedFilters() ? 'Hide filters' : 'Advanced filters'"
-        icon="pi pi-filter"
-        (clicked)="listState.toggleAdvancedFilters()"
-      />
-
       <app-org-advanced-filters
         advancedFilters
         [typeFilter]="listState.typeFilter()"
