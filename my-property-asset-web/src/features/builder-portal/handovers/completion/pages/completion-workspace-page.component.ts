@@ -1,9 +1,10 @@
+import { BuilderPortalPageComponent } from '../../../components/layout';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent, SuccessStateComponent, UiDialogService, UiToastService } from '@shared/ui';
+import { ButtonComponent, EmptyNoDataComponent, SuccessStateComponent, UiDialogService, UiToastService } from '@shared/ui';
 
 import { KpiCardComponent } from '../../../components/cards';
 import { DashboardKpiItem } from '../../../models/dashboard.model';
@@ -22,9 +23,9 @@ import { deriveCompletionStatus } from '../services/completion.util';
 
 @Component({
   selector: 'app-completion-workspace-page',
-  imports: [
-    BasePageComponent,
+  imports: [ BuilderPortalPageComponent,
     ButtonComponent,
+    EmptyNoDataComponent,
     SuccessStateComponent,
     KpiCardComponent,
     WorkflowCardComponent,
@@ -42,8 +43,7 @@ import { deriveCompletionStatus } from '../services/completion.util';
   ],
   templateUrl: './completion-workspace-page.component.html',
   styleUrl: './completion-workspace-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class CompletionWorkspacePageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -55,8 +55,7 @@ export class CompletionWorkspacePageComponent {
   private readonly toast = inject(UiToastService);
 
   private readonly handoverId = toSignal(this.route.paramMap.pipe(map((p) => p.get('id') ?? '')), {
-    initialValue: '',
-  });
+    initialValue: '' });
 
   readonly handover = computed(() => this.handoverStore.getById(this.handoverId()));
   readonly approval = computed(() => this.approvalStore.getByHandoverId(this.handoverId()));
@@ -101,8 +100,7 @@ export class CompletionWorkspacePageComponent {
       title: 'Finalize handover completion',
       message: 'This marks builder responsibility as completed and owner possession as started. This action cannot be undone.',
       acceptLabel: 'Finalize',
-      acceptSeverity: 'success',
-    });
+      acceptSeverity: 'success' });
     if (!confirmed) {
       return;
     }

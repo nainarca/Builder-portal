@@ -1,4 +1,4 @@
-<app-base-page>
+<app-bp-page>
   <div class="bp-dashboard proj-workspace">
     <app-bp-dashboard-header
       [eyebrow]="header.eyebrow"
@@ -33,7 +33,7 @@
         <app-bp-dashboard-widget-shell
           title="Recent projects"
           icon="pi pi-briefcase"
-          description="Latest activity across your portfolio"
+          subtitle="Latest activity across your portfolio"
         >
           <app-proj-card-grid
             [items]="recentProjects()"
@@ -78,4 +78,4 @@
 
     <app-bp-dashboard-footer leftText="MyPropertyAsset Project Workspace" />
   </div>
-</app-base-page>
+</app-bp-page>

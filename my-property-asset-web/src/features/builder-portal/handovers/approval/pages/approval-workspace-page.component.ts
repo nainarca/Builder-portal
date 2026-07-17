@@ -1,9 +1,10 @@
+import { BuilderPortalPageComponent } from '../../../components/layout';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent, ModalShellComponent, TextareaComponent, UiDialogService, UiToastService } from '@shared/ui';
+import { ButtonComponent, EmptyNoDataComponent, ModalShellComponent, TextareaComponent, UiDialogService, UiToastService } from '@shared/ui';
 
 import { KpiCardComponent } from '../../../components/cards';
 import { DashboardKpiItem } from '../../../models/dashboard.model';
@@ -18,9 +19,9 @@ import { ApprovalStoreService } from '../services/approval-store.service';
 
 @Component({
   selector: 'app-approval-workspace-page',
-  imports: [
-    BasePageComponent,
+  imports: [ BuilderPortalPageComponent,
     ButtonComponent,
+    EmptyNoDataComponent,
     ModalShellComponent,
     TextareaComponent,
     KpiCardComponent,
@@ -33,8 +34,7 @@ import { ApprovalStoreService } from '../services/approval-store.service';
   ],
   templateUrl: './approval-workspace-page.component.html',
   styleUrl: './approval-workspace-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class ApprovalWorkspacePageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -44,8 +44,7 @@ export class ApprovalWorkspacePageComponent {
   private readonly toast = inject(UiToastService);
 
   private readonly handoverId = toSignal(this.route.paramMap.pipe(map((p) => p.get('id') ?? '')), {
-    initialValue: '',
-  });
+    initialValue: '' });
 
   readonly handover = computed(() => this.handoverStore.getById(this.handoverId()));
   readonly approval = computed(() => this.approvalStore.getByHandoverId(this.handoverId()));
@@ -101,8 +100,7 @@ export class ApprovalWorkspacePageComponent {
       title: 'Approve handover',
       message: 'Approve this handover? This marks the owner-acceptance stage complete.',
       acceptLabel: 'Approve',
-      acceptSeverity: 'success',
-    });
+      acceptSeverity: 'success' });
     if (!confirmed) {
       return;
     }
@@ -115,8 +113,7 @@ export class ApprovalWorkspacePageComponent {
       title: 'Cancel approval',
       message: 'Cancel this handover approval workflow?',
       acceptLabel: 'Cancel approval',
-      acceptSeverity: 'danger',
-    });
+      acceptSeverity: 'danger' });
     if (!confirmed) {
       return;
     }
@@ -154,8 +151,7 @@ export class ApprovalWorkspacePageComponent {
       'pending-approval': 'Pending approval',
       approved: 'Approved',
       rejected: 'Rejected',
-      cancelled: 'Cancelled',
-    };
+      cancelled: 'Cancelled' };
     return map[status];
   }
 }

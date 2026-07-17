@@ -1,4 +1,4 @@
-<app-base-page>
+<app-bp-page>
   <div class="unit-page">
     <div class="unit-project-bar">
       <span class="unit-project-bar__breadcrumb">
@@ -6,16 +6,17 @@
         <i class="pi pi-angle-right" aria-hidden="true"></i>
         <span>Units</span>
       </span>
-      <app-button label="Back to project" icon="pi pi-arrow-left" [outlined]="true" (clicked)="goToProject()" />
+      <app-outline-button label="Back to project" icon="pi pi-arrow-left" (clicked)="goToProject()" />
     </div>
 
-    <app-page-header
+    <app-enterprise-form-page-header
       eyebrow="Unit management"
       title="Units"
-      [description]="'Track construction progress, sales status, and floor organization for ' + (project()?.name ?? 'this project') + '.'"
+      [subtitle]="'Track construction progress, sales status, and floor organization for ' + (project()?.name ?? 'this project') + '.'"
+      mode="view"
     >
-      <app-button pageActions label="Create unit" icon="pi pi-plus" (clicked)="createUnit()" />
-    </app-page-header>
+      <app-outline-button formHeaderActions label="Create unit" icon="pi pi-plus" (clicked)="createUnit()" />
+    </app-enterprise-form-page-header>
 
     <app-unit-quick-stats [stats]="quickStats()" />
 
@@ -32,75 +33,68 @@
 
     <app-unit-grid-visualization [units]="visualizationUnits()" [projectId]="projectId()" />
 
-    <app-unit-bulk-actions
-      [count]="listState.selectedIds().length"
-      (action)="onBulkAction($event)"
-      (clear)="listState.clearSelection()"
-    />
+    <app-enterprise-data-table-shell
+      [state]="listState.loading() ? 'loading' : 'idle'"
+      [searchValue]="listState.search()"
+      searchPlaceholder="Search units…"
+      tableAriaLabel="Units table"
+      [quickFilters]="statusQuickFilters()"
+      [showSavedSearches]="true"
+      [savedSearches]="savedSearchOptions()"
+      [sortOptions]="sortOptions"
+      [sortValue]="listState.sortValue()"
+      [columns]="tableColumns()"
+      [viewMode]="listState.viewMode()"
+      [showViewToggle]="true"
+      [exportLoading]="listState.exportLoading()"
+      [advancedFiltersOpen]="listState.showAdvancedFilters()"
+      [selectedCount]="listState.selectedIds().length"
+      [totalCount]="listState.listResult().total"
+      [bulkActions]="bulkActions"
+      [showPagination]="false"
+      (searchChange)="onSearch($event)"
+      (quickFilterToggle)="onStatusFilter($event)"
+      (savedSearchSelect)="onSavedView($event)"
+      (sortChange)="onSort($event)"
+      (viewModeChange)="onViewModeChange($event)"
+      (columnsChange)="onColumnsChange($event)"
+      (exportClick)="exportAll()"
+      (clearSelection)="listState.clearSelection()"
+      (bulkAction)="onBulkActionId($event)"
+    >
+      <app-outline-button
+        toolbarEnd
+        label="Import"
+        icon="pi pi-upload"
+        (clicked)="openImport()"
+      />
+      <app-ghost-button
+        toolbarEnd
+        [label]="listState.showAdvancedFilters() ? 'Hide filters' : 'Advanced filters'"
+        icon="pi pi-filter"
+        (clicked)="listState.toggleAdvancedFilters()"
+      />
 
-    <app-unit-quick-filters
-      [selected]="listState.statusFilter()"
-      (selectedChange)="listState.setStatusFilter($event)"
-    />
-
-    <app-table-shell [value]="tableItems()" [loading]="listState.loading()">
-      <app-table-toolbar tableToolbar>
-        <app-search-field
-          toolbarStart
-          [value]="listState.search()"
-          placeholder="Search units…"
-          ariaLabel="Search units"
-          (valueChange)="onSearch($event)"
-        />
-        <app-unit-saved-views
-          toolbarStart
-          [views]="listState.savedViews()"
-          [selectedId]="listState.savedViewId()"
-          (viewChange)="listState.applySavedView($event)"
-        />
-        <app-unit-view-toggle toolbarEnd [mode]="listState.viewMode()" (modeChange)="listState.setViewMode($event)" />
-        <app-sort-control
-          toolbarEnd
-          [options]="sortOptions"
-          [value]="listState.sortValue()"
-          (sortChange)="onSort($event)"
-        />
-        <app-export-button toolbarEnd [loading]="listState.exportLoading()" (exportClick)="exportAll()" />
-        <app-button toolbarEnd label="Import" icon="pi pi-upload" [outlined]="true" (clicked)="openImport()" />
-        <app-button
-          toolbarEnd
-          [label]="listState.showAdvancedFilters() ? 'Hide filters' : 'Advanced filters'"
-          icon="pi pi-filter"
-          [text]="true"
-          (clicked)="listState.toggleAdvancedFilters()"
-        />
-      </app-table-toolbar>
-
-      @if (listState.showAdvancedFilters()) {
-        <app-unit-advanced-filters
-          [stageFilter]="listState.stageFilter()"
-          [typeFilter]="listState.typeFilter()"
-          [towerFilter]="listState.towerFilter()"
-          [floorFilter]="listState.floorFilter()"
-          [includeArchived]="listState.includeArchived()"
-          [towers]="towers()"
-          [floors]="listState.floors()"
-          (stageFilterChange)="listState.setStageFilter($event)"
-          (typeFilterChange)="listState.setTypeFilter($event)"
-          (towerFilterChange)="listState.setTowerFilter($event)"
-          (floorFilterChange)="listState.setFloorFilter($event)"
-          (includeArchivedChange)="listState.setIncludeArchived($event)"
-          (filtersReset)="listState.resetFilters()"
-        />
-      }
+      <app-unit-advanced-filters
+        advancedFilters
+        [stageFilter]="listState.stageFilter()"
+        [typeFilter]="listState.typeFilter()"
+        [towerFilter]="listState.towerFilter()"
+        [floorFilter]="listState.floorFilter()"
+        [includeArchived]="listState.includeArchived()"
+        [towers]="towers()"
+        [floors]="listState.floors()"
+        (stageFilterChange)="listState.setStageFilter($event)"
+        (typeFilterChange)="listState.setTypeFilter($event)"
+        (towerFilterChange)="listState.setTowerFilter($event)"
+        (floorFilterChange)="listState.setFloorFilter($event)"
+        (includeArchivedChange)="listState.setIncludeArchived($event)"
+        (filtersReset)="listState.resetFilters()"
+      />
 
       @if (listState.viewMode() === 'table') {
-        <app-unit-column-selector
-          [visibleColumns]="listState.visibleColumns()"
-          (columnToggle)="listState.toggleColumn($event)"
-        />
-
         <app-unit-data-grid
+          tableBody
           [items]="listState.listResult().items"
           [projectId]="projectId()"
           [loading]="listState.loading()"
@@ -110,24 +104,28 @@
           (selectionChange)="onSelectionChange($event)"
         />
       } @else {
-        <app-unit-card-grid [items]="listState.listResult().items" [projectId]="projectId()" />
-        <app-pagination-wrapper
-          [rows]="listState.pageSize()"
-          [totalRecords]="listState.listResult().total"
-          [first]="(listState.page() - 1) * listState.pageSize()"
-          (pageChange)="onCardPageChange($event)"
-        />
-      }
-    </app-table-shell>
-
-    @if (listState.importDialogVisible()) {
-      <div class="unit-import-dialog" role="dialog" aria-label="Import units">
-        <div class="unit-import-dialog__panel">
-          <h2 class="mpa-heading-sm">Import units</h2>
-          <p class="mpa-body-md">CSV import framework — no backend connected.</p>
-          <app-button label="Close" [outlined]="true" (clicked)="listState.closeImportDialog()" />
+        <div cardView>
+          <app-unit-card-grid [items]="listState.listResult().items" [projectId]="projectId()" />
+          <app-pagination-wrapper
+            [rows]="listState.pageSize()"
+            [totalRecords]="listState.listResult().total"
+            [first]="(listState.page() - 1) * listState.pageSize()"
+            (pageChange)="onCardPageChange($event)"
+          />
         </div>
+      }
+    </app-enterprise-data-table-shell>
+
+    <app-dialog-shell
+      title="Import units"
+      [visible]="listState.importDialogVisible()"
+      width="28rem"
+      (visibleChange)="onImportDialogVisible($event)"
+    >
+      <p class="mpa-body-md m-0">CSV import framework — no backend connected.</p>
+      <div dialogActions>
+        <app-outline-button label="Close" (clicked)="listState.closeImportDialog()" />
       </div>
-    }
+    </app-dialog-shell>
   </div>
-</app-base-page>
+</app-bp-page>

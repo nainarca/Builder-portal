@@ -1,7 +1,8 @@
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent, SearchFieldComponent, SortControlComponent } from '@shared/ui';
+import { ButtonComponent, EnterpriseFormPageHeaderComponent, SearchFieldComponent, SortControlComponent } from '@shared/ui';
 
 import { KpiCardComponent } from '../../components/cards';
 import { ChartWrapperComponent } from '../../components/charts';
@@ -13,8 +14,7 @@ import {
   HandoverDataGridComponent,
   HandoverQuickFiltersComponent,
   HandoverSavedViewsComponent,
-  HandoverViewToggleComponent,
-} from '../components/explorer';
+  HandoverViewToggleComponent } from '../components/explorer';
 import { TimelineCardComponent } from '../components/workflow';
 import { HANDOVER_SORT_OPTIONS, HANDOVER_WORKSPACE_HEADER } from '../config/handovers.config';
 import { HandoverDashboardService } from '../services/handover-dashboard.service';
@@ -23,11 +23,9 @@ import { HandoverStoreService } from '../services/handover-store.service';
 
 @Component({
   selector: 'app-handover-workspace-page',
-  imports: [
-    BasePageComponent,
+  imports: [ BuilderPortalPageComponent,
     ButtonComponent,
-    PageHeaderComponent,
-    SearchFieldComponent,
+    EnterpriseFormPageHeaderComponent, SearchFieldComponent,
     SortControlComponent,
     KpiCardComponent,
     ChartWrapperComponent,
@@ -41,8 +39,7 @@ import { HandoverStoreService } from '../services/handover-store.service';
   ],
   templateUrl: './handover-workspace-page.component.html',
   styleUrl: './handover-workspace-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class HandoverWorkspacePageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly store = inject(HandoverStoreService);
@@ -84,8 +81,7 @@ export class HandoverWorkspacePageComponent {
       title: 'Handover status',
       subtitle: 'All handovers by overall status',
       labels,
-      series: [{ label: 'Handovers', values: counts }],
-    };
+      series: [{ label: 'Handovers', values: counts }] };
   });
 
   readonly recentActivity = computed(() =>

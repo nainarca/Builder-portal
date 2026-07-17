@@ -2,12 +2,21 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
-import { ButtonComponent, FormSectionComponent } from '@shared/ui';
+import { ButtonComponent, EnterpriseFormPageHeaderComponent, FormSectionComponent } from '@shared/ui';
+
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { BuilderOrganizationService } from '../services/builder-organization.service';
 
 @Component({
   selector: 'app-builder-company-page',
-  imports: [ReactiveFormsModule, RouterLink, ButtonComponent, FormSectionComponent],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    BuilderPortalPageComponent,
+    EnterpriseFormPageHeaderComponent,
+    ButtonComponent,
+    FormSectionComponent,
+  ],
   templateUrl: './builder-company-page.component.html',
   styleUrl: './builder-company-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

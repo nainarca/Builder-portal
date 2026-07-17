@@ -11,7 +11,7 @@ import { DashboardWidgetShellComponent } from '../dashboard/dashboard-widget-she
     <app-bp-dashboard-widget-shell
       title="Performance summary"
       icon="pi pi-chart-line"
-      description="Sales and delivery velocity"
+      subtitle="Sales and delivery velocity"
       [refreshable]="true"
       [loading]="loading()"
       (refresh)="refresh.emit()"

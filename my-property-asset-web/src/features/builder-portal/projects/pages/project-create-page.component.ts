@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
+import { EnterpriseFormShellComponent, UiToastService } from '@shared/ui';
 
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ProjectFormComponent } from '../components/form/project-form.component';
 import { ProjectFormModel } from '../models/project.model';
 import { ProjectStoreService } from '../services/project-store.service';
@@ -10,34 +11,22 @@ import { PlanEnforcementService } from '../../subscription/services/plan-enforce
 
 @Component({
   selector: 'app-project-create-page',
-  imports: [BasePageComponent, PageHeaderComponent, ProjectFormComponent, ButtonComponent],
+  imports: [BuilderPortalPageComponent, EnterpriseFormShellComponent, ProjectFormComponent],
   template: `
-    <app-base-page>
-      <div class="proj-page">
-        <app-page-header
-          eyebrow="Projects"
-          title="Create project"
-          description="Register a new development and begin tracking construction progress."
-        />
+    <app-bp-page>
+      <app-enterprise-form-shell
+        title="Create project"
+        subtitle="Register a new development and begin tracking construction progress."
+        mode="create"
+        [state]="saving ? 'saving' : 'idle'"
+        (save)="submit()"
+        (cancel)="cancel()"
+      >
         <app-proj-form [initialModel]="initialModel" (submitted)="onSubmit($event)" />
-        <div class="proj-form-page-actions">
-          <app-button label="Create project" icon="pi pi-check" [loading]="saving" (clicked)="submit()" />
-          <app-button label="Cancel" [outlined]="true" (clicked)="cancel()" />
-        </div>
-      </div>
-    </app-base-page>
+      </app-enterprise-form-shell>
+    </app-bp-page>
   `,
   styleUrl: './project-create-page.component.scss',
-  styles: `
-    .proj-form-page-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--mpa-spacing-sm);
-      justify-content: flex-end;
-      padding-top: var(--mpa-spacing-md);
-      border-top: 1px solid var(--mpa-color-border);
-    }
-  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectCreatePageComponent {

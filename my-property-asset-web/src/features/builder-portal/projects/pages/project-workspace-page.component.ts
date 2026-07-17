@@ -1,7 +1,8 @@
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BasePageComponent, UiToastService } from '@shared/ui';
+import { UiToastService } from '@shared/ui';
 
 import { KpiCardComponent, SummaryCardComponent } from '../../components/cards';
 import { ChartWrapperComponent } from '../../components/charts';
@@ -10,26 +11,22 @@ import {
   DashboardGridComponent,
   DashboardGridItemComponent,
   DashboardHeaderComponent,
-  DashboardWidgetShellComponent,
-} from '../../components/dashboard';
+  DashboardWidgetShellComponent } from '../../components/dashboard';
 import {
   CalendarWidgetComponent,
   QuickActionsWidgetComponent,
-  RecentActivityWidgetComponent,
-} from '../../components/widgets';
+  RecentActivityWidgetComponent } from '../../components/widgets';
 import {
   DashboardChartConfig,
   DashboardKpiItem,
   DashboardProjectSummaryItem,
   DashboardQuickActionItem,
-  DashboardSummaryItem,
-} from '../../models/dashboard.model';
+  DashboardSummaryItem } from '../../models/dashboard.model';
 import {
   PROJECT_STATUS_LABELS,
   PROJECT_WORKSPACE_ACTIVITIES,
   PROJECT_WORKSPACE_HEADER,
-  PROJECT_WORKSPACE_QUICK_ACTIONS,
-} from '../config/projects.config';
+  PROJECT_WORKSPACE_QUICK_ACTIONS } from '../config/projects.config';
 import { ProjectCardGridComponent } from '../components/list/project-card-grid.component';
 import { Project, ProjectStatus } from '../models/project.model';
 import { ProjectListStateService } from '../services/project-list-state.service';
@@ -37,8 +34,7 @@ import { ProjectStoreService } from '../services/project-store.service';
 
 @Component({
   selector: 'app-project-workspace-page',
-  imports: [
-    BasePageComponent,
+  imports: [ BuilderPortalPageComponent,
     DashboardHeaderComponent,
     DashboardGridComponent,
     DashboardGridItemComponent,
@@ -54,8 +50,7 @@ import { ProjectStoreService } from '../services/project-store.service';
   ],
   templateUrl: './project-workspace-page.component.html',
   styleUrl: './project-workspace-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class ProjectWorkspacePageComponent {
   private readonly router = inject(Router);
   private readonly store = inject(ProjectStoreService);
@@ -80,32 +75,28 @@ export class ProjectWorkspacePageComponent {
         value: String(s.total),
         hint: 'Active portfolio',
         icon: 'pi pi-briefcase',
-        tone: 'primary',
-      },
+        tone: 'primary' },
       {
         id: 'construction',
         label: 'Construction',
         value: String(s.byStatus.construction),
         hint: 'In construction',
         icon: 'pi pi-hammer',
-        tone: 'info',
-      },
+        tone: 'info' },
       {
         id: 'planning',
         label: 'Planning',
         value: String(s.byStatus.planning + s.byStatus.upcoming),
         hint: 'Upcoming + planning',
         icon: 'pi pi-map',
-        tone: 'warning',
-      },
+        tone: 'warning' },
       {
         id: 'completed',
         label: 'Completed',
         value: String(s.byStatus.completed),
         hint: 'Delivered',
         icon: 'pi pi-check-circle',
-        tone: 'success',
-      },
+        tone: 'success' },
     ];
   });
 
@@ -118,8 +109,7 @@ export class ProjectWorkspacePageComponent {
         title: PROJECT_STATUS_LABELS[status] ?? status,
         value: String(by[status]),
         subtitle: 'Projects',
-        icon: 'pi pi-briefcase',
-      }));
+        icon: 'pi pi-briefcase' }));
   });
 
   readonly recentProjects = computed(() => this.stats().recent.slice(0, 4));
@@ -139,8 +129,7 @@ export class ProjectWorkspacePageComponent {
       title: 'Projects by status',
       subtitle: 'Active portfolio distribution',
       labels,
-      series: [{ label: 'Projects', values: keys.map((k) => by[k]) }],
-    };
+      series: [{ label: 'Projects', values: keys.map((k) => by[k]) }] };
   });
 
   readonly spotlightProjects = computed<readonly DashboardProjectSummaryItem[]>(() =>
@@ -170,7 +159,6 @@ export class ProjectWorkspacePageComponent {
       status: project.status,
       projectType: project.projectType,
       unitsTotal: project.summary.unitsTotal,
-      unitsSold: project.summary.unitsSold,
-    };
+      unitsSold: project.summary.unitsSold };
   }
 }

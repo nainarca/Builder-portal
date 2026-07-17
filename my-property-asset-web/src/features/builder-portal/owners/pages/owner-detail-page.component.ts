@@ -4,14 +4,16 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 
 import {
-  BasePageComponent,
   ButtonComponent,
+  EmptyNoDataComponent,
   ModalShellComponent,
   SelectComponent,
   SelectOption,
   UiDialogService,
   UiToastService,
 } from '@shared/ui';
+
+import { BuilderPortalPageComponent } from '../../components/layout';
 
 import { ProjectStoreService } from '../../projects/services/project-store.service';
 import {
@@ -27,7 +29,8 @@ import { OwnerStoreService } from '../services/owner-store.service';
 @Component({
   selector: 'app-owner-detail-page',
   imports: [
-    BasePageComponent,
+    BuilderPortalPageComponent,
+    EmptyNoDataComponent,
     ButtonComponent,
     ModalShellComponent,
     SelectComponent,

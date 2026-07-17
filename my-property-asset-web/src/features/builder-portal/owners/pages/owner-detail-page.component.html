@@ -1,4 +1,4 @@
-<app-base-page>
+<app-bp-page>
   @if (owner(); as o) {
     <div class="owner-page owner-page--detail">
       <app-customer-header [owner]="o" [assignment]="assignment()">
@@ -56,9 +56,7 @@
       </div>
     </app-modal-shell>
   } @else {
-    <div class="owner-page owner-page--empty">
-      <h1 class="ui-page-title">Owner not found</h1>
-      <p class="ui-page-subtitle">The requested owner does not exist or was removed.</p>
-    </div>
+    <app-empty-no-data title="Owner not found" description="The requested owner does not exist or was removed."
+    />
   }
-</app-base-page>
+</app-bp-page>

@@ -1,12 +1,13 @@
-<app-base-page>
+<app-bp-page>
   <div class="owner-page">
-    <app-page-header
+    <app-enterprise-form-page-header
       [eyebrow]="header.eyebrow"
       [title]="header.title"
-      [description]="header.description"
+      [subtitle]="header.description"
+      mode="view"
     >
-      <app-button pageActions label="Assign owner" icon="pi pi-plus" (clicked)="goToAssign()" />
-    </app-page-header>
+      <app-outline-button formHeaderActions label="Assign owner" icon="pi pi-plus" (clicked)="goToAssign()" />
+    </app-enterprise-form-page-header>
 
     <section class="owner-quick-stats" aria-label="Owner quick statistics">
       @for (kpi of kpis(); track kpi.id) {
@@ -30,69 +31,57 @@
       <app-recent-assignments-widget [assignments]="recentAssignments()" />
     </div>
 
-    <app-owner-bulk-actions
-      [count]="listState.selectedIds().length"
-      (action)="onBulkAction($event)"
-      (clear)="listState.clearSelection()"
-    />
+    <app-enterprise-data-table-shell
+      [state]="listState.loading() ? 'loading' : 'idle'"
+      [searchValue]="listState.search()"
+      searchPlaceholder="Search owners…"
+      tableAriaLabel="Owners table"
+      [quickFilters]="activationQuickFilters()"
+      [showSavedSearches]="true"
+      [savedSearches]="savedSearchOptions()"
+      [sortOptions]="sortOptions"
+      [sortValue]="listState.sortValue()"
+      [columns]="tableColumns()"
+      [viewMode]="listState.viewMode()"
+      [showViewToggle]="true"
+      [exportLoading]="listState.exportLoading()"
+      [advancedFiltersOpen]="listState.showAdvancedFilters()"
+      [selectedCount]="listState.selectedIds().length"
+      [totalCount]="listState.listResult().total"
+      [bulkActions]="bulkActions"
+      [showPagination]="false"
+      (searchChange)="onSearch($event)"
+      (quickFilterToggle)="onActivationFilter($event)"
+      (savedSearchSelect)="onSavedView($event)"
+      (sortChange)="onSort($event)"
+      (viewModeChange)="onViewModeChange($event)"
+      (columnsChange)="onColumnsChange($event)"
+      (exportClick)="exportAll()"
+      (clearSelection)="listState.clearSelection()"
+      (bulkAction)="onBulkActionId($event)"
+    >
+      <app-ghost-button
+        toolbarEnd
+        [label]="listState.showAdvancedFilters() ? 'Hide filters' : 'Advanced filters'"
+        icon="pi pi-filter"
+        (clicked)="listState.toggleAdvancedFilters()"
+      />
 
-    <app-owner-quick-filters
-      [selected]="listState.activationFilter()"
-      (selectedChange)="listState.setActivationFilter($event)"
-    />
-
-    <app-table-shell [value]="tableItems()" [loading]="listState.loading()">
-      <app-table-toolbar tableToolbar>
-        <app-search-field
-          toolbarStart
-          [value]="listState.search()"
-          placeholder="Search owners…"
-          ariaLabel="Search owners"
-          (valueChange)="onSearch($event)"
-        />
-        <app-owner-saved-views
-          toolbarStart
-          [views]="listState.savedViews()"
-          [selectedId]="listState.savedViewId()"
-          (viewChange)="listState.applySavedView($event)"
-        />
-        <app-owner-view-toggle toolbarEnd [mode]="listState.viewMode()" (modeChange)="listState.setViewMode($event)" />
-        <app-sort-control
-          toolbarEnd
-          [options]="sortOptions"
-          [value]="listState.sortValue()"
-          (sortChange)="onSort($event)"
-        />
-        <app-export-button toolbarEnd [loading]="listState.exportLoading()" (exportClick)="exportAll()" />
-        <app-button
-          toolbarEnd
-          [label]="listState.showAdvancedFilters() ? 'Hide filters' : 'Advanced filters'"
-          icon="pi pi-filter"
-          [text]="true"
-          (clicked)="listState.toggleAdvancedFilters()"
-        />
-      </app-table-toolbar>
-
-      @if (listState.showAdvancedFilters()) {
-        <app-owner-advanced-filters
-          [invitationFilter]="listState.invitationFilter()"
-          [projectFilter]="listState.projectFilter()"
-          [includeArchived]="listState.includeArchived()"
-          [projects]="projects()"
-          (invitationFilterChange)="listState.setInvitationFilter($event)"
-          (projectFilterChange)="listState.setProjectFilter($event)"
-          (includeArchivedChange)="listState.setIncludeArchived($event)"
-          (filtersReset)="listState.resetFilters()"
-        />
-      }
+      <app-owner-advanced-filters
+        advancedFilters
+        [invitationFilter]="listState.invitationFilter()"
+        [projectFilter]="listState.projectFilter()"
+        [includeArchived]="listState.includeArchived()"
+        [projects]="projects()"
+        (invitationFilterChange)="listState.setInvitationFilter($event)"
+        (projectFilterChange)="listState.setProjectFilter($event)"
+        (includeArchivedChange)="listState.setIncludeArchived($event)"
+        (filtersReset)="listState.resetFilters()"
+      />
 
       @if (listState.viewMode() === 'table') {
-        <app-owner-column-selector
-          [visibleColumns]="listState.visibleColumns()"
-          (columnToggle)="listState.toggleColumn($event)"
-        />
-
         <app-owner-data-grid
+          tableBody
           [items]="listState.listResult().items"
           [loading]="listState.loading()"
           [total]="listState.listResult().total"
@@ -101,14 +90,16 @@
           (selectionChange)="onSelectionChange($event)"
         />
       } @else {
-        <app-owner-card-grid [items]="listState.listResult().items" />
-        <app-pagination-wrapper
-          [rows]="listState.pageSize()"
-          [totalRecords]="listState.listResult().total"
-          [first]="(listState.page() - 1) * listState.pageSize()"
-          (pageChange)="onCardPageChange($event)"
-        />
+        <div cardView>
+          <app-owner-card-grid [items]="listState.listResult().items" />
+          <app-pagination-wrapper
+            [rows]="listState.pageSize()"
+            [totalRecords]="listState.listResult().total"
+            [first]="(listState.page() - 1) * listState.pageSize()"
+            (pageChange)="onCardPageChange($event)"
+          />
+        </div>
       }
-    </app-table-shell>
+    </app-enterprise-data-table-shell>
   </div>
-</app-base-page>
+</app-bp-page>

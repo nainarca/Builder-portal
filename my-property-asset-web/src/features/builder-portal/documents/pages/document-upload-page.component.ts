@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, viewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
+import { EnterpriseFormShellComponent, UiToastService } from '@shared/ui';
 
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ProjectStoreService } from '../../projects/services/project-store.service';
 import { UnitStoreService } from '../../projects/units/services/unit-store.service';
 import { DocumentUploadFormComponent } from '../components/form/document-upload-form.component';
@@ -12,37 +13,25 @@ import { PlanEnforcementService } from '../../subscription/services/plan-enforce
 
 @Component({
   selector: 'app-document-upload-page',
-  imports: [BasePageComponent, PageHeaderComponent, DocumentUploadFormComponent, ButtonComponent],
+  imports: [BuilderPortalPageComponent, EnterpriseFormShellComponent, DocumentUploadFormComponent],
   template: `
-    <app-base-page>
-      <div class="doc-page">
-        <app-page-header
-          eyebrow="Documents"
-          title="Add document"
-          description="Capture document metadata, category, and visibility — no real file is uploaded in this framework."
-        />
+    <app-bp-page>
+      <app-enterprise-form-shell
+        title="Add document"
+        subtitle="Capture document metadata, category, and visibility — no real file is uploaded in this framework."
+        mode="create"
+        [state]="saving ? 'saving' : 'idle'"
+        (save)="submit()"
+        (cancel)="cancel()"
+      >
         <app-document-upload-form
           [initialModel]="initialModel"
           [projects]="projects()"
           [units]="units()"
           (submitted)="onSubmit($event)"
         />
-        <div class="doc-form-page-actions">
-          <app-button label="Save document" icon="pi pi-check" [loading]="saving" (clicked)="submit()" />
-          <app-button label="Cancel" [outlined]="true" (clicked)="cancel()" />
-        </div>
-      </div>
-    </app-base-page>
-  `,
-  styles: `
-    .doc-form-page-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--mpa-spacing-sm);
-      justify-content: flex-end;
-      padding-top: var(--mpa-spacing-md);
-      border-top: 1px solid var(--mpa-color-border);
-    }
+      </app-enterprise-form-shell>
+    </app-bp-page>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -3,7 +3,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent, UiDialogService, UiToastService } from '@shared/ui';
+import { ButtonComponent, EmptyNoDataComponent, UiDialogService, UiToastService } from '@shared/ui';
+
+import { BuilderPortalPageComponent } from '../../components/layout';
 
 import { BuildingService } from '../buildings/services/building.service';
 import {
@@ -23,7 +25,8 @@ import { ProjectStoreService } from '../services/project-store.service';
 @Component({
   selector: 'app-project-detail-page',
   imports: [
-    BasePageComponent,
+    BuilderPortalPageComponent,
+    EmptyNoDataComponent,
     ButtonComponent,
     ProjectHeaderComponent,
     ProjectOverviewComponent,

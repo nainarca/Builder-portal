@@ -1,9 +1,10 @@
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent } from '@shared/ui';
+import { EmptyNoDataComponent } from '@shared/ui';
 
 import { TimelineCardComponent } from '../components/workflow';
 import { HandoverStoreService } from '../services/handover-store.service';
@@ -11,9 +12,9 @@ import { HandoverTimelineService } from '../services/handover-timeline.service';
 
 @Component({
   selector: 'app-handover-audit-page',
-  imports: [BasePageComponent, RouterLink, TimelineCardComponent],
+  imports: [ BuilderPortalPageComponent, EmptyNoDataComponent, RouterLink, TimelineCardComponent],
   template: `
-    <app-base-page>
+    <app-bp-page>
       @if (handover(); as h) {
         <div class="handover-page handover-page--detail">
           <header class="handover-header">
@@ -40,19 +41,22 @@ import { HandoverTimelineService } from '../services/handover-timeline.service';
             <app-timeline-card title="Audit timeline" [items]="summary.items" />
           }
         </div>
+      } @else {
+        <app-empty-no-data
+          title="Handover not found"
+          description="The requested handover does not exist."
+        />
       }
-    </app-base-page>
+    </app-bp-page>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class HandoverAuditPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly handovers = inject(HandoverStoreService);
   private readonly timeline = inject(HandoverTimelineService);
 
   private readonly handoverId = toSignal(this.route.paramMap.pipe(map((p) => p.get('id') ?? '')), {
-    initialValue: '',
-  });
+    initialValue: '' });
 
   readonly handover = computed(() => this.handovers.getById(this.handoverId()));
   readonly audit = computed(() => this.timeline.getAuditSummary(this.handoverId()));

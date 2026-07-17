@@ -4,8 +4,18 @@ import { Router } from '@angular/router';
 
 import { CurrentUserService } from '@core/auth';
 import { CurrentOrganizationService } from '@core/organization-context';
-import { BasePageComponent, UiToastService } from '@shared/ui';
+import {
+  EnterpriseDashboardGridComponent,
+  EnterpriseDashboardGridItemComponent,
+  EnterpriseDashboardKpiStripComponent,
+  EnterpriseDashboardSectionComponent,
+  EnterpriseDashboardShellComponent,
+  EnterpriseKpiPrimaryComponent,
+  OutlineButtonComponent,
+  UiToastService,
+} from '@shared/ui';
 
+import { KpiCardComponent, SummaryCardComponent } from './components/cards';
 import {
   BUILDER_DASHBOARD_ACTIVITIES,
   BUILDER_DASHBOARD_APPOINTMENTS,
@@ -16,15 +26,11 @@ import {
   BUILDER_DASHBOARD_SUMMARIES,
   BUILDER_DASHBOARD_TRENDS,
 } from './config/builder-dashboard.config';
-import { KpiCardComponent, SummaryCardComponent } from './components/cards';
+import { BuilderPortalPageComponent } from './components/layout';
 import {
   BuilderWelcomeComponent,
-  DashboardFiltersComponent,
-  DashboardFooterComponent,
   DashboardGridComponent,
   DashboardGridItemComponent,
-  DashboardHeaderComponent,
-  DashboardToolbarComponent,
 } from './components/dashboard';
 import {
   CalendarWidgetComponent,
@@ -51,15 +57,15 @@ import { resolveDisplayName, resolveTimeGreeting } from './utils/display-name.ut
   selector: 'app-builder-dashboard',
   imports: [
     DatePipe,
-    BasePageComponent,
+    BuilderPortalPageComponent,
+    EnterpriseDashboardShellComponent,
+    EnterpriseDashboardKpiStripComponent,
+    EnterpriseDashboardSectionComponent,
+    EnterpriseDashboardGridComponent,
+    EnterpriseDashboardGridItemComponent,
+    EnterpriseKpiPrimaryComponent,
+    OutlineButtonComponent,
     BuilderWelcomeComponent,
-    DashboardHeaderComponent,
-    DashboardToolbarComponent,
-    DashboardFiltersComponent,
-    DashboardGridComponent,
-    DashboardGridItemComponent,
-    DashboardFooterComponent,
-    KpiCardComponent,
     SummaryCardComponent,
     QuickActionsWidgetComponent,
     RecentProjectsWidgetComponent,
@@ -133,32 +139,28 @@ export class BuilderDashboardComponent {
         label: 'Total Projects',
         value: String(stats.total),
         hint: 'Active portfolio',
-        icon: 'pi pi-briefcase',
-        tone: 'primary' as const,
+        trend: undefined,
+        trendLabel: undefined,
       },
       {
         id: 'construction',
         label: 'Construction',
         value: String(stats.byStatus.construction),
         hint: 'Under construction',
-        icon: 'pi pi-hammer',
-        tone: 'info' as const,
       },
       {
         id: 'planning',
         label: 'Planning / Upcoming',
         value: String(stats.byStatus.planning + stats.byStatus.upcoming),
         hint: 'Pre-construction',
-        icon: 'pi pi-map',
-        tone: 'warning' as const,
       },
       {
         id: 'completed',
         label: 'Completed',
         value: String(stats.byStatus.completed),
         hint: 'Delivered projects',
-        icon: 'pi pi-check-circle',
-        tone: 'success' as const,
+        trend: 'up' as const,
+        trendLabel: 'Portfolio health',
       },
     ];
   });

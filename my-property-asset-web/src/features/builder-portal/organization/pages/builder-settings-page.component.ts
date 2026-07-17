@@ -1,12 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+import { EnterpriseFormPageHeaderComponent } from '@shared/ui';
+
 import { CurrentOrganizationService } from '@core/organization-context';
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { BuilderOrganizationService } from '../services/builder-organization.service';
 
 @Component({
   selector: 'app-builder-settings-page',
-  imports: [RouterLink],
+  imports: [RouterLink, BuilderPortalPageComponent, EnterpriseFormPageHeaderComponent],
   templateUrl: './builder-settings-page.component.html',
   styleUrl: './builder-settings-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,4 +1,4 @@
-<app-base-page>
+<app-bp-page>
   <div class="bp-dashboard">
     <app-bp-welcome
       [greeting]="greeting()"
@@ -7,179 +7,200 @@
       [today]="today()"
     />
 
-    <app-bp-dashboard-header
-      [eyebrow]="header.eyebrow"
+    <app-enterprise-dashboard-shell
       [title]="header.title"
       [description]="header.description"
-      [refreshing]="refreshingAll()"
+      [eyebrow]="header.eyebrow"
+      [state]="refreshingAll() ? 'refreshing' : 'idle'"
+      [showToolbar]="true"
+      [showFooter]="!!lastRefreshedLabel()"
       (refresh)="onRefreshAll()"
-    />
-
-    <app-bp-dashboard-toolbar>
-      <app-bp-dashboard-filters
-        toolbarStart
-        [options]="filters"
-        [selected]="selectedFilter()"
-        (selectedChange)="onFilterChange($event)"
-      />
+    >
+      <div toolbarStart class="bp-dashboard__filters" role="group" aria-label="Dashboard time range">
+        @for (option of filters; track option.id) {
+          <app-outline-button
+            size="small"
+            [label]="option.label"
+            (clicked)="onFilterChange(option.value)"
+          />
+        }
+      </div>
       <span toolbarEnd class="bp-dashboard__filter-hint">
         Framework filters — data wiring in future modules
       </span>
-    </app-bp-dashboard-toolbar>
 
-    <section class="bp-dashboard__kpi-row" aria-label="Key performance indicators">
-      @for (kpi of kpis(); track kpi.id) {
-        <app-bp-kpi-card [item]="kpi" />
-      }
-    </section>
+      <app-enterprise-dashboard-kpi-strip kpiStrip>
+        @for (kpi of kpis(); track kpi.id) {
+          <app-enterprise-kpi-primary
+            [label]="kpi.label"
+            [value]="kpi.value"
+            [hint]="kpi.hint"
+            [trend]="kpi.trend"
+            [trendLabel]="kpi.trendLabel"
+          />
+        }
+      </app-enterprise-dashboard-kpi-strip>
 
-    <section class="bp-dashboard__summary-row" aria-label="Portfolio summaries">
-      @for (summary of summaries; track summary.id) {
-        <app-bp-summary-card [item]="summary" />
-      }
-    </section>
-
-    <section class="bp-dashboard__summary-row" aria-label="Branding status">
-      <app-bp-summary-card
-        [item]="{
-          id: 'branding-completion',
-          title: 'Branding completion',
-          value: brandingCompletion().completionPercent + '%',
-          subtitle: brandingCompletion().missingItems.length
-            ? 'Missing: ' + brandingCompletion().missingItems.join(', ')
-            : 'Branding profile is fully configured',
-          icon: 'pi pi-palette'
-        }"
-      />
-      <app-bp-summary-card
-        [item]="{
-          id: 'branding-status',
-          title: 'Branding status',
-          value: brandingCompletion().statusLabel,
-          subtitle: 'Last updated ' + (brandingProfile().lastUpdatedAt | date: 'medium'),
-          icon: 'pi pi-check-circle'
-        }"
-      />
-    </section>
-
-    <section class="bp-dashboard__summary-row" aria-label="Communication status">
-      <app-bp-summary-card
-        [item]="{
-          id: 'communication-draft',
-          title: 'Draft communications',
-          value: communicationSummary().draftCount + '',
-          subtitle: communicationSummary().scheduledCount + ' scheduled',
-          icon: 'pi pi-megaphone'
-        }"
-      />
-      <app-bp-summary-card
-        [item]="{
-          id: 'communication-published',
-          title: 'Published communications',
-          value: communicationSummary().publishedCount + '',
-          subtitle: communicationSummary().totalRecipients + ' total recipients',
-          icon: 'pi pi-send'
-        }"
-      />
-    </section>
-
-    <section class="bp-dashboard__summary-row" aria-label="Subscription summary">
-      <app-bp-summary-card
-        [item]="{
-          id: 'subscription-plan',
-          title: 'Current plan',
-          value: subscriptionSummary().plan?.name ?? 'No plan',
-          subtitle: 'Status: ' + (subscriptionSummary().subscription?.status ?? 'none'),
-          icon: 'pi pi-credit-card'
-        }"
-      />
-      <app-bp-summary-card
-        [item]="{
-          id: 'subscription-usage',
-          title: 'Usage',
-          value: subscriptionUsageLabel(),
-          subtitle: subscriptionRemainingLabel(),
-          icon: 'pi pi-chart-bar'
-        }"
-      />
-    </section>
-
-    <app-bp-dashboard-grid>
-      @for (widget of visibleWidgets(); track widget.id) {
-        <app-bp-dashboard-grid-item [colspan]="widget.colspan" [rowspan]="widget.rowspan ?? 1">
-          @switch (widget.id) {
-            @case ('quick-actions') {
-              <app-bp-quick-actions-widget
-                [actions]="quickActions"
-                [pinnedIds]="pinnedActionIds()"
-                [favoriteIds]="favoriteActionIds()"
-                (actionSelected)="onQuickActionSelected($event)"
-              />
-            }
-            @case ('recent-projects') {
-              <app-bp-recent-projects-widget
-                [items]="recentProjects()"
-                [loading]="isLoading('recent-projects')"
-                (refresh)="onRefreshWidget('recent-projects')"
-              />
-            }
-            @case ('project-status-overview') {
-              <app-bp-project-status-overview-widget
-                [chart]="statusChart()"
-                [loading]="isLoading('project-status-overview')"
-                (refresh)="onRefreshWidget('project-status-overview')"
-              />
-            }
-            @case ('project-progress') {
-              <app-bp-project-progress-widget
-                [items]="recentProjects()"
-                [loading]="isLoading('project-progress')"
-                (refresh)="onRefreshWidget('project-progress')"
-              />
-            }
-            @case ('performance-summary') {
-              <app-bp-performance-summary-widget
-                [items]="trends"
-                [loading]="isLoading('performance-summary')"
-                (refresh)="onRefreshWidget('performance-summary')"
-              />
-            }
-            @case ('recent-activity') {
-              <app-bp-recent-activity-widget
-                [items]="activities"
-                [loading]="isLoading('recent-activity')"
-                (refresh)="onRefreshWidget('recent-activity')"
-              />
-            }
-            @case ('todays-activities') {
-              <app-bp-todays-activities-widget
-                [items]="activities"
-                [loading]="isLoading('todays-activities')"
-                (refresh)="onRefreshWidget('todays-activities')"
-              />
-            }
-            @case ('upcoming-appointments') {
-              <app-bp-upcoming-appointments-widget
-                [items]="appointments"
-                [loading]="isLoading('upcoming-appointments')"
-                (refresh)="onRefreshWidget('upcoming-appointments')"
-              />
-            }
-            @case ('notifications') {
-              <app-bp-notifications-widget
-                [items]="notifications"
-                [loading]="isLoading('notifications')"
-                (refresh)="onRefreshWidget('notifications')"
-              />
-            }
-            @case ('calendar') {
-              <app-bp-calendar-widget />
-            }
+      <app-enterprise-dashboard-section attentionZone title="Portfolio summaries">
+        <div class="bp-dashboard__summary-row">
+          @for (summary of summaries; track summary.id) {
+            <app-bp-summary-card [item]="summary" />
           }
-        </app-bp-dashboard-grid-item>
-      }
-    </app-bp-dashboard-grid>
+        </div>
+      </app-enterprise-dashboard-section>
 
-    <app-bp-dashboard-footer [lastRefreshed]="lastRefreshedLabel()" />
+      <app-enterprise-dashboard-section title="Branding status">
+        <div class="bp-dashboard__summary-row">
+          <app-bp-summary-card
+            [item]="{
+              id: 'branding-completion',
+              title: 'Branding completion',
+              value: brandingCompletion().completionPercent + '%',
+              subtitle: brandingCompletion().missingItems.length
+                ? 'Missing: ' + brandingCompletion().missingItems.join(', ')
+                : 'Branding profile is fully configured',
+              icon: 'pi pi-palette'
+            }"
+          />
+          <app-bp-summary-card
+            [item]="{
+              id: 'branding-status',
+              title: 'Branding status',
+              value: brandingCompletion().statusLabel,
+              subtitle: 'Last updated ' + (brandingProfile().lastUpdatedAt | date: 'medium'),
+              icon: 'pi pi-check-circle'
+            }"
+          />
+        </div>
+      </app-enterprise-dashboard-section>
+
+      <app-enterprise-dashboard-section title="Communication status">
+        <div class="bp-dashboard__summary-row">
+          <app-bp-summary-card
+            [item]="{
+              id: 'communication-draft',
+              title: 'Draft communications',
+              value: communicationSummary().draftCount + '',
+              subtitle: communicationSummary().scheduledCount + ' scheduled',
+              icon: 'pi pi-megaphone'
+            }"
+          />
+          <app-bp-summary-card
+            [item]="{
+              id: 'communication-published',
+              title: 'Published communications',
+              value: communicationSummary().publishedCount + '',
+              subtitle: communicationSummary().totalRecipients + ' total recipients',
+              icon: 'pi pi-send'
+            }"
+          />
+        </div>
+      </app-enterprise-dashboard-section>
+
+      <app-enterprise-dashboard-section title="Subscription summary">
+        <div class="bp-dashboard__summary-row">
+          <app-bp-summary-card
+            [item]="{
+              id: 'subscription-plan',
+              title: 'Current plan',
+              value: subscriptionSummary().plan?.name ?? 'No plan',
+              subtitle: 'Status: ' + (subscriptionSummary().subscription?.status ?? 'none'),
+              icon: 'pi pi-credit-card'
+            }"
+          />
+          <app-bp-summary-card
+            [item]="{
+              id: 'subscription-usage',
+              title: 'Usage',
+              value: subscriptionUsageLabel(),
+              subtitle: subscriptionRemainingLabel(),
+              icon: 'pi pi-chart-bar'
+            }"
+          />
+        </div>
+      </app-enterprise-dashboard-section>
+
+      <app-enterprise-dashboard-grid mainContent>
+        @for (widget of visibleWidgets(); track widget.id) {
+          <app-enterprise-dashboard-grid-item
+            [config]="{ colspan: widget.colspan, rowspan: widget.rowspan ?? 1 }"
+          >
+            @switch (widget.id) {
+              @case ('quick-actions') {
+                <app-bp-quick-actions-widget
+                  [actions]="quickActions"
+                  [pinnedIds]="pinnedActionIds()"
+                  [favoriteIds]="favoriteActionIds()"
+                  (actionSelected)="onQuickActionSelected($event)"
+                />
+              }
+              @case ('recent-projects') {
+                <app-bp-recent-projects-widget
+                  [items]="recentProjects()"
+                  [loading]="isLoading('recent-projects')"
+                  (refresh)="onRefreshWidget('recent-projects')"
+                />
+              }
+              @case ('project-status-overview') {
+                <app-bp-project-status-overview-widget
+                  [chart]="statusChart()"
+                  [loading]="isLoading('project-status-overview')"
+                  (refresh)="onRefreshWidget('project-status-overview')"
+                />
+              }
+              @case ('project-progress') {
+                <app-bp-project-progress-widget
+                  [items]="recentProjects()"
+                  [loading]="isLoading('project-progress')"
+                  (refresh)="onRefreshWidget('project-progress')"
+                />
+              }
+              @case ('performance-summary') {
+                <app-bp-performance-summary-widget
+                  [items]="trends"
+                  [loading]="isLoading('performance-summary')"
+                  (refresh)="onRefreshWidget('performance-summary')"
+                />
+              }
+              @case ('recent-activity') {
+                <app-bp-recent-activity-widget
+                  [items]="activities"
+                  [loading]="isLoading('recent-activity')"
+                  (refresh)="onRefreshWidget('recent-activity')"
+                />
+              }
+              @case ('todays-activities') {
+                <app-bp-todays-activities-widget
+                  [items]="activities"
+                  [loading]="isLoading('todays-activities')"
+                  (refresh)="onRefreshWidget('todays-activities')"
+                />
+              }
+              @case ('upcoming-appointments') {
+                <app-bp-upcoming-appointments-widget
+                  [items]="appointments"
+                  [loading]="isLoading('upcoming-appointments')"
+                  (refresh)="onRefreshWidget('upcoming-appointments')"
+                />
+              }
+              @case ('notifications') {
+                <app-bp-notifications-widget
+                  [items]="notifications"
+                  [loading]="isLoading('notifications')"
+                  (refresh)="onRefreshWidget('notifications')"
+                />
+              }
+              @case ('calendar') {
+                <app-bp-calendar-widget />
+              }
+            }
+          </app-enterprise-dashboard-grid-item>
+        }
+      </app-enterprise-dashboard-grid>
+
+      @if (lastRefreshedLabel(); as refreshed) {
+        <span dashboardFooter>Last refreshed {{ refreshed }}</span>
+      }
+    </app-enterprise-dashboard-shell>
   </div>
-</app-base-page>
+</app-bp-page>

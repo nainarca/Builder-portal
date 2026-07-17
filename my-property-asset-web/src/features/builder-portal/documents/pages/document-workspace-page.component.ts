@@ -1,11 +1,11 @@
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import {
-  BasePageComponent,
   ButtonComponent,
   ExportButtonComponent,
-  PageHeaderComponent,
+  EnterpriseFormPageHeaderComponent,
   PaginationWrapperComponent,
   SearchFieldComponent,
   SortControlComponent,
@@ -25,8 +25,7 @@ import {
   DocumentSavedViewsComponent,
   ExplorerScopeToggleComponent,
   ExplorerToolbarComponent,
-  ExplorerViewToggleComponent,
-} from '../components/explorer';
+  ExplorerViewToggleComponent } from '../components/explorer';
 import { DocumentTileComponent } from '../components/shared';
 import { DOCUMENT_SORT_OPTIONS, DOCUMENT_WORKSPACE_HEADER } from '../config/documents.config';
 import { DocumentBulkAction, DocumentExplorerScope, DocumentRecord } from '../models/document.model';
@@ -35,11 +34,9 @@ import { DocumentStoreService } from '../services/document-store.service';
 
 @Component({
   selector: 'app-document-workspace-page',
-  imports: [
-    BasePageComponent,
+  imports: [ BuilderPortalPageComponent,
     ButtonComponent,
-    PageHeaderComponent,
-    SearchFieldComponent,
+    EnterpriseFormPageHeaderComponent, SearchFieldComponent,
     SortControlComponent,
     ExportButtonComponent,
     PaginationWrapperComponent,
@@ -59,8 +56,7 @@ import { DocumentStoreService } from '../services/document-store.service';
   ],
   templateUrl: './document-workspace-page.component.html',
   styleUrl: './document-workspace-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class DocumentWorkspacePageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -104,8 +100,7 @@ export class DocumentWorkspacePageComponent {
       title: 'Approval status',
       subtitle: 'Active documents by workflow stage',
       labels,
-      series: [{ label: 'Documents', values: counts }],
-    };
+      series: [{ label: 'Documents', values: counts }] };
   });
 
   readonly recentDocuments = computed(() =>

@@ -1,9 +1,10 @@
+import { BuilderPortalPageComponent } from '../../../components/layout';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent } from '@shared/ui';
+import { ButtonComponent, EmptyNoDataComponent } from '@shared/ui';
 
 import { HandoverActivityItem } from '../../models/handover.model';
 import { TimelineCardComponent } from '../../components/workflow';
@@ -14,11 +15,10 @@ import { CompletionStoreService } from '../services/completion-store.service';
 
 @Component({
   selector: 'app-archive-page',
-  imports: [BasePageComponent, ButtonComponent, TimelineCardComponent, ArchiveSummaryCardComponent],
+  imports: [ BuilderPortalPageComponent, ButtonComponent, EmptyNoDataComponent, TimelineCardComponent, ArchiveSummaryCardComponent],
   templateUrl: './archive-page.component.html',
   styleUrl: './archive-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class ArchivePageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -27,8 +27,7 @@ export class ArchivePageComponent {
   private readonly completionStore = inject(CompletionStoreService);
 
   private readonly handoverId = toSignal(this.route.paramMap.pipe(map((p) => p.get('id') ?? '')), {
-    initialValue: '',
-  });
+    initialValue: '' });
 
   readonly handover = computed(() => this.handoverStore.getById(this.handoverId()));
   readonly completion = computed(() => this.completionStore.getByHandoverId(this.handoverId()));

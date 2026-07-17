@@ -1,4 +1,4 @@
-<app-base-page>
+<app-bp-page>
   @if (handover(); as h) {
     @if (completion(); as c) {
       <div class="handover-page">
@@ -22,9 +22,9 @@
       </div>
     }
   } @else {
-    <div class="handover-page handover-page--empty">
-      <h1 class="ui-page-title">Handover not found</h1>
-      <p class="ui-page-subtitle">The requested handover does not exist.</p>
-    </div>
+    <app-empty-no-data
+      title="Handover not found"
+      description="The requested handover does not exist."
+    />
   }
-</app-base-page>
+</app-bp-page>

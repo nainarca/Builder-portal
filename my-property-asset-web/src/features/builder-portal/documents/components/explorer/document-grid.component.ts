@@ -11,7 +11,7 @@ import { DocumentEmptyStateComponent } from '../shared/document-empty-state.comp
     @if (items().length === 0) {
       <app-document-empty-state
         title="No documents match your filters"
-        description="Try adjusting your search or filters."
+        subtitle="Try adjusting your search or filters."
         [actionLabel]="undefined"
       />
     } @else {

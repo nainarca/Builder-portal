@@ -11,7 +11,7 @@ import { UnitEmptyStateComponent } from '../shared/unit-empty-state.component';
     @if (items().length === 0) {
       <app-unit-empty-state
         title="No units match your filters"
-        description="Try adjusting your search or filters."
+        subtitle="Try adjusting your search or filters."
         [actionLabel]="undefined"
       />
     } @else {

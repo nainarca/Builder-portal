@@ -1,9 +1,10 @@
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent, UiToastService } from '@shared/ui';
+import { ButtonComponent, EmptyNoDataComponent, UiToastService } from '@shared/ui';
 
 import { TimelineCardComponent } from '../components/workflow';
 import { HandoverInvitationService } from '../services/handover-invitation.service';
@@ -11,9 +12,9 @@ import { HandoverStoreService } from '../services/handover-store.service';
 
 @Component({
   selector: 'app-handover-invitation-page',
-  imports: [BasePageComponent, ButtonComponent, RouterLink, TimelineCardComponent],
+  imports: [ BuilderPortalPageComponent, ButtonComponent, EmptyNoDataComponent, RouterLink, TimelineCardComponent],
   template: `
-    <app-base-page>
+    <app-bp-page>
       @if (handover(); as h) {
         <div class="handover-page handover-page--detail">
           <header class="handover-header">
@@ -56,11 +57,15 @@ import { HandoverStoreService } from '../services/handover-store.service';
             <app-timeline-card title="Invitation history" [items]="history()" />
           }
         </div>
+      } @else {
+        <app-empty-no-data
+          title="Handover not found"
+          description="The requested handover does not exist."
+        />
       }
-    </app-base-page>
+    </app-bp-page>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class HandoverInvitationPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly handovers = inject(HandoverStoreService);
@@ -68,8 +73,7 @@ export class HandoverInvitationPageComponent {
   private readonly toast = inject(UiToastService);
 
   private readonly handoverId = toSignal(this.route.paramMap.pipe(map((p) => p.get('id') ?? '')), {
-    initialValue: '',
-  });
+    initialValue: '' });
 
   readonly handover = computed(() => this.handovers.getById(this.handoverId()));
   readonly summary = computed(() => this.invitations.getSummary(this.handoverId()));

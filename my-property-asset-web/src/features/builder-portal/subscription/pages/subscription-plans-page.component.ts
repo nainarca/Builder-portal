@@ -1,24 +1,26 @@
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { AuthorizedButtonComponent } from '@core/rbac';
-import { BasePageComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
+import { EnterpriseFormPageHeaderComponent, UiToastService } from '@shared/ui';
 import { formatMoney } from '../config/subscription.config';
 import { SubscriptionService } from '../services/subscription.service';
 
 @Component({
   selector: 'app-subscription-plans-page',
-  imports: [RouterLink, BasePageComponent, PageHeaderComponent, AuthorizedButtonComponent],
+  imports: [ BuilderPortalPageComponent,RouterLink, EnterpriseFormPageHeaderComponent, AuthorizedButtonComponent],
   template: `
-    <app-base-page>
+    <app-bp-page>
       <div class="plans-page">
-        <app-page-header
+        <app-enterprise-form-page-header
           eyebrow="Subscription"
           title="Choose a plan"
-          description="Upgrade or switch plans. Payment gateway checkout is abstracted and not live in V1."
+          subtitle="Upgrade or switch plans. Payment gateway checkout is abstracted and not live in V1."
+          mode="view"
         >
-          <a pageActions routerLink="/builder-portal/subscription">Back to subscription</a>
-        </app-page-header>
+          <a formHeaderActions routerLink="/builder-portal/subscription">Back to subscription</a>
+        </app-enterprise-form-page-header>
 
         <div class="plans-grid">
           @for (plan of plans; track plan.id) {
@@ -45,7 +47,7 @@ import { SubscriptionService } from '../services/subscription.service';
           }
         </div>
       </div>
-    </app-base-page>
+    </app-bp-page>
   `,
   styles: `
     .plans-page { display: grid; gap: 1rem; }
@@ -61,8 +63,7 @@ import { SubscriptionService } from '../services/subscription.service';
     .plan-card__price { font-size: 1.25rem; font-weight: 700; margin: 0; }
     ul { margin: 0; padding-left: 1.1rem; }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class SubscriptionPlansPageComponent {
   private readonly subscriptionService = inject(SubscriptionService);
   private readonly toast = inject(UiToastService);

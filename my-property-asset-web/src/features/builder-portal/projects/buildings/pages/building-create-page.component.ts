@@ -3,8 +3,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
+import { EnterpriseFormShellComponent, UiToastService } from '@shared/ui';
 
+import { BuilderPortalPageComponent } from '../../../components/layout';
 import { ProjectStoreService } from '../../services/project-store.service';
 import { BuildingFormComponent } from '../components/form/building-form.component';
 import { BuildingFormModel } from '../models/building.model';
@@ -13,35 +14,24 @@ import { BuildingService } from '../services/building.service';
 
 @Component({
   selector: 'app-building-create-page',
-  imports: [BasePageComponent, PageHeaderComponent, BuildingFormComponent, ButtonComponent],
+  imports: [BuilderPortalPageComponent, EnterpriseFormShellComponent, BuildingFormComponent],
   template: `
-    <app-base-page>
-      <div class="bldg-page">
-        <app-page-header
-          eyebrow="Buildings"
-          title="Create building"
-          description="Add a tower or block under this project. Codes must be unique within the project."
-        />
+    <app-bp-page>
+      <app-enterprise-form-shell
+        title="Create building"
+        subtitle="Add a tower or block under this project. Codes must be unique within the project."
+        mode="create"
+        [state]="saving ? 'saving' : 'idle'"
+        (save)="submit()"
+        (cancel)="cancel()"
+      >
         <app-bldg-form
           [initialModel]="initialModel()"
           [codeExistsCheck]="codeExistsCheck"
           (submitted)="onSubmit($event)"
         />
-        <div class="bldg-form-actions">
-          <app-button label="Create building" icon="pi pi-check" [loading]="saving" (clicked)="submit()" />
-          <app-button label="Cancel" [outlined]="true" (clicked)="cancel()" />
-        </div>
-      </div>
-    </app-base-page>
-  `,
-  styles: `
-    .bldg-form-actions {
-      display: flex;
-      gap: 0.5rem;
-      justify-content: flex-end;
-      padding-top: 1rem;
-      border-top: 1px solid var(--mpa-color-border, #e5e7eb);
-    }
+      </app-enterprise-form-shell>
+    </app-bp-page>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

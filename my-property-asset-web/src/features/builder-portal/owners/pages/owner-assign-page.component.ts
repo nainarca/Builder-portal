@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
+import { EnterpriseFormShellComponent, UiToastService } from '@shared/ui';
 
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ProjectStoreService } from '../../projects/services/project-store.service';
 import { OwnerAssignmentWizardComponent } from '../components/form/owner-assignment-wizard.component';
 import { OwnerAssignmentFormModel } from '../models/owner.model';
@@ -10,15 +11,17 @@ import { OwnerStoreService } from '../services/owner-store.service';
 
 @Component({
   selector: 'app-owner-assign-page',
-  imports: [BasePageComponent, PageHeaderComponent, OwnerAssignmentWizardComponent, ButtonComponent],
+  imports: [BuilderPortalPageComponent, EnterpriseFormShellComponent, OwnerAssignmentWizardComponent],
   template: `
-    <app-base-page>
-      <div class="owner-page">
-        <app-page-header
-          eyebrow="Owners"
-          title="Assign owner"
-          description="Link a prospective or existing owner to an available unit and send an invitation."
-        />
+    <app-bp-page>
+      <app-enterprise-form-shell
+        title="Assign owner"
+        subtitle="Link a prospective or existing owner to an available unit and send an invitation."
+        mode="create"
+        [state]="saving ? 'saving' : 'idle'"
+        (save)="submit()"
+        (cancel)="cancel()"
+      >
         <app-owner-assignment-wizard
           [initialModel]="initialModel"
           [existingOwners]="prospects()"
@@ -26,22 +29,8 @@ import { OwnerStoreService } from '../services/owner-store.service';
           [availableUnits]="availableUnits()"
           (submitted)="onSubmit($event)"
         />
-        <div class="owner-form-page-actions">
-          <app-button label="Assign owner" icon="pi pi-check" [loading]="saving" (clicked)="submit()" />
-          <app-button label="Cancel" [outlined]="true" (clicked)="cancel()" />
-        </div>
-      </div>
-    </app-base-page>
-  `,
-  styles: `
-    .owner-form-page-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--mpa-spacing-sm);
-      justify-content: flex-end;
-      padding-top: var(--mpa-spacing-md);
-      border-top: 1px solid var(--mpa-color-border);
-    }
+      </app-enterprise-form-shell>
+    </app-bp-page>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

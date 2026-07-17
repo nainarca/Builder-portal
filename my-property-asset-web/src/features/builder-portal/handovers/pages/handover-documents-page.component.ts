@@ -1,18 +1,19 @@
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent, UiToastService } from '@shared/ui';
+import { ButtonComponent, EmptyNoDataComponent, UiToastService } from '@shared/ui';
 
 import { HandoverDocumentService } from '../services/handover-document.service';
 import { HandoverStoreService } from '../services/handover-store.service';
 
 @Component({
   selector: 'app-handover-documents-page',
-  imports: [BasePageComponent, ButtonComponent, RouterLink],
+  imports: [ BuilderPortalPageComponent, ButtonComponent, EmptyNoDataComponent, RouterLink],
   template: `
-    <app-base-page>
+    <app-bp-page>
       @if (handover(); as h) {
         <div class="handover-page handover-page--detail">
           <header class="handover-header">
@@ -62,11 +63,15 @@ import { HandoverStoreService } from '../services/handover-store.service';
             }
           </div>
         </div>
+      } @else {
+        <app-empty-no-data
+          title="Handover not found"
+          description="The requested handover does not exist."
+        />
       }
-    </app-base-page>
+    </app-bp-page>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class HandoverDocumentsPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -75,16 +80,14 @@ export class HandoverDocumentsPageComponent {
   private readonly toast = inject(UiToastService);
 
   private readonly handoverId = toSignal(this.route.paramMap.pipe(map((p) => p.get('id') ?? '')), {
-    initialValue: '',
-  });
+    initialValue: '' });
 
   readonly handover = computed(() => this.store.getById(this.handoverId()));
   readonly buckets = computed(() => this.documents.getBuckets(this.handoverId()));
 
   goToUpload(projectId: string, unitId: string): void {
     void this.router.navigate(['/builder-portal/documents/upload'], {
-      queryParams: { projectId, unitId },
-    });
+      queryParams: { projectId, unitId } });
   }
 
   verify(handoverId: string, documentId: string, name: string): void {

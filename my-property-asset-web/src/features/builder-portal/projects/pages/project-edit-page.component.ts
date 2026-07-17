@@ -3,48 +3,41 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
+import { EmptyNoDataComponent, EnterpriseFormShellComponent, UiToastService } from '@shared/ui';
 
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ProjectFormComponent } from '../components/form/project-form.component';
 import { ProjectFormModel } from '../models/project.model';
 import { ProjectStoreService } from '../services/project-store.service';
 
 @Component({
   selector: 'app-project-edit-page',
-  imports: [BasePageComponent, PageHeaderComponent, ProjectFormComponent, ButtonComponent],
+  imports: [
+    BuilderPortalPageComponent,
+    EnterpriseFormShellComponent,
+    EmptyNoDataComponent,
+    ProjectFormComponent,
+  ],
   template: `
-    <app-base-page>
+    <app-bp-page>
       @if (initialModel(); as model) {
-        <div class="proj-page">
-          <app-page-header
-            eyebrow="Projects"
-            [title]="'Edit ' + model.name"
-            description="Update project details and construction status."
-          />
+        <app-enterprise-form-shell
+          [title]="'Edit ' + model.name"
+          subtitle="Update project details and construction status."
+          mode="edit"
+          [state]="saving ? 'saving' : 'idle'"
+          (save)="submit()"
+          (cancel)="cancel()"
+        >
           <app-proj-form [initialModel]="model" (submitted)="onSubmit($event)" />
-          <div class="proj-form-page-actions">
-            <app-button label="Save changes" icon="pi pi-check" [loading]="saving" (clicked)="submit()" />
-            <app-button label="Cancel" [outlined]="true" (clicked)="cancel()" />
-          </div>
-        </div>
+        </app-enterprise-form-shell>
       } @else {
-        <div class="proj-page proj-page--empty">
-          <h1 class="ui-page-title">Project not found</h1>
-        </div>
+        <app-empty-no-data title="Project not found" description="The requested project does not exist or was removed."
+        />
       }
-    </app-base-page>
+    </app-bp-page>
   `,
   styleUrl: './project-edit-page.component.scss',
-  styles: `
-    .proj-form-page-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--mpa-spacing-sm);
-      justify-content: flex-end;
-      padding-top: var(--mpa-spacing-md);
-      border-top: 1px solid var(--mpa-color-border);
-    }
-  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectEditPageComponent {

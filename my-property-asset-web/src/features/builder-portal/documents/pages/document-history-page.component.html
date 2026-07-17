@@ -1,14 +1,15 @@
-<app-base-page>
+<app-bp-page>
   @if (document(); as doc) {
     <div class="doc-page">
-      <app-page-header
+      <app-enterprise-form-page-header
         eyebrow="Documents"
         [title]="'Version history — ' + doc.name"
-        description="Every version uploaded for this document, newest first."
+        subtitle="Every version uploaded for this document, newest first."
+        mode="view"
       >
-        <app-button pageActions label="Back to document" icon="pi pi-arrow-left" [outlined]="true" (clicked)="goBack()" />
-        <app-button pageActions label="Add version" icon="pi pi-upload" (clicked)="openAddVersion()" />
-      </app-page-header>
+        <app-button formHeaderActions label="Back to document" icon="pi pi-arrow-left" [outlined]="true" (clicked)="goBack()" />
+        <app-button formHeaderActions label="Add version" icon="pi pi-upload" (clicked)="openAddVersion()" />
+      </app-enterprise-form-page-header>
 
       <app-current-version-card [version]="doc.versions[0]" />
 
@@ -40,8 +41,9 @@
       </div>
     </app-modal-shell>
   } @else {
-    <div class="doc-page doc-page--empty">
-      <h1 class="ui-page-title">Document not found</h1>
-    </div>
+    <app-empty-no-data
+      title="Document not found"
+      description="The requested document does not exist or was removed."
+    />
   }
-</app-base-page>
+</app-bp-page>

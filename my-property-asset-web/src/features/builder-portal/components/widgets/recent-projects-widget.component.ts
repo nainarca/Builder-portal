@@ -10,7 +10,7 @@ import { DashboardWidgetShellComponent } from '../dashboard/dashboard-widget-she
     <app-bp-dashboard-widget-shell
       title="Recent projects"
       icon="pi pi-briefcase"
-      description="Latest activity across your portfolio"
+      subtitle="Latest activity across your portfolio"
       [refreshable]="true"
       [loading]="loading()"
       (refresh)="refresh.emit()"

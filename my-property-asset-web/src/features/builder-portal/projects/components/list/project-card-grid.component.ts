@@ -11,7 +11,7 @@ import { ProjectEmptyStateComponent } from '../shared/project-empty-state.compon
     @if (items().length === 0) {
       <app-proj-empty-state
         title="No projects match your filters"
-        description="Try adjusting your search or filters."
+        subtitle="Try adjusting your search or filters."
         [actionLabel]="undefined"
       />
     } @else {

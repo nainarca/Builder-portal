@@ -3,8 +3,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
+import { EnterpriseFormShellComponent, UiToastService } from '@shared/ui';
 
+import { BuilderPortalPageComponent } from '../../../components/layout';
 import { UnitFormComponent } from '../components/form/unit-form.component';
 import { UnitFormModel } from '../models/unit.model';
 import { UnitStoreService } from '../services/unit-store.service';
@@ -12,32 +13,20 @@ import { PlanEnforcementService } from '../../../subscription/services/plan-enfo
 
 @Component({
   selector: 'app-unit-create-page',
-  imports: [BasePageComponent, PageHeaderComponent, UnitFormComponent, ButtonComponent],
+  imports: [BuilderPortalPageComponent, EnterpriseFormShellComponent, UnitFormComponent],
   template: `
-    <app-base-page>
-      <div class="unit-page">
-        <app-page-header
-          eyebrow="Units"
-          title="Create unit"
-          description="Register a new unit and begin tracking its construction progress."
-        />
+    <app-bp-page>
+      <app-enterprise-form-shell
+        title="Create unit"
+        subtitle="Register a new unit and begin tracking its construction progress."
+        mode="create"
+        [state]="saving ? 'saving' : 'idle'"
+        (save)="submit()"
+        (cancel)="cancel()"
+      >
         <app-unit-form [initialModel]="initialModel()" [towers]="towers()" (submitted)="onSubmit($event)" />
-        <div class="unit-form-page-actions">
-          <app-button label="Create unit" icon="pi pi-check" [loading]="saving" (clicked)="submit()" />
-          <app-button label="Cancel" [outlined]="true" (clicked)="cancel()" />
-        </div>
-      </div>
-    </app-base-page>
-  `,
-  styles: `
-    .unit-form-page-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--mpa-spacing-sm);
-      justify-content: flex-end;
-      padding-top: var(--mpa-spacing-md);
-      border-top: 1px solid var(--mpa-color-border);
-    }
+      </app-enterprise-form-shell>
+    </app-bp-page>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

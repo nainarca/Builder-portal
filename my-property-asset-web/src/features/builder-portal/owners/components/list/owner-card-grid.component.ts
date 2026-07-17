@@ -11,7 +11,7 @@ import { OwnerEmptyStateComponent } from '../shared/owner-empty-state.component'
     @if (items().length === 0) {
       <app-owner-empty-state
         title="No owners match your filters"
-        description="Try adjusting your search or filters."
+        subtitle="Try adjusting your search or filters."
         [actionLabel]="undefined"
       />
     } @else {

@@ -1,24 +1,26 @@
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
+import { ButtonComponent, EnterpriseFormPageHeaderComponent, UiToastService } from '@shared/ui';
 import { formatMoney } from '../config/subscription.config';
 import { SubscriptionService } from '../services/subscription.service';
 
 @Component({
   selector: 'app-subscription-invoices-page',
-  imports: [RouterLink, BasePageComponent, PageHeaderComponent, ButtonComponent],
+  imports: [ BuilderPortalPageComponent,RouterLink, EnterpriseFormPageHeaderComponent, ButtonComponent],
   template: `
-    <app-base-page>
+    <app-bp-page>
       <div class="inv-page">
-        <app-page-header
+        <app-enterprise-form-page-header
           eyebrow="Billing"
           title="Invoices & payments"
-          description="Invoice history and payment records. PDF download is a placeholder in V1."
+          subtitle="Invoice history and payment records. PDF download is a placeholder in V1."
+          mode="view"
         >
-          <app-button pageActions label="Generate invoice" icon="pi pi-file" (clicked)="generate()" />
-          <a pageActions routerLink="/builder-portal/subscription">Back</a>
-        </app-page-header>
+          <app-button formHeaderActions label="Generate invoice" icon="pi pi-file" (clicked)="generate()" />
+          <a formHeaderActions routerLink="/builder-portal/subscription">Back</a>
+        </app-enterprise-form-page-header>
 
         <section class="inv-card">
           <h3>Invoices</h3>
@@ -82,7 +84,7 @@ import { SubscriptionService } from '../services/subscription.service';
           </table>
         </section>
       </div>
-    </app-base-page>
+    </app-bp-page>
   `,
   styles: `
     .inv-page { display: grid; gap: 1rem; }
@@ -95,8 +97,7 @@ import { SubscriptionService } from '../services/subscription.service';
     table { width: 100%; border-collapse: collapse; }
     th, td { padding: 0.65rem; border-bottom: 1px solid var(--mpa-color-border); text-align: left; }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class SubscriptionInvoicesPageComponent {
   private readonly subscriptionService = inject(SubscriptionService);
   private readonly toast = inject(UiToastService);

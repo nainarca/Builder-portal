@@ -3,8 +3,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
+import { EmptyNoDataComponent, EnterpriseFormShellComponent, UiToastService } from '@shared/ui';
 
+import { BuilderPortalPageComponent } from '../../../components/layout';
 import { BuildingFormComponent } from '../components/form/building-form.component';
 import { BuildingFormModel } from '../models/building.model';
 import { BuildingUnsavedChangesHost } from '../guards/building-unsaved-changes.guard';
@@ -12,39 +13,34 @@ import { BuildingService } from '../services/building.service';
 
 @Component({
   selector: 'app-building-edit-page',
-  imports: [BasePageComponent, PageHeaderComponent, BuildingFormComponent, ButtonComponent],
+  imports: [
+    BuilderPortalPageComponent,
+    EnterpriseFormShellComponent,
+    EmptyNoDataComponent,
+    BuildingFormComponent,
+  ],
   template: `
-    <app-base-page>
+    <app-bp-page>
       @if (building(); as b) {
-        <div class="bldg-page">
-          <app-page-header
-            eyebrow="Buildings"
-            title="Edit building"
-            [description]="'Update ' + b.name"
-          />
+        <app-enterprise-form-shell
+          title="Edit building"
+          [subtitle]="'Update ' + b.name"
+          mode="edit"
+          [state]="saving ? 'saving' : 'idle'"
+          (save)="submit()"
+          (cancel)="cancel()"
+        >
           <app-bldg-form
             [initialModel]="initialModel()"
             [codeExistsCheck]="codeExistsCheck"
             (submitted)="onSubmit($event)"
           />
-          <div class="bldg-form-actions">
-            <app-button label="Save changes" icon="pi pi-check" [loading]="saving" (clicked)="submit()" />
-            <app-button label="Cancel" [outlined]="true" (clicked)="cancel()" />
-          </div>
-        </div>
+        </app-enterprise-form-shell>
       } @else {
-        <h1 class="ui-page-title">Building not found</h1>
+        <app-empty-no-data title="Building not found" description="The requested building does not exist or belongs to another project."
+        />
       }
-    </app-base-page>
-  `,
-  styles: `
-    .bldg-form-actions {
-      display: flex;
-      gap: 0.5rem;
-      justify-content: flex-end;
-      padding-top: 1rem;
-      border-top: 1px solid var(--mpa-color-border, #e5e7eb);
-    }
+    </app-bp-page>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -1,4 +1,4 @@
-<app-base-page>
+<app-bp-page>
   @if (building(); as b) {
     <div class="bldg-page bldg-page--detail">
       <app-bldg-header [building]="b" [projectName]="project()?.name ?? 'Project'">
@@ -45,9 +45,7 @@
       </section>
     </div>
   } @else {
-    <div class="bldg-page bldg-page--empty">
-      <h1 class="ui-page-title">Building not found</h1>
-      <p class="ui-page-subtitle">The requested building does not exist or belongs to another project.</p>
-    </div>
+    <app-empty-no-data title="Building not found" description="The requested building does not exist or belongs to another project."
+    />
   }
-</app-base-page>
+</app-bp-page>

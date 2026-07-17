@@ -19,7 +19,7 @@ import { DashboardWidgetShellComponent } from '../dashboard/dashboard-widget-she
       @if (items().length === 0) {
         <app-empty-state
           title="No appointments scheduled"
-          description="Site visits and handover walkthroughs will appear here."
+          subtitle="Site visits and handover walkthroughs will appear here."
           icon="map-marker"
           [actionLabel]="undefined"
         />

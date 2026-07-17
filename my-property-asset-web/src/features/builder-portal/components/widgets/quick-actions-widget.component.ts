@@ -11,7 +11,7 @@ import { ActionButtonGridComponent } from '../quick-actions/action-button-grid.c
     <app-bp-dashboard-widget-shell
       title="Quick actions"
       icon="pi pi-bolt"
-      description="Pinned and favorite builder actions"
+      subtitle="Pinned and favorite builder actions"
       [refreshable]="false"
     >
       <app-bp-action-button-grid

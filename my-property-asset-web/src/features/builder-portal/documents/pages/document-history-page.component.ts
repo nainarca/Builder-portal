@@ -1,26 +1,33 @@
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent, InputTextComponent, ModalShellComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
+import {
+  ButtonComponent,
+  EmptyNoDataComponent,
+  EnterpriseFormPageHeaderComponent,
+  InputTextComponent,
+  ModalShellComponent,
+  UiToastService,
+} from '@shared/ui';
 
 import {
   CurrentVersionCardComponent,
   VersionComparisonPlaceholderComponent,
   VersionHistoryListComponent,
-  VersionTimelineComponent,
-} from '../components/version';
+  VersionTimelineComponent } from '../components/version';
 import { DocumentStoreService } from '../services/document-store.service';
 
 @Component({
   selector: 'app-document-history-page',
-  imports: [
-    BasePageComponent,
+  imports: [ BuilderPortalPageComponent,
     ButtonComponent,
+    EmptyNoDataComponent,
     InputTextComponent,
     ModalShellComponent,
-    PageHeaderComponent,
+    EnterpriseFormPageHeaderComponent,
     CurrentVersionCardComponent,
     VersionHistoryListComponent,
     VersionTimelineComponent,
@@ -28,8 +35,7 @@ import { DocumentStoreService } from '../services/document-store.service';
   ],
   templateUrl: './document-history-page.component.html',
   styleUrl: './document-history-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class DocumentHistoryPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -37,8 +43,7 @@ export class DocumentHistoryPageComponent {
   private readonly toast = inject(UiToastService);
 
   private readonly documentId = toSignal(this.route.paramMap.pipe(map((p) => p.get('id') ?? '')), {
-    initialValue: '',
-  });
+    initialValue: '' });
 
   readonly document = computed(() => this.store.getById(this.documentId()));
 

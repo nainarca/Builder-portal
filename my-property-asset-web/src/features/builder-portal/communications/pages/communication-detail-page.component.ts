@@ -1,3 +1,4 @@
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -5,29 +6,28 @@ import { JsonPipe } from '@angular/common';
 import { map } from 'rxjs';
 
 import { AuthorizedButtonComponent } from '@core/rbac';
-import { BasePageComponent, ButtonComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
+import { ButtonComponent, EmptyNoDataComponent, EnterpriseFormPageHeaderComponent, UiToastService } from '@shared/ui';
 import { CommunicationDeliveryService } from '../services/communication-delivery.service';
 import { CommunicationService } from '../services/communication.service';
 
 @Component({
   selector: 'app-communication-detail-page',
-  imports: [
+  imports: [ BuilderPortalPageComponent,
     JsonPipe,
     RouterLink,
-    BasePageComponent,
-    PageHeaderComponent,
-    ButtonComponent,
+    EmptyNoDataComponent,
+    EnterpriseFormPageHeaderComponent, ButtonComponent,
     AuthorizedButtonComponent,
   ],
   template: `
-    <app-base-page>
+    <app-bp-page>
       @if (communication(); as item) {
         <div class="comm-detail">
-          <app-page-header [title]="item.title" [description]="item.shortDescription">
-            <app-button pageActions label="Back" [outlined]="true" routerLink="/builder-portal/communications" />
+          <app-enterprise-form-page-header [title]="item.title" [subtitle]="item.shortDescription" mode="view">
+            <app-button formHeaderActions label="Back" [outlined]="true" routerLink="/builder-portal/communications" />
             @if (item.status === 'draft' || item.status === 'scheduled') {
               <app-button
-                pageActions
+                formHeaderActions
                 label="Edit"
                 icon="pi pi-pencil"
                 [outlined]="true"
@@ -36,7 +36,7 @@ import { CommunicationService } from '../services/communication.service';
             }
             @if (item.status === 'draft' || item.status === 'scheduled') {
               <app-authorized-button
-                pageActions
+                formHeaderActions
                 label="Publish now"
                 icon="pi pi-send"
                 permission="id-11-notification:operate"
@@ -44,14 +44,14 @@ import { CommunicationService } from '../services/communication.service';
               />
             }
             <app-authorized-button
-              pageActions
+              formHeaderActions
               label="Archive"
               icon="pi pi-inbox"
               [outlined]="true"
               permission="id-11-notification:operate"
               (clicked)="archive()"
             />
-          </app-page-header>
+          </app-enterprise-form-page-header>
 
           <section class="comm-detail__grid">
             <article>
@@ -86,9 +86,12 @@ import { CommunicationService } from '../services/communication.service';
           </section>
         </div>
       } @else {
-        <p>Communication not found.</p>
+        <app-empty-no-data
+          title="Communication not found"
+          description="The requested communication does not exist or was removed."
+        />
       }
-    </app-base-page>
+    </app-bp-page>
   `,
   styles: `
     .comm-detail__grid {
@@ -105,8 +108,7 @@ import { CommunicationService } from '../services/communication.service';
     pre { margin: 0; overflow: auto; font-size: 0.8rem; }
     @media (max-width: 900px) { .comm-detail__grid { grid-template-columns: 1fr; } }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class CommunicationDetailPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly communicationService = inject(CommunicationService);

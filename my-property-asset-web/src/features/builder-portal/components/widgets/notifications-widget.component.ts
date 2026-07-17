@@ -19,7 +19,7 @@ import { DashboardWidgetShellComponent } from '../dashboard/dashboard-widget-she
       @if (items().length === 0) {
         <app-empty-state
           title="You're all caught up"
-          description="New notifications will appear here."
+          subtitle="New notifications will appear here."
           icon="bell"
           [actionLabel]="undefined"
         />

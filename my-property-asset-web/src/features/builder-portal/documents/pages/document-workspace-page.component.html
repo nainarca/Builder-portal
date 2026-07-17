@@ -1,13 +1,14 @@
-<app-base-page>
+<app-bp-page>
   <div class="doc-page">
-    <app-page-header
+    <app-enterprise-form-page-header
       [eyebrow]="header.eyebrow"
       [title]="header.title"
-      [description]="header.description"
+      [subtitle]="header.description"
+      mode="view"
     >
-      <app-button pageActions label="Categories" icon="pi pi-th-large" [outlined]="true" (clicked)="goToCategories()" />
-      <app-button pageActions label="Add document" icon="pi pi-plus" (clicked)="goToUpload()" />
-    </app-page-header>
+      <app-button formHeaderActions label="Categories" icon="pi pi-th-large" [outlined]="true" (clicked)="goToCategories()" />
+      <app-button formHeaderActions label="Add document" icon="pi pi-plus" (clicked)="goToUpload()" />
+    </app-enterprise-form-page-header>
 
     <section class="doc-quick-stats" aria-label="Document quick statistics">
       @for (kpi of kpis(); track kpi.id) {
@@ -109,4 +110,4 @@
       (pageChange)="onCardPageChange($event)"
     />
   </div>
-</app-base-page>
+</app-bp-page>

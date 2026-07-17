@@ -11,7 +11,7 @@ import { DashboardWidgetShellComponent } from '../dashboard/dashboard-widget-she
     <app-bp-dashboard-widget-shell
       title="Project progress"
       icon="pi pi-gauge"
-      description="Completion tracking for active sites"
+      subtitle="Completion tracking for active sites"
       [refreshable]="true"
       [loading]="loading()"
       (refresh)="refresh.emit()"

@@ -1,9 +1,10 @@
+import { BuilderPortalPageComponent } from '../../../components/layout';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent, UiToastService } from '@shared/ui';
+import { ButtonComponent, EmptyNoDataComponent, UiToastService } from '@shared/ui';
 
 import { OwnerStoreService } from '../../../owners/services/owner-store.service';
 import { ApprovalStoreService } from '../../approval/services/approval-store.service';
@@ -14,9 +15,9 @@ import { CompletionStoreService } from '../services/completion-store.service';
 
 @Component({
   selector: 'app-certificate-page',
-  imports: [
-    BasePageComponent,
+  imports: [ BuilderPortalPageComponent,
     ButtonComponent,
+    EmptyNoDataComponent,
     CertificatePreviewComponent,
     QrVerificationPlaceholderComponent,
     PdfDownloadPlaceholderComponent,
@@ -24,8 +25,7 @@ import { CompletionStoreService } from '../services/completion-store.service';
   ],
   templateUrl: './certificate-page.component.html',
   styleUrl: './certificate-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class CertificatePageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -36,8 +36,7 @@ export class CertificatePageComponent {
   private readonly toast = inject(UiToastService);
 
   private readonly handoverId = toSignal(this.route.paramMap.pipe(map((p) => p.get('id') ?? '')), {
-    initialValue: '',
-  });
+    initialValue: '' });
 
   readonly handover = computed(() => this.handoverStore.getById(this.handoverId()));
   readonly approval = computed(() => this.approvalStore.getByHandoverId(this.handoverId()));

@@ -1,9 +1,10 @@
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { DatePipe, JsonPipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { AuthorizedButtonComponent } from '@core/rbac';
-import { BasePageComponent, ButtonComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
+import { ButtonComponent, EnterpriseFormPageHeaderComponent, UiToastService } from '@shared/ui';
 import { WlDevicePreviewComponent } from '@features/super-admin/branding/components/shared/wl-device-preview.component';
 import { WlThemePreviewPanelComponent } from '@features/super-admin/branding/components/shared/wl-theme-preview-panel.component';
 import { PreviewDevice, PreviewSurface } from '@features/super-admin/branding/models/brand-admin.model';
@@ -13,35 +14,34 @@ import { BuilderBrandingService } from '../services/builder-branding.service';
 
 @Component({
   selector: 'app-builder-branding-page',
-  imports: [
+  imports: [ BuilderPortalPageComponent,
     DatePipe,
     JsonPipe,
     ReactiveFormsModule,
-    BasePageComponent,
-    PageHeaderComponent,
-    ButtonComponent,
+    EnterpriseFormPageHeaderComponent, ButtonComponent,
     AuthorizedButtonComponent,
     WlDevicePreviewComponent,
     WlThemePreviewPanelComponent,
     BuilderBrandLivePreviewComponent,
   ],
   template: `
-    <app-base-page>
+    <app-bp-page>
       <div class="bp-branding-page">
-        <app-page-header
+        <app-enterprise-form-page-header
           eyebrow="Builder Portal"
           title="White Label Branding"
-          description="Configure builder identity, theme, support details, and API payload for the Owner App."
+          subtitle="Configure builder identity, theme, support details, and API payload for the Owner App."
+          mode="view"
         >
           <app-authorized-button
-            pageActions
+            formHeaderActions
             label="Save branding"
             icon="pi pi-check"
             permission="id-04-white-label-branding:full"
             (clicked)="save()"
           />
           <app-authorized-button
-            pageActions
+            formHeaderActions
             label="Disable"
             icon="pi pi-ban"
             severity="danger"
@@ -50,15 +50,15 @@ import { BuilderBrandingService } from '../services/builder-branding.service';
             (clicked)="disable()"
           />
           <app-authorized-button
-            pageActions
+            formHeaderActions
             label="Restore default"
             icon="pi pi-refresh"
             [outlined]="true"
             permission="id-04-white-label-branding:full"
             (clicked)="restoreDefault()"
           />
-          <app-button pageActions label="Reset draft" [outlined]="true" (clicked)="resetForm()" />
-        </app-page-header>
+          <app-button formHeaderActions label="Reset draft" [outlined]="true" (clicked)="resetForm()" />
+        </app-enterprise-form-page-header>
 
         <section class="bp-branding-page__status">
           <article class="bp-branding-card">
@@ -207,7 +207,7 @@ import { BuilderBrandingService } from '../services/builder-branding.service';
           </aside>
         </div>
       </div>
-    </app-base-page>
+    </app-bp-page>
   `,
   styles: `
     .bp-branding-page { display: flex; flex-direction: column; gap: 1.25rem; }
@@ -295,8 +295,7 @@ import { BuilderBrandingService } from '../services/builder-branding.service';
       .bp-branding-preview { position: static; }
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class BuilderBrandingPageComponent {
   private readonly brandingService = inject(BuilderBrandingService);
   private readonly toast = inject(UiToastService);
@@ -367,16 +366,14 @@ export class BuilderBrandingPageComponent {
         instagram: new FormControl(model.socialLinks.instagram ?? '', { nonNullable: true }),
         facebook: new FormControl(model.socialLinks.facebook ?? '', { nonNullable: true }),
         x: new FormControl(model.socialLinks.x ?? '', { nonNullable: true }),
-        youtube: new FormControl(model.socialLinks.youtube ?? '', { nonNullable: true }),
-      }),
+        youtube: new FormControl(model.socialLinks.youtube ?? '', { nonNullable: true }) }),
       media: new FormGroup({
         logo: new FormControl(model.media.logo, { nonNullable: true }),
         darkLogo: new FormControl(model.media.darkLogo, { nonNullable: true }),
         favicon: new FormControl(model.media.favicon, { nonNullable: true }),
         loginBackground: new FormControl(model.media.loginBackground, { nonNullable: true }),
         dashboardBanner: new FormControl(model.media.dashboardBanner, { nonNullable: true }),
-        mobileSplashImage: new FormControl(model.media.mobileSplashImage, { nonNullable: true }),
-      }),
+        mobileSplashImage: new FormControl(model.media.mobileSplashImage, { nonNullable: true }) }),
       theme: new FormGroup({
         lightTheme: new FormControl(model.theme.lightTheme, { nonNullable: true }),
         darkTheme: new FormControl(model.theme.darkTheme, { nonNullable: true }),
@@ -384,17 +381,14 @@ export class BuilderBrandingPageComponent {
         navigationStyle: new FormControl(model.theme.navigationStyle, { nonNullable: true }),
         cardStyle: new FormControl(model.theme.cardStyle, { nonNullable: true }),
         dashboardTheme: new FormControl(model.theme.dashboardTheme, { nonNullable: true }),
-        typography: new FormControl(model.theme.typography, { nonNullable: true }),
-      }),
-      enabled: new FormControl(model.enabled, { nonNullable: true }),
-    });
+        typography: new FormControl(model.theme.typography, { nonNullable: true }) }),
+      enabled: new FormControl(model.enabled, { nonNullable: true }) });
   }
 
   private toProfile(value: ReturnType<FormGroup['getRawValue']>): BuilderBrandingProfile {
     return {
       organizationId: this.branding().organizationId,
       ...(value as BuilderBrandingFormModel),
-      lastUpdatedAt: this.branding().lastUpdatedAt,
-    };
+      lastUpdatedAt: this.branding().lastUpdatedAt };
   }
 }

@@ -11,7 +11,7 @@ import { OwnerEmptyStateComponent } from '../shared/owner-empty-state.component'
     @if (assignments().length === 0) {
       <app-owner-empty-state
         title="No recent assignments"
-        description="Newly assigned owners will appear here."
+        subtitle="Newly assigned owners will appear here."
         [actionLabel]="undefined"
       />
     } @else {

@@ -1,33 +1,36 @@
-<section class="builder-settings-page">
-  <header>
-    <p class="mpa-eyebrow">Settings</p>
-    <h1 class="ui-page-title">Organization settings</h1>
-    <p class="ui-page-subtitle">Manage company profile and invitation status for your Builder Organization.</p>
-  </header>
+<app-bp-page>
+  <section class="builder-settings-page">
+    <app-enterprise-form-page-header
+      eyebrow="Settings"
+      title="Organization settings"
+      subtitle="Manage company profile and invitation status for your Builder Organization."
+      mode="view"
+    />
 
-  <div class="builder-settings-page__grid">
-    <article class="builder-settings-page__card">
-      <h2>Company</h2>
-      <p>{{ company()?.legalName ?? organizationName() ?? 'Your builder organization' }}</p>
-      <a routerLink="/builder-portal/company">Edit company profile</a>
-    </article>
+    <div class="builder-settings-page__grid">
+      <article class="builder-settings-page__card">
+        <h2>Company</h2>
+        <p>{{ company()?.legalName ?? organizationName() ?? 'Your builder organization' }}</p>
+        <a routerLink="/builder-portal/company">Edit company profile</a>
+      </article>
 
-    <article class="builder-settings-page__card">
-      <h2>Organization</h2>
-      <p>ID: {{ organizationId() ?? 'Not resolved' }}</p>
-      <p>Status: {{ company()?.status ?? 'unknown' }}</p>
-    </article>
+      <article class="builder-settings-page__card">
+        <h2>Organization</h2>
+        <p>ID: {{ organizationId() ?? 'Not resolved' }}</p>
+        <p>Status: {{ company()?.status ?? 'unknown' }}</p>
+      </article>
 
-    <article class="builder-settings-page__card">
-      <h2>Branding</h2>
-      <p>Manage logos, theme tokens, Owner App contract payload, and branding health warnings.</p>
-      <a routerLink="/builder-portal/branding">Open branding workspace</a>
-    </article>
+      <article class="builder-settings-page__card">
+        <h2>Branding</h2>
+        <p>Manage logos, theme tokens, Owner App contract payload, and branding health warnings.</p>
+        <a routerLink="/builder-portal/branding">Open branding workspace</a>
+      </article>
 
-    <article class="builder-settings-page__card">
-      <h2>Invitations</h2>
-      <p>Accept a builder owner invitation after Super Admin provisions your company.</p>
-      <a routerLink="/builder-portal/invitation">Open invitation workspace</a>
-    </article>
-  </div>
-</section>
+      <article class="builder-settings-page__card">
+        <h2>Invitations</h2>
+        <p>Accept a builder owner invitation after Super Admin provisions your company.</p>
+        <a routerLink="/builder-portal/invitation">Open invitation workspace</a>
+      </article>
+    </div>
+  </section>
+</app-bp-page>

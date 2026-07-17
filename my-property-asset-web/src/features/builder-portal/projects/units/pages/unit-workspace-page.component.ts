@@ -4,47 +4,54 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 
 import {
-  BasePageComponent,
-  ButtonComponent,
-  ExportButtonComponent,
-  PageHeaderComponent,
+  DialogShellComponent,
+  EnterpriseDataTableShellComponent,
+  EnterpriseFormPageHeaderComponent,
+  EnterpriseTableBulkAction,
+  EnterpriseTableColumnDef,
+  EnterpriseTableViewMode,
+  GhostButtonComponent,
+  OutlineButtonComponent,
   PaginationWrapperComponent,
-  SearchFieldComponent,
-  SortControlComponent,
-  TableShellComponent,
-  TableToolbarComponent,
 } from '@shared/ui';
 
-import { UNIT_SORT_OPTIONS } from '../config/units.config';
+import { BuilderPortalPageComponent } from '../../../components/layout';
+import {
+  mapQuickFilters,
+  mapSavedViews,
+  mapTableColumns,
+  syncVisibleColumns,
+  visibleColumnIds } from '../../../utils/builder-portal-table.helpers';
 import { DashboardKpiItem } from '../../../models/dashboard.model';
+import { UNIT_SORT_OPTIONS, UNIT_TABLE_COLUMNS } from '../config/units.config';
 import {
   UnitAdvancedFiltersComponent,
-  UnitBulkActionsComponent,
   UnitCardGridComponent,
-  UnitColumnSelectorComponent,
-  UnitDataGridComponent,
-  UnitQuickFiltersComponent,
-  UnitSavedViewsComponent,
-  UnitViewToggleComponent,
-} from '../components/list';
+  UnitDataGridComponent } from '../components/list';
 import { TowerFloorSelectorComponent, TowerOverviewComponent, UnitGridVisualizationComponent, UnitQuickStatsComponent } from '../components/workspace';
-import { Unit, UnitBulkAction } from '../models/unit.model';
+import { Unit, UnitBulkAction, UnitStatus } from '../models/unit.model';
 import { UnitListStateService } from '../services/unit-list-state.service';
 import { UnitStoreService } from '../services/unit-store.service';
 import { ProjectStoreService } from '../../services/project-store.service';
 
+const STATUS_QUICK_FILTER_OPTIONS = [
+  { id: 'all' as const, label: 'All' },
+  { id: 'available' as const, label: 'Available' },
+  { id: 'reserved' as const, label: 'Reserved' },
+  { id: 'sold' as const, label: 'Sold' },
+  { id: 'blocked' as const, label: 'Blocked' },
+];
+
 @Component({
   selector: 'app-unit-workspace-page',
   imports: [
-    BasePageComponent,
-    ButtonComponent,
-    PageHeaderComponent,
+    BuilderPortalPageComponent,
+    EnterpriseFormPageHeaderComponent,
+    EnterpriseDataTableShellComponent,
+    OutlineButtonComponent,
+    GhostButtonComponent,
+    DialogShellComponent,
     RouterLink,
-    TableShellComponent,
-    TableToolbarComponent,
-    SearchFieldComponent,
-    SortControlComponent,
-    ExportButtonComponent,
     PaginationWrapperComponent,
     UnitQuickStatsComponent,
     TowerFloorSelectorComponent,
@@ -52,17 +59,11 @@ import { ProjectStoreService } from '../../services/project-store.service';
     UnitGridVisualizationComponent,
     UnitDataGridComponent,
     UnitCardGridComponent,
-    UnitViewToggleComponent,
-    UnitQuickFiltersComponent,
     UnitAdvancedFiltersComponent,
-    UnitColumnSelectorComponent,
-    UnitSavedViewsComponent,
-    UnitBulkActionsComponent,
   ],
   templateUrl: './unit-workspace-page.component.html',
   styleUrl: './unit-workspace-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class UnitWorkspacePageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -71,6 +72,12 @@ export class UnitWorkspacePageComponent {
   readonly listState = inject(UnitListStateService);
 
   readonly sortOptions = UNIT_SORT_OPTIONS.map((o) => ({ label: o.label, value: o.value }));
+
+  readonly bulkActions: readonly EnterpriseTableBulkAction[] = [
+    { id: 'archive', label: 'Archive', icon: 'pi pi-archive', severity: 'danger' },
+    { id: 'restore', label: 'Restore', icon: 'pi pi-replay' },
+    { id: 'export', label: 'Export', icon: 'pi pi-download' },
+  ];
 
   readonly projectId = toSignal(
     (this.route.parent?.paramMap ?? this.route.paramMap).pipe(map((p) => p.get('id') ?? '')),
@@ -109,7 +116,17 @@ export class UnitWorkspacePageComponent {
     ];
   });
 
-  readonly tableItems = computed(() => [...this.listState.listResult().items]);
+  readonly statusQuickFilters = computed(() =>
+    mapQuickFilters(STATUS_QUICK_FILTER_OPTIONS, this.listState.statusFilter()),
+  );
+
+  readonly savedSearchOptions = computed(() =>
+    mapSavedViews(this.listState.savedViews(), this.listState.savedViewId()),
+  );
+
+  readonly tableColumns = computed(() =>
+    mapTableColumns(UNIT_TABLE_COLUMNS, this.listState.visibleColumns()),
+  );
 
   constructor() {
     this.listState.setProjectId(this.projectId());
@@ -131,8 +148,28 @@ export class UnitWorkspacePageComponent {
     this.listState.setSort(value);
   }
 
+  onStatusFilter(filterId: string): void {
+    this.listState.setStatusFilter(filterId as UnitStatus | 'all');
+  }
+
+  onSavedView(viewId: string): void {
+    this.listState.applySavedView(viewId);
+  }
+
+  onColumnsChange(columns: readonly EnterpriseTableColumnDef[]): void {
+    syncVisibleColumns(
+      this.listState.visibleColumns(),
+      visibleColumnIds(columns),
+      (columnId) => this.listState.toggleColumn(columnId),
+    );
+  }
+
   onSelectionChange(selection: readonly Unit[]): void {
     this.listState.setSelection(selection.map((item) => item.id));
+  }
+
+  onViewModeChange(mode: EnterpriseTableViewMode): void {
+    this.listState.setViewMode(mode);
   }
 
   onCardPageChange(event: unknown): void {
@@ -146,8 +183,8 @@ export class UnitWorkspacePageComponent {
     this.listState.setPage(Math.floor(first / rows) + 1);
   }
 
-  async onBulkAction(action: UnitBulkAction): Promise<void> {
-    await this.listState.executeBulkAction(action);
+  async onBulkActionId(actionId: string): Promise<void> {
+    await this.listState.executeBulkAction(actionId as UnitBulkAction);
   }
 
   async exportAll(): Promise<void> {
@@ -156,5 +193,11 @@ export class UnitWorkspacePageComponent {
 
   openImport(): void {
     this.listState.openImportDialog();
+  }
+
+  onImportDialogVisible(visible: boolean): void {
+    if (!visible) {
+      this.listState.closeImportDialog();
+    }
   }
 }

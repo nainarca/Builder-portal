@@ -1,9 +1,10 @@
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent } from '@shared/ui';
+import { EmptyNoDataComponent } from '@shared/ui';
 
 import { DocumentSummaryPanelComponent, HandoverOverviewComponent } from '../components/detail';
 import { HandoverStatusBadgeComponent, WorkflowCardComponent } from '../components/shared';
@@ -17,7 +18,8 @@ import { HandoverStoreService } from '../services/handover-store.service';
 @Component({
   selector: 'app-handover-detail-page',
   imports: [
-    BasePageComponent,
+    BuilderPortalPageComponent,
+    EmptyNoDataComponent,
     RouterLink,
     HandoverStatusBadgeComponent,
     WorkflowCardComponent,
@@ -31,8 +33,7 @@ import { HandoverStoreService } from '../services/handover-store.service';
   ],
   templateUrl: './handover-detail-page.component.html',
   styleUrl: './handover-detail-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class HandoverDetailPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly store = inject(HandoverStoreService);
@@ -41,8 +42,7 @@ export class HandoverDetailPageComponent {
   private readonly activation = inject(OwnerActivationService);
 
   private readonly handoverId = toSignal(this.route.paramMap.pipe(map((p) => p.get('id') ?? '')), {
-    initialValue: '',
-  });
+    initialValue: '' });
 
   readonly handover = computed(() => this.store.getById(this.handoverId()));
   readonly readiness = computed(() => this.readinessService.getReadiness(this.handoverId()));

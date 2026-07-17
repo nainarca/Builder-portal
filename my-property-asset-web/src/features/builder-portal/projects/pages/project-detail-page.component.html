@@ -1,4 +1,4 @@
-<app-base-page>
+<app-bp-page>
   @if (project(); as proj) {
     <div class="proj-page proj-page--detail">
       <app-proj-header [project]="proj">
@@ -45,9 +45,7 @@
       </div>
     </div>
   } @else {
-    <div class="proj-page proj-page--empty">
-      <h1 class="ui-page-title">Project not found</h1>
-      <p class="ui-page-subtitle">The requested project does not exist or was removed.</p>
-    </div>
+    <app-empty-no-data title="Project not found" description="The requested project does not exist or was removed."
+    />
   }
-</app-base-page>
+</app-bp-page>

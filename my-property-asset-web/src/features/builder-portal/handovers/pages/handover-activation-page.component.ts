@@ -1,18 +1,19 @@
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent, UiToastService } from '@shared/ui';
+import { ButtonComponent, EmptyNoDataComponent, UiToastService } from '@shared/ui';
 
 import { OwnerActivationService } from '../services/owner-activation.service';
 import { HandoverStoreService } from '../services/handover-store.service';
 
 @Component({
   selector: 'app-handover-activation-page',
-  imports: [BasePageComponent, ButtonComponent, RouterLink],
+  imports: [ BuilderPortalPageComponent, ButtonComponent, EmptyNoDataComponent, RouterLink],
   template: `
-    <app-base-page>
+    <app-bp-page>
       @if (handover(); as h) {
         <div class="handover-page handover-page--detail">
           <header class="handover-header">
@@ -58,11 +59,15 @@ import { HandoverStoreService } from '../services/handover-store.service';
             </div>
           }
         </div>
+      } @else {
+        <app-empty-no-data
+          title="Handover not found"
+          description="The requested handover does not exist."
+        />
       }
-    </app-base-page>
+    </app-bp-page>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class HandoverActivationPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly handovers = inject(HandoverStoreService);
@@ -70,8 +75,7 @@ export class HandoverActivationPageComponent {
   private readonly toast = inject(UiToastService);
 
   private readonly handoverId = toSignal(this.route.paramMap.pipe(map((p) => p.get('id') ?? '')), {
-    initialValue: '',
-  });
+    initialValue: '' });
 
   readonly handover = computed(() => this.handovers.getById(this.handoverId()));
   readonly readiness = computed(() => this.activation.getReadiness(this.handoverId()));

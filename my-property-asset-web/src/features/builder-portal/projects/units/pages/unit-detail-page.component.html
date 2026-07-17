@@ -1,4 +1,4 @@
-<app-base-page>
+<app-bp-page>
   @if (unit(); as u) {
     <div class="unit-page unit-page--detail">
       <app-unit-header [unit]="u" [projectId]="projectId()">
@@ -27,9 +27,7 @@
       </div>
     </div>
   } @else {
-    <div class="unit-page unit-page--empty">
-      <h1 class="ui-page-title">Unit not found</h1>
-      <p class="ui-page-subtitle">The requested unit does not exist or was removed.</p>
-    </div>
+    <app-empty-no-data title="Unit not found" description="The requested unit does not exist or was removed."
+    />
   }
-</app-base-page>
+</app-bp-page>

@@ -1,24 +1,26 @@
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 
-import { BasePageComponent, PageHeaderComponent } from '@shared/ui';
+import { EnterpriseFormPageHeaderComponent } from '@shared/ui';
 
 import { CategoryGridComponent } from '../components/category';
 import { DocumentStoreService } from '../services/document-store.service';
 
 @Component({
   selector: 'app-document-categories-page',
-  imports: [BasePageComponent, PageHeaderComponent, CategoryGridComponent],
+  imports: [ BuilderPortalPageComponent,EnterpriseFormPageHeaderComponent, CategoryGridComponent],
   template: `
-    <app-base-page>
+    <app-bp-page>
       <div class="doc-page">
-        <app-page-header
+        <app-enterprise-form-page-header
           eyebrow="Document management"
           title="Categories"
-          description="Browse documents by category across every project and unit."
+          subtitle="Browse documents by category across every project and unit."
+          mode="view"
         />
         <app-category-grid [stats]="stats()" />
       </div>
-    </app-base-page>
+    </app-bp-page>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

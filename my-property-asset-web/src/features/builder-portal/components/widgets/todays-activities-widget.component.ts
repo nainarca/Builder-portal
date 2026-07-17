@@ -18,7 +18,7 @@ import { EmptyStateComponent } from '@shared/ui';
       @if (items().length === 0) {
         <app-empty-state
           title="Nothing scheduled today"
-          description="Activities and tasks for today will appear here."
+          subtitle="Activities and tasks for today will appear here."
           icon="calendar-plus"
           [actionLabel]="undefined"
         />

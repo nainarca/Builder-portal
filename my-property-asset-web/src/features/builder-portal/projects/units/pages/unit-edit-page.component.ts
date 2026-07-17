@@ -3,46 +3,39 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
+import { EmptyNoDataComponent, EnterpriseFormShellComponent, UiToastService } from '@shared/ui';
 
+import { BuilderPortalPageComponent } from '../../../components/layout';
 import { UnitFormComponent } from '../components/form/unit-form.component';
 import { UnitFormModel } from '../models/unit.model';
 import { UnitStoreService } from '../services/unit-store.service';
 
 @Component({
   selector: 'app-unit-edit-page',
-  imports: [BasePageComponent, PageHeaderComponent, UnitFormComponent, ButtonComponent],
+  imports: [
+    BuilderPortalPageComponent,
+    EnterpriseFormShellComponent,
+    EmptyNoDataComponent,
+    UnitFormComponent,
+  ],
   template: `
-    <app-base-page>
+    <app-bp-page>
       @if (initialModel(); as model) {
-        <div class="unit-page">
-          <app-page-header
-            eyebrow="Units"
-            [title]="'Edit ' + unit()!.unitNumber"
-            description="Update unit details and construction status."
-          />
+        <app-enterprise-form-shell
+          [title]="'Edit ' + unit()!.unitNumber"
+          subtitle="Update unit details and construction status."
+          mode="edit"
+          [state]="saving ? 'saving' : 'idle'"
+          (save)="submit()"
+          (cancel)="cancel()"
+        >
           <app-unit-form [initialModel]="model" [towers]="towers()" (submitted)="onSubmit($event)" />
-          <div class="unit-form-page-actions">
-            <app-button label="Save changes" icon="pi pi-check" [loading]="saving" (clicked)="submit()" />
-            <app-button label="Cancel" [outlined]="true" (clicked)="cancel()" />
-          </div>
-        </div>
+        </app-enterprise-form-shell>
       } @else {
-        <div class="unit-page unit-page--empty">
-          <h1 class="ui-page-title">Unit not found</h1>
-        </div>
+        <app-empty-no-data title="Unit not found" description="The requested unit does not exist or was removed."
+        />
       }
-    </app-base-page>
-  `,
-  styles: `
-    .unit-form-page-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--mpa-spacing-sm);
-      justify-content: flex-end;
-      padding-top: var(--mpa-spacing-md);
-      border-top: 1px solid var(--mpa-color-border);
-    }
+    </app-bp-page>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

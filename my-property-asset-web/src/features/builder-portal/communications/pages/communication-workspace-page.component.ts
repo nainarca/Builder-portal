@@ -3,20 +3,19 @@ import { Router, RouterLink } from '@angular/router';
 
 import { AuthorizedButtonComponent } from '@core/rbac';
 import {
-  BasePageComponent,
-  ButtonComponent,
-  PageHeaderComponent,
+  EnterpriseDataTableShellComponent,
+  EnterpriseFormPageHeaderComponent,
+  OutlineButtonComponent,
   PaginationWrapperComponent,
-  SearchFieldComponent,
-  TableShellComponent,
 } from '@shared/ui';
+
 import { KpiCardComponent } from '../../components/cards';
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ProjectStoreService } from '../../projects/services/project-store.service';
 import {
   COMMUNICATION_STATUS_OPTIONS,
   COMMUNICATION_TYPE_OPTIONS,
-  COMMUNICATION_WORKSPACE_HEADER,
-} from '../config/communications.config';
+  COMMUNICATION_WORKSPACE_HEADER } from '../config/communications.config';
 import { CommunicationDashboardService } from '../services/communication-dashboard.service';
 import { CommunicationService } from '../services/communication.service';
 
@@ -24,30 +23,30 @@ import { CommunicationService } from '../services/communication.service';
   selector: 'app-communication-workspace-page',
   imports: [
     RouterLink,
-    BasePageComponent,
-    PageHeaderComponent,
+    BuilderPortalPageComponent,
+    EnterpriseFormPageHeaderComponent,
+    EnterpriseDataTableShellComponent,
     AuthorizedButtonComponent,
-    SearchFieldComponent,
-    TableShellComponent,
     PaginationWrapperComponent,
     KpiCardComponent,
   ],
   template: `
-    <app-base-page>
+    <app-bp-page>
       <div class="comm-page">
-        <app-page-header
+        <app-enterprise-form-page-header
           [eyebrow]="header.eyebrow"
           [title]="header.title"
-          [description]="header.description"
+          [subtitle]="header.description"
+          mode="view"
         >
           <app-authorized-button
-            pageActions
+            formHeaderActions
             label="Create communication"
             icon="pi pi-plus"
             permission="id-11-notification:contribute"
             (clicked)="create()"
           />
-        </app-page-header>
+        </app-enterprise-form-page-header>
 
         <section class="comm-page__kpis">
           @for (kpi of kpis(); track kpi.id) {
@@ -55,13 +54,15 @@ import { CommunicationService } from '../services/communication.service';
           }
         </section>
 
-        <app-table-shell title="Communications" description="Search, filter, and manage owner messages.">
+        <app-enterprise-data-table-shell
+          [state]="'idle'"
+          [searchValue]="communicationService.query().search"
+          searchPlaceholder="Search communications"
+          tableAriaLabel="Communications table"
+          [showPagination]="false"
+          (searchChange)="onSearch($event)"
+        >
           <div tableToolbar class="comm-page__toolbar">
-            <app-search-field
-              [value]="communicationService.query().search"
-              placeholder="Search communications"
-              (valueChange)="onSearch($event)"
-            />
             <select [value]="communicationService.query().status" (change)="onStatusChange($event)">
               @for (option of statusOptions; track option.value) {
                 <option [value]="option.value">{{ option.label }}</option>
@@ -81,7 +82,7 @@ import { CommunicationService } from '../services/communication.service';
             </select>
           </div>
 
-          <table class="comm-table">
+          <table tableBody class="comm-table">
             <thead>
               <tr>
                 <th>Title</th>
@@ -109,14 +110,15 @@ import { CommunicationService } from '../services/communication.service';
           </table>
 
           <app-pagination-wrapper
+            footer
             [rows]="listResult().pageSize"
             [totalRecords]="listResult().total"
             [first]="(listResult().page - 1) * listResult().pageSize"
             (pageChange)="onPageChange($event)"
           />
-        </app-table-shell>
+        </app-enterprise-data-table-shell>
       </div>
-    </app-base-page>
+    </app-bp-page>
   `,
   styles: `
     .comm-page { display: grid; gap: 1.25rem; }
@@ -147,8 +149,7 @@ import { CommunicationService } from '../services/communication.service';
     .comm-badge--draft { background: color-mix(in srgb, var(--mpa-color-text-muted) 18%, transparent); }
     @media (max-width: 1080px) { .comm-page__kpis { grid-template-columns: 1fr 1fr; } }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class CommunicationWorkspacePageComponent {
   private readonly router = inject(Router);
   private readonly dashboard = inject(CommunicationDashboardService);
@@ -182,15 +183,13 @@ export class CommunicationWorkspacePageComponent {
   onStatusChange(event: Event): void {
     this.communicationService.setQuery({
       status: (event.target as HTMLSelectElement).value as typeof COMMUNICATION_STATUS_OPTIONS[number]['value'],
-      page: 1,
-    });
+      page: 1 });
   }
 
   onTypeChange(event: Event): void {
     this.communicationService.setQuery({
       communicationType: (event.target as HTMLSelectElement).value as 'all' | typeof COMMUNICATION_TYPE_OPTIONS[number]['value'],
-      page: 1,
-    });
+      page: 1 });
   }
 
   onProjectChange(event: Event): void {

@@ -1,43 +1,43 @@
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
 import { AuthorizedButtonComponent } from '@core/rbac';
-import { BasePageComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
+import { EnterpriseFormPageHeaderComponent, UiToastService } from '@shared/ui';
 import { formatMoney, SUBSCRIPTION_WORKSPACE_HEADER } from '../config/subscription.config';
 import { SubscriptionService } from '../services/subscription.service';
 
 @Component({
   selector: 'app-subscription-overview-page',
-  imports: [
+  imports: [ BuilderPortalPageComponent,
     RouterLink,
-    BasePageComponent,
-    PageHeaderComponent,
-    AuthorizedButtonComponent,
+    EnterpriseFormPageHeaderComponent, AuthorizedButtonComponent,
   ],
   template: `
-    <app-base-page>
+    <app-bp-page>
       <div class="sub-page">
-        <app-page-header
+        <app-enterprise-form-page-header
           [eyebrow]="header.eyebrow"
           [title]="header.title"
-          [description]="header.description"
+          [subtitle]="header.description"
+          mode="view"
         >
           <app-authorized-button
-            pageActions
+            formHeaderActions
             label="Upgrade"
             icon="pi pi-arrow-up"
             permission="id-05-subscription-commercial:operate"
             (clicked)="goToPlans()"
           />
           <app-authorized-button
-            pageActions
+            formHeaderActions
             label="Renew"
             icon="pi pi-refresh"
             [outlined]="true"
             permission="id-05-subscription-commercial:operate"
             (clicked)="renew()"
           />
-        </app-page-header>
+        </app-enterprise-form-page-header>
 
         @if (summary(); as s) {
           <section class="sub-card">
@@ -77,7 +77,7 @@ import { SubscriptionService } from '../services/subscription.service';
           </section>
         }
       </div>
-    </app-base-page>
+    </app-bp-page>
   `,
   styles: `
     .sub-page { display: grid; gap: 1rem; }
@@ -93,8 +93,7 @@ import { SubscriptionService } from '../services/subscription.service';
     a { color: var(--mpa-color-primary); font-weight: 600; }
     @media (max-width: 900px) { .sub-grid { grid-template-columns: 1fr; } }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class SubscriptionOverviewPageComponent {
   private readonly subscriptionService = inject(SubscriptionService);
   private readonly toast = inject(UiToastService);

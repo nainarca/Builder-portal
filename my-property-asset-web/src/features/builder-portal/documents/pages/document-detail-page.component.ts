@@ -1,11 +1,12 @@
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 
 import {
-  BasePageComponent,
   ButtonComponent,
+  EmptyNoDataComponent,
   InputTextComponent,
   ModalShellComponent,
   UiDialogService,
@@ -19,15 +20,15 @@ import {
   DocumentTimelineComponent,
   DownloadPlaceholderComponent,
   OwnerVisibilityPanelComponent,
-  PreviewPlaceholderComponent,
-} from '../components/detail';
+  PreviewPlaceholderComponent } from '../components/detail';
 import { DocumentHeaderComponent } from '../components/shared';
 import { DocumentStoreService } from '../services/document-store.service';
 
 @Component({
   selector: 'app-document-detail-page',
   imports: [
-    BasePageComponent,
+    BuilderPortalPageComponent,
+    EmptyNoDataComponent,
     ButtonComponent,
     InputTextComponent,
     ModalShellComponent,
@@ -41,8 +42,7 @@ import { DocumentStoreService } from '../services/document-store.service';
   ],
   templateUrl: './document-detail-page.component.html',
   styleUrl: './document-detail-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class DocumentDetailPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly store = inject(DocumentStoreService);
@@ -51,8 +51,7 @@ export class DocumentDetailPageComponent {
   private readonly toast = inject(UiToastService);
 
   private readonly documentId = toSignal(this.route.paramMap.pipe(map((p) => p.get('id') ?? '')), {
-    initialValue: '',
-  });
+    initialValue: '' });
 
   readonly document = computed(() => this.store.getById(this.documentId()));
 
@@ -77,8 +76,7 @@ export class DocumentDetailPageComponent {
       title: 'Archive document',
       message: `Archive "${doc.name}"? It will be hidden from the default explorer view until restored.`,
       acceptLabel: 'Archive',
-      acceptSeverity: 'danger',
-    });
+      acceptSeverity: 'danger' });
     if (!confirmed) {
       return;
     }
@@ -94,8 +92,7 @@ export class DocumentDetailPageComponent {
     const confirmed = await this.dialog.confirm({
       title: 'Restore document',
       message: `Restore "${doc.name}" to the active explorer?`,
-      acceptLabel: 'Restore',
-    });
+      acceptLabel: 'Restore' });
     if (!confirmed) {
       return;
     }

@@ -1,9 +1,10 @@
+import { BuilderPortalPageComponent } from '../../../components/layout';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent } from '@shared/ui';
+import { ButtonComponent, EmptyNoDataComponent } from '@shared/ui';
 
 import { KpiCardComponent } from '../../../components/cards';
 import { DashboardKpiItem } from '../../../models/dashboard.model';
@@ -16,9 +17,9 @@ import { ReadinessService } from '../services/readiness.service';
 
 @Component({
   selector: 'app-inspection-overview-page',
-  imports: [
-    BasePageComponent,
+  imports: [ BuilderPortalPageComponent,
     ButtonComponent,
+    EmptyNoDataComponent,
     KpiCardComponent,
     TimelineCardComponent,
     ReadinessCardComponent,
@@ -26,8 +27,7 @@ import { ReadinessService } from '../services/readiness.service';
   ],
   templateUrl: './inspection-overview-page.component.html',
   styleUrl: './inspection-overview-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class InspectionOverviewPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -36,8 +36,7 @@ export class InspectionOverviewPageComponent {
   private readonly readinessService = inject(ReadinessService);
 
   private readonly handoverId = toSignal(this.route.paramMap.pipe(map((p) => p.get('id') ?? '')), {
-    initialValue: '',
-  });
+    initialValue: '' });
 
   readonly handover = computed(() => this.handoverStore.getById(this.handoverId()));
   readonly inspections = computed(() => this.inspectionStore.getByHandoverId(this.handoverId()));
@@ -71,8 +70,7 @@ export class InspectionOverviewPageComponent {
         description: `${i.completionPercent}% complete — ${i.result.replace(/-/g, ' ')}`,
         timestamp: i.updatedAt,
         icon: 'pi pi-check-square',
-        tone: i.result === 'failed' || i.result === 'blocked' ? 'danger' : i.result === 'passed-with-remarks' ? 'warning' : 'info',
-      })),
+        tone: i.result === 'failed' || i.result === 'blocked' ? 'danger' : i.result === 'passed-with-remarks' ? 'warning' : 'info' })),
   );
 
   openChecklist(handoverId: string): void {

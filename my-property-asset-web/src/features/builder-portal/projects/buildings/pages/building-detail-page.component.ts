@@ -3,7 +3,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent, UiDialogService, UiToastService } from '@shared/ui';
+import { ButtonComponent, EmptyNoDataComponent, UiDialogService, UiToastService } from '@shared/ui';
+
+import { BuilderPortalPageComponent } from '../../../components/layout';
 
 import { ProjectStoreService } from '../../services/project-store.service';
 import { BuildingHeaderComponent } from '../components/shared/building-header.component';
@@ -13,7 +15,13 @@ import { BuildingService } from '../services/building.service';
 
 @Component({
   selector: 'app-building-detail-page',
-  imports: [BasePageComponent, ButtonComponent, BuildingHeaderComponent, BuildingStatusBadgeComponent],
+  imports: [
+    BuilderPortalPageComponent,
+    EmptyNoDataComponent,
+    ButtonComponent,
+    BuildingHeaderComponent,
+    BuildingStatusBadgeComponent,
+  ],
   templateUrl: './building-detail-page.component.html',
   styleUrl: './building-detail-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

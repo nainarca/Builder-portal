@@ -2,48 +2,52 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { Router } from '@angular/router';
 
 import {
-  BasePageComponent,
-  ButtonComponent,
-  ExportButtonComponent,
-  PageHeaderComponent,
+  EnterpriseDataTableShellComponent,
+  EnterpriseFormPageHeaderComponent,
+  EnterpriseTableBulkAction,
+  EnterpriseTableColumnDef,
+  EnterpriseTableViewMode,
+  GhostButtonComponent,
+  OutlineButtonComponent,
   PaginationWrapperComponent,
-  SearchFieldComponent,
-  SortControlComponent,
-  TableShellComponent,
-  TableToolbarComponent,
 } from '@shared/ui';
 
 import { KpiCardComponent } from '../../components/cards';
 import { ChartWrapperComponent } from '../../components/charts';
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { DashboardChartConfig, DashboardKpiItem } from '../../models/dashboard.model';
+import {
+  mapQuickFilters,
+  mapSavedViews,
+  mapTableColumns,
+  syncVisibleColumns,
+  visibleColumnIds } from '../../utils/builder-portal-table.helpers';
 import { ProjectStoreService } from '../../projects/services/project-store.service';
 import {
   OwnerAdvancedFiltersComponent,
-  OwnerBulkActionsComponent,
   OwnerCardGridComponent,
-  OwnerColumnSelectorComponent,
-  OwnerDataGridComponent,
-  OwnerQuickFiltersComponent,
-  OwnerSavedViewsComponent,
-  OwnerViewToggleComponent,
-} from '../components/list';
+  OwnerDataGridComponent } from '../components/list';
 import { AssignmentSummaryRow, AssignmentSummaryWidgetComponent, RecentAssignmentsWidgetComponent } from '../components/workspace';
-import { OWNER_WORKSPACE_HEADER, OWNER_SORT_OPTIONS } from '../config/owners.config';
-import { OwnerBulkAction, OwnerListItem } from '../models/owner.model';
+import { OWNER_TABLE_COLUMNS, OWNER_WORKSPACE_HEADER, OWNER_SORT_OPTIONS } from '../config/owners.config';
+import { OwnerActivationStatus, OwnerBulkAction, OwnerListItem } from '../models/owner.model';
 import { OwnerListStateService } from '../services/owner-list-state.service';
 import { OwnerStoreService } from '../services/owner-store.service';
+
+const ACTIVATION_QUICK_FILTER_OPTIONS = [
+  { id: 'all' as const, label: 'All' },
+  { id: 'not-invited' as const, label: 'Not invited' },
+  { id: 'invited' as const, label: 'Invited' },
+  { id: 'activated' as const, label: 'Activated' },
+];
 
 @Component({
   selector: 'app-owner-workspace-page',
   imports: [
-    BasePageComponent,
-    ButtonComponent,
-    PageHeaderComponent,
-    TableShellComponent,
-    TableToolbarComponent,
-    SearchFieldComponent,
-    SortControlComponent,
-    ExportButtonComponent,
+    BuilderPortalPageComponent,
+    EnterpriseFormPageHeaderComponent,
+    EnterpriseDataTableShellComponent,
+    OutlineButtonComponent,
+    GhostButtonComponent,
     PaginationWrapperComponent,
     KpiCardComponent,
     ChartWrapperComponent,
@@ -51,17 +55,11 @@ import { OwnerStoreService } from '../services/owner-store.service';
     RecentAssignmentsWidgetComponent,
     OwnerDataGridComponent,
     OwnerCardGridComponent,
-    OwnerViewToggleComponent,
-    OwnerQuickFiltersComponent,
     OwnerAdvancedFiltersComponent,
-    OwnerColumnSelectorComponent,
-    OwnerSavedViewsComponent,
-    OwnerBulkActionsComponent,
   ],
   templateUrl: './owner-workspace-page.component.html',
   styleUrl: './owner-workspace-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class OwnerWorkspacePageComponent {
   private readonly router = inject(Router);
   private readonly store = inject(OwnerStoreService);
@@ -71,8 +69,13 @@ export class OwnerWorkspacePageComponent {
   readonly header = OWNER_WORKSPACE_HEADER;
   readonly sortOptions = OWNER_SORT_OPTIONS.map((o) => ({ label: o.label, value: o.value }));
 
+  readonly bulkActions: readonly EnterpriseTableBulkAction[] = [
+    { id: 'archive', label: 'Archive', icon: 'pi pi-archive', severity: 'danger' },
+    { id: 'restore', label: 'Restore', icon: 'pi pi-replay' },
+    { id: 'export', label: 'Export', icon: 'pi pi-download' },
+  ];
+
   readonly projects = computed(() => this.projectStore.projects());
-  readonly tableItems = computed(() => [...this.listState.listResult().items]);
 
   private readonly activeOwners = computed(() => this.store.owners().filter((o) => !o.archived));
   private readonly activeAssignments = computed(() => this.store.assignments());
@@ -115,8 +118,7 @@ export class OwnerWorkspacePageComponent {
       title: 'Invitation status',
       subtitle: 'Active assignments by invitation state',
       labels,
-      series: [{ label: 'Invitations', values: counts }],
-    };
+      series: [{ label: 'Invitations', values: counts }] };
   });
 
   readonly recentAssignments = computed(() =>
@@ -124,6 +126,18 @@ export class OwnerWorkspacePageComponent {
       .filter((a) => a.status === 'active')
       .sort((a, b) => b.assignedAt.localeCompare(a.assignedAt))
       .slice(0, 4),
+  );
+
+  readonly activationQuickFilters = computed(() =>
+    mapQuickFilters(ACTIVATION_QUICK_FILTER_OPTIONS, this.listState.activationFilter()),
+  );
+
+  readonly savedSearchOptions = computed(() =>
+    mapSavedViews(this.listState.savedViews(), this.listState.savedViewId()),
+  );
+
+  readonly tableColumns = computed(() =>
+    mapTableColumns(OWNER_TABLE_COLUMNS, this.listState.visibleColumns()),
   );
 
   goToAssign(): void {
@@ -138,8 +152,28 @@ export class OwnerWorkspacePageComponent {
     this.listState.setSort(value);
   }
 
+  onActivationFilter(filterId: string): void {
+    this.listState.setActivationFilter(filterId as OwnerActivationStatus | 'all');
+  }
+
+  onSavedView(viewId: string): void {
+    this.listState.applySavedView(viewId);
+  }
+
+  onColumnsChange(columns: readonly EnterpriseTableColumnDef[]): void {
+    syncVisibleColumns(
+      this.listState.visibleColumns(),
+      visibleColumnIds(columns),
+      (columnId) => this.listState.toggleColumn(columnId),
+    );
+  }
+
   onSelectionChange(selection: readonly OwnerListItem[]): void {
     this.listState.setSelection(selection.map((item) => item.owner.id));
+  }
+
+  onViewModeChange(mode: EnterpriseTableViewMode): void {
+    this.listState.setViewMode(mode);
   }
 
   onCardPageChange(event: unknown): void {
@@ -153,8 +187,8 @@ export class OwnerWorkspacePageComponent {
     this.listState.setPage(Math.floor(first / rows) + 1);
   }
 
-  async onBulkAction(action: OwnerBulkAction): Promise<void> {
-    await this.listState.executeBulkAction(action);
+  async onBulkActionId(actionId: string): Promise<void> {
+    await this.listState.executeBulkAction(actionId as OwnerBulkAction);
   }
 
   async exportAll(): Promise<void> {

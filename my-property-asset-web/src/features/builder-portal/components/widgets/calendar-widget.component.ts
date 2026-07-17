@@ -11,7 +11,7 @@ import { DashboardWidgetShellComponent } from '../dashboard/dashboard-widget-she
     <app-bp-dashboard-widget-shell title="Calendar" icon="pi pi-calendar" [refreshable]="false">
       <app-empty-state
         title="Calendar view coming soon"
-        description="A full builder calendar will appear here in a future module."
+        subtitle="A full builder calendar will appear here in a future module."
         icon="calendar"
         [actionLabel]="undefined"
       />

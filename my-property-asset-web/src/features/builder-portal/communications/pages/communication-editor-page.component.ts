@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { JsonPipe } from '@angular/common';
 
 import { AuthorizedButtonComponent } from '@core/rbac';
-import { BasePageComponent, ButtonComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
+import { EnterpriseFormShellComponent, UiToastService } from '@shared/ui';
+
+import { BuilderPortalPageComponent } from '../../components/layout';
 import { OwnerStoreService } from '../../owners/services/owner-store.service';
 import { ProjectStoreService } from '../../projects/services/project-store.service';
 import { InMemoryBuilderBuildingRepository } from '../../projects/buildings/repositories/in-memory-builder-building.repository';
@@ -23,164 +25,162 @@ import { CommunicationService } from '../services/communication.service';
 @Component({
   selector: 'app-communication-editor-page',
   imports: [
+    BuilderPortalPageComponent,
     JsonPipe,
-    RouterLink,
     ReactiveFormsModule,
-    BasePageComponent,
-    PageHeaderComponent,
-    ButtonComponent,
+    EnterpriseFormShellComponent,
     AuthorizedButtonComponent,
   ],
   template: `
-    <app-base-page>
-      <div class="comm-editor">
-        <app-page-header
-          eyebrow="Communication Hub"
-          [title]="isEdit() ? 'Edit communication' : 'Create communication'"
-          description="Compose message content, choose audience, preview recipients, and publish."
-        >
-          <app-button pageActions label="Back" [outlined]="true" routerLink="/builder-portal/communications" />
-          <app-authorized-button
-            pageActions
-            label="Save draft"
-            icon="pi pi-save"
-            permission="id-11-notification:contribute"
-            (clicked)="saveDraft()"
-          />
-          <app-authorized-button
-            pageActions
-            label="Publish now"
-            icon="pi pi-send"
-            permission="id-11-notification:operate"
-            (clicked)="publishNow()"
-          />
-        </app-page-header>
+    <app-bp-page>
+      <app-enterprise-form-shell
+        [title]="isEdit() ? 'Edit communication' : 'Create communication'"
+        subtitle="Compose message content, choose audience, preview recipients, and publish."
+        [mode]="isEdit() ? 'edit' : 'create'"
+        [showActions]="false"
+      >
+        <app-authorized-button
+          formHeaderActions
+          label="Save draft"
+          icon="pi pi-save"
+          permission="id-11-notification:contribute"
+          (clicked)="saveDraft()"
+        />
+        <app-authorized-button
+          formHeaderActions
+          label="Publish now"
+          icon="pi pi-send"
+          permission="id-11-notification:operate"
+          (clicked)="publishNow()"
+        />
 
-        <div class="comm-editor__layout">
-          <form class="comm-editor__form" [formGroup]="form">
-            <section>
-              <h3>Message</h3>
-              <label><span>Type</span>
-                <select formControlName="communicationType">
-                  @for (option of typeOptions; track option.value) {
-                    <option [value]="option.value">{{ option.label }}</option>
-                  }
-                </select>
-              </label>
-              <label><span>Title</span><input type="text" formControlName="title" /></label>
-              <label><span>Short description</span><input type="text" formControlName="shortDescription" /></label>
-              <label><span>Detailed content</span><textarea rows="6" formControlName="detailedContent"></textarea></label>
-              <label><span>Banner image URL</span><input type="url" formControlName="bannerImageUrl" /></label>
-              <label><span>Attachment URL</span><input type="url" formControlName="attachmentUrl" /></label>
-            </section>
-
-            <section>
-              <h3>Audience</h3>
-              <label><span>Audience</span>
-                <select formControlName="audienceType" (change)="onAudienceTypeChange()">
-                  @for (option of audienceOptions; track option.value) {
-                    <option [value]="option.value">{{ option.label }}</option>
-                  }
-                </select>
-              </label>
-              @if (form.controls['audienceType'].value === 'by_project') {
-                <label><span>Project</span>
-                  <select [value]="audienceProjectId()" (change)="setAudienceProject($event)">
-                    <option value="">Select project</option>
-                    @for (project of projects(); track project.id) {
-                      <option [value]="project.id">{{ project.name }}</option>
+        <div class="comm-editor">
+          <div class="comm-editor__layout">
+            <form class="comm-editor__form" [formGroup]="form">
+              <section>
+                <h3>Message</h3>
+                <label><span>Type</span>
+                  <select formControlName="communicationType">
+                    @for (option of typeOptions; track option.value) {
+                      <option [value]="option.value">{{ option.label }}</option>
                     }
                   </select>
                 </label>
-              }
-              @if (form.controls['audienceType'].value === 'by_building') {
-                <label><span>Building</span>
-                  <select [value]="audienceBuildingId()" (change)="setAudienceBuilding($event)">
-                    <option value="">Select building</option>
-                    @for (building of buildings(); track building.id) {
-                      <option [value]="building.id">{{ building.name }}</option>
-                    }
-                  </select>
-                </label>
-              }
-              @if (form.controls['audienceType'].value === 'by_unit') {
-                <label><span>Unit</span>
-                  <select [value]="audienceUnitId()" (change)="setAudienceUnit($event)">
-                    <option value="">Select unit</option>
-                    @for (unit of units(); track unit.id) {
-                      <option [value]="unit.id">{{ unit.unitNumber }} — {{ unit.towerName }}</option>
-                    }
-                  </select>
-                </label>
-              }
-              @if (form.controls['audienceType'].value === 'selected_owners') {
-                <label><span>Owners</span>
-                  <select multiple [value]="audienceOwnerIds()" (change)="setAudienceOwners($event)">
-                    @for (owner of owners(); track owner.id) {
-                      <option [value]="owner.id">{{ owner.firstName }} {{ owner.lastName }}</option>
-                    }
-                  </select>
-                </label>
-              }
-              @if (form.controls['audienceType'].value === 'by_property_type') {
-                <label><span>Property type</span>
-                  <select [value]="audiencePropertyType()" (change)="setAudiencePropertyType($event)">
-                    <option value="apartment">Apartment</option>
-                    <option value="villa">Villa</option>
-                    <option value="commercial">Commercial</option>
-                  </select>
-                </label>
-              }
-            </section>
+                <label><span>Title</span><input type="text" formControlName="title" /></label>
+                <label><span>Short description</span><input type="text" formControlName="shortDescription" /></label>
+                <label><span>Detailed content</span><textarea rows="6" formControlName="detailedContent"></textarea></label>
+                <label><span>Banner image URL</span><input type="url" formControlName="bannerImageUrl" /></label>
+                <label><span>Attachment URL</span><input type="url" formControlName="attachmentUrl" /></label>
+              </section>
 
-            <section>
-              <h3>Delivery</h3>
-              <label><span>Priority</span>
-                <select formControlName="priority">
-                  @for (option of priorityOptions; track option.value) {
-                    <option [value]="option.value">{{ option.label }}</option>
-                  }
-                </select>
-              </label>
-              <label><span>CTA label</span><input type="text" formControlName="ctaLabel" /></label>
-              <label><span>External URL</span><input type="url" formControlName="ctaExternalUrl" /></label>
-              <label><span>Internal route</span><input type="text" formControlName="ctaInternalRoute" /></label>
-              <label><span>Schedule publish</span><input type="datetime-local" formControlName="publishAt" /></label>
-              <label><span>Start date</span><input type="datetime-local" formControlName="startAt" /></label>
-              <label><span>Expiry date</span><input type="datetime-local" formControlName="expiresAt" /></label>
-            </section>
-          </form>
-
-          <aside class="comm-editor__preview">
-            <section>
-              <h3>Live preview</h3>
-              <article class="comm-preview-card">
-                <span class="comm-preview-card__priority">{{ form.controls['priority'].value }}</span>
-                <h4>{{ form.controls['title'].value || 'Untitled communication' }}</h4>
-                <p>{{ form.controls['shortDescription'].value || 'Short description preview' }}</p>
-                <div [innerHTML]="form.controls['detailedContent'].value"></div>
-                @if (form.controls['ctaLabel'].value) {
-                  <button type="button">{{ form.controls['ctaLabel'].value }}</button>
+              <section>
+                <h3>Audience</h3>
+                <label><span>Audience</span>
+                  <select formControlName="audienceType" (change)="onAudienceTypeChange()">
+                    @for (option of audienceOptions; track option.value) {
+                      <option [value]="option.value">{{ option.label }}</option>
+                    }
+                  </select>
+                </label>
+                @if (form.controls['audienceType'].value === 'by_project') {
+                  <label><span>Project</span>
+                    <select [value]="audienceProjectId()" (change)="setAudienceProject($event)">
+                      <option value="">Select project</option>
+                      @for (project of projects(); track project.id) {
+                        <option [value]="project.id">{{ project.name }}</option>
+                      }
+                    </select>
+                  </label>
                 }
-              </article>
-            </section>
-            <section>
-              <h3>Recipient preview</h3>
-              <p>{{ recipientPreview().length }} owners targeted</p>
-              <ul>
-                @for (recipient of recipientPreview(); track recipient.ownerId) {
-                  <li>{{ recipient.ownerName }}</li>
+                @if (form.controls['audienceType'].value === 'by_building') {
+                  <label><span>Building</span>
+                    <select [value]="audienceBuildingId()" (change)="setAudienceBuilding($event)">
+                      <option value="">Select building</option>
+                      @for (building of buildings(); track building.id) {
+                        <option [value]="building.id">{{ building.name }}</option>
+                      }
+                    </select>
+                  </label>
                 }
-              </ul>
-            </section>
-            <section>
-              <h3>Owner App contract</h3>
-              <pre>{{ ownerContractPreview() | json }}</pre>
-            </section>
-          </aside>
+                @if (form.controls['audienceType'].value === 'by_unit') {
+                  <label><span>Unit</span>
+                    <select [value]="audienceUnitId()" (change)="setAudienceUnit($event)">
+                      <option value="">Select unit</option>
+                      @for (unit of units(); track unit.id) {
+                        <option [value]="unit.id">{{ unit.unitNumber }} — {{ unit.towerName }}</option>
+                      }
+                    </select>
+                  </label>
+                }
+                @if (form.controls['audienceType'].value === 'selected_owners') {
+                  <label><span>Owners</span>
+                    <select multiple [value]="audienceOwnerIds()" (change)="setAudienceOwners($event)">
+                      @for (owner of owners(); track owner.id) {
+                        <option [value]="owner.id">{{ owner.firstName }} {{ owner.lastName }}</option>
+                      }
+                    </select>
+                  </label>
+                }
+                @if (form.controls['audienceType'].value === 'by_property_type') {
+                  <label><span>Property type</span>
+                    <select [value]="audiencePropertyType()" (change)="setAudiencePropertyType($event)">
+                      <option value="apartment">Apartment</option>
+                      <option value="villa">Villa</option>
+                      <option value="commercial">Commercial</option>
+                    </select>
+                  </label>
+                }
+              </section>
+
+              <section>
+                <h3>Delivery</h3>
+                <label><span>Priority</span>
+                  <select formControlName="priority">
+                    @for (option of priorityOptions; track option.value) {
+                      <option [value]="option.value">{{ option.label }}</option>
+                    }
+                  </select>
+                </label>
+                <label><span>CTA label</span><input type="text" formControlName="ctaLabel" /></label>
+                <label><span>External URL</span><input type="url" formControlName="ctaExternalUrl" /></label>
+                <label><span>Internal route</span><input type="text" formControlName="ctaInternalRoute" /></label>
+                <label><span>Schedule publish</span><input type="datetime-local" formControlName="publishAt" /></label>
+                <label><span>Start date</span><input type="datetime-local" formControlName="startAt" /></label>
+                <label><span>Expiry date</span><input type="datetime-local" formControlName="expiresAt" /></label>
+              </section>
+            </form>
+
+            <aside class="comm-editor__preview">
+              <section>
+                <h3>Live preview</h3>
+                <article class="comm-preview-card">
+                  <span class="comm-preview-card__priority">{{ form.controls['priority'].value }}</span>
+                  <h4>{{ form.controls['title'].value || 'Untitled communication' }}</h4>
+                  <p>{{ form.controls['shortDescription'].value || 'Short description preview' }}</p>
+                  <div [innerHTML]="form.controls['detailedContent'].value"></div>
+                  @if (form.controls['ctaLabel'].value) {
+                    <button type="button">{{ form.controls['ctaLabel'].value }}</button>
+                  }
+                </article>
+              </section>
+              <section>
+                <h3>Recipient preview</h3>
+                <p>{{ recipientPreview().length }} owners targeted</p>
+                <ul>
+                  @for (recipient of recipientPreview(); track recipient.ownerId) {
+                    <li>{{ recipient.ownerName }}</li>
+                  }
+                </ul>
+              </section>
+              <section>
+                <h3>Owner App contract</h3>
+                <pre>{{ ownerContractPreview() | json }}</pre>
+              </section>
+            </aside>
+          </div>
         </div>
-      </div>
-    </app-base-page>
+      </app-enterprise-form-shell>
+    </app-bp-page>
   `,
   styles: `
     .comm-editor { display: grid; gap: 1rem; }

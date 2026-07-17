@@ -6,20 +6,17 @@ import { map } from 'rxjs';
 
 import { HasPermissionDirective } from '@core/rbac';
 import {
-  BasePageComponent,
-  ButtonComponent,
-  PageHeaderComponent,
-  SearchFieldComponent,
-  SelectComponent,
-  SelectOption,
+  EmptyNoDataComponent,
+  EnterpriseFormPageHeaderComponent,
+  OutlineButtonComponent,
 } from '@shared/ui';
 
+import { BuilderPortalPageComponent } from '../../../components/layout';
 import { ProjectStoreService } from '../../services/project-store.service';
 import {
   BUILDING_SORT_OPTIONS,
   BUILDING_STATUS_LABELS,
-  BUILDING_STATUS_OPTIONS,
-} from '../config/buildings.config';
+  BUILDING_STATUS_OPTIONS } from '../config/buildings.config';
 import { BuildingCardComponent } from '../components/shared/building-card.component';
 import { BuildingStatusBadgeComponent } from '../components/shared/building-status-badge.component';
 import { BuildingStatus } from '../models/building.model';
@@ -30,13 +27,12 @@ import { buildingsAreRequired, resolveBuildingMode } from '../utils/project-buil
 @Component({
   selector: 'app-building-list-page',
   imports: [
-    BasePageComponent,
-    PageHeaderComponent,
-    ButtonComponent,
-    SearchFieldComponent,
-    SelectComponent,
+    BuilderPortalPageComponent,
+    EnterpriseFormPageHeaderComponent,
+    OutlineButtonComponent,
     RouterLink,
     HasPermissionDirective,
+    EmptyNoDataComponent,
     BuildingCardComponent,
     BuildingStatusBadgeComponent,
     DatePipe,
@@ -68,8 +64,8 @@ export class BuildingListPageComponent implements OnInit {
     return project ? buildingsAreRequired(project) : false;
   });
 
-  readonly statusOptions: readonly SelectOption[] = BUILDING_STATUS_OPTIONS;
-  readonly sortOptions: readonly SelectOption[] = BUILDING_SORT_OPTIONS;
+  readonly statusOptions = BUILDING_STATUS_OPTIONS;
+  readonly sortOptions = BUILDING_SORT_OPTIONS;
 
   readonly statusSummary = computed(() => {
     const by = this.stats().byStatus;
@@ -78,8 +74,7 @@ export class BuildingListPageComponent implements OnInit {
       .map((status) => ({
         status,
         label: BUILDING_STATUS_LABELS[status],
-        count: by[status],
-      }));
+        count: by[status] }));
   });
 
   constructor() {

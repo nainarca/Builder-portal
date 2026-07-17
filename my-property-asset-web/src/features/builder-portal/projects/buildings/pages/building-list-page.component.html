@@ -1,24 +1,25 @@
-<app-base-page>
+<app-bp-page>
   @if (project(); as proj) {
     <div class="bldg-page">
-      <app-page-header
-        eyebrow="{{ proj.code }}"
+      <app-enterprise-form-page-header
+        [eyebrow]="proj.code"
         title="Buildings"
-        [description]="
+        [subtitle]="
           buildingsRequired()
             ? 'Buildings are required for this project type. Manage towers and blocks here.'
             : 'Buildings are optional for this project type. You can still add towers if needed.'
         "
+        mode="view"
       >
-        <app-button pageActions label="Back to project" icon="pi pi-arrow-left" [outlined]="true" (clicked)="backToProject()" />
-        <app-button
+        <app-outline-button formHeaderActions label="Back to project" icon="pi pi-arrow-left" (clicked)="backToProject()" />
+        <app-outline-button
           *appHasPermission="'id-07-project-unit:contribute'"
-          pageActions
+          formHeaderActions
           label="Create building"
           icon="pi pi-plus"
           (clicked)="createBuilding()"
         />
-      </app-page-header>
+      </app-enterprise-form-page-header>
 
       <section class="bldg-stats" aria-label="Building statistics">
         <article class="bldg-stats__card">
@@ -34,24 +35,32 @@
       </section>
 
       <div class="bldg-toolbar">
-        <app-search-field
+        <input
+          type="search"
+          class="bldg-toolbar__search"
           [value]="listState.search()"
           placeholder="Search buildings…"
-          ariaLabel="Search buildings"
-          (valueChange)="onSearch($event)"
+          aria-label="Search buildings"
+          (input)="onSearch($any($event.target).value)"
         />
-        <app-select
-          [options]="statusOptions"
+        <select
           [value]="listState.statusFilter()"
-          ariaLabel="Status filter"
-          (valueChange)="onStatus($event)"
-        />
-        <app-select
-          [options]="sortOptions"
+          aria-label="Status filter"
+          (change)="onStatus($any($event.target).value)"
+        >
+          @for (option of statusOptions; track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+          }
+        </select>
+        <select
           [value]="listState.sortValue()"
-          ariaLabel="Sort"
-          (valueChange)="onSort($event)"
-        />
+          aria-label="Sort"
+          (change)="onSort($any($event.target).value)"
+        >
+          @for (option of sortOptions; track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+          }
+        </select>
         <label class="bldg-toolbar__archive">
           <input
             type="checkbox"
@@ -63,16 +72,14 @@
       </div>
 
       @if (listState.listResult().items.length === 0) {
-        <div class="bldg-empty">
-          <h2 class="ui-page-title">No buildings yet</h2>
-          <p class="ui-page-subtitle">
-            @if (buildingsRequired()) {
-              Create the first tower or block for this {{ proj.projectType }} project.
-            } @else {
-              This project type does not require buildings, but you can add one if useful.
-            }
-          </p>
-        </div>
+        <app-empty-no-data
+          title="No buildings yet"
+          [description]="
+            buildingsRequired()
+              ? 'Create the first tower or block for this ' + proj.projectType + ' project.'
+              : 'This project type does not require buildings, but you can add one if useful.'
+          "
+        />
       } @else {
         <div class="bldg-grid">
           @for (building of listState.listResult().items; track building.id) {
@@ -97,8 +104,7 @@
       }
     </div>
   } @else {
-    <div class="bldg-page bldg-page--empty">
-      <h1 class="ui-page-title">Project not found</h1>
-    </div>
+    <app-empty-no-data title="Project not found" description="The requested project does not exist or was removed."
+    />
   }
-</app-base-page>
+</app-bp-page>

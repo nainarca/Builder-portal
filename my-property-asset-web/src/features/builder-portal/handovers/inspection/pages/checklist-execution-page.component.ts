@@ -1,9 +1,10 @@
+import { BuilderPortalPageComponent } from '../../../components/layout';
 import { ChangeDetectionStrategy, Component, afterNextRender, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent } from '@shared/ui';
+import { ButtonComponent, EmptyNoDataComponent } from '@shared/ui';
 
 import { WorkflowCardComponent } from '../../components/shared';
 import { HandoverStoreService } from '../../services/handover-store.service';
@@ -13,9 +14,9 @@ import { InspectionStoreService } from '../services/inspection-store.service';
 
 @Component({
   selector: 'app-checklist-execution-page',
-  imports: [
-    BasePageComponent,
+  imports: [ BuilderPortalPageComponent,
     ButtonComponent,
+    EmptyNoDataComponent,
     WorkflowCardComponent,
     InspectionStatusBadgeComponent,
     ChecklistSectionComponent,
@@ -24,8 +25,7 @@ import { InspectionStoreService } from '../services/inspection-store.service';
   ],
   templateUrl: './checklist-execution-page.component.html',
   styleUrl: './checklist-execution-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+  changeDetection: ChangeDetectionStrategy.OnPush })
 export class ChecklistExecutionPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -33,8 +33,7 @@ export class ChecklistExecutionPageComponent {
   private readonly inspectionStore = inject(InspectionStoreService);
 
   private readonly handoverId = toSignal(this.route.paramMap.pipe(map((p) => p.get('id') ?? '')), {
-    initialValue: '',
-  });
+    initialValue: '' });
 
   readonly handover = computed(() => this.handoverStore.getById(this.handoverId()));
   readonly inspections = computed(() => this.inspectionStore.getByHandoverId(this.handoverId()));
