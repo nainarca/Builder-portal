@@ -1,0 +1,78 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.enterprise-table-grid {
+  width: 100%;
+}
+
+.enterprise-table-grid--horizontal-scroll {
+  overflow-x: auto;
+}
+
+.enterprise-table-grid--compact ::ng-deep .p-datatable-tbody > tr > td,
+.enterprise-table-grid--compact ::ng-deep .p-datatable-thead > tr > th {
+  padding-block: var(--mpa-spacing-xs);
+  font-size: var(--mpa-font-size-sm);
+}
+
+.enterprise-table-grid--sticky-header ::ng-deep .p-datatable-thead > tr > th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.enterprise-table-grid--sticky-first-column .enterprise-table-grid__sticky-col {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--mpa-color-surface);
+}
+
+.enterprise-table-grid__checkbox-col {
+  width: 3rem;
+}
+
+.enterprise-table-grid__actions-col {
+  width: 5rem;
+  text-align: right;
+}
+
+::ng-deep .enterprise-table-grid__table.p-datatable {
+  border: 1px solid var(--mpa-color-border);
+  border-radius: var(--mpa-radius-lg);
+  overflow: hidden;
+}
+
+::ng-deep .enterprise-table-grid__table .p-datatable-thead > tr > th {
+  background: var(--mpa-color-surface-muted);
+  color: var(--mpa-color-text-muted);
+  font-size: var(--mpa-font-size-sm);
+  font-weight: var(--mpa-font-weight-semibold);
+}
+
+::ng-deep .enterprise-table-grid__table .p-datatable-tbody > tr {
+  transition: background-color var(--mpa-transition-fast);
+}
+
+::ng-deep .enterprise-table-grid__table .p-datatable-tbody > tr:hover {
+  background: var(--mpa-color-surface-muted);
+}
+
+::ng-deep .enterprise-table-grid__table .p-datatable-tbody > tr:focus-within {
+  outline: 2px solid color-mix(in srgb, var(--mpa-color-brand, #1b4d89) 35%, transparent);
+  outline-offset: -2px;
+}
+
+@media (max-width: 1024px) {
+  .enterprise-table-grid--horizontal-scroll {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 640px) {
+  .enterprise-table-grid__actions-col {
+    width: 3.5rem;
+  }
+}

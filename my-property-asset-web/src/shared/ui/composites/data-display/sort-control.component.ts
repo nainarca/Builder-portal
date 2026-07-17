@@ -33,7 +33,7 @@ export interface SortOption {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SortControlComponent {
-  readonly options = input<SortOption[]>([]);
+  readonly options = input<readonly SortOption[]>([]);
   readonly value = input<string | null>(null);
   readonly ariaLabel = input('Sort');
 
