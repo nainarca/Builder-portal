@@ -28,7 +28,7 @@
   }
 
   &:disabled {
-    opacity: 0.7;
+    opacity: 0.85;
     cursor: wait;
   }
 }
@@ -45,6 +45,7 @@
   color: #fff;
   font-size: var(--mpa-font-size-sm);
   font-weight: var(--mpa-font-weight-semibold);
+  flex-shrink: 0;
 }
 
 .organization-selector__copy {
@@ -69,12 +70,24 @@
   max-width: 12rem;
 }
 
+.organization-selector__meta {
+  font-size: var(--mpa-font-size-xs);
+  color: var(--mpa-color-text-muted);
+  text-transform: capitalize;
+}
+
+.organization-selector__switching {
+  font-size: var(--mpa-font-size-xs);
+  color: var(--mpa-color-text-muted);
+  white-space: nowrap;
+}
+
 .organization-selector__panel {
   position: absolute;
   top: calc(100% + 0.5rem);
   left: 0;
   z-index: calc(var(--mpa-z-index-overlay) + 2);
-  width: min(22rem, 80vw);
+  width: min(24rem, 88vw);
   padding: var(--mpa-spacing-md);
   border: 1px solid color-mix(in srgb, var(--mpa-color-border) 80%, transparent);
   border-radius: var(--mpa-radius-xl);
@@ -82,15 +95,32 @@
   backdrop-filter: blur(16px);
   box-shadow: 0 20px 50px rgba(15, 23, 42, 0.14);
   animation: organization-panel-enter 0.22s ease;
+  display: grid;
+  gap: var(--mpa-spacing-md);
+}
+
+.organization-selector__section {
+  display: grid;
+  gap: var(--mpa-spacing-xs);
 }
 
 .organization-selector__panel-title {
-  margin: 0 0 var(--mpa-spacing-sm);
+  margin: 0;
   font-size: var(--mpa-font-size-xs);
   font-weight: var(--mpa-font-weight-semibold);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--mpa-color-text-muted);
+}
+
+.organization-selector__current-card {
+  display: flex;
+  align-items: center;
+  gap: var(--mpa-spacing-sm);
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--mpa-radius-lg);
+  background: color-mix(in srgb, var(--mpa-color-primary) 10%, var(--mpa-color-surface));
+  border: 1px solid color-mix(in srgb, var(--mpa-color-primary) 20%, var(--mpa-color-border));
 }
 
 .organization-selector__list {
@@ -128,17 +158,18 @@
   display: grid;
   flex: 1;
   min-width: 0;
+  gap: 0.25rem;
 
   strong {
     font-size: var(--mpa-font-size-sm);
     font-weight: var(--mpa-font-weight-semibold);
   }
+}
 
-  span {
-    font-size: var(--mpa-font-size-xs);
-    color: var(--mpa-color-text-muted);
-    text-transform: capitalize;
-  }
+.organization-selector__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
 }
 
 @keyframes organization-panel-enter {

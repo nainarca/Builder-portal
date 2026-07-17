@@ -1,13 +1,18 @@
+import { TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 
-import { IconComponent } from '@shared/ui';
+import { CurrentUserService } from '@core/auth';
+import { OrganizationMembership, OrganizationType } from '@core/organization-context/models/organization.model';
+import { OrganizationCacheService } from '@core/organization-context/services/organization-cache.service';
+import { IconComponent, StatusBadgeComponent } from '@shared/ui';
+
 import { CurrentOrganizationService } from '../../services/organization-store.service';
 import { OrganizationContextService } from '../../services/organization-context.service';
 import { OrganizationStoreService } from '../../services/organization-store.service';
 
 @Component({
   selector: 'app-organization-selector',
-  imports: [IconComponent],
+  imports: [TitleCasePipe, IconComponent, StatusBadgeComponent],
   templateUrl: './organization-selector.component.html',
   styleUrl: './organization-selector.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,6 +21,8 @@ export class OrganizationSelectorComponent {
   private readonly organizationContext = inject(OrganizationContextService);
   private readonly currentOrganization = inject(CurrentOrganizationService);
   private readonly store = inject(OrganizationStoreService);
+  private readonly cache = inject(OrganizationCacheService);
+  private readonly currentUser = inject(CurrentUserService);
 
   readonly panelOpen = signal(false);
   readonly switching = this.store.switching;
@@ -53,6 +60,45 @@ export class OrganizationSelectorComponent {
       .join('');
   });
 
+  readonly recentMemberships = computed(() => {
+    const activeId = this.currentOrganization.organizationId();
+    const all = this.memberships();
+    const userId = this.currentUser.getUserId();
+    const lastUsedId = userId ? this.cache.getLastUsedOrganizationId(userId) : null;
+
+    const recentIds = new Set<string>();
+    const recent: OrganizationMembership[] = [];
+
+    if (lastUsedId && lastUsedId !== activeId) {
+      const match = all.find((m) => m.organizationId === lastUsedId);
+      if (match) {
+        recent.push(match);
+        recentIds.add(match.organizationId);
+      }
+    }
+
+    for (const membership of all) {
+      if (recent.length >= 3) {
+        break;
+      }
+      if (membership.organizationId === activeId || recentIds.has(membership.organizationId)) {
+        continue;
+      }
+      recent.push(membership);
+      recentIds.add(membership.organizationId);
+    }
+
+    return recent;
+  });
+
+  readonly otherMemberships = computed(() => {
+    const activeId = this.currentOrganization.organizationId();
+    const recentIds = new Set(this.recentMemberships().map((m) => m.organizationId));
+    return this.memberships().filter(
+      (m) => m.organizationId !== activeId && !recentIds.has(m.organizationId),
+    );
+  });
+
   togglePanel(): void {
     if (!this.canSwitch()) {
       return;
@@ -79,5 +125,20 @@ export class OrganizationSelectorComponent {
 
   isActive(organizationId: string): boolean {
     return this.currentOrganization.organizationId() === organizationId;
+  }
+
+  typeSeverity(type: OrganizationType): 'success' | 'info' | 'warn' | 'danger' | 'secondary' | 'contrast' {
+    switch (type) {
+      case 'builder':
+        return 'info';
+      case 'owner':
+        return 'success';
+      case 'partner':
+        return 'warn';
+      case 'marketplace':
+        return 'contrast';
+      default:
+        return 'secondary';
+    }
   }
 }

@@ -15,10 +15,14 @@ export class OrganizationMemberStatisticsComponent {
   readonly stats = computed(() => {
     const members = this.members();
     return [
-      { label: 'Total members', value: String(members.length), icon: 'pi pi-users' },
-      { label: 'Active', value: String(members.filter((m) => m.status === 'active').length) },
-      { label: 'Invited', value: String(members.filter((m) => m.status === 'invited').length) },
-      { label: 'Administrators', value: String(members.filter((m) => m.role.includes('admin') || m.role.includes('owner')).length) },
+      { label: 'Total members', value: String(members.length), hint: 'All accounts' },
+      { label: 'Active', value: String(members.filter((m) => m.status === 'active').length), hint: 'Signed in' },
+      { label: 'Invited', value: String(members.filter((m) => m.status === 'invited').length), hint: 'Pending acceptance' },
+      {
+        label: 'Administrators',
+        value: String(members.filter((m) => m.role.includes('admin') || m.role.includes('owner')).length),
+        hint: 'Elevated access',
+      },
     ];
   });
 }

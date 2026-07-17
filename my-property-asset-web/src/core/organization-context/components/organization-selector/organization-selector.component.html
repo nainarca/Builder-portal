@@ -5,47 +5,111 @@
     [class.organization-selector__trigger--static]="!canSwitch()"
     [attr.aria-expanded]="panelOpen()"
     [attr.aria-haspopup]="canSwitch() ? 'listbox' : null"
+    [attr.aria-busy]="switching()"
     [disabled]="switching()"
     (click)="togglePanel()"
   >
     <span class="organization-selector__avatar" aria-hidden="true">{{ initials() }}</span>
     <span class="organization-selector__copy">
-      <span class="organization-selector__label">Organization</span>
+      <span class="organization-selector__label">Workspace</span>
       <span class="organization-selector__name">{{ displayName() }}</span>
+      <span class="organization-selector__meta">{{ displayType() | titlecase }}</span>
     </span>
-    @if (canSwitch()) {
+    @if (switching()) {
+      <span class="organization-selector__switching" aria-live="polite">Switching…</span>
+    } @else if (canSwitch()) {
       <app-icon name="chevron-down" size="sm" />
     }
   </button>
 
   @if (panelOpen() && canSwitch()) {
-    <div class="organization-selector__panel" role="listbox" aria-label="Select organization">
-      <p class="organization-selector__panel-title">Switch organization</p>
-      <ul class="organization-selector__list">
-        @for (membership of memberships(); track membership.organizationId) {
-          <li>
-            <button
-              type="button"
-              class="organization-selector__option"
-              [class.organization-selector__option--active]="isActive(membership.organizationId)"
-              role="option"
-              [attr.aria-selected]="isActive(membership.organizationId)"
-              (click)="selectOrganization(membership.organizationId)"
-            >
-              <span class="organization-selector__option-avatar" aria-hidden="true">
-                {{ membership.organizationName.slice(0, 1) }}
-              </span>
-              <span class="organization-selector__option-copy">
-                <strong>{{ membership.organizationName }}</strong>
-                <span>{{ membership.organizationType }}</span>
-              </span>
-              @if (isActive(membership.organizationId)) {
-                <app-icon name="check" size="sm" />
-              }
-            </button>
-          </li>
-        }
-      </ul>
+    <div class="organization-selector__panel" role="listbox" aria-label="Switch workspace">
+      <div class="organization-selector__current">
+        <p class="organization-selector__panel-title">Current workspace</p>
+        <div class="organization-selector__current-card">
+          <span class="organization-selector__option-avatar" aria-hidden="true">{{ initials() }}</span>
+          <div class="organization-selector__option-copy">
+            <strong>{{ displayName() }}</strong>
+            <span class="organization-selector__badges">
+              <app-status-badge
+                [label]="displayType() | titlecase"
+                [severity]="typeSeverity(displayType())"
+              />
+            </span>
+          </div>
+          <app-icon name="check" size="sm" />
+        </div>
+      </div>
+
+      @if (recentMemberships().length) {
+        <div class="organization-selector__section">
+          <p class="organization-selector__panel-title">Recent workspaces</p>
+          <ul class="organization-selector__list">
+            @for (membership of recentMemberships(); track membership.organizationId) {
+              <li>
+                <button
+                  type="button"
+                  class="organization-selector__option"
+                  role="option"
+                  [attr.aria-selected]="false"
+                  (click)="selectOrganization(membership.organizationId)"
+                >
+                  <span class="organization-selector__option-avatar" aria-hidden="true">
+                    {{ membership.organizationName.slice(0, 1) }}
+                  </span>
+                  <span class="organization-selector__option-copy">
+                    <strong>{{ membership.organizationName }}</strong>
+                    <span class="organization-selector__badges">
+                      <app-status-badge
+                        [label]="membership.organizationType | titlecase"
+                        [severity]="typeSeverity(membership.organizationType)"
+                      />
+                      @if (membership.isDefault) {
+                        <app-status-badge label="Default" severity="info" icon="pi pi-star" />
+                      }
+                    </span>
+                  </span>
+                </button>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+
+      @if (otherMemberships().length) {
+        <div class="organization-selector__section">
+          <p class="organization-selector__panel-title">All workspaces</p>
+          <ul class="organization-selector__list">
+            @for (membership of otherMemberships(); track membership.organizationId) {
+              <li>
+                <button
+                  type="button"
+                  class="organization-selector__option"
+                  role="option"
+                  [attr.aria-selected]="false"
+                  (click)="selectOrganization(membership.organizationId)"
+                >
+                  <span class="organization-selector__option-avatar" aria-hidden="true">
+                    {{ membership.organizationName.slice(0, 1) }}
+                  </span>
+                  <span class="organization-selector__option-copy">
+                    <strong>{{ membership.organizationName }}</strong>
+                    <span class="organization-selector__badges">
+                      <app-status-badge
+                        [label]="membership.organizationType | titlecase"
+                        [severity]="typeSeverity(membership.organizationType)"
+                      />
+                      @if (membership.isDefault) {
+                        <app-status-badge label="Default" severity="info" icon="pi pi-star" />
+                      }
+                    </span>
+                  </span>
+                </button>
+              </li>
+            }
+          </ul>
+        </div>
+      }
     </div>
   }
 </div>

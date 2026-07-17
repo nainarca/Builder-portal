@@ -1,165 +1,159 @@
 import { ChangeDetectionStrategy, Component, inject, input, OnDestroy, OnInit, output } from '@angular/core';
 
 import {
+  EnterpriseCheckboxInputComponent,
+  EnterpriseEmailInputComponent,
+  EnterpriseFormFieldComponent,
+  EnterpriseFormLayoutComponent,
+  EnterpriseFormSectionComponent,
+  EnterpriseSelectInputComponent,
+  EnterpriseTextareaInputComponent,
+  EnterpriseTextInputComponent,
   FormActionsComponent,
-  FormContainerComponent,
-  FormSectionComponent,
-  InputTextComponent,
-  MessageComponent,
+  InformationAlertComponent,
 } from '@shared/ui';
 
-import { OrganizationFormModel } from '../../models/organization-admin.model';
+import { OrganizationAdminStatus, OrganizationFormModel } from '../../models/organization-admin.model';
 import { OrganizationFormStateService } from '../../services/organization-form-state.service';
+import { OrganizationType } from '@core/organization-context/models/organization.model';
+
+const TYPE_OPTIONS = [
+  { label: 'Builder', value: 'builder' },
+  { label: 'Owner', value: 'owner' },
+  { label: 'Partner', value: 'partner' },
+  { label: 'Marketplace', value: 'marketplace' },
+];
+
+const STATUS_OPTIONS = [
+  { label: 'Pending', value: 'pending' },
+  { label: 'Active', value: 'active' },
+  { label: 'Inactive', value: 'inactive' },
+  { label: 'Archived', value: 'archived' },
+];
 
 @Component({
   selector: 'app-org-form',
   imports: [
-    FormContainerComponent,
-    FormSectionComponent,
+    EnterpriseFormLayoutComponent,
+    EnterpriseFormSectionComponent,
+    EnterpriseTextInputComponent,
+    EnterpriseTextareaInputComponent,
+    EnterpriseEmailInputComponent,
+    EnterpriseSelectInputComponent,
+    EnterpriseCheckboxInputComponent,
+    EnterpriseFormFieldComponent,
+    InformationAlertComponent,
     FormActionsComponent,
-    InputTextComponent,
-    MessageComponent,
   ],
   providers: [OrganizationFormStateService],
   template: `
     @if (formState.model(); as model) {
-      <app-form-container>
+      <app-enterprise-form-layout width="default">
         @if (formState.lastAutosavedAt()) {
-          <app-message severity="info" text="Draft autosaved" />
+          <app-information-alert message="Draft autosaved locally for this session." />
         }
 
-        <app-form-section title="Identity" description="Core organization profile">
-          <div class="org-form__field">
-            <span class="org-form__label">Name *</span>
-            <app-input-text
-              [value]="model.name"
-              [invalid]="!!formState.errors()['name']"
-              (valueChange)="formState.setField('name', $event)"
-            />
-            @if (formState.errors()['name']) {
-              <small class="org-form__error">{{ formState.errors()['name'] }}</small>
-            }
-          </div>
-          <div class="org-form__field">
-            <span class="org-form__label">Short name</span>
-            <app-input-text [value]="model.shortName" (valueChange)="formState.setField('shortName', $event)" />
-          </div>
-          <div class="org-form__field">
-            <span class="org-form__label">Slug</span>
-            <app-input-text
-              [value]="model.slug"
-              [invalid]="!!formState.errors()['slug']"
-              (valueChange)="formState.setField('slug', $event)"
-            />
-            @if (formState.errors()['slug']) {
-              <small class="org-form__error">{{ formState.errors()['slug'] }}</small>
-            }
-          </div>
-          <div class="org-form__field">
-            <span class="org-form__label">Type</span>
-            <select [value]="model.type" (change)="onSelectChange('type', $event)">
-              <option value="builder">Builder</option>
-              <option value="owner">Owner</option>
-              <option value="partner">Partner</option>
-              <option value="marketplace">Marketplace</option>
-            </select>
-          </div>
-          <div class="org-form__field">
-            <span class="org-form__label">Status</span>
-            <select [value]="model.status" (change)="onSelectChange('status', $event)">
-              <option value="pending">Pending</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-              <option value="archived">Archived</option>
-            </select>
-          </div>
-          <div class="org-form__field org-form__field--full">
-            <span class="org-form__label">Description</span>
-            <textarea
-              rows="3"
-              [value]="model.description"
-              (input)="onTextareaChange('description', $event)"
-            ></textarea>
-          </div>
-        </app-form-section>
+        <app-enterprise-form-section kind="general" title="Identity" description="Core organization profile" [columns]="2">
+          <app-enterprise-text-input
+            label="Name"
+            [value]="model.name"
+            [required]="true"
+            [error]="formState.errors()['name']"
+            (valueChange)="formState.setField('name', $event)"
+          />
+          <app-enterprise-text-input
+            label="Short name"
+            [value]="model.shortName"
+            (valueChange)="formState.setField('shortName', $event)"
+          />
+          <app-enterprise-text-input
+            label="Slug"
+            [value]="model.slug"
+            hint="Used in URLs and workspace routing."
+            [error]="formState.errors()['slug']"
+            (valueChange)="formState.setField('slug', $event)"
+          />
+          <app-enterprise-select-input
+            label="Type"
+            [options]="typeOptions"
+            [value]="model.type"
+            (valueChange)="onTypeChange($event)"
+          />
+          <app-enterprise-select-input
+            label="Status"
+            [options]="statusOptions"
+            [value]="model.status"
+            (valueChange)="onStatusChange($event)"
+          />
+          <app-enterprise-textarea-input
+            label="Description"
+            [value]="model.description"
+            [rows]="3"
+            (valueChange)="formState.setField('description', $event)"
+          />
+        </app-enterprise-form-section>
 
-        <app-form-section title="Contact & region">
-          <div class="org-form__field">
-            <span class="org-form__label">Contact name</span>
-            <app-input-text [value]="model.contactName" (valueChange)="formState.setField('contactName', $event)" />
-          </div>
-          <div class="org-form__field">
-            <span class="org-form__label">Contact email</span>
-            <app-input-text
-              type="email"
-              [value]="model.contactEmail"
-              [invalid]="!!formState.errors()['contactEmail']"
-              (valueChange)="formState.setField('contactEmail', $event)"
-            />
-            @if (formState.errors()['contactEmail']) {
-              <small class="org-form__error">{{ formState.errors()['contactEmail'] }}</small>
-            }
-          </div>
-          <div class="org-form__field">
-            <span class="org-form__label">Region</span>
-            <app-input-text [value]="model.region" (valueChange)="formState.setField('region', $event)" />
-          </div>
-          <div class="org-form__field">
-            <span class="org-form__label">Plan</span>
-            <app-input-text [value]="model.plan" (valueChange)="formState.setField('plan', $event)" />
-          </div>
-        </app-form-section>
+        <app-enterprise-form-section kind="address" title="Contact & region" description="Primary contacts and commercial metadata" [columns]="2">
+          <app-enterprise-text-input
+            label="Contact name"
+            [value]="model.contactName"
+            (valueChange)="formState.setField('contactName', $event)"
+          />
+          <app-enterprise-email-input
+            label="Contact email"
+            [value]="model.contactEmail"
+            [error]="formState.errors()['contactEmail']"
+            (valueChange)="formState.setField('contactEmail', $event)"
+          />
+          <app-enterprise-text-input
+            label="Region"
+            [value]="model.region"
+            (valueChange)="formState.setField('region', $event)"
+          />
+          <app-enterprise-text-input
+            label="Plan"
+            [value]="model.plan"
+            (valueChange)="formState.setField('plan', $event)"
+          />
+        </app-enterprise-form-section>
 
-        <app-form-section title="Settings">
-          <label class="org-form__field org-form__field--checkbox">
-            <input type="checkbox" [checked]="model.whiteLabelEnabled" (change)="onCheckboxChange('whiteLabelEnabled', $event)" />
-            White-label enabled
-          </label>
-          <label class="org-form__field org-form__field--checkbox">
-            <input type="checkbox" [checked]="model.supportAccessEnabled" (change)="onCheckboxChange('supportAccessEnabled', $event)" />
-            Support access enabled
-          </label>
-          <div class="org-form__field">
-            <span class="org-form__label">Primary color</span>
-            <input type="color" [value]="model.primaryColor" (input)="onColorChange($event)" />
-          </div>
-        </app-form-section>
+        <app-enterprise-form-section kind="configuration" title="Settings" description="White-label and support access" [columns]="2">
+          <app-enterprise-checkbox-input
+            label="White-label enabled"
+            [checked]="model.whiteLabelEnabled"
+            (checkedChange)="formState.setField('whiteLabelEnabled', $event)"
+          />
+          <app-enterprise-checkbox-input
+            label="Support access enabled"
+            [checked]="model.supportAccessEnabled"
+            (checkedChange)="formState.setField('supportAccessEnabled', $event)"
+          />
+          <app-enterprise-form-field label="Primary color" hint="Brand accent for organization avatar and theme preview.">
+            <input
+              type="color"
+              class="org-form__color"
+              [value]="model.primaryColor"
+              aria-label="Primary brand color"
+              (input)="onColorChange($event)"
+            />
+          </app-enterprise-form-field>
+        </app-enterprise-form-section>
 
         <app-form-actions>
           <ng-content select="[formActions]" />
         </app-form-actions>
-      </app-form-container>
+      </app-enterprise-form-layout>
     }
   `,
   styles: `
-    .org-form__label {
-      font-size: var(--mpa-font-size-sm);
-      color: var(--mpa-color-text-muted);
-    }
-    .org-form__error {
-      color: var(--mpa-color-danger);
-      font-size: var(--mpa-font-size-xs);
-    }
-    .org-form__field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-      margin-bottom: var(--mpa-spacing-md);
-    }
-    .org-form__field--full { grid-column: 1 / -1; }
-    .org-form__field--checkbox {
-      flex-direction: row;
-      align-items: center;
-      gap: var(--mpa-spacing-sm);
-    }
-    .org-form__field textarea,
-    .org-form__field select {
-      padding: 0.55rem 0.75rem;
+    .org-form__color {
+      width: 3rem;
+      height: 2.25rem;
+      padding: 0;
       border: 1px solid var(--mpa-color-border);
       border-radius: var(--mpa-radius-md);
       background: var(--mpa-color-surface);
-      font-family: inherit;
-      font-size: var(--mpa-font-size-sm);
+      cursor: pointer;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -171,6 +165,9 @@ export class OrganizationFormComponent implements OnInit, OnDestroy {
   readonly submitLabel = input('Save organization');
 
   readonly submitted = output<OrganizationFormModel>();
+
+  readonly typeOptions = TYPE_OPTIONS;
+  readonly statusOptions = STATUS_OPTIONS;
 
   ngOnInit(): void {
     this.formState.initialize(this.initialModel());
@@ -192,20 +189,15 @@ export class OrganizationFormComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  onSelectChange(field: 'type' | 'status', event: Event): void {
-    const value = (event.target as HTMLSelectElement).value;
-    this.formState.setField(field, value as OrganizationFormModel[typeof field]);
-  }
-
-  onTextareaChange(field: 'description', event: Event): void {
-    this.formState.setField(field, (event.target as HTMLTextAreaElement).value);
-  }
-
-  onCheckboxChange(field: 'whiteLabelEnabled' | 'supportAccessEnabled', event: Event): void {
-    this.formState.setField(field, (event.target as HTMLInputElement).checked);
-  }
-
   onColorChange(event: Event): void {
     this.formState.setField('primaryColor', (event.target as HTMLInputElement).value);
+  }
+
+  onTypeChange(value: string): void {
+    this.formState.setField('type', value as OrganizationType);
+  }
+
+  onStatusChange(value: string): void {
+    this.formState.setField('status', value as OrganizationAdminStatus);
   }
 }

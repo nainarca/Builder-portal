@@ -1,42 +1,44 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 
 import { OrganizationType } from '@core/organization-context/models/organization.model';
-import { FilterPanelComponent } from '@shared/ui';
+import {
+  EnterpriseSelectInputComponent,
+  FilterPanelComponent,
+  GhostButtonComponent,
+} from '@shared/ui';
+
+const TYPE_OPTIONS = [
+  { label: 'All types', value: 'all' },
+  { label: 'Builder', value: 'builder' },
+  { label: 'Owner', value: 'owner' },
+  { label: 'Partner', value: 'partner' },
+  { label: 'Marketplace', value: 'marketplace' },
+];
 
 @Component({
   selector: 'app-org-advanced-filters',
-  imports: [FilterPanelComponent],
+  imports: [FilterPanelComponent, EnterpriseSelectInputComponent, GhostButtonComponent],
   template: `
     <app-filter-panel ariaLabel="Advanced organization filters">
-      <label class="org-advanced-filters__field">
-        <span>Type</span>
-        <select [value]="typeFilter()" (change)="onTypeChange($event)">
-          <option value="all">All types</option>
-          <option value="builder">Builder</option>
-          <option value="owner">Owner</option>
-          <option value="partner">Partner</option>
-          <option value="marketplace">Marketplace</option>
-        </select>
-      </label>
-      <label class="org-advanced-filters__field">
-        <span>Region</span>
-        <select [value]="regionFilter()" (change)="onRegionChange($event)">
-          <option value="">All regions</option>
-          @for (region of regions(); track region) {
-            <option [value]="region">{{ region }}</option>
-          }
-        </select>
-      </label>
-      <label class="org-advanced-filters__field">
-        <span>Plan</span>
-        <select [value]="planFilter()" (change)="onPlanChange($event)">
-          <option value="">All plans</option>
-          @for (plan of plans(); track plan) {
-            <option [value]="plan">{{ plan }}</option>
-          }
-        </select>
-      </label>
-      <button type="button" class="org-advanced-filters__reset" (click)="filtersReset.emit()">Reset filters</button>
+      <app-enterprise-select-input
+        label="Type"
+        [options]="typeOptions"
+        [value]="typeFilter()"
+        (valueChange)="onTypeChange($event)"
+      />
+      <app-enterprise-select-input
+        label="Region"
+        [options]="regionOptions()"
+        [value]="regionFilter() || ''"
+        (valueChange)="regionFilterChange.emit($event)"
+      />
+      <app-enterprise-select-input
+        label="Plan"
+        [options]="planOptions()"
+        [value]="planFilter() || ''"
+        (valueChange)="planFilterChange.emit($event)"
+      />
+      <app-ghost-button label="Reset filters" icon="pi pi-refresh" (clicked)="filtersReset.emit()" />
     </app-filter-panel>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,15 +55,19 @@ export class OrganizationAdvancedFiltersComponent {
   readonly planFilterChange = output<string>();
   readonly filtersReset = output<void>();
 
-  onTypeChange(event: Event): void {
-    this.typeFilterChange.emit((event.target as HTMLSelectElement).value as OrganizationType | 'all');
-  }
+  readonly typeOptions = TYPE_OPTIONS;
 
-  onRegionChange(event: Event): void {
-    this.regionFilterChange.emit((event.target as HTMLSelectElement).value);
-  }
+  readonly regionOptions = computed(() => [
+    { label: 'All regions', value: '' },
+    ...this.regions().map((region) => ({ label: region, value: region })),
+  ]);
 
-  onPlanChange(event: Event): void {
-    this.planFilterChange.emit((event.target as HTMLSelectElement).value);
+  readonly planOptions = computed(() => [
+    { label: 'All plans', value: '' },
+    ...this.plans().map((plan) => ({ label: plan, value: plan })),
+  ]);
+
+  onTypeChange(value: string): void {
+    this.typeFilterChange.emit(value as OrganizationType | 'all');
   }
 }
