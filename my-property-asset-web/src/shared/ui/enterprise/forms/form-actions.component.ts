@@ -42,6 +42,14 @@ import { ValidationIssue } from './models/enterprise-form.models';
             (clicked)="cancel.emit($event)"
           />
         }
+        @if (showReset()) {
+          <app-enterprise-button
+            variant="ghost"
+            [label]="resetLabel()"
+            [disabled]="disabled() || saving()"
+            (clicked)="reset.emit($event)"
+          />
+        }
         @if (showSaveDraft()) {
           <app-enterprise-button
             variant="outline"
@@ -104,6 +112,7 @@ export class EnterpriseFormActionsComponent {
   readonly showCancel = input(true);
   readonly showDelete = input(false);
   readonly showArchive = input(false);
+  readonly showReset = input(false);
 
   readonly saveLabel = input('Save');
   readonly saveAndContinueLabel = input('Save & Continue');
@@ -111,6 +120,7 @@ export class EnterpriseFormActionsComponent {
   readonly cancelLabel = input('Cancel');
   readonly deleteLabel = input('Delete');
   readonly archiveLabel = input('Archive');
+  readonly resetLabel = input('Reset');
 
   readonly save = output<MouseEvent>();
   readonly saveAndContinue = output<MouseEvent>();
@@ -118,6 +128,7 @@ export class EnterpriseFormActionsComponent {
   readonly cancel = output<MouseEvent>();
   readonly delete = output<MouseEvent>();
   readonly archive = output<MouseEvent>();
+  readonly reset = output<MouseEvent>();
 }
 
 @Component({

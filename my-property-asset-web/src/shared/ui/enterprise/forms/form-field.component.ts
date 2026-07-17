@@ -23,9 +23,26 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
         </label>
       }
 
-      <div class="enterprise-form-field__control">
-        <ng-content />
+      <div
+        class="enterprise-form-field__control"
+        [class.enterprise-form-field__control--affix]="!!prefix() || !!suffix()"
+      >
+        @if (prefix()) {
+          <span class="enterprise-form-field__prefix" aria-hidden="true">{{ prefix() }}</span>
+        }
+        <div class="enterprise-form-field__input-slot">
+          <ng-content />
+        </div>
+        @if (suffix()) {
+          <span class="enterprise-form-field__suffix" aria-hidden="true">{{ suffix() }}</span>
+        }
       </div>
+
+      @if (maxLength() != null) {
+        <p class="enterprise-form-field__counter" aria-live="polite">
+          {{ characterCount() ?? 0 }} / {{ maxLength() }}
+        </p>
+      }
 
       @if (error()) {
         <p class="enterprise-form-field__error" [id]="errorId()" role="alert">{{ error() }}</p>
@@ -55,6 +72,10 @@ export class EnterpriseFormFieldComponent {
   readonly successMessage = input<string | undefined>(undefined);
   readonly disabled = input(false);
   readonly readonly = input(false);
+  readonly prefix = input<string | undefined>(undefined);
+  readonly suffix = input<string | undefined>(undefined);
+  readonly maxLength = input<number | undefined>(undefined);
+  readonly characterCount = input<number | undefined>(undefined);
 
   readonly hintId = computed(() => `enterprise-form-hint-${this.uid}`);
   readonly errorId = computed(() => `enterprise-form-error-${this.uid}`);

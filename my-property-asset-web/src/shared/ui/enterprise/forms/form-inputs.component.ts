@@ -73,6 +73,8 @@ export class EnterpriseTextInputComponent {
       [success]="success()"
       [disabled]="disabled()"
       [readonly]="readonly()"
+      [maxLength]="maxLength()"
+      [characterCount]="characterCount() ?? value().length"
     >
       <app-textarea
         [value]="value()"
@@ -104,6 +106,8 @@ export class EnterpriseTextareaInputComponent {
   readonly inputId = input<string | undefined>(undefined);
   readonly name = input<string | undefined>(undefined);
   readonly ariaLabel = input<string | undefined>(undefined);
+  readonly maxLength = input<number | undefined>(undefined);
+  readonly characterCount = input<number | undefined>(undefined);
   readonly valueChange = output<string>();
 }
 

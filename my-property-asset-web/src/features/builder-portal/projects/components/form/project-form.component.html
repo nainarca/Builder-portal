@@ -1,157 +1,192 @@
 @if (formState.model(); as model) {
-  <app-form-container>
+  <app-enterprise-form-layout [width]="layoutMode() === 'wizard' ? 'default' : 'wide'">
     @if (formState.lastAutosavedAt()) {
-      <app-message severity="info" text="Draft autosaved" />
+      <app-enterprise-helper-text
+        text="Draft autosaved"
+        icon="pi pi-save"
+        tone="info"
+      />
     }
 
-    <app-stepper
-      [steps]="steps"
-      [activeIndex]="activeIndex()"
-      (next)="nextStep()"
-      (back)="backStep()"
-      (stepChange)="goToStep($event)"
-    >
-      @switch (activeIndex()) {
-        @case (0) {
-          <app-form-section title="Basics" description="Core project identity">
-            <div class="proj-form__field">
-              <span class="proj-form__label">Project name *</span>
-              <app-input-text
-                [value]="model.name"
-                [invalid]="!!formState.errors()['name']"
-                (valueChange)="onTextChange('name', $event)"
-              />
-              @if (formState.errors()['name']) {
-                <small class="proj-form__error">{{ formState.errors()['name'] }}</small>
-              }
-            </div>
-            <div class="proj-form__field">
-              <span class="proj-form__label">Project code</span>
-              <app-input-text [value]="model.code" (valueChange)="onTextChange('code', $event)" />
-            </div>
-            <div class="proj-form__field">
-              <span class="proj-form__label">Project type *</span>
-              <app-select
-                [options]="typeOptions"
-                [value]="model.projectType"
-                (valueChange)="onTextChange('projectType', $event)"
-              />
-            </div>
-            <div class="proj-form__field">
-              <span class="proj-form__label">Hierarchy *</span>
-              <app-select
-                [options]="hierarchyOptionsFor(model.projectType)"
-                [value]="model.hierarchy"
-                (valueChange)="onTextChange('hierarchy', $event)"
-              />
-              @if (formState.errors()['hierarchy']) {
-                <small class="proj-form__error">{{ formState.errors()['hierarchy'] }}</small>
-              }
-              <small class="proj-form__hint">
-                Building based shows Buildings then Units. Direct units skips Buildings.
-              </small>
-            </div>
-            <div class="proj-form__field proj-form__field--full">
-              <span class="proj-form__label">Description</span>
-              <textarea rows="3" [value]="model.description" (input)="onTextareaChange('description', $event)"></textarea>
-            </div>
-          </app-form-section>
+    @if (layoutMode() === 'wizard') {
+      <app-enterprise-step-indicator
+        [steps]="steps"
+        [activeIndex]="activeIndex()"
+        (next)="nextStep()"
+        (back)="backStep()"
+        (stepChange)="goToStep($event)"
+      >
+        @switch (activeIndex()) {
+          @case (0) {
+            <app-enterprise-form-section
+              kind="general"
+              title="Basics"
+              description="Core project identity"
+              [collapsible]="false"
+              [columns]="1"
+            >
+              <ng-container *ngTemplateOutlet="basicsFields; context: { model }" />
+            </app-enterprise-form-section>
+          }
+          @case (1) {
+            <app-enterprise-form-section
+              kind="address"
+              title="Location & timeline"
+              [collapsible]="false"
+              [columns]="1"
+            >
+              <ng-container *ngTemplateOutlet="locationFields; context: { model }" />
+            </app-enterprise-form-section>
+          }
+          @case (2) {
+            <app-enterprise-form-section
+              kind="configuration"
+              title="Status & media"
+              [collapsible]="false"
+              [columns]="1"
+            >
+              <ng-container *ngTemplateOutlet="statusFields; context: { model }" />
+            </app-enterprise-form-section>
+          }
+          @case (3) {
+            <app-enterprise-review-summary
+              title="Confirm details"
+              description="This is what you’re about to create."
+              [previewTitle]="model.name || 'Untitled project'"
+              [previewSubtitle]="model.city ? model.city + (model.state ? ', ' + model.state : '') : 'Location pending'"
+              [previewEyebrow]="model.code || 'New project'"
+              previewIcon="pi pi-building"
+              [statusLabel]="model.status"
+              [facts]="reviewFacts(model)"
+            />
+          }
         }
-        @case (1) {
-          <app-form-section title="Location & timeline">
-            <div class="proj-form__field proj-form__field--full">
-              <span class="proj-form__label">Address</span>
-              <app-input-text [value]="model.addressLine" (valueChange)="onTextChange('addressLine', $event)" />
-            </div>
-            <div class="proj-form__field">
-              <span class="proj-form__label">City *</span>
-              <app-input-text
-                [value]="model.city"
-                [invalid]="!!formState.errors()['city']"
-                (valueChange)="onTextChange('city', $event)"
-              />
-              @if (formState.errors()['city']) {
-                <small class="proj-form__error">{{ formState.errors()['city'] }}</small>
-              }
-            </div>
-            <div class="proj-form__field">
-              <span class="proj-form__label">State</span>
-              <app-input-text [value]="model.state" (valueChange)="onTextChange('state', $event)" />
-            </div>
-            <div class="proj-form__field">
-              <span class="proj-form__label">Pincode</span>
-              <app-input-text [value]="model.postalCode" (valueChange)="onTextChange('postalCode', $event)" />
-            </div>
-            <div class="proj-form__field">
-              <span class="proj-form__label">Latitude</span>
-              <app-input-text [value]="model.latitude" (valueChange)="onTextChange('latitude', $event)" />
-              @if (formState.errors()['latitude']) {
-                <small class="proj-form__error">{{ formState.errors()['latitude'] }}</small>
-              }
-            </div>
-            <div class="proj-form__field">
-              <span class="proj-form__label">Longitude</span>
-              <app-input-text [value]="model.longitude" (valueChange)="onTextChange('longitude', $event)" />
-              @if (formState.errors()['longitude']) {
-                <small class="proj-form__error">{{ formState.errors()['longitude'] }}</small>
-              }
-            </div>
-            <div class="proj-form__field">
-              <span class="proj-form__label">Launch date</span>
-              <app-date-picker [value]="model.launchDate" (valueChange)="onTextChange('launchDate', $event ?? '')" />
-            </div>
-            <div class="proj-form__field">
-              <span class="proj-form__label">Expected completion</span>
-              <app-date-picker
-                [value]="model.expectedCompletionDate"
-                (valueChange)="onTextChange('expectedCompletionDate', $event ?? '')"
-              />
-              @if (formState.errors()['expectedCompletionDate']) {
-                <small class="proj-form__error">{{ formState.errors()['expectedCompletionDate'] }}</small>
-              }
-            </div>
-          </app-form-section>
-        }
-        @case (2) {
-          <app-form-section title="Status & media">
-            <div class="proj-form__field">
-              <span class="proj-form__label">Status</span>
-              <app-select [options]="statusOptions" [value]="model.status" (valueChange)="onTextChange('status', $event)" />
-            </div>
-            <div class="proj-form__field proj-form__field--full">
-              <span class="proj-form__label">Banner URL</span>
-              <app-input-text [value]="model.bannerUrl" (valueChange)="onTextChange('bannerUrl', $event)" />
-            </div>
-            <div class="proj-form__field proj-form__field--full">
-              <span class="proj-form__label">Logo URL</span>
-              <app-input-text [value]="model.logoUrl" (valueChange)="onTextChange('logoUrl', $event)" />
-            </div>
-          </app-form-section>
-        }
-        @case (3) {
-          <app-form-section title="Review" description="Confirm details before saving">
-            <dl class="proj-form__review">
-              <div class="proj-form__review-row"><dt>Name</dt><dd>{{ model.name }}</dd></div>
-              <div class="proj-form__review-row"><dt>Code</dt><dd>{{ model.code || '—' }}</dd></div>
-              <div class="proj-form__review-row"><dt>Type</dt><dd>{{ model.projectType }}</dd></div>
-              <div class="proj-form__review-row"><dt>Hierarchy</dt><dd>{{ model.hierarchy }}</dd></div>
-              <div class="proj-form__review-row">
-                <dt>Location</dt>
-                <dd>{{ model.city }}{{ model.state ? ', ' + model.state : '' }} {{ model.postalCode }}</dd>
-              </div>
-              <div class="proj-form__review-row">
-                <dt>Timeline</dt>
-                <dd>{{ model.launchDate || '—' }} → {{ model.expectedCompletionDate || '—' }}</dd>
-              </div>
-              <div class="proj-form__review-row"><dt>Status</dt><dd>{{ model.status }}</dd></div>
-            </dl>
-          </app-form-section>
-        }
-      }
-    </app-stepper>
 
-    <app-form-actions>
-      <ng-content select="[formActions]" />
-    </app-form-actions>
-  </app-form-container>
+        <div finalStepActions>
+          <app-primary-button label="Create project" icon="pi pi-check" (clicked)="submit()" />
+        </div>
+      </app-enterprise-step-indicator>
+    } @else {
+      <!-- Edit = single-page grouped form (UI-REBIRTH §7) -->
+      <app-enterprise-form-section kind="general" title="Basics" description="Core project identity" [columns]="1">
+        <ng-container *ngTemplateOutlet="basicsFields; context: { model }" />
+      </app-enterprise-form-section>
+      <app-enterprise-form-section kind="address" title="Location & timeline" [columns]="1">
+        <ng-container *ngTemplateOutlet="locationFields; context: { model }" />
+      </app-enterprise-form-section>
+      <app-enterprise-form-section kind="configuration" title="Status & media" [columns]="1">
+        <ng-container *ngTemplateOutlet="statusFields; context: { model }" />
+      </app-enterprise-form-section>
+    }
+  </app-enterprise-form-layout>
 }
+
+<ng-template #basicsFields let-model="model">
+  <app-enterprise-text-input
+    label="Project name"
+    [required]="true"
+    [value]="model.name"
+    [error]="formState.errors()['name']"
+    (valueChange)="onTextChange('name', $event)"
+  />
+  <app-enterprise-text-input
+    label="Project code"
+    [value]="model.code"
+    hint="Optional short code shown in lists and headers."
+    (valueChange)="onTextChange('code', $event)"
+  />
+  <app-enterprise-select-input
+    label="Project type"
+    [required]="true"
+    [options]="typeOptions"
+    [value]="model.projectType"
+    (valueChange)="onTextChange('projectType', $event)"
+  />
+  <app-enterprise-select-input
+    label="Hierarchy"
+    [required]="true"
+    [options]="hierarchyOptionsFor(model.projectType)"
+    [value]="model.hierarchy"
+    [error]="formState.errors()['hierarchy']"
+    hint="Building based shows Buildings then Units. Direct units skips Buildings."
+    (valueChange)="onTextChange('hierarchy', $event)"
+  />
+    <app-enterprise-textarea-input
+      label="Description"
+      [value]="model.description"
+      [rows]="3"
+      [maxLength]="500"
+      (valueChange)="onTextChange('description', $event)"
+    />
+</ng-template>
+
+<ng-template #locationFields let-model="model">
+  <app-enterprise-text-input
+    label="Address"
+    [value]="model.addressLine"
+    (valueChange)="onTextChange('addressLine', $event)"
+  />
+  <div class="proj-form__paired">
+    <app-enterprise-text-input
+      label="City"
+      [required]="true"
+      [value]="model.city"
+      [error]="formState.errors()['city']"
+      (valueChange)="onTextChange('city', $event)"
+    />
+    <app-enterprise-text-input
+      label="State"
+      [value]="model.state"
+      (valueChange)="onTextChange('state', $event)"
+    />
+  </div>
+  <app-enterprise-text-input
+    label="Pincode"
+    [value]="model.postalCode"
+    (valueChange)="onTextChange('postalCode', $event)"
+  />
+  <div class="proj-form__paired">
+    <app-enterprise-text-input
+      label="Latitude"
+      [value]="model.latitude"
+      [error]="formState.errors()['latitude']"
+      (valueChange)="onTextChange('latitude', $event)"
+    />
+    <app-enterprise-text-input
+      label="Longitude"
+      [value]="model.longitude"
+      [error]="formState.errors()['longitude']"
+      (valueChange)="onTextChange('longitude', $event)"
+    />
+  </div>
+  <app-enterprise-date-input
+    label="Launch date"
+    [value]="model.launchDate"
+    (valueChange)="onTextChange('launchDate', $event ?? '')"
+  />
+  <app-enterprise-date-input
+    label="Expected completion"
+    [value]="model.expectedCompletionDate"
+    [error]="formState.errors()['expectedCompletionDate']"
+    (valueChange)="onTextChange('expectedCompletionDate', $event ?? '')"
+  />
+</ng-template>
+
+<ng-template #statusFields let-model="model">
+  <app-enterprise-select-input
+    label="Status"
+    [options]="statusOptions"
+    [value]="model.status"
+    (valueChange)="onTextChange('status', $event)"
+  />
+  <app-enterprise-text-input
+    label="Banner URL"
+    [value]="model.bannerUrl"
+    (valueChange)="onTextChange('bannerUrl', $event)"
+  />
+  <app-enterprise-text-input
+    label="Logo URL"
+    [value]="model.logoUrl"
+    (valueChange)="onTextChange('logoUrl', $event)"
+  />
+</ng-template>

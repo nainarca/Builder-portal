@@ -73,6 +73,15 @@ import { EnterpriseValidationSummaryComponent } from '../form-actions.component'
                 (clicked)="saveDraft.emit($event)"
               />
             }
+            @if (showSaveAndContinue()) {
+              <app-enterprise-button
+                variant="secondary"
+                label="Save & Continue"
+                [loading]="saving()"
+                [disabled]="!canProceed()"
+                (clicked)="saveAndContinue.emit($event)"
+              />
+            }
             <app-enterprise-button
               variant="ghost"
               label="Cancel"
@@ -146,6 +155,7 @@ export class EnterpriseWizardComponent {
   readonly saving = input(false);
   readonly savingDraft = input(false);
   readonly showSaveDraft = input(true);
+  readonly showSaveAndContinue = input(false);
   readonly showReview = input(true);
 
   readonly confirmLabel = input('Continue');
@@ -159,6 +169,7 @@ export class EnterpriseWizardComponent {
   readonly previous = output<void>();
   readonly stepChange = output<number>();
   readonly saveDraft = output<MouseEvent>();
+  readonly saveAndContinue = output<MouseEvent>();
   readonly cancel = output<MouseEvent>();
   readonly review = output<void>();
   readonly backToSteps = output<void>();

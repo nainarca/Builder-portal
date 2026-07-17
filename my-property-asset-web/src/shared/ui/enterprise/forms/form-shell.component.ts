@@ -67,12 +67,14 @@ import {
             [showCancel]="showCancel()"
             [showDelete]="showDelete()"
             [showArchive]="showArchive()"
+            [showReset]="showReset()"
             (save)="save.emit($event)"
             (saveAndContinue)="saveAndContinue.emit($event)"
             (saveDraft)="saveDraft.emit($event)"
             (cancel)="cancel.emit($event)"
             (delete)="delete.emit($event)"
             (archive)="archive.emit($event)"
+            (reset)="reset.emit($event)"
           />
         }
       </app-enterprise-form-state>
@@ -108,6 +110,7 @@ export class EnterpriseFormShellComponent {
   readonly showCancel = input(true);
   readonly showDelete = input(false);
   readonly showArchive = input(false);
+  readonly showReset = input(false);
 
   readonly save = output<MouseEvent>();
   readonly saveAndContinue = output<MouseEvent>();
@@ -115,4 +118,5 @@ export class EnterpriseFormShellComponent {
   readonly cancel = output<MouseEvent>();
   readonly delete = output<MouseEvent>();
   readonly archive = output<MouseEvent>();
+  readonly reset = output<MouseEvent>();
 }

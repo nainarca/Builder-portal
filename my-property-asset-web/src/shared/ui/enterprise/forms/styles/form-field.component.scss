@@ -34,8 +34,47 @@
   min-width: 0;
 }
 
+.enterprise-form-field__control--affix {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  border: 1px solid var(--mpa-color-border);
+  border-radius: var(--mpa-radius-md);
+  background: var(--mpa-color-surface);
+  overflow: hidden;
+}
+
+.enterprise-form-field__input-slot {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.enterprise-form-field__prefix,
+.enterprise-form-field__suffix {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--mpa-spacing-sm);
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-text-muted);
+  background: var(--mpa-color-surface-muted);
+  white-space: nowrap;
+}
+
+.enterprise-form-field__control--affix .enterprise-form-field__input-slot :is(input, .p-inputtext) {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
 .enterprise-form-field__control :is(input, textarea, .p-select, .p-datepicker, .p-inputtext) {
   width: 100%;
+}
+
+.enterprise-form-field__counter {
+  margin: 0;
+  font-size: var(--mpa-font-size-xs);
+  color: var(--mpa-color-text-muted);
+  text-align: right;
 }
 
 .enterprise-form-field__hint,

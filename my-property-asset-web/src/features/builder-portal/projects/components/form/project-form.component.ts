@@ -1,16 +1,19 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, input, OnDestroy, OnInit, output, signal } from '@angular/core';
 
 import {
-  DatePickerComponent,
-  FormActionsComponent,
-  FormContainerComponent,
-  FormSectionComponent,
-  InputTextComponent,
-  MessageComponent,
-  SelectComponent,
-  SelectOption,
-  StepperComponent,
-  WizardStep,
+  EnterpriseDateInputComponent,
+  EnterpriseFormLayoutComponent,
+  EnterpriseFormSectionComponent,
+  EnterpriseHelperTextComponent,
+  EnterpriseReviewFact,
+  EnterpriseReviewSummaryComponent,
+  EnterpriseSelectInputComponent,
+  EnterpriseStepIndicatorComponent,
+  EnterpriseTextareaInputComponent,
+  EnterpriseTextInputComponent,
+  EnterpriseWizardStep,
+  PrimaryButtonComponent,
 } from '@shared/ui';
 
 import { PROJECT_HIERARCHY_OPTIONS, PROJECT_STATUS_OPTIONS, PROJECT_TYPE_OPTIONS } from '../../config/projects.config';
@@ -30,14 +33,17 @@ const STEP_FIELD_MAP: Record<number, (keyof ProjectFormModel)[]> = {
 @Component({
   selector: 'app-proj-form',
   imports: [
-    StepperComponent,
-    FormContainerComponent,
-    FormSectionComponent,
-    FormActionsComponent,
-    InputTextComponent,
-    SelectComponent,
-    DatePickerComponent,
-    MessageComponent,
+    NgTemplateOutlet,
+    EnterpriseFormLayoutComponent,
+    EnterpriseFormSectionComponent,
+    EnterpriseStepIndicatorComponent,
+    EnterpriseHelperTextComponent,
+    EnterpriseReviewSummaryComponent,
+    EnterpriseTextInputComponent,
+    EnterpriseTextareaInputComponent,
+    EnterpriseSelectInputComponent,
+    EnterpriseDateInputComponent,
+    PrimaryButtonComponent,
   ],
   providers: [ProjectFormStateService],
   templateUrl: './project-form.component.html',
@@ -48,10 +54,12 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   readonly formState = inject(ProjectFormStateService);
 
   readonly initialModel = input.required<ProjectFormModel>();
+  /** create → wizard; edit → single-page sections (UI-REBIRTH §7). */
+  readonly layoutMode = input<'wizard' | 'single'>('wizard');
 
   readonly submitted = output<ProjectFormModel>();
 
-  readonly steps: readonly WizardStep[] = [
+  readonly steps: readonly EnterpriseWizardStep[] = [
     { id: 'basics', label: 'Basics' },
     { id: 'location', label: 'Location & timeline' },
     { id: 'status', label: 'Status & media' },
@@ -60,15 +68,33 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   readonly activeIndex = signal(0);
 
-  readonly statusOptions: readonly SelectOption[] = PROJECT_STATUS_OPTIONS.filter(
+  readonly statusOptions = PROJECT_STATUS_OPTIONS.filter(
     (o) => o.value !== 'all' && o.value !== 'archived',
   );
-  readonly typeOptions: readonly SelectOption[] = PROJECT_TYPE_OPTIONS.filter((o) => o.value !== 'all');
-  readonly allHierarchyOptions: readonly SelectOption[] = PROJECT_HIERARCHY_OPTIONS;
+  readonly typeOptions = PROJECT_TYPE_OPTIONS.filter((o) => o.value !== 'all');
+  readonly allHierarchyOptions = PROJECT_HIERARCHY_OPTIONS;
 
-  hierarchyOptionsFor(type: ProjectType): readonly SelectOption[] {
+  hierarchyOptionsFor(type: ProjectType) {
     const allowed = new Set(allowedHierarchiesForProjectType(type));
     return this.allHierarchyOptions.filter((o) => allowed.has(o.value as ProjectHierarchy));
+  }
+
+  reviewFacts(model: ProjectFormModel): readonly EnterpriseReviewFact[] {
+    return [
+      { label: 'Name', value: model.name },
+      { label: 'Code', value: model.code || '—' },
+      { label: 'Type', value: model.projectType },
+      { label: 'Hierarchy', value: model.hierarchy },
+      {
+        label: 'Location',
+        value: `${model.city}${model.state ? ', ' + model.state : ''} ${model.postalCode}`.trim(),
+      },
+      {
+        label: 'Timeline',
+        value: `${model.launchDate || '—'} → ${model.expectedCompletionDate || '—'}`,
+      },
+      { label: 'Status', value: model.status },
+    ];
   }
 
   ngOnInit(): void {
@@ -97,7 +123,9 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   submit(): boolean {
     if (!this.formState.validate()) {
-      this.jumpToFirstErroredStep();
+      if (this.layoutMode() === 'wizard') {
+        this.jumpToFirstErroredStep();
+      }
       return false;
     }
     const model = this.formState.model();
@@ -116,10 +144,6 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       return;
     }
     this.formState.setField(field, value as ProjectFormModel[K]);
-  }
-
-  onTextareaChange(field: 'description', event: Event): void {
-    this.formState.setField(field, (event.target as HTMLTextAreaElement).value);
   }
 
   private jumpToFirstErroredStep(): void {

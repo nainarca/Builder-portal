@@ -15,10 +15,18 @@ import { FormContainerComponent } from '../../composites/forms/form-container.co
       [class.enterprise-form-layout--wide]="width() === 'wide'"
       [class.enterprise-form-layout--fluid]="width() === 'fluid'"
       [class.enterprise-form-layout--readonly]="readonly()"
+      [class.enterprise-form-layout--with-help]="showContextHelp()"
     >
       <app-form-container [layout]="layout()">
-        <div class="enterprise-form-layout__stack">
-          <ng-content />
+        <div class="enterprise-form-layout__grid">
+          <div class="enterprise-form-layout__stack">
+            <ng-content />
+          </div>
+          @if (showContextHelp()) {
+            <aside class="enterprise-form-layout__help" role="note" [attr.aria-label]="helpAriaLabel()">
+              <ng-content select="[formContextHelp]" />
+            </aside>
+          }
         </div>
       </app-form-container>
     </div>
@@ -30,4 +38,6 @@ export class EnterpriseFormLayoutComponent {
   readonly width = input<'default' | 'narrow' | 'wide' | 'fluid'>('default');
   readonly layout = input<'vertical' | 'horizontal' | 'inline'>('vertical');
   readonly readonly = input(false);
+  readonly showContextHelp = input(false);
+  readonly helpAriaLabel = input('Form guidance');
 }

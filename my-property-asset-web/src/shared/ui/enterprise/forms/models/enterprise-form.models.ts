@@ -7,7 +7,10 @@ export type EnterpriseFormSectionKind =
   | 'address'
   | 'configuration'
   | 'financial'
+  | 'documents'
   | 'attachments'
+  | 'settings'
+  | 'metadata'
   | 'audit'
   | 'advanced'
   | 'custom';
@@ -17,7 +20,10 @@ export const ENTERPRISE_FORM_SECTION_LABELS: Record<EnterpriseFormSectionKind, s
   address: 'Address',
   configuration: 'Configuration',
   financial: 'Financial',
+  documents: 'Documents',
   attachments: 'Attachments',
+  settings: 'Settings',
+  metadata: 'Metadata',
   audit: 'Audit',
   advanced: 'Advanced',
   custom: 'Details',

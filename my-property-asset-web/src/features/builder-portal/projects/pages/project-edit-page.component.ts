@@ -29,7 +29,11 @@ import { ProjectStoreService } from '../services/project-store.service';
           (save)="submit()"
           (cancel)="cancel()"
         >
-          <app-proj-form [initialModel]="model" (submitted)="onSubmit($event)" />
+          <app-proj-form
+            layoutMode="single"
+            [initialModel]="model"
+            (submitted)="onSubmit($event)"
+          />
         </app-enterprise-form-shell>
       } @else {
         <app-empty-no-data title="Project not found" description="The requested project does not exist or was removed."

@@ -22,7 +22,11 @@ import { PlanEnforcementService } from '../../subscription/services/plan-enforce
         (save)="submit()"
         (cancel)="cancel()"
       >
-        <app-proj-form [initialModel]="initialModel" (submitted)="onSubmit($event)" />
+        <app-proj-form
+          layoutMode="wizard"
+          [initialModel]="initialModel"
+          (submitted)="onSubmit($event)"
+        />
       </app-enterprise-form-shell>
     </app-bp-page>
   `,
