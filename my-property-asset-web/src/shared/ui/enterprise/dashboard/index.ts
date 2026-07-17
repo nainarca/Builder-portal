@@ -65,6 +65,11 @@ export {
 } from './insights/dashboard-insights.component';
 
 export {
+  EnterpriseDashboardAttentionListComponent,
+  EnterpriseDashboardAccountHealthComponent,
+} from './attention/dashboard-attention.component';
+
+export {
   EnterpriseQuickActionsBarComponent,
   EnterprisePinnedActionsComponent,
   EnterpriseQuickActionCreateComponent,

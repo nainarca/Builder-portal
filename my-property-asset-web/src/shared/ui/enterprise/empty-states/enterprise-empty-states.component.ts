@@ -132,3 +132,73 @@ export class EmptyNoProjectComponent {
   readonly actionLabel = input<string | undefined>('Create project');
   readonly action = output<MouseEvent>();
 }
+
+@Component({
+  selector: 'app-empty-no-activity',
+  imports: [EmptyStateComponent],
+  template: `
+    <app-empty-state
+      [title]="title()"
+      [description]="description()"
+      icon="history"
+      [actionLabel]="actionLabel()"
+      (action)="action.emit($event)"
+    />
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class EmptyNoActivityComponent {
+  readonly title = input('No activity yet');
+  readonly description = input<string | undefined>(
+    'Recent events across your workspace will appear here.',
+  );
+  readonly actionLabel = input<string | undefined>(undefined);
+  readonly action = output<MouseEvent>();
+}
+
+@Component({
+  selector: 'app-empty-no-analytics',
+  imports: [EmptyStateComponent],
+  template: `
+    <app-empty-state
+      [title]="title()"
+      [description]="description()"
+      icon="chart-bar"
+      [actionLabel]="actionLabel()"
+      (action)="action.emit($event)"
+    />
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class EmptyNoAnalyticsComponent {
+  readonly title = input('No analytics yet');
+  readonly description = input<string | undefined>(
+    'Charts and insights will appear once enough operational data is available.',
+  );
+  readonly actionLabel = input<string | undefined>(undefined);
+  readonly action = output<MouseEvent>();
+}
+
+@Component({
+  selector: 'app-empty-no-dashboard-access',
+  imports: [EmptyStateComponent],
+  template: `
+    <app-empty-state
+      [title]="title()"
+      [description]="description()"
+      icon="lock"
+      [actionLabel]="actionLabel()"
+      (action)="action.emit($event)"
+    />
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class EmptyNoDashboardAccessComponent {
+  readonly title = input('Dashboard unavailable');
+  readonly description = input<string | undefined>(
+    'You do not have permission to view this dashboard. Contact an administrator if you need access.',
+  );
+  readonly actionLabel = input<string | undefined>(undefined);
+  readonly action = output<MouseEvent>();
+}
+

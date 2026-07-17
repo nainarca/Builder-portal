@@ -1,82 +1,63 @@
-import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { CurrentUserService } from '@core/auth';
 import { CurrentOrganizationService } from '@core/organization-context';
 import {
+  EnterpriseDashboardAccountHealthComponent,
+  EnterpriseDashboardAttentionListComponent,
   EnterpriseDashboardGridComponent,
   EnterpriseDashboardGridItemComponent,
   EnterpriseDashboardKpiStripComponent,
-  EnterpriseDashboardSectionComponent,
   EnterpriseDashboardShellComponent,
   EnterpriseKpiPrimaryComponent,
   OutlineButtonComponent,
   UiToastService,
+  type EnterpriseDashboardAccountHealth,
+  type EnterpriseDashboardAttentionItem,
 } from '@shared/ui';
 
-import { KpiCardComponent, SummaryCardComponent } from './components/cards';
 import {
   BUILDER_DASHBOARD_ACTIVITIES,
-  BUILDER_DASHBOARD_APPOINTMENTS,
   BUILDER_DASHBOARD_FILTERS,
   BUILDER_DASHBOARD_HEADER,
-  BUILDER_DASHBOARD_NOTIFICATIONS,
   BUILDER_DASHBOARD_QUICK_ACTIONS,
   BUILDER_DASHBOARD_SUMMARIES,
-  BUILDER_DASHBOARD_TRENDS,
 } from './config/builder-dashboard.config';
 import { BuilderPortalPageComponent } from './components/layout';
+import { BuilderWelcomeComponent } from './components/dashboard';
 import {
-  BuilderWelcomeComponent,
-  DashboardGridComponent,
-  DashboardGridItemComponent,
-} from './components/dashboard';
-import {
-  CalendarWidgetComponent,
-  NotificationsWidgetComponent,
-  PerformanceSummaryWidgetComponent,
   ProjectProgressWidgetComponent,
   ProjectStatusOverviewWidgetComponent,
   QuickActionsWidgetComponent,
   RecentActivityWidgetComponent,
   RecentProjectsWidgetComponent,
-  TodaysActivitiesWidgetComponent,
-  UpcomingAppointmentsWidgetComponent,
 } from './components/widgets';
 import { BuilderDashboardWidgetId, DashboardQuickActionItem } from './models/dashboard.model';
 import { DashboardPreferencesService } from './services/dashboard-preferences.service';
 import { WidgetLoaderService } from './services/widget-loader.service';
 import { ProjectStoreService } from './projects/services/project-store.service';
 import { BuilderBrandingService } from './branding/services/builder-branding.service';
-import { CommunicationDashboardService } from './communications/services/communication-dashboard.service';
-import { SubscriptionService } from './subscription/services/subscription.service';
 import { resolveDisplayName, resolveTimeGreeting } from './utils/display-name.util';
 
 @Component({
   selector: 'app-builder-dashboard',
   imports: [
-    DatePipe,
     BuilderPortalPageComponent,
     EnterpriseDashboardShellComponent,
     EnterpriseDashboardKpiStripComponent,
-    EnterpriseDashboardSectionComponent,
     EnterpriseDashboardGridComponent,
     EnterpriseDashboardGridItemComponent,
+    EnterpriseDashboardAttentionListComponent,
+    EnterpriseDashboardAccountHealthComponent,
     EnterpriseKpiPrimaryComponent,
     OutlineButtonComponent,
     BuilderWelcomeComponent,
-    SummaryCardComponent,
     QuickActionsWidgetComponent,
     RecentProjectsWidgetComponent,
     ProjectStatusOverviewWidgetComponent,
     ProjectProgressWidgetComponent,
-    PerformanceSummaryWidgetComponent,
     RecentActivityWidgetComponent,
-    TodaysActivitiesWidgetComponent,
-    UpcomingAppointmentsWidgetComponent,
-    NotificationsWidgetComponent,
-    CalendarWidgetComponent,
   ],
   templateUrl: './builder-dashboard.component.html',
   styleUrl: './builder-dashboard.component.scss',
@@ -90,23 +71,16 @@ export class BuilderDashboardComponent {
   private readonly currentOrganization = inject(CurrentOrganizationService);
   private readonly projectStore = inject(ProjectStoreService);
   private readonly branding = inject(BuilderBrandingService);
-  private readonly communicationDashboard = inject(CommunicationDashboardService);
-  private readonly subscriptionService = inject(SubscriptionService);
   private readonly toast = inject(UiToastService);
 
   readonly header = BUILDER_DASHBOARD_HEADER;
-  readonly summaries = BUILDER_DASHBOARD_SUMMARIES;
   readonly activities = BUILDER_DASHBOARD_ACTIVITIES;
-  readonly appointments = BUILDER_DASHBOARD_APPOINTMENTS;
-  readonly notifications = BUILDER_DASHBOARD_NOTIFICATIONS;
-  readonly trends = BUILDER_DASHBOARD_TRENDS;
   readonly quickActions = BUILDER_DASHBOARD_QUICK_ACTIONS;
   readonly filters = BUILDER_DASHBOARD_FILTERS;
 
   readonly selectedFilter = signal('30d');
   readonly refreshingAll = signal(false);
 
-  readonly visibleWidgets = this.preferences.visibleWidgets;
   readonly pinnedActionIds = computed(() => this.preferences.preferences().pinnedActions);
   readonly favoriteActionIds = computed(() => this.preferences.preferences().favoriteActions);
 
@@ -139,8 +113,8 @@ export class BuilderDashboardComponent {
         label: 'Total Projects',
         value: String(stats.total),
         hint: 'Active portfolio',
-        trend: undefined,
-        trendLabel: undefined,
+        trend: undefined as undefined,
+        trendLabel: undefined as undefined,
       },
       {
         id: 'construction',
@@ -165,6 +139,79 @@ export class BuilderDashboardComponent {
     ];
   });
 
+  /** Operational attention only — no branding/subscription/communication cards (UI-REBIRTH §3). */
+  readonly attentionItems = computed((): EnterpriseDashboardAttentionItem[] => {
+    const items: EnterpriseDashboardAttentionItem[] = [];
+    const stats = this.projectStats();
+    const handovers = BUILDER_DASHBOARD_SUMMARIES.find((s) => s.id === 'handover-summary');
+    const snags = BUILDER_DASHBOARD_SUMMARIES.find((s) => s.id === 'snag-summary');
+    const owners = BUILDER_DASHBOARD_SUMMARIES.find((s) => s.id === 'owner-summary');
+
+    if (handovers) {
+      items.push({
+        id: 'pending-handovers',
+        title: `${handovers.value} pending handovers`,
+        description: handovers.subtitle,
+        severity: 'warn',
+        icon: 'pi pi-key',
+        actionLabel: 'Review',
+        href: '/builder-portal/handovers',
+      });
+    }
+
+    if (snags) {
+      items.push({
+        id: 'open-snags',
+        title: `${snags.value} open snags`,
+        description: snags.subtitle,
+        severity: 'error',
+        icon: 'pi pi-exclamation-triangle',
+        actionLabel: 'View projects',
+        href: '/builder-portal/projects',
+      });
+    }
+
+    if (owners?.subtitle.includes('pending')) {
+      items.push({
+        id: 'owner-invites',
+        title: 'Owner invitations waiting',
+        description: owners.subtitle,
+        severity: 'info',
+        icon: 'pi pi-users',
+        actionLabel: 'Manage owners',
+        href: '/builder-portal/owners',
+      });
+    }
+
+    if (stats.byStatus.planning + stats.byStatus.upcoming > 0) {
+      items.push({
+        id: 'pre-construction',
+        title: `${stats.byStatus.planning + stats.byStatus.upcoming} projects in pre-construction`,
+        description: 'Keep planning and upcoming sites moving toward construction.',
+        severity: 'info',
+        icon: 'pi pi-briefcase',
+        actionLabel: 'Open projects',
+        href: '/builder-portal/projects',
+      });
+    }
+
+    return items;
+  });
+
+  /** One-line Settings link — account facts no longer occupy dashboard zones. */
+  readonly accountHealth = computed((): EnterpriseDashboardAccountHealth => {
+    const completion = this.branding.completion();
+    const incomplete = completion.completionPercent < 100;
+    return {
+      label: 'Account health',
+      detail: incomplete
+        ? `Branding ${completion.completionPercent}% complete — review branding, communications, and subscription in Settings.`
+        : 'Branding, communications, and subscription live in Settings.',
+      href: '/builder-portal/settings',
+      tone: incomplete ? 'attention' : 'ok',
+    };
+  });
+
   readonly recentProjects = computed(() =>
     this.projectStats().recent.map((p) => ({
       id: p.id,
@@ -176,11 +223,6 @@ export class BuilderDashboardComponent {
       unitsSold: p.summary.unitsSold,
     })),
   );
-
-  readonly brandingCompletion = this.branding.completion;
-  readonly brandingProfile = this.branding.activeBranding;
-  readonly communicationSummary = this.communicationDashboard.summary;
-  readonly subscriptionSummary = this.subscriptionService.summary;
 
   readonly statusChart = computed(() => {
     const by = this.projectStats().byStatus;
@@ -199,10 +241,6 @@ export class BuilderDashboardComponent {
     };
   });
 
-  isVisible(id: BuilderDashboardWidgetId): boolean {
-    return this.visibleWidgets().some((widget) => widget.id === id);
-  }
-
   isLoading(id: BuilderDashboardWidgetId): boolean {
     return this.widgetLoader.isLoading(id);
   }
@@ -213,7 +251,12 @@ export class BuilderDashboardComponent {
 
   async onRefreshAll(): Promise<void> {
     this.refreshingAll.set(true);
-    const ids = this.visibleWidgets().map((widget) => widget.id);
+    const ids: BuilderDashboardWidgetId[] = [
+      'recent-activity',
+      'recent-projects',
+      'project-status-overview',
+      'project-progress',
+    ];
     await this.widgetLoader.refreshAll(ids);
     this.preferences.markRefreshed();
     this.refreshingAll.set(false);
@@ -231,16 +274,10 @@ export class BuilderDashboardComponent {
     this.toast.info(action.label, 'This area is coming in a future module.');
   }
 
-  subscriptionUsageLabel(): string {
-    const summary = this.subscriptionSummary();
-    const limit = summary.plan?.limits?.projects;
-    return `${summary.usage.projects} / ${limit ?? '—'} projects`;
-  }
-
-  subscriptionRemainingLabel(): string {
-    const summary = this.subscriptionSummary();
-    const days = summary.daysUntilExpiry ?? '—';
-    const units = typeof summary.remaining.units === 'number' ? summary.remaining.units : '—';
-    return `${days} days to renewal · ${units} units remaining`;
+  onAttentionAction(id: string): void {
+    const item = this.attentionItems().find((entry) => entry.id === id);
+    if (item?.href) {
+      void this.router.navigateByUrl(item.href);
+    }
   }
 }

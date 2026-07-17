@@ -1,4 +1,8 @@
-@use './styles/dashboard';
+.sa-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-lg);
+}
 
 .sa-dashboard__filters {
   display: flex;
@@ -6,13 +10,12 @@
   gap: var(--mpa-spacing-xs);
 }
 
-.sa-dashboard__filter-hint {
-  font-size: var(--mpa-font-size-xs);
-  color: var(--mpa-color-text-muted);
+.sa-dashboard__activity {
+  width: 100%;
 }
 
-.sa-dashboard__trend-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-  gap: var(--mpa-spacing-md);
+@media (max-width: 639px) {
+  .sa-dashboard__filters {
+    width: 100%;
+  }
 }

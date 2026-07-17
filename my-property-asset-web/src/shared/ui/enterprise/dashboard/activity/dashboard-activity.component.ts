@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 import { CardComponent } from '../../../composites/cards/card.component';
 import { TimelineCardComponent } from '../../cards/enterprise-cards.component';
 import { GhostButtonComponent } from '../../buttons/enterprise-button.component';
+import { EmptyNoActivityComponent } from '../../empty-states/enterprise-empty-states.component';
 import type {
   EnterpriseDashboardActivityItem,
   EnterpriseDashboardApprovalItem,
@@ -14,28 +15,32 @@ import type {
 
 @Component({
   selector: 'app-enterprise-recent-activity',
-  imports: [CardComponent],
+  imports: [CardComponent, EmptyNoActivityComponent],
   template: `
     <app-card variant="default">
       @if (title()) {
         <h3 class="enterprise-activity__title">{{ title() }}</h3>
       }
-      <ul class="enterprise-activity__list" role="list">
-        @for (item of items(); track item.id) {
-          <li class="enterprise-activity__item">
-            @if (item.icon) {
-              <i [class]="item.icon" aria-hidden="true"></i>
-            }
-            <div>
-              <p class="enterprise-activity__item-title">{{ item.title }}</p>
-              @if (item.description) {
-                <p class="enterprise-activity__item-description">{{ item.description }}</p>
+      @if (items().length === 0) {
+        <app-empty-no-activity />
+      } @else {
+        <ul class="enterprise-activity__list" role="list">
+          @for (item of items(); track item.id) {
+            <li class="enterprise-activity__item">
+              @if (item.icon) {
+                <i [class]="item.icon" aria-hidden="true"></i>
               }
-              <time [attr.datetime]="item.absoluteTimestamp ?? null">{{ item.timestamp }}</time>
-            </div>
-          </li>
-        }
-      </ul>
+              <div>
+                <p class="enterprise-activity__item-title">{{ item.title }}</p>
+                @if (item.description) {
+                  <p class="enterprise-activity__item-description">{{ item.description }}</p>
+                }
+                <time [attr.datetime]="item.absoluteTimestamp ?? null">{{ item.timestamp }}</time>
+              </div>
+            </li>
+          }
+        </ul>
+      }
     </app-card>
   `,
   styles: `

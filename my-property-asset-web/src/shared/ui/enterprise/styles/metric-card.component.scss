@@ -3,6 +3,17 @@
   flex-direction: column;
   gap: var(--mpa-spacing-xs);
   min-width: 10rem;
+  padding: var(--mpa-spacing-sm);
+  margin: calc(var(--mpa-spacing-sm) * -1);
+  border-radius: var(--mpa-radius-md);
+  transition:
+    background-color var(--mpa-transition-fast),
+    transform var(--mpa-transition-fast);
+}
+
+:host-context(.ui-card):hover .enterprise-metric-card,
+.enterprise-metric-card:hover {
+  background: color-mix(in srgb, var(--mpa-color-surface-muted) 70%, transparent);
 }
 
 .enterprise-metric-card__label {
@@ -36,7 +47,7 @@
 .enterprise-metric-card__trend {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: var(--mpa-spacing-xs);
   font-weight: var(--mpa-font-weight-medium);
 }
 

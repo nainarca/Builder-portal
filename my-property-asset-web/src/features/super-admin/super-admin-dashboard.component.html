@@ -1,139 +1,92 @@
 <app-sa-page>
-  <app-enterprise-dashboard-shell
-    [title]="header.title"
-    [description]="header.description"
-    [eyebrow]="header.eyebrow"
-    [state]="refreshingAll() ? 'refreshing' : 'idle'"
-    [showToolbar]="true"
-    [showFooter]="!!lastRefreshedLabel()"
-    (refresh)="onRefreshAll()"
-  >
-    <div toolbarStart class="sa-dashboard__filters" role="group" aria-label="Dashboard time range">
-      @for (option of filters; track option.id) {
-        <app-outline-button
-          size="small"
-          [label]="option.label"
-          (clicked)="onFilterChange(option.value)"
-        />
-      }
-    </div>
-    <span toolbarEnd class="sa-dashboard__filter-hint">
-      Framework filters — data wiring in future modules
-    </span>
-
-    <app-enterprise-dashboard-kpi-strip kpiStrip>
-      @for (kpi of kpis(); track kpi.id) {
-        <app-enterprise-kpi-primary
-          [label]="kpi.label"
-          [value]="kpi.value"
-          [hint]="kpi.hint"
-          [trend]="kpi.trend"
-          [trendLabel]="kpi.trendLabel"
-        />
-      }
-    </app-enterprise-dashboard-kpi-strip>
-
-    <app-enterprise-dashboard-section attentionZone title="Trend metrics">
-      <div class="sa-dashboard__trend-row">
-        @for (trend of trends(); track trend.id) {
-          <app-enterprise-kpi-primary
-            [label]="trend.label"
-            [value]="trend.value"
-            [hint]="trend.period"
-            [trend]="trend.trend"
-            [trendLabel]="trend.change"
+  <div class="sa-dashboard">
+    <app-enterprise-dashboard-shell
+      rhythm="exception"
+      [title]="header.title"
+      [description]="header.description"
+      [eyebrow]="header.eyebrow"
+      [state]="refreshingAll() ? 'refreshing' : 'idle'"
+      [showToolbar]="true"
+      [showFooter]="!!lastRefreshedLabel()"
+      (refresh)="onRefreshAll()"
+    >
+      <div toolbarStart class="sa-dashboard__filters" role="group" aria-label="Dashboard time range">
+        @for (option of filters; track option.id) {
+          <app-outline-button
+            size="small"
+            [label]="option.label"
+            (clicked)="onFilterChange(option.value)"
           />
         }
       </div>
-    </app-enterprise-dashboard-section>
 
-    <app-enterprise-dashboard-grid mainContent>
-      @for (widget of visibleWidgets(); track widget.id) {
-        <app-enterprise-dashboard-grid-item
-          [config]="{ colspan: widget.colspan, rowspan: widget.rowspan ?? 1 }"
-        >
-          @switch (widget.id) {
-            @case ('quick-actions') {
-              <app-sa-quick-actions-widget
-                [actions]="quickActions"
-                [pinnedIds]="pinnedActionIds()"
-                [favoriteIds]="favoriteActionIds()"
-                (actionSelected)="onQuickActionSelected($event)"
-              />
-            }
-            @case ('usage-chart') {
-              <app-sa-usage-chart-widget
-                [chart]="usageChart"
-                [loading]="isLoading('usage-chart')"
-                (refresh)="onRefreshWidget('usage-chart')"
-              />
-            }
-            @case ('organizations-chart') {
-              <app-sa-organizations-chart-widget
-                [chart]="orgChart"
-                [loading]="isLoading('organizations-chart')"
-                (refresh)="onRefreshWidget('organizations-chart')"
-              />
-            }
-            @case ('platform-status') {
-              <app-sa-platform-status-widget
-                [items]="statuses"
-                [loading]="isLoading('platform-status')"
-                (refresh)="onRefreshWidget('platform-status')"
-              />
-            }
-            @case ('system-health') {
-              <app-sa-system-health-widget
-                [items]="statuses"
-                [loading]="isLoading('system-health')"
-                (refresh)="onRefreshWidget('system-health')"
-              />
-            }
-            @case ('recent-activity') {
-              <app-sa-recent-activity-widget
-                [items]="activities()"
-                [loading]="isLoading('recent-activity')"
-                (refresh)="onRefreshWidget('recent-activity')"
-              />
-            }
-            @case ('announcements') {
-              <app-sa-announcements-widget [items]="announcements" />
-            }
-            @case ('organization-summary') {
-              <app-sa-organization-summary-widget
-                [item]="orgSummary()"
-                [loading]="isLoading('organization-summary')"
-                (refresh)="onRefreshWidget('organization-summary')"
-              />
-            }
-            @case ('builder-summary') {
-              <app-sa-builder-summary-widget
-                [item]="builderSummary()"
-                [loading]="isLoading('builder-summary')"
-                (refresh)="onRefreshWidget('builder-summary')"
-              />
-            }
-            @case ('user-summary') {
-              <app-sa-user-summary-widget
-                [item]="userSummary()"
-                [loading]="isLoading('user-summary')"
-                (refresh)="onRefreshWidget('user-summary')"
-              />
-            }
-            @case ('usage-overview') {
-              <app-sa-usage-overview-widget
-                [chart]="usageDonutChart"
-                [loading]="isLoading('usage-overview')"
-                (refresh)="onRefreshWidget('usage-overview')"
-              />
-            }
-          }
-        </app-enterprise-dashboard-grid-item>
+      <!-- Zone 1: Platform KPIs -->
+      <app-enterprise-dashboard-kpi-strip kpiStrip ariaLabel="Platform health KPIs">
+        @for (kpi of kpis(); track kpi.id) {
+          <app-enterprise-kpi-primary
+            [label]="kpi.label"
+            [value]="kpi.value"
+            [hint]="kpi.hint"
+            [trend]="kpi.trend"
+            [trendLabel]="kpi.trendLabel"
+          />
+        }
+      </app-enterprise-dashboard-kpi-strip>
+
+      <!-- Zone 2: Exception-first attention -->
+      <app-enterprise-dashboard-attention-list
+        attentionZone
+        title="Exceptions requiring intervention"
+        description="Cross-organization issues that need an operator today."
+        emptyTitle="Platform is clear"
+        emptyDescription="No open support queues, suspended builders, or degraded services need intervention right now."
+        [items]="attentionItems()"
+        (action)="onAttentionAction($event)"
+      />
+
+      <!-- Zone 3: Activity + focused health -->
+      <div activityZone class="sa-dashboard__activity">
+        <app-enterprise-dashboard-grid ariaLabel="Platform activity and health" mode="dashboard">
+          <app-enterprise-dashboard-grid-item [config]="{ colspan: 2 }">
+            <app-sa-recent-activity-widget
+              [items]="activities()"
+              [loading]="isLoading('recent-activity')"
+              (refresh)="onRefreshWidget('recent-activity')"
+            />
+          </app-enterprise-dashboard-grid-item>
+          <app-enterprise-dashboard-grid-item [config]="{ colspan: 2 }">
+            <app-sa-platform-status-widget
+              [items]="statuses"
+              [loading]="isLoading('platform-status')"
+              (refresh)="onRefreshWidget('platform-status')"
+            />
+          </app-enterprise-dashboard-grid-item>
+          <app-enterprise-dashboard-grid-item [config]="{ colspan: 2 }">
+            <app-sa-system-health-widget
+              [items]="statuses"
+              [loading]="isLoading('system-health')"
+              (refresh)="onRefreshWidget('system-health')"
+            />
+          </app-enterprise-dashboard-grid-item>
+          <app-enterprise-dashboard-grid-item [config]="{ colspan: 2 }">
+            <app-sa-announcements-widget [items]="announcements" />
+          </app-enterprise-dashboard-grid-item>
+        </app-enterprise-dashboard-grid>
+      </div>
+
+      <!-- Zone 4: Quick actions -->
+      <div quickActions>
+        <app-sa-quick-actions-widget
+          [actions]="quickActions"
+          [pinnedIds]="pinnedActionIds()"
+          [favoriteIds]="favoriteActionIds()"
+          (actionSelected)="onQuickActionSelected($event)"
+        />
+      </div>
+
+      @if (lastRefreshedLabel(); as refreshed) {
+        <span dashboardFooter>Last refreshed {{ refreshed }}</span>
       }
-    </app-enterprise-dashboard-grid>
-
-    @if (lastRefreshedLabel(); as refreshed) {
-      <span dashboardFooter>Last refreshed {{ refreshed }}</span>
-    }
-  </app-enterprise-dashboard-shell>
+    </app-enterprise-dashboard-shell>
+  </div>
 </app-sa-page>

@@ -10,7 +10,7 @@
 .bp-welcome {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: var(--mpa-spacing-xs);
 }
 
 .bp-welcome__greeting {

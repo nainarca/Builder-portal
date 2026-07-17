@@ -124,6 +124,27 @@ export interface EnterpriseDashboardInsight {
   readonly actionLabel?: string;
 }
 
+/** Attention-zone row — operational exceptions, not account-status facts (UI-REBIRTH §3). */
+export interface EnterpriseDashboardAttentionItem {
+  readonly id: string;
+  readonly title: string;
+  readonly description?: string;
+  readonly severity?: 'info' | 'success' | 'warn' | 'error';
+  readonly icon?: string;
+  readonly actionLabel?: string;
+  readonly href?: string;
+}
+
+/** One-line account health link — Settings destination only (UI-REBIRTH §3 / §20 #2). */
+export interface EnterpriseDashboardAccountHealth {
+  readonly label: string;
+  readonly detail?: string;
+  readonly href: string;
+  readonly tone?: 'ok' | 'attention';
+}
+
+export type EnterpriseDashboardRhythm = 'operational' | 'exception';
+
 export interface EnterpriseKpiComparisonData extends EnterpriseMetricData {
   readonly comparisonValue?: string;
   readonly comparisonLabel?: string;

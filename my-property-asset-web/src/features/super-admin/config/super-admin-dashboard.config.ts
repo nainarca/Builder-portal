@@ -13,9 +13,9 @@ import {
 
 export const SUPER_ADMIN_DASHBOARD_HEADER = {
   eyebrow: 'Super Admin',
-  title: 'Platform dashboard',
+  title: 'Platform exceptions & health',
   description:
-    'Executive overview of platform health, adoption, and operational signals across MyPropertyAsset.',
+    'Operator cockpit for cross-organization exceptions, platform health, and intervention queues — not a Builder Portal mirror.',
 };
 
 export const SUPER_ADMIN_DASHBOARD_KPIS: readonly DashboardKpiItem[] = [

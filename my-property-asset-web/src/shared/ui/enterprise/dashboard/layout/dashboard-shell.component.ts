@@ -7,10 +7,15 @@ import {
   EnterpriseDashboardFooterComponent,
 } from './dashboard-chrome.component';
 import { EnterpriseDashboardStateComponent } from '../states/dashboard-state.component';
-import type { EnterpriseDashboardLayoutMode, EnterpriseDashboardLifecycleState } from '../models/enterprise-dashboard.models';
+import type {
+  EnterpriseDashboardLayoutMode,
+  EnterpriseDashboardLifecycleState,
+  EnterpriseDashboardRhythm,
+} from '../models/enterprise-dashboard.models';
 
 /**
  * DS-06 Dashboard Shell — P0.1 §2.2 zone order via content projection.
+ * Four fixed zones: KPI → Attention → Activity → Quick actions (UI-REBIRTH §3).
  * Presentation framework only; modules supply widgets and data.
  */
 @Component({
@@ -26,6 +31,8 @@ import type { EnterpriseDashboardLayoutMode, EnterpriseDashboardLifecycleState }
     <div
       class="enterprise-dashboard-shell"
       [class.enterprise-dashboard-shell--analytics]="layoutMode() === 'analytics'"
+      [class.enterprise-dashboard-shell--operational]="rhythm() === 'operational'"
+      [class.enterprise-dashboard-shell--exception]="rhythm() === 'exception'"
     >
       <app-enterprise-dashboard-header
         [title]="title()"
@@ -50,6 +57,9 @@ import type { EnterpriseDashboardLayoutMode, EnterpriseDashboardLifecycleState }
           <ng-content select="[dashboardFilters]" />
         </app-enterprise-dashboard-filters>
       }
+
+      <ng-content select="[dashboardWelcome]" />
+      <ng-content select="[dashboardAccountHealth]" />
 
       <app-enterprise-dashboard-state
         [state]="state()"
@@ -84,15 +94,22 @@ import type { EnterpriseDashboardLayoutMode, EnterpriseDashboardLifecycleState }
   `,
   styles: `
     .enterprise-dashboard-shell {
-      display: flex; flex-direction: column; gap: var(--mpa-spacing-xl); width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: var(--mpa-spacing-xl);
+      width: 100%;
     }
     .enterprise-dashboard-shell--analytics .enterprise-dashboard-shell__zones {
       gap: var(--mpa-spacing-xl);
     }
     .enterprise-dashboard-shell__zones {
-      display: flex; flex-direction: column; gap: var(--mpa-spacing-xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--mpa-spacing-xl);
     }
-    .enterprise-dashboard-shell__zone:empty { display: none; }
+    .enterprise-dashboard-shell__zone:empty {
+      display: none;
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -101,6 +118,8 @@ export class EnterpriseDashboardShellComponent {
   readonly description = input<string | undefined>(undefined);
   readonly eyebrow = input<string | undefined>(undefined);
   readonly layoutMode = input<EnterpriseDashboardLayoutMode>('dashboard');
+  /** Builder = operational; Super Admin = exception-first (UI-REBIRTH §3 / §11). */
+  readonly rhythm = input<EnterpriseDashboardRhythm>('operational');
   readonly state = input<EnterpriseDashboardLifecycleState>('idle');
   readonly errorMessage = input<string | undefined>(undefined);
   readonly maintenanceMessage = input<string | undefined>(undefined);

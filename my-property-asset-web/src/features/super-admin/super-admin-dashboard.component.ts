@@ -2,13 +2,14 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { Router } from '@angular/router';
 
 import {
+  EnterpriseDashboardAttentionListComponent,
   EnterpriseDashboardGridComponent,
   EnterpriseDashboardGridItemComponent,
   EnterpriseDashboardKpiStripComponent,
-  EnterpriseDashboardSectionComponent,
   EnterpriseDashboardShellComponent,
   EnterpriseKpiPrimaryComponent,
   OutlineButtonComponent,
+  type EnterpriseDashboardAttentionItem,
 } from '@shared/ui';
 
 import { SuperAdminPageComponent } from './components/layout';
@@ -18,22 +19,13 @@ import {
   SUPER_ADMIN_DASHBOARD_HEADER,
   SUPER_ADMIN_DASHBOARD_QUICK_ACTIONS,
   SUPER_ADMIN_DASHBOARD_STATUSES,
-  SUPER_ADMIN_DONUT_CHART,
-  SUPER_ADMIN_ORG_CHART,
-  SUPER_ADMIN_USAGE_CHART,
 } from './config/super-admin-dashboard.config';
 import {
   AnnouncementsWidgetComponent,
-  BuilderSummaryWidgetComponent,
-  OrganizationsChartWidgetComponent,
-  OrganizationSummaryWidgetComponent,
   PlatformStatusWidgetComponent,
   QuickActionsWidgetComponent,
   RecentActivityWidgetComponent,
   SystemHealthWidgetComponent,
-  UsageChartWidgetComponent,
-  UsageOverviewWidgetComponent,
-  UserSummaryWidgetComponent,
 } from './components/widgets';
 import { DashboardWidgetId } from './models/dashboard.model';
 import { DashboardPreferencesService } from './services/dashboard-preferences.service';
@@ -48,22 +40,16 @@ import { SupportTicketService } from './platform/services/support-ticket.service
     SuperAdminPageComponent,
     EnterpriseDashboardShellComponent,
     EnterpriseDashboardKpiStripComponent,
-    EnterpriseDashboardSectionComponent,
+    EnterpriseDashboardAttentionListComponent,
     EnterpriseDashboardGridComponent,
     EnterpriseDashboardGridItemComponent,
     EnterpriseKpiPrimaryComponent,
     OutlineButtonComponent,
     QuickActionsWidgetComponent,
-    UsageChartWidgetComponent,
-    OrganizationsChartWidgetComponent,
     PlatformStatusWidgetComponent,
     SystemHealthWidgetComponent,
     RecentActivityWidgetComponent,
     AnnouncementsWidgetComponent,
-    OrganizationSummaryWidgetComponent,
-    BuilderSummaryWidgetComponent,
-    UserSummaryWidgetComponent,
-    UsageOverviewWidgetComponent,
   ],
   templateUrl: './super-admin-dashboard.component.html',
   styleUrl: './super-admin-dashboard.component.scss',
@@ -82,14 +68,10 @@ export class SuperAdminDashboardComponent {
   readonly announcements = SUPER_ADMIN_DASHBOARD_ANNOUNCEMENTS;
   readonly quickActions = SUPER_ADMIN_DASHBOARD_QUICK_ACTIONS;
   readonly filters = SUPER_ADMIN_DASHBOARD_FILTERS;
-  readonly usageChart = SUPER_ADMIN_USAGE_CHART;
-  readonly orgChart = SUPER_ADMIN_ORG_CHART;
-  readonly usageDonutChart = SUPER_ADMIN_DONUT_CHART;
 
   readonly selectedFilter = signal('30d');
   readonly refreshingAll = signal(false);
 
-  readonly visibleWidgets = this.preferences.visibleWidgets;
   readonly pinnedActionIds = computed(() => this.preferences.preferences().pinnedActions);
   readonly favoriteActionIds = computed(() => this.preferences.preferences().favoriteActions);
 
@@ -127,34 +109,63 @@ export class SuperAdminDashboardComponent {
     ];
   });
 
-  readonly trends = computed(() => {
+  /** Exception-first attention — not a second KPI strip (UI-REBIRTH §11 / §20 #9). */
+  readonly attentionItems = computed((): EnterpriseDashboardAttentionItem[] => {
     const m = this.metricsSnapshot();
-    return [
-      {
-        id: 'owners',
-        label: 'Active owners',
-        value: String(m.totalActiveOwners),
-        change: `+${m.monthlyGrowthPercent}%`,
-        trend: 'up' as const,
-        period: 'Portfolio',
-      },
-      {
-        id: 'handovers',
-        label: 'Digital handovers',
-        value: String(m.totalDigitalHandovers),
-        change: '+8%',
-        trend: 'up' as const,
-        period: 'Estimated',
-      },
-      {
-        id: 'support',
-        label: 'Support tickets',
-        value: String(m.openSupportTickets),
-        change: this.support.openCount() > 0 ? 'Open queue' : 'Clear',
-        trend: this.support.openCount() > 0 ? ('down' as const) : ('up' as const),
-        period: 'Support Center',
-      },
-    ];
+    const items: EnterpriseDashboardAttentionItem[] = [];
+    const openTickets = this.support.openCount();
+
+    if (openTickets > 0) {
+      items.push({
+        id: 'support-queue',
+        title: `${openTickets} open support tickets`,
+        description: 'Builders waiting on platform intervention.',
+        severity: 'error',
+        icon: 'pi pi-headphones',
+        actionLabel: 'Open Support',
+        href: '/super-admin/support',
+      });
+    }
+
+    if (m.suspendedBuilders > 0) {
+      items.push({
+        id: 'suspended-builders',
+        title: `${m.suspendedBuilders} suspended builders`,
+        description: 'Accounts that may need reactivation or follow-up.',
+        severity: 'warn',
+        icon: 'pi pi-building',
+        actionLabel: 'Review builders',
+        href: '/super-admin/builders',
+      });
+    }
+
+    if (m.trialBuilders > 0) {
+      items.push({
+        id: 'trial-builders',
+        title: `${m.trialBuilders} builders on trial`,
+        description: 'Watch conversion and expiry risk across the trial cohort.',
+        severity: 'info',
+        icon: 'pi pi-clock',
+        actionLabel: 'Review builders',
+        href: '/super-admin/builders',
+      });
+    }
+
+    for (const status of this.statuses) {
+      if (status.status === 'degraded' || status.status === 'critical') {
+        items.push({
+          id: `status-${status.id}`,
+          title: `${status.label} is ${status.status}`,
+          description: status.detail,
+          severity: status.status === 'critical' ? 'error' : 'warn',
+          icon: status.icon ?? 'pi pi-server',
+          actionLabel: 'Operations',
+          href: '/super-admin/operations/health',
+        });
+      }
+    }
+
+    return items;
   });
 
   readonly activities = computed(() =>
@@ -167,30 +178,6 @@ export class SuperAdminDashboardComponent {
       tone: 'info' as const,
     })),
   );
-
-  readonly orgSummary = computed(() => ({
-    id: 'org-summary',
-    title: 'Active subscriptions',
-    value: String(this.metricsSnapshot().activeSubscriptions),
-    subtitle: `${this.metricsSnapshot().trialBuilders} on trial`,
-    icon: 'pi pi-credit-card',
-  }));
-
-  readonly builderSummary = computed(() => ({
-    id: 'builder-summary',
-    title: 'Builders',
-    value: String(this.metricsSnapshot().totalBuilders),
-    subtitle: `${this.metricsSnapshot().suspendedBuilders} suspended`,
-    icon: 'pi pi-building',
-  }));
-
-  readonly userSummary = computed(() => ({
-    id: 'user-summary',
-    title: 'Active owners',
-    value: String(this.metricsSnapshot().totalActiveOwners),
-    subtitle: `${this.metricsSnapshot().totalDigitalHandovers} handovers`,
-    icon: 'pi pi-users',
-  }));
 
   readonly lastRefreshedLabel = computed(() => {
     const timestamp = this.preferences.preferences().lastRefreshedAt;
@@ -210,7 +197,11 @@ export class SuperAdminDashboardComponent {
 
   async onRefreshAll(): Promise<void> {
     this.refreshingAll.set(true);
-    const ids = this.visibleWidgets().map((widget) => widget.id);
+    const ids: DashboardWidgetId[] = [
+      'recent-activity',
+      'platform-status',
+      'system-health',
+    ];
     await this.widgetLoader.refreshAll(ids);
     this.preferences.markRefreshed();
     this.refreshingAll.set(false);
@@ -223,6 +214,13 @@ export class SuperAdminDashboardComponent {
   onQuickActionSelected(action: (typeof SUPER_ADMIN_DASHBOARD_QUICK_ACTIONS)[number]): void {
     if (action.route) {
       void this.router.navigateByUrl(action.route);
+    }
+  }
+
+  onAttentionAction(id: string): void {
+    const item = this.attentionItems().find((entry) => entry.id === id);
+    if (item?.href) {
+      void this.router.navigateByUrl(item.href);
     }
   }
 }

@@ -13,9 +13,9 @@ import {
 
 export const BUILDER_DASHBOARD_HEADER = {
   eyebrow: 'Builder Portal',
-  title: 'Project delivery dashboard',
+  title: 'What needs you today',
   description:
-    'A daily operational view of your developments — progress, handovers, snags, and owner activity across every project.',
+    'A calm operational view of your developments — KPIs, attention items, recent activity, and quick actions.',
 };
 
 export const BUILDER_DASHBOARD_KPIS: readonly DashboardKpiItem[] = [

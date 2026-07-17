@@ -1,4 +1,8 @@
-// Base dashboard styles are provided globally via src/styles.scss
+.bp-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-lg);
+}
 
 .bp-dashboard__filters {
   display: flex;
@@ -6,13 +10,12 @@
   gap: var(--mpa-spacing-xs);
 }
 
-.bp-dashboard__summary-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-  gap: var(--mpa-spacing-md);
+.bp-dashboard__activity {
+  width: 100%;
 }
 
-.bp-dashboard__filter-hint {
-  font-size: var(--mpa-font-size-xs);
-  color: var(--mpa-color-text-muted);
+@media (max-width: 639px) {
+  .bp-dashboard__filters {
+    width: 100%;
+  }
 }

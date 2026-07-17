@@ -120,7 +120,7 @@ export class EnterpriseDashboardSectionComponent {
         flex-wrap: nowrap;
         scroll-snap-type: x mandatory;
       }
-      .enterprise-dashboard-kpi-strip ::ng-deep > * {
+      .enterprise-dashboard-kpi-strip > * {
         flex: 0 0 min(75vw, 14rem);
         scroll-snap-align: start;
       }
