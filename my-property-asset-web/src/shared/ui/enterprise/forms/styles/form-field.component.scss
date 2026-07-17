@@ -1,0 +1,69 @@
+.enterprise-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-xs);
+  min-width: 0;
+}
+
+.enterprise-form-field__label {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  font-size: var(--mpa-font-size-sm);
+  font-weight: var(--mpa-font-weight-medium);
+  color: var(--mpa-color-text);
+}
+
+.enterprise-form-field__required {
+  color: var(--mpa-color-danger);
+  font-weight: var(--mpa-font-weight-semibold);
+}
+
+.enterprise-form-field__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.enterprise-form-field__control {
+  min-width: 0;
+}
+
+.enterprise-form-field__control :is(input, textarea, .p-select, .p-datepicker, .p-inputtext) {
+  width: 100%;
+}
+
+.enterprise-form-field__hint,
+.enterprise-form-field__error,
+.enterprise-form-field__success {
+  margin: 0;
+  font-size: var(--mpa-font-size-xs);
+}
+
+.enterprise-form-field__hint {
+  color: var(--mpa-color-text-muted);
+}
+
+.enterprise-form-field__error {
+  color: var(--mpa-color-danger);
+}
+
+.enterprise-form-field__success {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--mpa-color-success);
+}
+
+.enterprise-form-field--readonly .enterprise-form-field__control {
+  pointer-events: none;
+}
+
+.enterprise-form-field--disabled {
+  opacity: 0.65;
+}

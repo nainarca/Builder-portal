@@ -1,0 +1,60 @@
+.enterprise-wizard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-lg);
+}
+
+.enterprise-wizard__progress-meta {
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.enterprise-wizard__final,
+.enterprise-wizard__sticky,
+.enterprise-wizard__panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--mpa-spacing-sm);
+  justify-content: flex-end;
+}
+
+.enterprise-wizard__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-md);
+  padding: var(--mpa-spacing-lg);
+  border: 1px solid var(--mpa-color-border);
+  border-radius: var(--mpa-radius-md);
+  background: var(--mpa-color-surface);
+}
+
+.enterprise-wizard__panel--complete {
+  align-items: center;
+  text-align: center;
+}
+
+.enterprise-wizard__panel-title {
+  margin: 0;
+  font-size: var(--mpa-font-size-xl);
+  font-weight: var(--mpa-font-weight-semibold);
+}
+
+.enterprise-wizard__panel-copy {
+  margin: 0;
+  font-size: var(--mpa-font-size-sm);
+  color: var(--mpa-color-text-muted);
+  max-width: 36rem;
+}
+
+.enterprise-wizard__complete-icon {
+  font-size: 2.5rem;
+  color: var(--mpa-color-success);
+}
+
+@media (max-width: 767px) {
+  .enterprise-wizard__progress-meta {
+    font-size: var(--mpa-font-size-xs);
+  }
+}

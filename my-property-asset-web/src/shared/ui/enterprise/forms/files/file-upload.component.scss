@@ -1,0 +1,119 @@
+.enterprise-file-upload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-md);
+}
+
+.enterprise-file-upload__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.enterprise-file-upload__dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mpa-spacing-sm);
+  padding: var(--mpa-spacing-xl);
+  border: 1px dashed var(--mpa-color-border);
+  border-radius: var(--mpa-radius-md);
+  background: var(--mpa-color-surface-muted);
+  color: var(--mpa-color-text-muted);
+  text-align: center;
+}
+
+.enterprise-file-upload--dragging .enterprise-file-upload__dropzone {
+  border-color: var(--mpa-color-primary);
+  background: color-mix(in srgb, var(--mpa-color-primary-subtle) 80%, transparent);
+}
+
+.enterprise-file-upload__dropzone i {
+  font-size: 1.5rem;
+  color: var(--mpa-color-primary);
+}
+
+.enterprise-file-upload__dropzone p {
+  margin: 0;
+  font-size: var(--mpa-font-size-sm);
+}
+
+.enterprise-file-upload__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mpa-spacing-sm);
+}
+
+.enterprise-file-upload__item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mpa-spacing-sm);
+  padding: var(--mpa-spacing-sm);
+  border: 1px solid var(--mpa-color-border);
+  border-radius: var(--mpa-radius-md);
+  background: var(--mpa-color-surface);
+}
+
+.enterprise-file-upload__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--mpa-spacing-sm);
+  min-width: 0;
+}
+
+.enterprise-file-upload__preview {
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: cover;
+  border-radius: var(--mpa-radius-sm);
+  border: 1px solid var(--mpa-color-border);
+}
+
+.enterprise-file-upload__name {
+  margin: 0;
+  font-size: var(--mpa-font-size-sm);
+  font-weight: var(--mpa-font-weight-medium);
+  color: var(--mpa-color-text);
+}
+
+.enterprise-file-upload__size,
+.enterprise-file-upload__error {
+  margin: 0.1rem 0 0;
+  font-size: var(--mpa-font-size-xs);
+}
+
+.enterprise-file-upload__size {
+  color: var(--mpa-color-text-muted);
+}
+
+.enterprise-file-upload__error {
+  color: var(--mpa-color-danger);
+}
+
+.enterprise-file-upload__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--mpa-spacing-xs);
+}
+
+.enterprise-file-upload__progress {
+  width: 6rem;
+  height: 0.35rem;
+  border-radius: var(--mpa-radius-full);
+  background: var(--mpa-color-surface-muted);
+  overflow: hidden;
+}
+
+.enterprise-file-upload__progress span {
+  display: block;
+  height: 100%;
+  background: var(--mpa-color-primary);
+}

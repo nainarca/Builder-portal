@@ -4,6 +4,7 @@ export * from './buttons';
 export * from './cards';
 export * from './dialogs';
 export * from './empty-states';
+export * from './forms';
 export * from './kpi';
 export * from './loading';
 export * from './models/enterprise.models';
