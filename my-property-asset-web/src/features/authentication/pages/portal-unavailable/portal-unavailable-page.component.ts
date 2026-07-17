@@ -7,13 +7,15 @@ import {
   AuthenticationService,
 } from '@core/auth';
 import { APP_ROUTES } from '@core/constants/app.constants';
-import { ErrorStateComponent } from '@shared/ui';
+import { ErrorStateComponent, GhostButtonComponent } from '@shared/ui';
 import { AuthFormCardComponent } from '../../components/auth-form-card/auth-form-card.component';
+import { AuthPageComponent } from '../../components/layout';
 
 @Component({
   selector: 'app-portal-unavailable-page',
-  imports: [AuthFormCardComponent, ErrorStateComponent],
+  imports: [AuthPageComponent, AuthFormCardComponent, ErrorStateComponent, GhostButtonComponent],
   templateUrl: './portal-unavailable-page.component.html',
+  styleUrl: '../../styles/auth-page.shared.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortalUnavailablePageComponent {

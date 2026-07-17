@@ -25,6 +25,7 @@
 
 .auth-layout__main {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: var(--mpa-spacing-xl) var(--mpa-spacing-lg);
@@ -38,6 +39,16 @@
       radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--mpa-color-primary) 12%, transparent), transparent 45%),
       radial-gradient(circle at 80% 80%, color-mix(in srgb, var(--mpa-color-accent, var(--mpa-color-primary)) 10%, transparent), transparent 40%);
     pointer-events: none;
+  }
+}
+
+.auth-layout__mobile-brand {
+  display: block;
+  width: min(100%, 28rem);
+  margin-bottom: var(--mpa-spacing-lg);
+
+  @media (min-width: 1024px) {
+    display: none;
   }
 }
 

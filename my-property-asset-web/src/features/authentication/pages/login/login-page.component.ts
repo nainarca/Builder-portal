@@ -13,15 +13,18 @@ import {
   RememberMeService,
 } from '@core/auth';
 import { APP_ROUTES } from '@core/constants/app.constants';
-import { AUTH_ENTRY_EXPERIENCES } from '../../../public-website/config/conversion-entry.config';
-import { AuthEntryIntent } from '../../../public-website/models/conversion.model';
 import {
   ButtonComponent,
+  EnterpriseFormLayoutComponent,
+  EnterpriseValidationSummaryComponent,
+  ErrorAlertComponent,
   FormActionsComponent,
-  ValidationSummaryComponent,
 } from '@shared/ui';
+import { AUTH_ENTRY_EXPERIENCES } from '../../../public-website/config/conversion-entry.config';
+import { AuthEntryIntent } from '../../../public-website/models/conversion.model';
 import { AuthFormCardComponent } from '../../components/auth-form-card/auth-form-card.component';
 import { AuthFormFieldComponent } from '../../components/auth-form-field/auth-form-field.component';
+import { AuthPageComponent } from '../../components/layout';
 import { AuthPasswordFieldComponent } from '../../components/auth-password-field/auth-password-field.component';
 import { AuthRememberMeComponent } from '../../components/auth-remember-me/auth-remember-me.component';
 import { collectValidationIssues } from '../../utils/auth-form.utils';
@@ -31,16 +34,19 @@ import { collectValidationIssues } from '../../utils/auth-form.utils';
   imports: [
     ReactiveFormsModule,
     RouterLink,
+    AuthPageComponent,
     AuthFormCardComponent,
     AuthFormFieldComponent,
     AuthPasswordFieldComponent,
     AuthRememberMeComponent,
+    EnterpriseFormLayoutComponent,
+    EnterpriseValidationSummaryComponent,
+    ErrorAlertComponent,
     ButtonComponent,
     FormActionsComponent,
-    ValidationSummaryComponent,
   ],
   templateUrl: './login-page.component.html',
-  styleUrl: './login-page.component.scss',
+  styleUrl: '../../styles/auth-page.shared.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPageComponent implements OnInit {

@@ -4,10 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthRedirectService } from '@core/auth';
 import { ErrorStateComponent } from '@shared/ui';
 import { AuthFormCardComponent } from '../../components/auth-form-card/auth-form-card.component';
+import { AuthPageComponent } from '../../components/layout';
 
 @Component({
   selector: 'app-session-expired-page',
-  imports: [AuthFormCardComponent, ErrorStateComponent],
+  imports: [AuthPageComponent, AuthFormCardComponent, ErrorStateComponent],
   templateUrl: './session-expired-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -10,15 +10,36 @@ import {
 import { APP_ROUTES } from '@core/constants/app.constants';
 import { BuilderSessionBridgeService } from '@core/organization-context';
 import { AuthorizationService } from '@core/rbac';
-import { ButtonComponent } from '@shared/ui';
+import {
+  ButtonComponent,
+  EnterpriseFormLayoutComponent,
+  EnterpriseValidationSummaryComponent,
+  ErrorAlertComponent,
+  FormActionsComponent,
+  SuccessAlertComponent,
+} from '@shared/ui';
 import { BuilderOrganizationService } from '../../../builder-portal/organization/services/builder-organization.service';
 import { AuthFormCardComponent } from '../../components/auth-form-card/auth-form-card.component';
+import { AuthFormFieldComponent } from '../../components/auth-form-field/auth-form-field.component';
+import { AuthPageComponent } from '../../components/layout';
+import { collectValidationIssues } from '../../utils/auth-form.utils';
 
 @Component({
   selector: 'app-builder-invitation-accept-page',
-  imports: [ReactiveFormsModule, ButtonComponent, AuthFormCardComponent],
+  imports: [
+    ReactiveFormsModule,
+    AuthPageComponent,
+    AuthFormCardComponent,
+    AuthFormFieldComponent,
+    EnterpriseFormLayoutComponent,
+    EnterpriseValidationSummaryComponent,
+    ErrorAlertComponent,
+    SuccessAlertComponent,
+    ButtonComponent,
+    FormActionsComponent,
+  ],
   templateUrl: './builder-invitation-accept-page.component.html',
-  styleUrl: './builder-invitation-accept-page.component.scss',
+  styleUrl: '../../styles/auth-page.shared.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BuilderInvitationAcceptPageComponent {
@@ -33,6 +54,7 @@ export class BuilderInvitationAcceptPageComponent {
   readonly message = signal<string | null>(null);
   readonly error = signal<string | null>(null);
   readonly accepting = signal(false);
+  readonly validationIssues = signal<{ field: string; message: string }[]>([]);
 
   readonly form = new FormGroup({
     token: new FormControl(this.route.snapshot.queryParamMap.get('token') ?? '', {
@@ -44,9 +66,11 @@ export class BuilderInvitationAcceptPageComponent {
   async accept(): Promise<void> {
     this.error.set(null);
     this.message.set(null);
+    this.validationIssues.set([]);
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      this.validationIssues.set(collectValidationIssues(this.form, { token: 'Invitation token' }));
       return;
     }
 

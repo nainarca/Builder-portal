@@ -13,4 +13,8 @@
   <div class="auth-form-card__body">
     <ng-content />
   </div>
+
+  @if (showTrustFooter()) {
+    <app-auth-trust-footer />
+  }
 </section>

@@ -5,23 +5,28 @@ import { AUTH_ROUTE_SEGMENTS } from '@core/auth';
 import { APP_ROUTES } from '@core/constants/app.constants';
 import { FeedbackStateComponent } from '@shared/ui';
 import { AuthFormCardComponent } from '../../components/auth-form-card/auth-form-card.component';
+import { AuthPageComponent } from '../../components/layout';
 
 @Component({
   selector: 'app-email-verification-pending-page',
-  imports: [AuthFormCardComponent, FeedbackStateComponent],
+  imports: [AuthPageComponent, AuthFormCardComponent, FeedbackStateComponent],
   template: `
-    <app-auth-form-card
-      title="Verify your email"
-      subtitle="We sent a verification link to complete your account setup."
-    >
-      <app-feedback-state
-        icon="envelope"
-        title="Check your inbox"
-        [description]="description()"
-        actionLabel="Return to sign in"
-        (action)="goToLogin()"
-      />
-    </app-auth-form-card>
+    <app-auth-page>
+      <app-auth-form-card
+        eyebrow="Account setup"
+        title="Verify your email"
+        subtitle="We sent a verification link to complete your account setup."
+        [showTrustFooter]="false"
+      >
+        <app-feedback-state
+          icon="envelope"
+          title="Check your inbox"
+          [description]="description()"
+          actionLabel="Return to sign in"
+          (action)="goToLogin()"
+        />
+      </app-auth-form-card>
+    </app-auth-page>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

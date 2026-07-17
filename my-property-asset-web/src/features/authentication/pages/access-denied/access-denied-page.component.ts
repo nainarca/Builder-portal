@@ -5,10 +5,11 @@ import { AUTH_ROUTE_SEGMENTS } from '@core/auth';
 import { APP_ROUTES } from '@core/constants/app.constants';
 import { ErrorStateComponent } from '@shared/ui';
 import { AuthFormCardComponent } from '../../components/auth-form-card/auth-form-card.component';
+import { AuthPageComponent } from '../../components/layout';
 
 @Component({
   selector: 'app-access-denied-page',
-  imports: [AuthFormCardComponent, ErrorStateComponent],
+  imports: [AuthPageComponent, AuthFormCardComponent, ErrorStateComponent],
   templateUrl: './access-denied-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

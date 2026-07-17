@@ -1,51 +1,53 @@
-<app-auth-form-card
-  [eyebrow]="experience().eyebrow"
-  [title]="experience().title"
-  [subtitle]="experience().subtitle"
->
-  <app-validation-summary [issues]="validationIssues()" />
+<app-auth-page>
+  <app-auth-form-card
+    [eyebrow]="experience().eyebrow"
+    [title]="experience().title"
+    [subtitle]="experience().subtitle"
+  >
+    <app-enterprise-validation-summary [issues]="validationIssues()" />
 
-  @if (submitError()) {
-    <div class="login-page__alert" role="alert">
-      {{ submitError() }}
-    </div>
-  }
+    @if (submitError()) {
+      <app-error-alert [message]="submitError()!" />
+    }
 
-  <form class="login-page__form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
-    <app-auth-form-field
-      label="Work email"
-      inputId="login-email"
-      type="email"
-      placeholder="name@company.com"
-      autocomplete="email"
-      [control]="form.controls.email"
-    />
+    <app-enterprise-form-layout width="narrow">
+      <form class="auth-form-stack" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+        <app-auth-form-field
+          label="Work email"
+          inputId="login-email"
+          type="email"
+          placeholder="name@company.com"
+          autocomplete="email"
+          [control]="form.controls.email"
+        />
 
-    <app-auth-password-field
-      inputId="login-password"
-      placeholder="Enter your password"
-      autocomplete="current-password"
-      [control]="form.controls.password"
-    />
+        <app-auth-password-field
+          inputId="login-password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+          [control]="form.controls.password"
+        />
 
-    <div class="login-page__meta">
-      <app-auth-remember-me [control]="form.controls.rememberMe" />
-      <a
-        class="login-page__link"
-        [routerLink]="['/', appRoutes.authentication, authRoutes.forgotPassword]"
-      >
-        Forgot password?
-      </a>
-    </div>
+        <div class="auth-form-meta">
+          <app-auth-remember-me [control]="form.controls.rememberMe" />
+          <a
+            class="auth-inline-link"
+            [routerLink]="['/', appRoutes.authentication, authRoutes.forgotPassword]"
+          >
+            Forgot password?
+          </a>
+        </div>
 
-    <app-form-actions>
-      <app-button
-        [label]="experience().ctaLabel"
-        type="submit"
-        icon="sign-in"
-        [loading]="submitting()"
-        [disabled]="submitting()"
-      />
-    </app-form-actions>
-  </form>
-</app-auth-form-card>
+        <app-form-actions>
+          <app-button
+            [label]="experience().ctaLabel"
+            type="submit"
+            icon="sign-in"
+            [loading]="submitting()"
+            [disabled]="submitting()"
+          />
+        </app-form-actions>
+      </form>
+    </app-enterprise-form-layout>
+  </app-auth-form-card>
+</app-auth-page>

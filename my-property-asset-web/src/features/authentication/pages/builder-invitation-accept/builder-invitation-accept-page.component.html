@@ -1,19 +1,34 @@
-<app-auth-form-card
-  title="Accept builder invitation"
-  subtitle="Join your Builder Organization to open the Builder Portal."
->
-  <form class="builder-invite-accept" [formGroup]="form" (ngSubmit)="accept()">
-    <label class="builder-invite-accept__field">
-      <span>Invitation token</span>
-      <input type="text" formControlName="token" autocomplete="off" />
-    </label>
-    <app-button type="submit" label="Accept invitation" [loading]="accepting()" />
-  </form>
+<app-auth-page>
+  <app-auth-form-card
+    eyebrow="Builder onboarding"
+    title="Accept builder invitation"
+    subtitle="Join your builder organization to open the Builder Portal."
+  >
+    <app-enterprise-validation-summary [issues]="validationIssues()" />
 
-  @if (error()) {
-    <p class="builder-invite-accept__error" role="alert">{{ error() }}</p>
-  }
-  @if (message()) {
-    <p class="builder-invite-accept__message" role="status">{{ message() }}</p>
-  }
-</app-auth-form-card>
+    @if (error()) {
+      <app-error-alert [message]="error()!" />
+    }
+    @if (message()) {
+      <app-success-alert [message]="message()!" />
+    }
+
+    <app-enterprise-form-layout width="narrow">
+      <form class="auth-form-stack" [formGroup]="form" (ngSubmit)="accept()" novalidate>
+        <app-auth-form-field
+          label="Invitation token"
+          inputId="builder-invite-token"
+          type="text"
+          placeholder="Paste your invitation token"
+          autocomplete="off"
+          hint="The token was included in your invitation email or link."
+          [control]="form.controls.token"
+        />
+
+        <app-form-actions>
+          <app-button type="submit" label="Accept invitation" icon="check" [loading]="accepting()" />
+        </app-form-actions>
+      </form>
+    </app-enterprise-form-layout>
+  </app-auth-form-card>
+</app-auth-page>

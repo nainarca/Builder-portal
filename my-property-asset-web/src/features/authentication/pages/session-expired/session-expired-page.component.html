@@ -1,8 +1,10 @@
-<app-auth-form-card title="Session expired" [subtitle]="subtitle()">
-  <app-error-state
-    title="Please sign in again"
-    [description]="description()"
-    actionLabel="Sign in"
-    (action)="signInAgain()"
-  />
-</app-auth-form-card>
+<app-auth-page>
+  <app-auth-form-card title="Session expired" [subtitle]="subtitle()" [showTrustFooter]="false">
+    <app-error-state
+      title="Please sign in again"
+      [description]="description()"
+      actionLabel="Sign in"
+      (action)="signInAgain()"
+    />
+  </app-auth-form-card>
+</app-auth-page>

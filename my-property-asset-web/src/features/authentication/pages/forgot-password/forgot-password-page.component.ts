@@ -10,12 +10,15 @@ import {
 import { APP_ROUTES } from '@core/constants/app.constants';
 import {
   ButtonComponent,
+  EnterpriseFormLayoutComponent,
+  EnterpriseValidationSummaryComponent,
+  ErrorAlertComponent,
   FormActionsComponent,
   SuccessStateComponent,
-  ValidationSummaryComponent,
 } from '@shared/ui';
 import { AuthFormCardComponent } from '../../components/auth-form-card/auth-form-card.component';
 import { AuthFormFieldComponent } from '../../components/auth-form-field/auth-form-field.component';
+import { AuthPageComponent } from '../../components/layout';
 import { collectValidationIssues } from '../../utils/auth-form.utils';
 
 @Component({
@@ -23,14 +26,18 @@ import { collectValidationIssues } from '../../utils/auth-form.utils';
   imports: [
     ReactiveFormsModule,
     RouterLink,
+    AuthPageComponent,
     AuthFormCardComponent,
     AuthFormFieldComponent,
+    EnterpriseFormLayoutComponent,
+    EnterpriseValidationSummaryComponent,
+    ErrorAlertComponent,
     ButtonComponent,
     FormActionsComponent,
-    ValidationSummaryComponent,
     SuccessStateComponent,
   ],
   templateUrl: './forgot-password-page.component.html',
+  styleUrl: '../../styles/auth-page.shared.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForgotPasswordPageComponent {
