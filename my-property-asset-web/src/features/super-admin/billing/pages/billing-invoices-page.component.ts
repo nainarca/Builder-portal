@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { BasePageComponent, PageHeaderComponent } from '@shared/ui';
+import { EnterpriseFormPageHeaderComponent } from '@shared/ui';
 import {
   BillAddressFormComponent,
   BillInvoiceDetailComponent,
@@ -9,30 +9,33 @@ import {
 } from '../components/invoices';
 import { BillSectionNavComponent } from '../components/shared';
 
+import { SuperAdminPageComponent } from '../../components/layout';
+
 @Component({
   selector: 'app-billing-invoices-page',
   imports: [
-    BasePageComponent,
-    PageHeaderComponent,
+    SuperAdminPageComponent,
+    EnterpriseFormPageHeaderComponent,
     BillSectionNavComponent,
     BillInvoiceListComponent,
     BillAddressFormComponent,
     BillPaymentProvidersComponent,
   ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="bill-page">
-        <app-page-header
+        <app-enterprise-form-page-header
           eyebrow="Invoices"
           title="Invoice management"
-          description="View builder invoices, billing address, and payment provider readiness."
+          subtitle="View builder invoices, billing address, and payment provider readiness."
+          mode="view"
         />
         <app-bill-section-nav />
         <app-bill-invoice-list />
         <app-bill-address-form />
         <app-bill-payment-providers />
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styles: `
     .bill-page { display: grid; gap: var(--mpa-spacing-lg, 1.5rem); }
@@ -43,15 +46,25 @@ export class BillingInvoicesPageComponent {}
 
 @Component({
   selector: 'app-billing-invoice-detail-page',
-  imports: [BasePageComponent, PageHeaderComponent, BillSectionNavComponent, BillInvoiceDetailComponent],
+  imports: [
+    SuperAdminPageComponent,
+    EnterpriseFormPageHeaderComponent,
+    BillSectionNavComponent,
+    BillInvoiceDetailComponent,
+  ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="bill-page">
-        <app-page-header eyebrow="Invoice" title="Invoice detail" description="Invoice line items and payment status." />
+        <app-enterprise-form-page-header
+          eyebrow="Invoice"
+          title="Invoice detail"
+          subtitle="Invoice line items and payment status."
+          mode="view"
+        />
         <app-bill-section-nav />
         <app-bill-invoice-detail />
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styles: `
     .bill-page { display: grid; gap: var(--mpa-spacing-lg, 1.5rem); }

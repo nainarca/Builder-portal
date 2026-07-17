@@ -3,53 +3,43 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent } from '@shared/ui';
+import { EmptyNoDataComponent, EnterpriseFormShellComponent } from '@shared/ui';
 
+import { SuperAdminPageComponent } from '../../components/layout';
 import { OrganizationFormComponent } from '../components/form/organization-form.component';
 import { OrganizationFormModel } from '../models/organization-admin.model';
 import { OrganizationAdminStoreService } from '../services/organization-admin-store.service';
 
 @Component({
   selector: 'app-organization-edit-page',
-  imports: [BasePageComponent, PageHeaderComponent, OrganizationFormComponent, ButtonComponent],
+  imports: [
+    SuperAdminPageComponent,
+    EnterpriseFormShellComponent,
+    EmptyNoDataComponent,
+    OrganizationFormComponent,
+  ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       @if (initialModel(); as model) {
-        <div class="org-page">
-          <app-page-header
-            eyebrow="Organizations"
-            [title]="'Edit ' + model.name"
-            description="Update organization profile and settings."
-          />
+        <app-enterprise-form-shell
+          [title]="'Edit ' + model.name"
+          subtitle="Update organization profile and settings."
+          mode="edit"
+          [state]="saving ? 'saving' : 'idle'"
+          (save)="submit()"
+          (cancel)="cancel()"
+        >
           <app-org-form [initialModel]="model" (submitted)="onSubmit($event)" />
-          <div class="org-form-page-actions">
-            <app-button
-              label="Save changes"
-              icon="pi pi-check"
-              [loading]="saving"
-              (clicked)="submit()"
-            />
-            <app-button label="Cancel" [outlined]="true" (clicked)="cancel()" />
-          </div>
-        </div>
+        </app-enterprise-form-shell>
       } @else {
-        <div class="org-page org-page--empty">
-          <h1 class="ui-page-title">Organization not found</h1>
-        </div>
+        <app-empty-no-data
+          title="Organization not found"
+          description="The requested organization does not exist or was removed."
+        />
       }
-    </app-base-page>
+    </app-sa-page>
   `,
   styleUrl: './organization-edit-page.component.scss',
-  styles: `
-    .org-form-page-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--mpa-spacing-sm);
-      justify-content: flex-end;
-      padding-top: var(--mpa-spacing-md);
-      border-top: 1px solid var(--mpa-color-border);
-    }
-  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrganizationEditPageComponent {

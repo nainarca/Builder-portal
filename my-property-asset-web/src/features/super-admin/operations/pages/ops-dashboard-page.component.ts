@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { BasePageComponent, PageHeaderComponent } from '@shared/ui';
+import { EnterpriseFormPageHeaderComponent } from '@shared/ui';
+
+import { SuperAdminPageComponent } from '../../components/layout';
 
 import {
   OpsAlertCardComponent,
@@ -15,8 +17,8 @@ import { OperationsAdminStoreService } from '../services/operations-admin-store.
 @Component({
   selector: 'app-ops-dashboard-page',
   imports: [
-    BasePageComponent,
-    PageHeaderComponent,
+    SuperAdminPageComponent,
+    EnterpriseFormPageHeaderComponent,
     RouterLink,
     OpsSectionNavComponent,
     OpsSystemStatusComponent,
@@ -25,12 +27,13 @@ import { OperationsAdminStoreService } from '../services/operations-admin-store.
     OpsMetricCardComponent,
   ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="ops-page">
-        <app-page-header
+        <app-enterprise-form-page-header
           eyebrow="Super Admin"
           title="Platform Operations Center"
-          description="Monitor system health, audit activity, performance signals, and operational alerts."
+          subtitle="Monitor system health, audit activity, performance signals, and operational alerts."
+          mode="view"
         />
         <app-ops-section-nav />
 
@@ -104,7 +107,7 @@ import { OperationsAdminStoreService } from '../services/operations-admin-store.
           </aside>
         </div>
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styleUrl: './ops-dashboard-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

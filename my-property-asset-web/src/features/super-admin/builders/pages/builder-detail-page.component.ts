@@ -3,7 +3,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent, UiDialogService, UiToastService } from '@shared/ui';
+import { ButtonComponent, EmptyNoDataComponent, UiDialogService, UiToastService } from '@shared/ui';
+
+import { SuperAdminPageComponent } from '../../components/layout';
 
 import { BuilderOrganizationService } from '../../../builder-portal/organization/services/builder-organization.service';
 import {
@@ -21,7 +23,8 @@ import { BuilderAdminStoreService } from '../services/builder-admin-store.servic
 @Component({
   selector: 'app-builder-detail-page',
   imports: [
-    BasePageComponent,
+    SuperAdminPageComponent,
+    EmptyNoDataComponent,
     ButtonComponent,
     BuilderHeaderComponent,
     BuilderOverviewComponent,

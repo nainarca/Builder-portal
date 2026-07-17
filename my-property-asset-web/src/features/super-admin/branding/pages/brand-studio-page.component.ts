@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { AuthorizedButtonComponent } from '@core/rbac';
-import { BasePageComponent, ButtonComponent, PageHeaderComponent } from '@shared/ui';
+import { ButtonComponent, EnterpriseFormPageHeaderComponent } from '@shared/ui';
 
+import { SuperAdminPageComponent } from '../../components/layout';
 import {
   WlAssetsPanelComponent,
   WlColorsPanelComponent,
@@ -24,23 +25,41 @@ import { BrandStudioStateService } from '../services/brand-studio-state.service'
 @Component({
   selector: 'app-brand-studio-page',
   imports: [
-    BasePageComponent, PageHeaderComponent, ButtonComponent, AuthorizedButtonComponent,
-    WlSectionNavComponent, WlDevicePreviewComponent, WlThemePreviewPanelComponent,
+    SuperAdminPageComponent,
+    EnterpriseFormPageHeaderComponent,
+    ButtonComponent,
+    AuthorizedButtonComponent,
+    WlSectionNavComponent,
+    WlDevicePreviewComponent,
+    WlThemePreviewPanelComponent,
     WlLivePreviewContainerComponent,
-    WlIdentityPanelComponent, WlLogoPanelComponent, WlColorsPanelComponent,
-    WlTypographyPanelComponent, WlThemesPanelComponent, WlAssetsPanelComponent,
+    WlIdentityPanelComponent,
+    WlLogoPanelComponent,
+    WlColorsPanelComponent,
+    WlTypographyPanelComponent,
+    WlThemesPanelComponent,
+    WlAssetsPanelComponent,
     WlPreferencesPanelComponent,
   ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="wl-page wl-page--studio">
-        <app-page-header eyebrow="Brand Experience" title="Brand Studio"
-          [description]="'Editing ' + studio.previewBrand().identity.applicationName">
-          <app-authorized-button pageActions label="Save brand" icon="pi pi-check"
-            permission="id-04-white-label-branding:full" [loading]="saving"
-            (clicked)="save()" />
-          <app-button pageActions label="Reset" [outlined]="true" (clicked)="studio.resetDraft()" />
-        </app-page-header>
+        <app-enterprise-form-page-header
+          eyebrow="Brand Experience"
+          title="Brand Studio"
+          [subtitle]="'Editing ' + studio.previewBrand().identity.applicationName"
+          mode="view"
+        >
+          <app-authorized-button
+            formHeaderActions
+            label="Save brand"
+            icon="pi pi-check"
+            permission="id-04-white-label-branding:full"
+            [loading]="saving"
+            (clicked)="save()"
+          />
+          <app-button formHeaderActions label="Reset" [outlined]="true" (clicked)="studio.resetDraft()" />
+        </app-enterprise-form-page-header>
         <app-wl-section-nav />
 
         <nav class="wl-studio-nav" aria-label="Studio sections">
@@ -77,7 +96,7 @@ import { BrandStudioStateService } from '../services/brand-studio-state.service'
           </aside>
         </div>
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styleUrl: './brand-studio-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

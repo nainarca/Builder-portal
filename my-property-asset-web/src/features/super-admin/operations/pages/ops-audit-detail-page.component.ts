@@ -3,22 +3,31 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 
-import { BasePageComponent, PageHeaderComponent } from '@shared/ui';
+import { EmptyNoDataComponent, EnterpriseFormPageHeaderComponent } from '@shared/ui';
 
+import { SuperAdminPageComponent } from '../../components/layout';
 import { OpsSectionNavComponent, OpsStatusBadgeComponent } from '../components/shared';
 import { formatOpsDate } from '../config/operations.config';
 import { OperationsAdminStoreService } from '../services/operations-admin-store.service';
 
 @Component({
   selector: 'app-ops-audit-detail-page',
-  imports: [BasePageComponent, PageHeaderComponent, RouterLink, OpsSectionNavComponent, OpsStatusBadgeComponent],
+  imports: [
+    SuperAdminPageComponent,
+    EnterpriseFormPageHeaderComponent,
+    EmptyNoDataComponent,
+    RouterLink,
+    OpsSectionNavComponent,
+    OpsStatusBadgeComponent,
+  ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="ops-page">
-        <app-page-header
+        <app-enterprise-form-page-header
           eyebrow="Audit Logs"
           [title]="record()?.action ?? 'Audit event'"
-          [description]="record()?.summary ?? 'Event not found'"
+          [subtitle]="record()?.summary ?? 'Event not found'"
+          mode="view"
         />
         <app-ops-section-nav />
         <a class="ops-action-btn" routerLink="/super-admin/operations/audit"><i class="pi pi-arrow-left" aria-hidden="true"></i> Back to audit list</a>
@@ -37,10 +46,13 @@ import { OperationsAdminStoreService } from '../services/operations-admin-store.
             </dl>
           </section>
         } @else {
-          <div class="ops-empty">Audit record not found.</div>
+          <app-empty-no-data
+            title="Audit record not found"
+            description="The requested audit event does not exist or was removed."
+          />
         }
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styleUrl: './ops-dashboard-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

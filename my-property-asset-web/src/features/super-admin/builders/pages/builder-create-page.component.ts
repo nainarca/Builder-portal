@@ -1,24 +1,27 @@
 import { ChangeDetectionStrategy, Component, inject, signal, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
+import { EnterpriseFormShellComponent, UiToastService } from '@shared/ui';
 
 import { BuilderOrganizationService } from '../../../builder-portal/organization/services/builder-organization.service';
+import { SuperAdminPageComponent } from '../../components/layout';
 import { BuilderFormComponent } from '../components/form/builder-form.component';
 import { BuilderFormModel } from '../models/builder-admin.model';
 import { BuilderAdminStoreService } from '../services/builder-admin-store.service';
 
 @Component({
   selector: 'app-builder-create-page',
-  imports: [BasePageComponent, PageHeaderComponent, BuilderFormComponent, ButtonComponent],
+  imports: [SuperAdminPageComponent, EnterpriseFormShellComponent, BuilderFormComponent],
   template: `
-    <app-base-page>
-      <div class="bldr-page">
-        <app-page-header
-          eyebrow="Builders"
-          title="Create builder"
-          description="Register a Builder Organization, company profile, and invite the Builder Owner."
-        />
+    <app-sa-page>
+      <app-enterprise-form-shell
+        title="Create builder"
+        subtitle="Register a Builder Organization, company profile, and invite the Builder Owner."
+        mode="create"
+        [state]="saving ? 'saving' : 'idle'"
+        (save)="submit()"
+        (cancel)="cancel()"
+      >
         <app-bldr-form [initialModel]="initialModel" (submitted)="onSubmit($event)" />
         @if (lastInviteToken()) {
           <p class="bldr-invite-token" role="status">
@@ -26,26 +29,10 @@ import { BuilderAdminStoreService } from '../services/builder-admin-store.servic
             <code>{{ lastInviteToken() }}</code>
           </p>
         }
-        <div class="bldr-form-page-actions">
-          <app-button
-            label="Create builder"
-            icon="pi pi-check"
-            [loading]="saving"
-            (clicked)="submit()"
-          />
-          <app-button label="Cancel" [outlined]="true" (clicked)="cancel()" />
-        </div>
-      </div>
-    </app-base-page>
+      </app-enterprise-form-shell>
+    </app-sa-page>
   `,
   styles: `
-    .bldr-form-page-actions {
-      display: flex;
-      gap: var(--mpa-spacing-sm);
-      justify-content: flex-end;
-      padding-top: var(--mpa-spacing-md);
-      border-top: 1px solid var(--mpa-color-border);
-    }
     .bldr-invite-token {
       margin: 1rem 0 0;
       padding: 0.75rem 1rem;

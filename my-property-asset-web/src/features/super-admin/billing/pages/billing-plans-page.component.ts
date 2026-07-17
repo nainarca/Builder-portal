@@ -1,34 +1,37 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { BasePageComponent, PageHeaderComponent } from '@shared/ui';
+import { EnterpriseFormPageHeaderComponent } from '@shared/ui';
 import { BillPlanCatalogComponent, BillUpgradeInsightsComponent } from '../components/plans';
 import { BillSectionNavComponent } from '../components/shared';
 import { PlanAdminPanelComponent } from '../components/plans/plan-admin-panel.component';
 
+import { SuperAdminPageComponent } from '../../components/layout';
+
 @Component({
   selector: 'app-billing-plans-page',
   imports: [
-    BasePageComponent,
-    PageHeaderComponent,
+    SuperAdminPageComponent,
+    EnterpriseFormPageHeaderComponent,
     BillSectionNavComponent,
     BillPlanCatalogComponent,
     BillUpgradeInsightsComponent,
     PlanAdminPanelComponent,
   ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="bill-page">
-        <app-page-header
+        <app-enterprise-form-page-header
           eyebrow="Plans"
           title="Plan catalog"
-          description="Create, edit, deactivate, and assign commercial plans to builder organizations."
+          subtitle="Create, edit, deactivate, and assign commercial plans to builder organizations."
+          mode="view"
         />
         <app-bill-section-nav />
         <app-plan-admin-panel />
         <app-bill-plan-catalog />
         <app-bill-upgrade-insights />
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styles: `
     .bill-page {

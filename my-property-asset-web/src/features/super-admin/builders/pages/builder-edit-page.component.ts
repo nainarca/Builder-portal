@@ -3,32 +3,42 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent } from '@shared/ui';
+import { EmptyNoDataComponent, EnterpriseFormShellComponent } from '@shared/ui';
 
+import { SuperAdminPageComponent } from '../../components/layout';
 import { BuilderFormComponent } from '../components/form/builder-form.component';
 import { BuilderFormModel } from '../models/builder-admin.model';
 import { BuilderAdminStoreService } from '../services/builder-admin-store.service';
 
 @Component({
   selector: 'app-builder-edit-page',
-  imports: [BasePageComponent, PageHeaderComponent, BuilderFormComponent, ButtonComponent],
+  imports: [
+    SuperAdminPageComponent,
+    EnterpriseFormShellComponent,
+    EmptyNoDataComponent,
+    BuilderFormComponent,
+  ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       @if (initialModel(); as model) {
-        <div class="bldr-page">
-          <app-page-header eyebrow="Builders" [title]="'Edit ' + model.companyName" description="Update builder profile and settings." />
+        <app-enterprise-form-shell
+          [title]="'Edit ' + model.companyName"
+          subtitle="Update builder profile and settings."
+          mode="edit"
+          [state]="saving ? 'saving' : 'idle'"
+          (save)="submit()"
+          (cancel)="cancel()"
+        >
           <app-bldr-form [initialModel]="model" (submitted)="onSubmit($event)" />
-          <div class="bldr-form-page-actions">
-            <app-button label="Save changes" icon="pi pi-check" [loading]="saving" (clicked)="submit()" />
-            <app-button label="Cancel" [outlined]="true" (clicked)="cancel()" />
-          </div>
-        </div>
+        </app-enterprise-form-shell>
       } @else {
-        <div class="bldr-page bldr-page--empty"><h1 class="ui-page-title">Builder not found</h1></div>
+        <app-empty-no-data
+          title="Builder not found"
+          description="The requested builder does not exist or was removed."
+        />
       }
-    </app-base-page>
+    </app-sa-page>
   `,
-  styles: `.bldr-form-page-actions { display: flex; gap: var(--mpa-spacing-sm); justify-content: flex-end; padding-top: var(--mpa-spacing-md); border-top: 1px solid var(--mpa-color-border); }`,
   styleUrl: './builder-edit-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

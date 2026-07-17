@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BasePageComponent, PageHeaderComponent } from '@shared/ui';
+import { EnterpriseFormPageHeaderComponent } from '@shared/ui';
 
+import { SuperAdminPageComponent } from '../../components/layout';
 import {
   WlBrandHealthCardComponent,
   WlBrandOverviewComponent,
@@ -16,15 +17,24 @@ import { BrandStudioStateService } from '../services/brand-studio-state.service'
 @Component({
   selector: 'app-brand-dashboard-page',
   imports: [
-    BasePageComponent, PageHeaderComponent, WlSectionNavComponent,
-    WlBrandOverviewComponent, WlBrandHealthCardComponent, WlBrandQuickActionsComponent,
-    WlRecentChangesComponent, WlBrandCardComponent,
+    SuperAdminPageComponent,
+    EnterpriseFormPageHeaderComponent,
+    WlSectionNavComponent,
+    WlBrandOverviewComponent,
+    WlBrandHealthCardComponent,
+    WlBrandQuickActionsComponent,
+    WlRecentChangesComponent,
+    WlBrandCardComponent,
   ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="wl-page">
-        <app-page-header eyebrow="Super Admin" title="Brand Experience Center"
-          description="White-label branding, themes, and visual identity for the platform and tenants." />
+        <app-enterprise-form-page-header
+          eyebrow="Super Admin"
+          title="Brand Experience Center"
+          subtitle="White-label branding, themes, and visual identity for the platform and tenants."
+          mode="view"
+        />
         <app-wl-section-nav />
         <app-wl-brand-overview />
         <div class="wl-dashboard-grid">
@@ -45,7 +55,7 @@ import { BrandStudioStateService } from '../services/brand-studio-state.service'
           </aside>
         </div>
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styleUrl: './brand-dashboard-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

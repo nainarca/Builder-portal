@@ -4,8 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 
 import { PlatformRole } from '@core/rbac/models/permission.model';
-import { BasePageComponent } from '@shared/ui';
+import { EmptyNoDataComponent } from '@shared/ui';
 
+import { SuperAdminPageComponent } from '../../../components/layout';
 import { IamRoleAssignmentPanelComponent, IamRoleOverviewComponent } from '../../components/roles/detail';
 import { IamRoleBadgeComponent, IamSectionNavComponent } from '../../components/shared';
 import { RoleAdminStoreService } from '../../services/role-admin-store.service';
@@ -13,11 +14,15 @@ import { RoleAdminStoreService } from '../../services/role-admin-store.service';
 @Component({
   selector: 'app-iam-role-detail-page',
   imports: [
-    BasePageComponent, IamSectionNavComponent, IamRoleBadgeComponent,
-    IamRoleOverviewComponent, IamRoleAssignmentPanelComponent,
+    SuperAdminPageComponent,
+    EmptyNoDataComponent,
+    IamSectionNavComponent,
+    IamRoleBadgeComponent,
+    IamRoleOverviewComponent,
+    IamRoleAssignmentPanelComponent,
   ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       @if (role(); as r) {
         <div class="iam-page iam-page--detail">
           <app-iam-section-nav />
@@ -37,9 +42,12 @@ import { RoleAdminStoreService } from '../../services/role-admin-store.service';
           </div>
         </div>
       } @else {
-        <div class="iam-page iam-page--empty"><h1 class="ui-page-title">Role not found</h1></div>
+        <app-empty-no-data
+          title="Role not found"
+          description="The requested role does not exist or was removed."
+        />
       }
-    </app-base-page>
+    </app-sa-page>
   `,
   styleUrl: './iam-role-detail-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

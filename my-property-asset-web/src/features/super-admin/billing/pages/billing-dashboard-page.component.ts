@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { BasePageComponent, PageHeaderComponent } from '@shared/ui';
+import { EnterpriseFormPageHeaderComponent } from '@shared/ui';
 import { BillAlertsPanelComponent } from '../components/alerts';
 import {
   BillCommercialOverviewComponent,
@@ -13,11 +13,13 @@ import {
   BillSectionNavComponent,
 } from '../components/shared';
 
+import { SuperAdminPageComponent } from '../../components/layout';
+
 @Component({
   selector: 'app-billing-dashboard-page',
   imports: [
-    BasePageComponent,
-    PageHeaderComponent,
+    SuperAdminPageComponent,
+    EnterpriseFormPageHeaderComponent,
     BillSectionNavComponent,
     BillRenewalBannerComponent,
     BillCommercialOverviewComponent,
@@ -27,12 +29,13 @@ import {
     BillPaymentProvidersComponent,
   ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="bill-page">
-        <app-page-header
+        <app-enterprise-form-page-header
           eyebrow="Commercial"
           title="Subscription & billing"
-          description="Manage builder plans, subscriptions, invoices, usage, and payment provider readiness."
+          subtitle="Manage builder plans, subscriptions, invoices, usage, and payment provider readiness."
+          mode="view"
         />
         <app-bill-section-nav />
         <app-bill-renewal-banner
@@ -48,7 +51,7 @@ import {
         <app-bill-alerts-panel />
         <app-bill-payment-providers />
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styles: `
     .bill-page {

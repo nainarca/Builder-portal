@@ -1,22 +1,34 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { BasePageComponent, PageHeaderComponent } from '@shared/ui';
+import { EnterpriseFormPageHeaderComponent } from '@shared/ui';
 import { BillAlertsPanelComponent } from '../components/alerts';
 import { BillLicenseOverviewComponent } from '../components/licenses';
 import { BillUsageDashboardComponent } from '../components/usage';
 import { BillSectionNavComponent } from '../components/shared';
 
+import { SuperAdminPageComponent } from '../../components/layout';
+
 @Component({
   selector: 'app-billing-licenses-page',
-  imports: [BasePageComponent, PageHeaderComponent, BillSectionNavComponent, BillLicenseOverviewComponent],
+  imports: [
+    SuperAdminPageComponent,
+    EnterpriseFormPageHeaderComponent,
+    BillSectionNavComponent,
+    BillLicenseOverviewComponent,
+  ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="bill-page">
-        <app-page-header eyebrow="Licenses" title="License pools" description="Seat and license utilization across builders." />
+        <app-enterprise-form-page-header
+          eyebrow="Licenses"
+          title="License pools"
+          subtitle="Seat and license utilization across builders."
+          mode="view"
+        />
         <app-bill-section-nav />
         <app-bill-license-overview />
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styles: `.bill-page { display: grid; gap: var(--mpa-spacing-lg, 1.5rem); }`,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,15 +37,25 @@ export class BillingLicensesPageComponent {}
 
 @Component({
   selector: 'app-billing-usage-page',
-  imports: [BasePageComponent, PageHeaderComponent, BillSectionNavComponent, BillUsageDashboardComponent],
+  imports: [
+    SuperAdminPageComponent,
+    EnterpriseFormPageHeaderComponent,
+    BillSectionNavComponent,
+    BillUsageDashboardComponent,
+  ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="bill-page">
-        <app-page-header eyebrow="Usage" title="Usage dashboard" description="Commercial usage signals across the platform." />
+        <app-enterprise-form-page-header
+          eyebrow="Usage"
+          title="Usage dashboard"
+          subtitle="Commercial usage signals across the platform."
+          mode="view"
+        />
         <app-bill-section-nav />
         <app-bill-usage-dashboard />
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styles: `.bill-page { display: grid; gap: var(--mpa-spacing-lg, 1.5rem); }`,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,15 +64,25 @@ export class BillingUsagePageComponent {}
 
 @Component({
   selector: 'app-billing-alerts-page',
-  imports: [BasePageComponent, PageHeaderComponent, BillSectionNavComponent, BillAlertsPanelComponent],
+  imports: [
+    SuperAdminPageComponent,
+    EnterpriseFormPageHeaderComponent,
+    BillSectionNavComponent,
+    BillAlertsPanelComponent,
+  ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="bill-page">
-        <app-page-header eyebrow="Alerts" title="Commercial alerts" description="Trial expiry, renewals, and payment reminders." />
+        <app-enterprise-form-page-header
+          eyebrow="Alerts"
+          title="Commercial alerts"
+          subtitle="Trial expiry, renewals, and payment reminders."
+          mode="view"
+        />
         <app-bill-section-nav />
         <app-bill-alerts-panel />
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styles: `.bill-page { display: grid; gap: var(--mpa-spacing-lg, 1.5rem); }`,
   changeDetection: ChangeDetectionStrategy.OnPush,

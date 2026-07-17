@@ -1,20 +1,23 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
-import { BasePageComponent, PageHeaderComponent } from '@shared/ui';
+import { EnterpriseFormPageHeaderComponent } from '@shared/ui';
+
+import { SuperAdminPageComponent } from '../../components/layout';
 import { PLATFORM_ANALYTICS_HEADER } from '../config/platform.config';
 import { PlatformAnalyticsService } from '../services/platform-analytics.service';
 import { PlatformMetricsService } from '../services/platform-metrics.service';
 
 @Component({
   selector: 'app-platform-analytics-page',
-  imports: [BasePageComponent, PageHeaderComponent],
+  imports: [SuperAdminPageComponent, EnterpriseFormPageHeaderComponent],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="analytics-page">
-        <app-page-header
+        <app-enterprise-form-page-header
           [eyebrow]="header.eyebrow"
           [title]="header.title"
-          [description]="header.description"
+          [subtitle]="header.description"
+          mode="view"
         />
 
         <section class="analytics-page__kpis">
@@ -61,7 +64,7 @@ import { PlatformMetricsService } from '../services/platform-metrics.service';
           </section>
         </div>
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styles: `
     .analytics-page { display: grid; gap: 1rem; }

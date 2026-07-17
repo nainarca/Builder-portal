@@ -3,7 +3,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, UiDialogService } from '@shared/ui';
+import { EmptyNoDataComponent, UiDialogService } from '@shared/ui';
+
+import { SuperAdminPageComponent } from '../../components/layout';
 
 import {
   OrganizationActivityTimelineComponent,
@@ -20,7 +22,8 @@ import { OrganizationAdminStoreService } from '../services/organization-admin-st
 @Component({
   selector: 'app-organization-detail-page',
   imports: [
-    BasePageComponent,
+    SuperAdminPageComponent,
+    EmptyNoDataComponent,
     OrganizationHeaderComponent,
     OrganizationOverviewComponent,
     OrganizationBrandingSummaryComponent,

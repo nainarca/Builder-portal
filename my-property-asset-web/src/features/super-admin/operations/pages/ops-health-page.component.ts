@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
-import { BasePageComponent, PageHeaderComponent } from '@shared/ui';
+import { EnterpriseFormPageHeaderComponent } from '@shared/ui';
+
+import { SuperAdminPageComponent } from '../../components/layout';
 
 import {
   OpsHealthCardComponent,
@@ -13,20 +15,21 @@ import { OperationsAdminStoreService } from '../services/operations-admin-store.
 @Component({
   selector: 'app-ops-health-page',
   imports: [
-    BasePageComponent,
-    PageHeaderComponent,
+    SuperAdminPageComponent,
+    EnterpriseFormPageHeaderComponent,
     OpsSectionNavComponent,
     OpsSystemStatusComponent,
     OpsHealthCardComponent,
     OpsTimelineComponent,
   ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="ops-page">
-        <app-page-header
+        <app-enterprise-form-page-header
           eyebrow="Operations"
           title="Platform Health"
-          description="Application, database, authentication, storage, API, and worker health status."
+          subtitle="Application, database, authentication, storage, API, and worker health status."
+          mode="view"
         />
         <app-ops-section-nav />
         <app-ops-system-status [snapshot]="store.healthScore()" />
@@ -43,7 +46,7 @@ import { OperationsAdminStoreService } from '../services/operations-admin-store.
           <app-ops-timeline [events]="store.timeline()" />
         </section>
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styleUrl: './ops-dashboard-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

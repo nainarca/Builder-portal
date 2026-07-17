@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 
 import { PlatformRole } from '@core/rbac/models/permission.model';
-import { BasePageComponent, ContentSectionComponent, PageHeaderComponent, SectionHeaderComponent } from '@shared/ui';
+import { ContentSectionComponent, EnterpriseFormPageHeaderComponent, SectionHeaderComponent } from '@shared/ui';
 
+import { SuperAdminPageComponent } from '../../../components/layout';
 import {
   IamPermissionCategoriesComponent, IamPermissionComparisonComponent,
   IamPermissionComparisonTableComponent, IamPermissionMatrixViewerComponent,
@@ -13,15 +14,25 @@ import { PermissionMatrixService } from '../../services/role-admin-store.service
 @Component({
   selector: 'app-iam-permission-matrix-page',
   imports: [
-    BasePageComponent, PageHeaderComponent, ContentSectionComponent, SectionHeaderComponent,
-    IamSectionNavComponent, IamPermissionCategoriesComponent, IamPermissionMatrixViewerComponent,
-    IamPermissionComparisonComponent, IamPermissionComparisonTableComponent,
+    SuperAdminPageComponent,
+    EnterpriseFormPageHeaderComponent,
+    ContentSectionComponent,
+    SectionHeaderComponent,
+    IamSectionNavComponent,
+    IamPermissionCategoriesComponent,
+    IamPermissionMatrixViewerComponent,
+    IamPermissionComparisonComponent,
+    IamPermissionComparisonTableComponent,
   ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="iam-page">
-        <app-page-header eyebrow="Identity & Access" title="Permissions"
-          description="Visualize the platform permission matrix across roles and resources." />
+        <app-enterprise-form-page-header
+          eyebrow="Identity & Access"
+          title="Permissions"
+          subtitle="Visualize the platform permission matrix across roles and resources."
+          mode="view"
+        />
         <app-iam-section-nav />
 
         <app-iam-permission-categories [categories]="categories()" [selected]="categoryFilter()"
@@ -39,7 +50,7 @@ import { PermissionMatrixService } from '../../services/role-admin-store.service
           <app-iam-permission-comparison-table [items]="comparison()" />
         </app-content-section>
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styleUrl: './iam-permission-matrix-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

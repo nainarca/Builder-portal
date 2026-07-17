@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { BasePageComponent, PageHeaderComponent } from '@shared/ui';
+import { EnterpriseFormPageHeaderComponent } from '@shared/ui';
 
+import { SuperAdminPageComponent } from '../../components/layout';
 import {
   CfgCategoryGridComponent,
   CfgFavoritesPanelComponent,
@@ -15,8 +16,8 @@ import { CfgSectionNavComponent, CfgSettingsSearchComponent } from '../component
 @Component({
   selector: 'app-settings-dashboard-page',
   imports: [
-    BasePageComponent,
-    PageHeaderComponent,
+    SuperAdminPageComponent,
+    EnterpriseFormPageHeaderComponent,
     CfgSectionNavComponent,
     CfgSettingsSearchComponent,
     CfgSettingsOverviewComponent,
@@ -27,12 +28,13 @@ import { CfgSectionNavComponent, CfgSettingsSearchComponent } from '../component
     CfgPinnedSettingsComponent,
   ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="cfg-page">
-        <app-page-header
+        <app-enterprise-form-page-header
           eyebrow="Super Admin"
           title="Platform Configuration Center"
-          description="Manage platform settings, security policies, feature flags, and system preferences."
+          subtitle="Manage platform settings, security policies, feature flags, and system preferences."
+          mode="view"
         />
         <app-cfg-section-nav />
         <div class="cfg-dashboard-toolbar">
@@ -54,7 +56,7 @@ import { CfgSectionNavComponent, CfgSettingsSearchComponent } from '../component
           </aside>
         </div>
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styleUrl: './settings-dashboard-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,40 +1,57 @@
-<app-base-page>
-  <div class="sa-dashboard">
-    <app-sa-dashboard-header
-      [eyebrow]="header.eyebrow"
-      [title]="header.title"
-      [description]="header.description"
-      [refreshing]="refreshingAll()"
-      (refresh)="onRefreshAll()"
-    />
+<app-sa-page>
+  <app-enterprise-dashboard-shell
+    [title]="header.title"
+    [description]="header.description"
+    [eyebrow]="header.eyebrow"
+    [state]="refreshingAll() ? 'refreshing' : 'idle'"
+    [showToolbar]="true"
+    [showFooter]="!!lastRefreshedLabel()"
+    (refresh)="onRefreshAll()"
+  >
+    <div toolbarStart class="sa-dashboard__filters" role="group" aria-label="Dashboard time range">
+      @for (option of filters; track option.id) {
+        <app-outline-button
+          size="small"
+          [label]="option.label"
+          (clicked)="onFilterChange(option.value)"
+        />
+      }
+    </div>
+    <span toolbarEnd class="sa-dashboard__filter-hint">
+      Framework filters — data wiring in future modules
+    </span>
 
-    <app-sa-dashboard-toolbar>
-      <app-sa-dashboard-filters
-        toolbarStart
-        [options]="filters"
-        [selected]="selectedFilter()"
-        (selectedChange)="onFilterChange($event)"
-      />
-      <span toolbarEnd class="sa-dashboard__filter-hint">
-        Framework filters — data wiring in future modules
-      </span>
-    </app-sa-dashboard-toolbar>
-
-    <section class="sa-dashboard__kpi-row" aria-label="Key performance indicators">
+    <app-enterprise-dashboard-kpi-strip kpiStrip>
       @for (kpi of kpis(); track kpi.id) {
-        <app-sa-kpi-card [item]="kpi" />
+        <app-enterprise-kpi-primary
+          [label]="kpi.label"
+          [value]="kpi.value"
+          [hint]="kpi.hint"
+          [trend]="kpi.trend"
+          [trendLabel]="kpi.trendLabel"
+        />
       }
-    </section>
+    </app-enterprise-dashboard-kpi-strip>
 
-    <section class="sa-dashboard__trend-row" aria-label="Trend metrics">
-      @for (trend of trends(); track trend.id) {
-        <app-sa-trend-card [item]="trend" />
-      }
-    </section>
+    <app-enterprise-dashboard-section attentionZone title="Trend metrics">
+      <div class="sa-dashboard__trend-row">
+        @for (trend of trends(); track trend.id) {
+          <app-enterprise-kpi-primary
+            [label]="trend.label"
+            [value]="trend.value"
+            [hint]="trend.period"
+            [trend]="trend.trend"
+            [trendLabel]="trend.change"
+          />
+        }
+      </div>
+    </app-enterprise-dashboard-section>
 
-    <app-sa-dashboard-grid>
+    <app-enterprise-dashboard-grid mainContent>
       @for (widget of visibleWidgets(); track widget.id) {
-        <app-sa-dashboard-grid-item [colspan]="widget.colspan" [rowspan]="widget.rowspan ?? 1">
+        <app-enterprise-dashboard-grid-item
+          [config]="{ colspan: widget.colspan, rowspan: widget.rowspan ?? 1 }"
+        >
           @switch (widget.id) {
             @case ('quick-actions') {
               <app-sa-quick-actions-widget
@@ -111,10 +128,12 @@
               />
             }
           }
-        </app-sa-dashboard-grid-item>
+        </app-enterprise-dashboard-grid-item>
       }
-    </app-sa-dashboard-grid>
+    </app-enterprise-dashboard-grid>
 
-    <app-sa-dashboard-footer [lastRefreshed]="lastRefreshedLabel()" />
-  </div>
-</app-base-page>
+    @if (lastRefreshedLabel(); as refreshed) {
+      <span dashboardFooter>Last refreshed {{ refreshed }}</span>
+    }
+  </app-enterprise-dashboard-shell>
+</app-sa-page>

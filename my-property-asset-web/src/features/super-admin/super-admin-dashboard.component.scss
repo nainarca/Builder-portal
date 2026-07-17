@@ -1,6 +1,18 @@
 @use './styles/dashboard';
 
+.sa-dashboard__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mpa-spacing-xs);
+}
+
 .sa-dashboard__filter-hint {
   font-size: var(--mpa-font-size-xs);
   color: var(--mpa-color-text-muted);
+}
+
+.sa-dashboard__trend-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: var(--mpa-spacing-md);
 }

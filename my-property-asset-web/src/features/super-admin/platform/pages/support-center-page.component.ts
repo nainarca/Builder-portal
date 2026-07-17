@@ -1,23 +1,26 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
+import { ButtonComponent, EnterpriseFormPageHeaderComponent, UiToastService } from '@shared/ui';
+
+import { SuperAdminPageComponent } from '../../components/layout';
 import { PLATFORM_SUPPORT_HEADER } from '../config/platform.config';
 import { SupportTicketPriority, SupportTicketStatus } from '../models/platform.model';
 import { SupportTicketService } from '../services/support-ticket.service';
 
 @Component({
   selector: 'app-support-center-page',
-  imports: [BasePageComponent, PageHeaderComponent, ButtonComponent],
+  imports: [SuperAdminPageComponent, EnterpriseFormPageHeaderComponent, ButtonComponent],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="support-page">
-        <app-page-header
+        <app-enterprise-form-page-header
           [eyebrow]="header.eyebrow"
           [title]="header.title"
-          [description]="header.description"
+          [subtitle]="header.description"
+          mode="view"
         >
-          <app-button pageActions label="New ticket" icon="pi pi-plus" (clicked)="createDemo()" />
-        </app-page-header>
+          <app-button formHeaderActions label="New ticket" icon="pi pi-plus" (clicked)="createDemo()" />
+        </app-enterprise-form-page-header>
 
         <section class="support-page__stats">
           <article><strong>{{ tickets().length }}</strong><span>Total tickets</span></article>
@@ -63,7 +66,7 @@ import { SupportTicketService } from '../services/support-ticket.service';
           Future integrations: Zendesk / Freshdesk / Intercom connectors (placeholder only).
         </p>
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styles: `
     .support-page { display: grid; gap: 1rem; }

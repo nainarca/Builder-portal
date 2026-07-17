@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 
-import { BasePageComponent, PageHeaderComponent } from '@shared/ui';
+import { EnterpriseFormPageHeaderComponent } from '@shared/ui';
+
+import { SuperAdminPageComponent } from '../../components/layout';
 
 import { OpsSectionNavComponent, OpsStatusBadgeComponent } from '../components/shared';
 import { formatOpsDate } from '../config/operations.config';
@@ -9,14 +11,15 @@ import { OperationsViewStateService } from '../services/operations-view-state.se
 
 @Component({
   selector: 'app-ops-activity-page',
-  imports: [BasePageComponent, PageHeaderComponent, OpsSectionNavComponent, OpsStatusBadgeComponent],
+  imports: [SuperAdminPageComponent, EnterpriseFormPageHeaderComponent, OpsSectionNavComponent, OpsStatusBadgeComponent],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="ops-page">
-        <app-page-header
+        <app-enterprise-form-page-header
           eyebrow="Operations"
           title="User Activity"
-          description="Recent logins, failed attempts, sessions, and security events across organizations and builders."
+          subtitle="Recent logins, failed attempts, sessions, and security events across organizations and builders."
+          mode="view"
         />
         <app-ops-section-nav />
 
@@ -47,7 +50,7 @@ import { OperationsViewStateService } from '../services/operations-view-state.se
           }
         </div>
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styleUrl: './ops-dashboard-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

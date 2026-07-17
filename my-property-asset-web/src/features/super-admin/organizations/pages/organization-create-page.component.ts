@@ -1,45 +1,29 @@
-import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent } from '@shared/ui';
+import { EnterpriseFormShellComponent } from '@shared/ui';
 
+import { SuperAdminPageComponent } from '../../components/layout';
 import { OrganizationFormComponent } from '../components/form/organization-form.component';
 import { OrganizationFormModel } from '../models/organization-admin.model';
 import { OrganizationAdminStoreService } from '../services/organization-admin-store.service';
 
 @Component({
   selector: 'app-organization-create-page',
-  imports: [BasePageComponent, PageHeaderComponent, OrganizationFormComponent, ButtonComponent],
+  imports: [SuperAdminPageComponent, EnterpriseFormShellComponent, OrganizationFormComponent],
   template: `
-    <app-base-page>
-      <div class="org-page">
-        <app-page-header
-          eyebrow="Organizations"
-          title="Create organization"
-          description="Register a new tenant on the MyPropertyAsset platform."
-        />
+    <app-sa-page>
+      <app-enterprise-form-shell
+        title="Create organization"
+        subtitle="Register a new tenant on the MyPropertyAsset platform."
+        mode="create"
+        [state]="saving ? 'saving' : 'idle'"
+        (save)="submit()"
+        (cancel)="cancel()"
+      >
         <app-org-form [initialModel]="initialModel" (submitted)="onSubmit($event)" />
-        <div class="org-form-page-actions">
-          <app-button
-            label="Create organization"
-            icon="pi pi-check"
-            [loading]="saving"
-            (clicked)="submit()"
-          />
-          <app-button label="Cancel" [outlined]="true" (clicked)="cancel()" />
-        </div>
-      </div>
-    </app-base-page>
-  `,
-  styles: `
-    .org-form-page-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--mpa-spacing-sm);
-      justify-content: flex-end;
-      padding-top: var(--mpa-spacing-md);
-      border-top: 1px solid var(--mpa-color-border);
-    }
+      </app-enterprise-form-shell>
+    </app-sa-page>
   `,
   styleUrl: './organization-create-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

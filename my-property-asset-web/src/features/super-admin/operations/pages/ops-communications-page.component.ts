@@ -1,18 +1,21 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
+import { ButtonComponent, EnterpriseFormPageHeaderComponent, UiToastService } from '@shared/ui';
 import { CommunicationService } from '@features/builder-portal/communications/services/communication.service';
+
+import { SuperAdminPageComponent } from '../../components/layout';
 
 @Component({
   selector: 'app-ops-communications-page',
-  imports: [BasePageComponent, PageHeaderComponent, ButtonComponent],
+  imports: [SuperAdminPageComponent, EnterpriseFormPageHeaderComponent, ButtonComponent],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="ops-comm-page">
-        <app-page-header
+        <app-enterprise-form-page-header
           eyebrow="Platform Operations"
           title="Builder communications"
-          description="Moderate builder-to-owner communications, disable content, and review delivery statistics."
+          subtitle="Moderate builder-to-owner communications, disable content, and review delivery statistics."
+          mode="view"
         />
 
         <section class="ops-comm-page__stats">
@@ -59,7 +62,7 @@ import { CommunicationService } from '@features/builder-portal/communications/se
           </tbody>
         </table>
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styles: `
     .ops-comm-page { display: grid; gap: 1rem; }

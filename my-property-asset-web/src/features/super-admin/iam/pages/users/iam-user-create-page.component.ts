@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent } from '@shared/ui';
+import { EnterpriseFormShellComponent } from '@shared/ui';
 
+import { SuperAdminPageComponent } from '../../../components/layout';
 import { IamSectionNavComponent } from '../../components/shared';
 import { IamUserFormComponent } from '../../components/users/form/iam-user-form.component';
 import { UserFormModel } from '../../models/user-admin.model';
@@ -10,21 +11,29 @@ import { UserAdminStoreService } from '../../services/user-admin-store.service';
 
 @Component({
   selector: 'app-iam-user-create-page',
-  imports: [BasePageComponent, PageHeaderComponent, IamSectionNavComponent, IamUserFormComponent, ButtonComponent],
+  imports: [
+    SuperAdminPageComponent,
+    EnterpriseFormShellComponent,
+    IamSectionNavComponent,
+    IamUserFormComponent,
+  ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="iam-page">
-        <app-page-header eyebrow="Identity & Access" title="Create user" description="Register a new platform user." />
-        <app-iam-section-nav />
-        <app-iam-user-form [initialModel]="initialModel" (submitted)="onSubmit($event)" />
-        <div class="iam-form-page-actions">
-          <app-button label="Create user" icon="pi pi-check" [loading]="saving" (clicked)="submit()" />
-          <app-button label="Cancel" [outlined]="true" (clicked)="cancel()" />
-        </div>
+        <app-enterprise-form-shell
+          title="Create user"
+          subtitle="Register a new platform user."
+          mode="create"
+          [state]="saving ? 'saving' : 'idle'"
+          (save)="submit()"
+          (cancel)="cancel()"
+        >
+          <app-iam-section-nav />
+          <app-iam-user-form [initialModel]="initialModel" (submitted)="onSubmit($event)" />
+        </app-enterprise-form-shell>
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
-  styles: `.iam-form-page-actions { display: flex; gap: var(--mpa-spacing-sm); justify-content: flex-end; padding-top: var(--mpa-spacing-md); border-top: 1px solid var(--mpa-color-border); }`,
   styleUrl: './iam-user-create-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

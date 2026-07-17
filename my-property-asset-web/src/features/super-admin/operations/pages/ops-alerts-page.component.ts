@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 
-import { BasePageComponent, PageHeaderComponent } from '@shared/ui';
+import { EnterpriseFormPageHeaderComponent } from '@shared/ui';
+
+import { SuperAdminPageComponent } from '../../components/layout';
 
 import {
   OpsAlertCardComponent,
@@ -13,19 +15,20 @@ import { OperationsViewStateService } from '../services/operations-view-state.se
 @Component({
   selector: 'app-ops-alerts-page',
   imports: [
-    BasePageComponent,
-    PageHeaderComponent,
+    SuperAdminPageComponent,
+    EnterpriseFormPageHeaderComponent,
     OpsSectionNavComponent,
     OpsAlertCardComponent,
     OpsIncidentCardComponent,
   ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="ops-page">
-        <app-page-header
+        <app-enterprise-form-page-header
           eyebrow="Operations"
           title="Notifications & Alerts"
-          description="Critical alerts, warnings, maintenance notices, and incident timeline."
+          subtitle="Critical alerts, warnings, maintenance notices, and incident timeline."
+          mode="view"
         />
         <app-ops-section-nav />
 
@@ -62,7 +65,7 @@ import { OperationsViewStateService } from '../services/operations-view-state.se
           </aside>
         </div>
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styleUrl: './ops-dashboard-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

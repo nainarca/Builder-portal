@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent } from '@shared/ui';
+import { ButtonComponent, EnterpriseFormPageHeaderComponent } from '@shared/ui';
+
+import { SuperAdminPageComponent } from '../../components/layout';
 
 import {
   OpsActivityCardComponent,
@@ -15,8 +17,8 @@ import { OperationsViewStateService } from '../services/operations-view-state.se
 @Component({
   selector: 'app-ops-audit-page',
   imports: [
-    BasePageComponent,
-    PageHeaderComponent,
+    SuperAdminPageComponent,
+    EnterpriseFormPageHeaderComponent,
     ButtonComponent,
     RouterLink,
     OpsSectionNavComponent,
@@ -24,15 +26,16 @@ import { OperationsViewStateService } from '../services/operations-view-state.se
     OpsStatusBadgeComponent,
   ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="ops-page">
-        <app-page-header
+        <app-enterprise-form-page-header
           eyebrow="Operations"
           title="Audit Logs"
-          description="Searchable immutable trail of platform, organization, and builder activity."
+          subtitle="Searchable immutable trail of platform, organization, and builder activity."
+          mode="view"
         >
-          <app-button pageActions label="Export CSV" icon="pi pi-download" [outlined]="true" (clicked)="exportHint = true" />
-        </app-page-header>
+          <app-button formHeaderActions label="Export CSV" icon="pi pi-download" [outlined]="true" (clicked)="exportHint = true" />
+        </app-enterprise-form-page-header>
         <app-ops-section-nav />
 
         <div class="ops-toolbar">
@@ -119,7 +122,7 @@ import { OperationsViewStateService } from '../services/operations-view-state.se
           </aside>
         </div>
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styleUrl: './ops-dashboard-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

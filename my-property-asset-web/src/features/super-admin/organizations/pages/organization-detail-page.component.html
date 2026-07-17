@@ -1,4 +1,4 @@
-<app-base-page>
+<app-sa-page>
   @if (org(); as organization) {
     <div class="org-page org-page--detail">
       <app-org-header [org]="organization" />
@@ -21,9 +21,9 @@
       </div>
     </div>
   } @else {
-    <div class="org-page org-page--empty">
-      <h1 class="ui-page-title">Organization not found</h1>
-      <p class="ui-page-subtitle">The requested organization does not exist or was removed.</p>
-    </div>
+    <app-empty-no-data
+      title="Organization not found"
+      description="The requested organization does not exist or was removed."
+    />
   }
-</app-base-page>
+</app-sa-page>

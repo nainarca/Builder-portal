@@ -3,8 +3,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent } from '@shared/ui';
+import { EmptyNoDataComponent, EnterpriseFormShellComponent } from '@shared/ui';
 
+import { SuperAdminPageComponent } from '../../../components/layout';
 import { IamSectionNavComponent } from '../../components/shared';
 import { IamUserFormComponent } from '../../components/users/form/iam-user-form.component';
 import { UserFormModel } from '../../models/user-admin.model';
@@ -12,25 +13,37 @@ import { UserAdminStoreService } from '../../services/user-admin-store.service';
 
 @Component({
   selector: 'app-iam-user-edit-page',
-  imports: [BasePageComponent, PageHeaderComponent, IamSectionNavComponent, IamUserFormComponent, ButtonComponent],
+  imports: [
+    SuperAdminPageComponent,
+    EnterpriseFormShellComponent,
+    EmptyNoDataComponent,
+    IamSectionNavComponent,
+    IamUserFormComponent,
+  ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       @if (initialModel(); as model) {
         <div class="iam-page">
-          <app-page-header eyebrow="Users" [title]="'Edit ' + model.displayName" description="Update user profile and access." />
-          <app-iam-section-nav />
-          <app-iam-user-form [initialModel]="model" (submitted)="onSubmit($event)" />
-          <div class="iam-form-page-actions">
-            <app-button label="Save changes" icon="pi pi-check" [loading]="saving" (clicked)="submit()" />
-            <app-button label="Cancel" [outlined]="true" (clicked)="cancel()" />
-          </div>
+          <app-enterprise-form-shell
+            [title]="'Edit ' + model.displayName"
+            subtitle="Update user profile and access."
+            mode="edit"
+            [state]="saving ? 'saving' : 'idle'"
+            (save)="submit()"
+            (cancel)="cancel()"
+          >
+            <app-iam-section-nav />
+            <app-iam-user-form [initialModel]="model" (submitted)="onSubmit($event)" />
+          </app-enterprise-form-shell>
         </div>
       } @else {
-        <div class="iam-page iam-page--empty"><h1 class="ui-page-title">User not found</h1></div>
+        <app-empty-no-data
+          title="User not found"
+          description="The requested user does not exist or was removed."
+        />
       }
-    </app-base-page>
+    </app-sa-page>
   `,
-  styles: `.iam-form-page-actions { display: flex; gap: var(--mpa-spacing-sm); justify-content: flex-end; padding-top: var(--mpa-spacing-md); border-top: 1px solid var(--mpa-color-border); }`,
   styleUrl: './iam-user-edit-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

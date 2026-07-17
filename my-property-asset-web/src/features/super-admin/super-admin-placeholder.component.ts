@@ -1,23 +1,26 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { AuthorizedButtonComponent, HasPermissionPipe } from '@core/rbac';
-import { BasePageComponent, ContentCardComponent, PageHeaderComponent } from '@shared/ui';
+import { ContentCardComponent, EnterpriseFormPageHeaderComponent } from '@shared/ui';
+
+import { SuperAdminPageComponent } from './components/layout';
 
 @Component({
   selector: 'app-super-admin-placeholder',
   imports: [
-    BasePageComponent,
+    SuperAdminPageComponent,
     ContentCardComponent,
-    PageHeaderComponent,
+    EnterpriseFormPageHeaderComponent,
     AuthorizedButtonComponent,
     HasPermissionPipe,
   ],
   template: `
-    <app-base-page>
-      <app-page-header
+    <app-sa-page>
+      <app-enterprise-form-page-header
         eyebrow="Super Admin"
         title="Platform administration"
-        description="Govern organizations, builders, and platform configuration from a single control surface."
+        subtitle="Govern organizations, builders, and platform configuration from a single control surface."
+        mode="view"
       />
 
       <app-content-card icon="cog">
@@ -45,7 +48,7 @@ import { BasePageComponent, ContentCardComponent, PageHeaderComponent } from '@s
           <p class="mpa-body-md m-0">You have platform operations access in this session.</p>
         }
       </app-content-card>
-    </app-base-page>
+    </app-sa-page>
   `,
   styles: `
     .super-admin-placeholder__actions {

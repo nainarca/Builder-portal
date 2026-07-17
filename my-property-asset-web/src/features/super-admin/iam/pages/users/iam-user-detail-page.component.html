@@ -1,4 +1,4 @@
-<app-base-page>
+<app-sa-page>
   @if (user(); as u) {
     <div class="iam-page iam-page--detail">
       <app-iam-section-nav />
@@ -19,9 +19,9 @@
       </div>
     </div>
   } @else {
-    <div class="iam-page iam-page--empty">
-      <h1 class="ui-page-title">User not found</h1>
-      <p class="ui-page-subtitle">The requested user does not exist or was removed.</p>
-    </div>
+    <app-empty-no-data
+      title="User not found"
+      description="The requested user does not exist or was removed."
+    />
   }
-</app-base-page>
+</app-sa-page>

@@ -1,20 +1,23 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
-import { BasePageComponent, ButtonComponent, PageHeaderComponent, UiToastService } from '@shared/ui';
+import { ButtonComponent, EnterpriseFormPageHeaderComponent, UiToastService } from '@shared/ui';
+
+import { SuperAdminPageComponent } from '../../components/layout';
 import { PLATFORM_BRANDING_OVERSIGHT_HEADER } from '../config/platform.config';
 import { BrandingOversightService } from '../services/branding-oversight.service';
 
 @Component({
   selector: 'app-branding-oversight-page',
-  imports: [DatePipe, BasePageComponent, PageHeaderComponent, ButtonComponent],
+  imports: [DatePipe, SuperAdminPageComponent, EnterpriseFormPageHeaderComponent, ButtonComponent],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="brand-ops">
-        <app-page-header
+        <app-enterprise-form-page-header
           [eyebrow]="header.eyebrow"
           [title]="header.title"
-          [description]="header.description"
+          [subtitle]="header.description"
+          mode="view"
         />
 
         <table>
@@ -46,7 +49,7 @@ import { BrandingOversightService } from '../services/branding-oversight.service
           </tbody>
         </table>
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styles: `
     .brand-ops { display: grid; gap: 1rem; }

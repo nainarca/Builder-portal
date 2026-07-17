@@ -1,86 +1,74 @@
-<app-base-page>
+<app-sa-page>
   <div class="org-page">
-    <app-page-header
+    <app-enterprise-form-page-header
       eyebrow="Super Admin"
       title="Organizations"
-      description="Manage all platform tenants — builders, owners, partners, and marketplace organizations."
+      subtitle="Manage all platform tenants — builders, owners, partners, and marketplace organizations."
+      mode="view"
     >
       <app-authorized-button
-        pageActions
+        formHeaderActions
         label="Create organization"
         icon="plus"
         permission="id-03-organization-tenancy:operate"
         (clicked)="createOrganization()"
       />
-    </app-page-header>
+    </app-enterprise-form-page-header>
 
-    <app-org-bulk-actions
-      [count]="listState.selectedIds().length"
-      (action)="onBulkAction($event)"
-      (clear)="listState.clearSelection()"
-    />
+    <app-enterprise-data-table-shell
+      [state]="listState.loading() ? 'loading' : 'idle'"
+      [searchValue]="listState.search()"
+      searchPlaceholder="Search organizations…"
+      tableAriaLabel="Organizations table"
+      [quickFilters]="statusQuickFilters()"
+      [showSavedSearches]="true"
+      [savedSearches]="savedSearchOptions()"
+      [sortOptions]="sortOptions"
+      [sortValue]="listState.sortValue()"
+      [columns]="tableColumns()"
+      [exportLoading]="listState.exportLoading()"
+      [advancedFiltersOpen]="listState.showAdvancedFilters()"
+      [selectedCount]="listState.selectedIds().length"
+      [totalCount]="listState.listResult().total"
+      [bulkActions]="bulkActions"
+      [showPagination]="false"
+      (searchChange)="onSearch($event)"
+      (quickFilterToggle)="onStatusFilter($event)"
+      (savedSearchSelect)="onSavedView($event)"
+      (sortChange)="onSort($event)"
+      (columnsChange)="onColumnsChange($event)"
+      (exportClick)="exportAll()"
+      (clearSelection)="listState.clearSelection()"
+      (bulkAction)="onBulkActionId($event)"
+    >
+      <app-outline-button
+        toolbarEnd
+        label="Import"
+        icon="pi pi-upload"
+        (clicked)="openImport()"
+      />
+      <app-ghost-button
+        toolbarEnd
+        [label]="listState.showAdvancedFilters() ? 'Hide filters' : 'Advanced filters'"
+        icon="pi pi-filter"
+        (clicked)="listState.toggleAdvancedFilters()"
+      />
 
-    <app-org-quick-filters
-      [selected]="listState.statusFilter()"
-      (selectedChange)="listState.setStatusFilter($event)"
-    />
-
-    <app-table-shell [value]="tableItems()" [loading]="listState.loading()">
-      <app-table-toolbar tableToolbar>
-        <app-search-field
-          toolbarStart
-          [value]="listState.search()"
-          placeholder="Search organizations…"
-          ariaLabel="Search organizations"
-          (valueChange)="onSearch($event)"
-        />
-        <app-org-saved-views
-          toolbarStart
-          [views]="listState.savedViews()"
-          [selectedId]="listState.savedViewId()"
-          (viewChange)="listState.applySavedView($event)"
-        />
-        <app-sort-control
-          toolbarEnd
-          [options]="sortOptions"
-          [value]="listState.sortValue()"
-          (sortChange)="onSort($event)"
-        />
-        <app-export-button
-          toolbarEnd
-          [loading]="listState.exportLoading()"
-          (exportClick)="exportAll()"
-        />
-        <app-button toolbarEnd label="Import" icon="pi pi-upload" [outlined]="true" (clicked)="openImport()" />
-        <app-button
-          toolbarEnd
-          [label]="listState.showAdvancedFilters() ? 'Hide filters' : 'Advanced filters'"
-          icon="pi pi-filter"
-          [text]="true"
-          (clicked)="listState.toggleAdvancedFilters()"
-        />
-      </app-table-toolbar>
-
-      @if (listState.showAdvancedFilters()) {
-        <app-org-advanced-filters
-          [typeFilter]="listState.typeFilter()"
-          [regionFilter]="listState.regionFilter()"
-          [planFilter]="listState.planFilter()"
-          [regions]="listState.regions()"
-          [plans]="listState.plans()"
-          (typeFilterChange)="listState.setTypeFilter($event)"
-          (regionFilterChange)="listState.setRegionFilter($event)"
-          (planFilterChange)="listState.setPlanFilter($event)"
-          (filtersReset)="listState.resetFilters()"
-        />
-      }
-
-      <app-org-column-selector
-        [visibleColumns]="listState.visibleColumns()"
-            (columnToggle)="listState.toggleColumn($event)"
+      <app-org-advanced-filters
+        advancedFilters
+        [typeFilter]="listState.typeFilter()"
+        [regionFilter]="listState.regionFilter()"
+        [planFilter]="listState.planFilter()"
+        [regions]="listState.regions()"
+        [plans]="listState.plans()"
+        (typeFilterChange)="listState.setTypeFilter($event)"
+        (regionFilterChange)="listState.setRegionFilter($event)"
+        (planFilterChange)="listState.setPlanFilter($event)"
+        (filtersReset)="listState.resetFilters()"
       />
 
       <app-org-data-grid
+        tableBody
         [items]="listState.listResult().items"
         [loading]="listState.loading()"
         [total]="listState.listResult().total"
@@ -88,16 +76,18 @@
         [visibleColumns]="listState.visibleColumns()"
         (selectionChange)="onSelectionChange($event)"
       />
-    </app-table-shell>
+    </app-enterprise-data-table-shell>
 
-    @if (listState.importDialogVisible()) {
-      <div class="org-import-dialog" role="dialog" aria-label="Import organizations">
-        <div class="org-import-dialog__panel">
-          <h2 class="mpa-heading-sm">Import organizations</h2>
-          <p class="mpa-body-md">CSV import framework — no backend connected.</p>
-          <app-button label="Close" [outlined]="true" (clicked)="listState.closeImportDialog()" />
-        </div>
+    <app-dialog-shell
+      title="Import organizations"
+      [visible]="listState.importDialogVisible()"
+      width="28rem"
+      (visibleChange)="onImportDialogVisible($event)"
+    >
+      <p class="mpa-body-md m-0">CSV import framework — no backend connected.</p>
+      <div dialogActions>
+        <app-outline-button label="Close" (clicked)="listState.closeImportDialog()" />
       </div>
-    }
+    </app-dialog-shell>
   </div>
-</app-base-page>
+</app-sa-page>

@@ -4,7 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 
 import { AuthorizedButtonComponent } from '@core/rbac';
-import { BasePageComponent, ButtonComponent, PageHeaderComponent } from '@shared/ui';
+import { ButtonComponent, EnterpriseFormPageHeaderComponent } from '@shared/ui';
+
+import { SuperAdminPageComponent } from '../../components/layout';
 
 import {
   CfgGeneralSettingsPanelComponent,
@@ -29,8 +31,8 @@ import { SettingsSectionStateService } from '../services/settings-section-state.
 @Component({
   selector: 'app-settings-section-page',
   imports: [
-    BasePageComponent,
-    PageHeaderComponent,
+    SuperAdminPageComponent,
+    EnterpriseFormPageHeaderComponent,
     ButtonComponent,
     AuthorizedButtonComponent,
     CfgSectionNavComponent,
@@ -46,15 +48,16 @@ import { SettingsSectionStateService } from '../services/settings-section-state.
     CfgSystemPreferencesPanelComponent,
   ],
   template: `
-    <app-base-page>
+    <app-sa-page>
       <div class="cfg-page cfg-page--section">
-        <app-page-header
+        <app-enterprise-form-page-header
           eyebrow="Platform Configuration"
           [title]="sectionTitle()"
-          [description]="sectionDescription()"
+          [subtitle]="sectionDescription()"
+          mode="view"
         >
           <app-authorized-button
-            pageActions
+            formHeaderActions
             label="Save changes"
             icon="pi pi-check"
             permission="id-06-platform-operations:full"
@@ -63,13 +66,13 @@ import { SettingsSectionStateService } from '../services/settings-section-state.
             (clicked)="section.save()"
           />
           <app-button
-            pageActions
+            formHeaderActions
             label="Reset"
             [outlined]="true"
             [disabled]="!section.dirty()"
             (clicked)="section.resetDraft()"
           />
-        </app-page-header>
+        </app-enterprise-form-page-header>
         <app-cfg-section-nav />
         <div class="cfg-section-toolbar">
           <app-cfg-settings-breadcrumb [category]="sectionTitle()" section="Configuration" />
@@ -90,7 +93,7 @@ import { SettingsSectionStateService } from '../services/settings-section-state.
           </div>
         </div>
       </div>
-    </app-base-page>
+    </app-sa-page>
   `,
   styleUrl: './settings-section-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

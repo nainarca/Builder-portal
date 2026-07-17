@@ -1,8 +1,17 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BasePageComponent } from '@shared/ui';
+import {
+  EnterpriseDashboardGridComponent,
+  EnterpriseDashboardGridItemComponent,
+  EnterpriseDashboardKpiStripComponent,
+  EnterpriseDashboardSectionComponent,
+  EnterpriseDashboardShellComponent,
+  EnterpriseKpiPrimaryComponent,
+  OutlineButtonComponent,
+} from '@shared/ui';
 
+import { SuperAdminPageComponent } from './components/layout';
 import {
   SUPER_ADMIN_DASHBOARD_ANNOUNCEMENTS,
   SUPER_ADMIN_DASHBOARD_FILTERS,
@@ -13,18 +22,6 @@ import {
   SUPER_ADMIN_ORG_CHART,
   SUPER_ADMIN_USAGE_CHART,
 } from './config/super-admin-dashboard.config';
-import {
-  KpiCardComponent,
-  TrendCardComponent,
-} from './components/cards';
-import {
-  DashboardFiltersComponent,
-  DashboardFooterComponent,
-  DashboardGridComponent,
-  DashboardGridItemComponent,
-  DashboardHeaderComponent,
-  DashboardToolbarComponent,
-} from './components/dashboard';
 import {
   AnnouncementsWidgetComponent,
   BuilderSummaryWidgetComponent,
@@ -48,15 +45,14 @@ import { SupportTicketService } from './platform/services/support-ticket.service
 @Component({
   selector: 'app-super-admin-dashboard',
   imports: [
-    BasePageComponent,
-    DashboardHeaderComponent,
-    DashboardToolbarComponent,
-    DashboardFiltersComponent,
-    DashboardGridComponent,
-    DashboardGridItemComponent,
-    DashboardFooterComponent,
-    KpiCardComponent,
-    TrendCardComponent,
+    SuperAdminPageComponent,
+    EnterpriseDashboardShellComponent,
+    EnterpriseDashboardKpiStripComponent,
+    EnterpriseDashboardSectionComponent,
+    EnterpriseDashboardGridComponent,
+    EnterpriseDashboardGridItemComponent,
+    EnterpriseKpiPrimaryComponent,
+    OutlineButtonComponent,
     QuickActionsWidgetComponent,
     UsageChartWidgetComponent,
     OrganizationsChartWidgetComponent,
@@ -107,8 +103,6 @@ export class SuperAdminDashboardComponent {
         label: 'Total Builders',
         value: String(m.totalBuilders),
         hint: `${m.activeBuilders} active`,
-        icon: 'pi pi-building',
-        tone: 'primary' as const,
         trend: 'up' as const,
         trendLabel: `+${m.monthlyGrowthPercent}% growth signal`,
       },
@@ -117,24 +111,18 @@ export class SuperAdminDashboardComponent {
         label: 'Trial Builders',
         value: String(m.trialBuilders),
         hint: `${m.expiredBuilders} expired / archived`,
-        icon: 'pi pi-clock',
-        tone: 'warning' as const,
       },
       {
         id: 'projects',
         label: 'Total Projects',
         value: String(m.totalProjects),
         hint: `${m.totalUnits} units`,
-        icon: 'pi pi-briefcase',
-        tone: 'info' as const,
       },
       {
         id: 'health',
         label: 'Platform Health',
         value: m.platformHealth,
         hint: `${m.storageUsageGb} GB storage`,
-        icon: 'pi pi-heart',
-        tone: m.platformHealth === 'healthy' ? ('success' as const) : ('warning' as const),
       },
     ];
   });
@@ -211,10 +199,6 @@ export class SuperAdminDashboardComponent {
     }
     return new Date(timestamp).toLocaleString();
   });
-
-  isVisible(id: DashboardWidgetId): boolean {
-    return this.visibleWidgets().some((widget) => widget.id === id);
-  }
 
   isLoading(id: DashboardWidgetId): boolean {
     return this.widgetLoader.isLoading(id);
