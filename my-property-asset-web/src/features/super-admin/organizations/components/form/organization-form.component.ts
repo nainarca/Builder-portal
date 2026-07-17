@@ -9,7 +9,6 @@ import {
   EnterpriseSelectInputComponent,
   EnterpriseTextareaInputComponent,
   EnterpriseTextInputComponent,
-  FormActionsComponent,
   InformationAlertComponent,
 } from '@shared/ui';
 
@@ -43,7 +42,6 @@ const STATUS_OPTIONS = [
     EnterpriseCheckboxInputComponent,
     EnterpriseFormFieldComponent,
     InformationAlertComponent,
-    FormActionsComponent,
   ],
   providers: [OrganizationFormStateService],
   template: `
@@ -138,10 +136,6 @@ const STATUS_OPTIONS = [
             />
           </app-enterprise-form-field>
         </app-enterprise-form-section>
-
-        <app-form-actions>
-          <ng-content select="[formActions]" />
-        </app-form-actions>
       </app-enterprise-form-layout>
     }
   `,

@@ -1,8 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
-import { ButtonComponent, EnterpriseFormPageHeaderComponent, FormSectionComponent } from '@shared/ui';
+import {
+  EnterpriseEmailInputComponent,
+  EnterpriseFormSectionComponent,
+  EnterpriseFormShellComponent,
+  EnterprisePhoneInputComponent,
+  EnterpriseTextInputComponent,
+} from '@shared/ui';
 
 import { BuilderPortalPageComponent } from '../../components/layout';
 import { BuilderOrganizationService } from '../services/builder-organization.service';
@@ -10,12 +16,13 @@ import { BuilderOrganizationService } from '../services/builder-organization.ser
 @Component({
   selector: 'app-builder-company-page',
   imports: [
-    ReactiveFormsModule,
     RouterLink,
     BuilderPortalPageComponent,
-    EnterpriseFormPageHeaderComponent,
-    ButtonComponent,
-    FormSectionComponent,
+    EnterpriseFormShellComponent,
+    EnterpriseFormSectionComponent,
+    EnterpriseTextInputComponent,
+    EnterpriseEmailInputComponent,
+    EnterprisePhoneInputComponent,
   ],
   templateUrl: './builder-company-page.component.html',
   styleUrl: './builder-company-page.component.scss',
@@ -53,6 +60,20 @@ export class BuilderCompanyPageComponent {
         region: current.region ?? '',
       });
     }
+  }
+
+  fieldError(controlName: keyof typeof this.form.controls): string | undefined {
+    const control = this.form.controls[controlName];
+    if (!control.touched || !control.invalid) {
+      return undefined;
+    }
+    if (control.hasError('required')) {
+      return 'This field is required.';
+    }
+    if (control.hasError('email')) {
+      return 'Enter a valid email address.';
+    }
+    return 'Invalid value.';
   }
 
   save(): void {

@@ -1,66 +1,48 @@
 import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 
 import {
-  DangerButtonComponent,
-  EnterpriseSectionHeaderComponent,
-  OutlineButtonComponent,
-  PrimaryButtonComponent,
+  EnterpriseDetailActionPanelComponent,
+  TimelineCardComponent,
+  type EnterpriseDetailAction,
+  type EnterpriseTimelineEvent,
 } from '@shared/ui';
 
 import { OrganizationAdminRecord, OrganizationStatusHistoryRecord } from '../../models/organization-admin.model';
 import { OrganizationStatusBadgeComponent } from '../shared/organization-status-badge.component';
-import { OrganizationStatusHistoryComponent } from './organization-status-history.component';
 
 @Component({
   selector: 'app-org-status-panel',
   imports: [
     DatePipe,
-    EnterpriseSectionHeaderComponent,
-    PrimaryButtonComponent,
-    OutlineButtonComponent,
-    DangerButtonComponent,
+    EnterpriseDetailActionPanelComponent,
     OrganizationStatusBadgeComponent,
-    OrganizationStatusHistoryComponent,
+    TimelineCardComponent,
   ],
   template: `
-    <section class="org-status-panel" aria-label="Organization status">
-      <app-enterprise-section-header
+    <div class="org-status-panel" aria-label="Organization status">
+      <app-enterprise-detail-action-panel
         title="Lifecycle status"
-        description="Activate, deactivate, archive, or restore this organization"
-      />
+        [actions]="lifecycleActions()"
+        [dangerActions]="dangerActions()"
+        dangerDescription="Archiving hides this organization from active directories."
+        (actionClick)="onAction($event)"
+      >
+        <div class="org-status-panel__current">
+          <app-org-status-badge [status]="org().status" />
+          <p class="org-status-panel__updated">Last updated {{ org().updatedAt | date: 'medium' }}</p>
+        </div>
+      </app-enterprise-detail-action-panel>
 
-      <div class="org-status-panel__current">
-        <app-org-status-badge [status]="org().status" />
-        <p class="org-status-panel__updated">Last updated {{ org().updatedAt | date: 'medium' }}</p>
-      </div>
-
-      <div class="org-status-panel__actions" role="toolbar" aria-label="Status actions">
-        @if (org().status !== 'active') {
-          <app-primary-button label="Activate" icon="pi pi-check" size="small" (clicked)="statusChange.emit('active')" />
-        }
-        @if (org().status !== 'inactive' && org().status !== 'archived') {
-          <app-outline-button label="Deactivate" icon="pi pi-pause" size="small" (clicked)="statusChange.emit('inactive')" />
-        }
-        @if (org().status !== 'archived') {
-          <app-danger-button label="Archive" icon="pi pi-archive" size="small" (clicked)="statusChange.emit('archived')" />
-        }
-        @if (org().status === 'archived') {
-          <app-primary-button label="Restore" icon="pi pi-replay" size="small" (clicked)="statusChange.emit('active')" />
-        }
-      </div>
-
-      <app-org-status-history [items]="history()" />
-    </section>
+      @if (historyEvents().length) {
+        <app-timeline-card title="Status history" [events]="historyEvents()" />
+      }
+    </div>
   `,
   styles: `
     .org-status-panel {
       display: grid;
       gap: var(--mpa-spacing-lg);
-      padding: var(--mpa-spacing-lg);
-      border: 1px solid var(--mpa-color-border);
-      border-radius: var(--mpa-radius-xl);
-      background: var(--mpa-color-surface-elevated);
     }
 
     .org-status-panel__current {
@@ -73,14 +55,6 @@ import { OrganizationStatusHistoryComponent } from './organization-status-histor
       font-size: var(--mpa-font-size-xs);
       color: var(--mpa-color-text-muted);
     }
-
-    .org-status-panel__actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--mpa-spacing-xs);
-      padding-bottom: var(--mpa-spacing-lg);
-      border-bottom: 1px solid var(--mpa-color-border);
-    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -89,4 +63,47 @@ export class OrganizationStatusPanelComponent {
   readonly history = input.required<readonly OrganizationStatusHistoryRecord[]>();
 
   readonly statusChange = output<OrganizationAdminRecord['status']>();
+
+  readonly lifecycleActions = computed((): readonly EnterpriseDetailAction[] => {
+    const status = this.org().status;
+    const actions: EnterpriseDetailAction[] = [];
+    if (status !== 'active') {
+      actions.push({ id: 'active', label: 'Activate', icon: 'pi pi-check' });
+    }
+    if (status !== 'inactive' && status !== 'archived') {
+      actions.push({ id: 'inactive', label: 'Deactivate', icon: 'pi pi-pause' });
+    }
+    if (status === 'archived') {
+      actions.push({ id: 'restore', label: 'Restore', icon: 'pi pi-replay' });
+    }
+    return actions;
+  });
+
+  readonly dangerActions = computed((): readonly EnterpriseDetailAction[] => {
+    if (this.org().status === 'archived') {
+      return [];
+    }
+    return [{ id: 'archived', label: 'Archive', icon: 'pi pi-archive', severity: 'danger' }];
+  });
+
+  readonly historyEvents = computed((): readonly EnterpriseTimelineEvent[] =>
+    this.history().map((item) => ({
+      id: item.id,
+      title: item.status,
+      description: `${item.reason || 'Status updated'} · ${item.changedBy}`,
+      timestamp: new Date(item.changedAt).toLocaleString(),
+      absoluteTimestamp: item.changedAt,
+      icon: 'pi pi-history',
+    })),
+  );
+
+  onAction(actionId: string): void {
+    if (actionId === 'restore') {
+      this.statusChange.emit('active');
+      return;
+    }
+    if (actionId === 'active' || actionId === 'inactive' || actionId === 'archived') {
+      this.statusChange.emit(actionId);
+    }
+  }
 }

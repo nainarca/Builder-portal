@@ -1,23 +1,22 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
 import {
-  ContentCardComponent,
   EnterpriseDashboardKpiStripComponent,
+  EnterpriseDetailSectionComponent,
   EnterpriseKpiPrimaryComponent,
-  EnterpriseSectionHeaderComponent,
+  EnterpriseMetadataGridComponent,
+  type EnterpriseDetailFact,
 } from '@shared/ui';
 
 import { OrganizationAdminRecord } from '../../models/organization-admin.model';
-import { OrganizationInfoPanelComponent } from '../shared/organization-info-panel.component';
 
 @Component({
   selector: 'app-org-overview',
   imports: [
     EnterpriseDashboardKpiStripComponent,
     EnterpriseKpiPrimaryComponent,
-    EnterpriseSectionHeaderComponent,
-    OrganizationInfoPanelComponent,
-    ContentCardComponent,
+    EnterpriseDetailSectionComponent,
+    EnterpriseMetadataGridComponent,
   ],
   template: `
     <div class="org-overview">
@@ -32,25 +31,23 @@ import { OrganizationInfoPanelComponent } from '../shared/organization-info-pane
       </app-enterprise-dashboard-kpi-strip>
 
       <div class="org-overview__grid">
-        <section class="org-overview__section" aria-label="Organization profile">
-          <app-enterprise-section-header
-            title="Profile"
-            description="Contact and identification metadata"
-          />
-          <app-org-info-panel title="Profile" [items]="profileItems()" />
-        </section>
+        <app-enterprise-metadata-grid
+          title="Profile"
+          description="Contact and identification metadata"
+          [items]="profileItems()"
+          ariaLabel="Organization profile"
+        />
 
-        <section class="org-overview__section" aria-label="Subscription summary">
-          <app-enterprise-section-header
-            title="Subscription summary"
-            description="Commercial relationship overview"
-          />
-          <app-content-card icon="credit-card">
-            <p class="org-overview__subscription-tier">{{ org().subscriptionTier }}</p>
-            <p class="org-overview__subscription-status">Status: {{ org().subscriptionStatus }}</p>
-            <p class="mpa-body-md m-0">Billing integration connects in the commercial module.</p>
-          </app-content-card>
-        </section>
+        <app-enterprise-detail-section
+          title="Subscription summary"
+          description="Commercial relationship overview"
+          headingId="org-subscription-summary"
+          variant="outlined"
+        >
+          <p class="org-overview__subscription-tier">{{ org().subscriptionTier }}</p>
+          <p class="org-overview__subscription-status">Status: {{ org().subscriptionStatus }}</p>
+          <p class="mpa-body-md m-0">Billing integration connects in the commercial module.</p>
+        </app-enterprise-detail-section>
       </div>
     </div>
   `,
@@ -64,11 +61,6 @@ import { OrganizationInfoPanelComponent } from '../shared/organization-info-pane
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--mpa-spacing-xl);
-    }
-
-    .org-overview__section {
-      display: grid;
-      gap: var(--mpa-spacing-md);
     }
 
     .org-overview__subscription-tier {
@@ -101,7 +93,7 @@ export class OrganizationOverviewComponent {
     { label: 'Region', value: this.org().region ?? '—', hint: 'Operating region' },
   ]);
 
-  readonly profileItems = computed(() => {
+  readonly profileItems = computed((): readonly EnterpriseDetailFact[] => {
     const org = this.org();
     return [
       { label: 'Contact', value: org.contactName ?? '—' },

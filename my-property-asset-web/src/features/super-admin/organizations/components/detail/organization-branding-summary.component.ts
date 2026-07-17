@@ -1,27 +1,22 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { EnterpriseSectionHeaderComponent } from '@shared/ui';
+import { EnterpriseDetailSectionComponent } from '@shared/ui';
 
 import { OrganizationAdminRecord } from '../../models/organization-admin.model';
 import { OrganizationBrandingPanelComponent } from '../branding/organization-branding-panel.component';
 
 @Component({
   selector: 'app-org-branding-summary',
-  imports: [EnterpriseSectionHeaderComponent, OrganizationBrandingPanelComponent],
+  imports: [EnterpriseDetailSectionComponent, OrganizationBrandingPanelComponent],
   template: `
-    <section class="org-branding-summary" aria-label="Organization branding">
-      <app-enterprise-section-header
-        title="Branding"
-        description="White-label presentation preview"
-      />
+    <app-enterprise-detail-section
+      title="Branding"
+      description="White-label presentation preview"
+      headingId="org-branding-summary"
+      variant="outlined"
+    >
       <app-org-branding-panel [org]="org()" />
-    </section>
-  `,
-  styles: `
-    .org-branding-summary {
-      display: grid;
-      gap: var(--mpa-spacing-md);
-    }
+    </app-enterprise-detail-section>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

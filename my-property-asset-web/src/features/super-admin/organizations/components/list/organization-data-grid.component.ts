@@ -3,6 +3,8 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 import { RouterLink } from '@angular/router';
 import { TableModule } from 'primeng/table';
 
+import { EnterpriseTableEmptyComponent } from '@shared/ui';
+
 import { OrganizationAdminRecord } from '../../models/organization-admin.model';
 import { OrganizationAvatarComponent } from '../shared/organization-avatar.component';
 import { OrganizationStatusBadgeComponent } from '../shared/organization-status-badge.component';
@@ -16,6 +18,7 @@ import { OrganizationStatusBadgeComponent } from '../shared/organization-status-
     TitleCasePipe,
     OrganizationAvatarComponent,
     OrganizationStatusBadgeComponent,
+    EnterpriseTableEmptyComponent,
   ],
   template: `
     <p-table
@@ -115,7 +118,12 @@ import { OrganizationStatusBadgeComponent } from '../shared/organization-status-
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td [attr.colspan]="visibleColumnCount() + 2">No organizations match your filters.</td>
+          <td [attr.colspan]="visibleColumnCount() + 2">
+            <app-enterprise-table-empty
+              title="No organizations match your filters"
+              description="Try clearing filters or create a new organization."
+            />
+          </td>
         </tr>
       </ng-template>
     </p-table>

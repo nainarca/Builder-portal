@@ -1,48 +1,18 @@
 .builder-company-page {
   display: grid;
-  gap: 1.5rem;
-  padding: 1.5rem;
-}
-
-.builder-company-page__header {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  align-items: flex-start;
-}
-
-.builder-company-page__header-actions {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
+  gap: var(--mpa-spacing-xl);
+  padding: var(--mpa-spacing-xl);
 }
 
 .builder-company-page__link {
-  color: var(--mpa-color-primary, #1b4d89);
+  color: var(--mpa-color-primary);
   text-decoration: none;
-  font-weight: 600;
+  font-weight: var(--mpa-font-weight-semibold);
+  font-size: var(--mpa-font-size-sm);
 }
 
 .builder-company-page__status {
-  margin: 0;
-  color: var(--mpa-color-text-muted, #64748b);
-}
-
-.builder-company-page__form {
-  display: grid;
-  gap: 1.25rem;
-  max-width: 40rem;
-}
-
-.builder-field {
-  display: grid;
-  gap: 0.35rem;
-  margin-bottom: 0.75rem;
-}
-
-.builder-field input {
-  padding: 0.6rem 0.75rem;
-  border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
-  border-radius: 0.5rem;
-  font: inherit;
+  margin: 0 0 var(--mpa-spacing-md);
+  color: var(--mpa-color-text-muted);
+  font-size: var(--mpa-font-size-sm);
 }

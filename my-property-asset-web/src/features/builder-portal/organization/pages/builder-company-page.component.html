@@ -1,56 +1,75 @@
 <app-bp-page>
   <section class="builder-company-page">
-    <app-enterprise-form-page-header
-      eyebrow="Company"
+    <app-enterprise-form-shell
       title="Builder company profile"
       subtitle="Maintain legal identity and primary contacts for your organization."
-      mode="view"
+      mode="edit"
+      [showCancel]="false"
+      (save)="save()"
     >
       <a formHeaderActions routerLink="/builder-portal/branding" class="builder-company-page__link">Branding</a>
       <a formHeaderActions routerLink="/builder-portal/settings" class="builder-company-page__link">Settings</a>
-    </app-enterprise-form-page-header>
 
-    @if (company(); as profile) {
-      <p class="builder-company-page__status">
-        Status: <strong>{{ profile.status }}</strong>
-        @if (profile.planCode) {
-          · Plan: <strong>{{ profile.planCode }}</strong>
-        }
-      </p>
-    }
+      @if (company(); as profile) {
+        <p class="builder-company-page__status">
+          Status: <strong>{{ profile.status }}</strong>
+          @if (profile.planCode) {
+            · Plan: <strong>{{ profile.planCode }}</strong>
+          }
+        </p>
+      }
 
-    <form class="builder-company-page__form" [formGroup]="form" (ngSubmit)="save()">
-      <app-form-section title="Company identity" description="Legal and trading names shown to owners at handover.">
-        <label class="builder-field">
-          <span>Legal name</span>
-          <input type="text" formControlName="legalName" />
-        </label>
-        <label class="builder-field">
-          <span>Trading name</span>
-          <input type="text" formControlName="tradingName" />
-        </label>
-        <label class="builder-field">
-          <span>Region</span>
-          <input type="text" formControlName="region" />
-        </label>
-      </app-form-section>
+      <app-enterprise-form-section
+        kind="general"
+        title="Company identity"
+        description="Legal and trading names shown to owners at handover."
+        [columns]="1"
+      >
+        <app-enterprise-text-input
+          label="Legal name"
+          [required]="true"
+          [value]="form.controls.legalName.value"
+          [error]="fieldError('legalName')"
+          (valueChange)="form.controls.legalName.setValue($event); form.controls.legalName.markAsDirty()"
+        />
+        <app-enterprise-text-input
+          label="Trading name"
+          [value]="form.controls.tradingName.value"
+          (valueChange)="form.controls.tradingName.setValue($event); form.controls.tradingName.markAsDirty()"
+        />
+        <app-enterprise-text-input
+          label="Region"
+          [value]="form.controls.region.value"
+          (valueChange)="form.controls.region.setValue($event); form.controls.region.markAsDirty()"
+        />
+      </app-enterprise-form-section>
 
-      <app-form-section title="Primary contact" description="Used for invitations and platform communications.">
-        <label class="builder-field">
-          <span>Contact name</span>
-          <input type="text" formControlName="primaryContactName" />
-        </label>
-        <label class="builder-field">
-          <span>Contact email</span>
-          <input type="email" formControlName="primaryContactEmail" />
-        </label>
-        <label class="builder-field">
-          <span>Contact phone</span>
-          <input type="text" formControlName="primaryContactPhone" />
-        </label>
-      </app-form-section>
-
-      <app-button type="submit" label="Save profile" />
-    </form>
+      <app-enterprise-form-section
+        kind="address"
+        title="Primary contact"
+        description="Used for invitations and platform communications."
+        [columns]="1"
+      >
+        <app-enterprise-text-input
+          label="Contact name"
+          [required]="true"
+          [value]="form.controls.primaryContactName.value"
+          [error]="fieldError('primaryContactName')"
+          (valueChange)="form.controls.primaryContactName.setValue($event); form.controls.primaryContactName.markAsDirty()"
+        />
+        <app-enterprise-email-input
+          label="Contact email"
+          [required]="true"
+          [value]="form.controls.primaryContactEmail.value"
+          [error]="fieldError('primaryContactEmail')"
+          (valueChange)="form.controls.primaryContactEmail.setValue($event); form.controls.primaryContactEmail.markAsDirty()"
+        />
+        <app-enterprise-phone-input
+          label="Contact phone"
+          [value]="form.controls.primaryContactPhone.value"
+          (valueChange)="form.controls.primaryContactPhone.setValue($event); form.controls.primaryContactPhone.markAsDirty()"
+        />
+      </app-enterprise-form-section>
+    </app-enterprise-form-shell>
   </section>
 </app-bp-page>

@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
+import { EnterpriseAttachmentPanelComponent } from '@shared/ui';
+
 import { OrganizationAdminRecord } from '../../models/organization-admin.model';
 import { OrganizationIdentityCardComponent } from './organization-identity-card.component';
 import { OrganizationLogoUploadComponent } from './organization-logo-upload.component';
@@ -11,6 +13,7 @@ import { OrganizationThemePreviewComponent } from './organization-theme-preview.
     OrganizationLogoUploadComponent,
     OrganizationThemePreviewComponent,
     OrganizationIdentityCardComponent,
+    EnterpriseAttachmentPanelComponent,
   ],
   template: `
     <div class="org-branding-panel">
@@ -19,10 +22,12 @@ import { OrganizationThemePreviewComponent } from './organization-theme-preview.
         <app-org-theme-preview [org]="org()" />
       </div>
       <app-org-identity-card [org]="org()" />
-      <section class="org-branding-panel__assets" aria-label="Brand assets placeholder">
-        <h3 class="mpa-heading-sm">Brand assets</h3>
-        <p class="mpa-body-md m-0">Logo variants, favicon, and email templates — framework placeholder.</p>
-      </section>
+      <app-enterprise-attachment-panel
+        title="Brand assets"
+        [items]="[]"
+        [showUpload]="false"
+        emptyDescription="Logo variants, favicon, and email templates will appear here."
+      />
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

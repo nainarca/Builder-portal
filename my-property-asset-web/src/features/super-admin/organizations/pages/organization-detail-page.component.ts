@@ -3,7 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
-import { EmptyNoDataComponent, EnterpriseDetailShellComponent, UiDialogService } from '@shared/ui';
+import { EnterpriseDetailEmptyComponent, EnterpriseDetailShellComponent, UiDialogService } from '@shared/ui';
 
 import { SuperAdminPageComponent } from '../../components/layout';
 
@@ -23,7 +23,7 @@ import { OrganizationAdminStoreService } from '../services/organization-admin-st
   selector: 'app-organization-detail-page',
   imports: [
     SuperAdminPageComponent,
-    EmptyNoDataComponent,
+    EnterpriseDetailEmptyComponent,
     EnterpriseDetailShellComponent,
     OrganizationHeaderComponent,
     OrganizationOverviewComponent,
